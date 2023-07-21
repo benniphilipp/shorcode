@@ -6,6 +6,12 @@ Django APPs:
 
 # Github
 
-git add .
-git commit -m '_text'
-git push --set-upstream origin
+    - Branrch
+    git branch --list
+    git branch _name
+    git checkout _name
+
+    - Push
+    git add .
+    git commit -m '_text'
+    git push --set-upstream origin
