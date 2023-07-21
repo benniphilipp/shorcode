@@ -14,4 +14,4 @@ Django APPs:
     - Push
     git add .
     git commit -m '_text'
-    git push --set-upstream origin
+    git push --set-upstream origin _create_
