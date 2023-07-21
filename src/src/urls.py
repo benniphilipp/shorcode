@@ -22,10 +22,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('user.urls')),
-    path('password-reset-complete/',
-         auth_views.PasswordResetCompleteView.as_view(template_name='user/password_reset_complete.html'),
-         name='password_reset_complete'),
 ]
 
 
