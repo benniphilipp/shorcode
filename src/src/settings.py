@@ -140,4 +140,3 @@ LOGIN_URL = 'login'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 AUTH_USER_MODEL = "accounts.CustomUser"
-
