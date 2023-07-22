@@ -19,7 +19,61 @@
     --bs-btn-disabled-border-color: #6c757d;
 }
 
-
+/* Button shadow */
 .box-shadow--2dp {
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 0%), 0 3px 1px -2px rgb(0 0 0 / 0%), 0 1px 5px 0 rgb(0 0 0 / 7%);
+}
+
+
+/* Navbar */
+.bg-light {
+    --bs-bg-opacity: 0;
+}
+
+.bg-body{
+    background-color: #f4f6fa !important;
+}
+
+/* Nav Header Button */
+.dp-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    margin-right: 0.5rem;
+}
+
+.dp-button .button-circle{
+    min-width: 2.2rem;
+    height: 2.2rem;
+    color: #fff;
+    background-color: #273144;
+    border-radius: 100%;
+    font-size: 1.5rem;
+    line-height: 2.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    user-select: none;
+    margin-right: 1.2rem;
+}
+
+.butto-name{
+    margin-right: 1.2rem;
+}
+
+
+/* Sidebar */
+.bd-aside {
+    scroll-margin-top: 4rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1.6rem 1.2rem;
+    border-right: 0.1rem solid #dbe0eb;
+    transition: all 300ms ease-in-out;
+    z-index: 31;
+}
+
+body {
+    display: flex;
 }

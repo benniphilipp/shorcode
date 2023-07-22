@@ -6,6 +6,8 @@ from accounts.forms import LoginForm
 
 from django.contrib.auth import views as auth_views
 
+app_name = 'accounts'
+
 urlpatterns = [
     path('', home, name='users-home'),
     path('register/', RegisterView.as_view(), name='users-register'),
