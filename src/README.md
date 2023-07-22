@@ -1,8 +1,23 @@
 Django APPs:
 
 #Shortcode
+    url_destination
+    url_titel
+    url_source
+    url_medium
+    url_campaign
+    url_term
+    url_content
+    url_tags
+    url_creator
+    url_create_date
+    url_active
+    url_archivate
+
 #Analyse
 #User
+    email
+    passwort
 
 # Django CMD
 python3 manage.py makemigrations && python manage.py migrate

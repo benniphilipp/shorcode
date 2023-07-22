@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-        
+    
+    #Party
+    'crispy_forms',
+    "crispy_bootstrap4",
+    
     #apps
     'shortcode',
     'accounts',
@@ -140,3 +144,6 @@ LOGIN_URL = 'login'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
