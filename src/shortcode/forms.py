@@ -20,7 +20,6 @@ class ShortcodeClassForm(forms.ModelForm):
     url_campaign = forms.CharField(label="Campaign", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B spring_sale'}))
     url_term = forms.CharField(label="Term", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
     url_content = forms.CharField(label="Content", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
-    url_tags = forms.CharField(label="Tags", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas anderes'}))
     #url_archivate = forms.BooleanField(label="Archiviert", initial=True, required=False) 
     
     
@@ -48,7 +47,6 @@ class ShortcodeClassForm(forms.ModelForm):
             ),
             Row(
                 Column('url_content', css_class='form-group col-md-6 my-2 disabled-func'),
-                Column('url_tags', css_class='form-group col-md-6 my-2 disabled-func'),
                 css_class='row'
             ),
             #Field('url_archivate', css_class="form-check-input", wrapper_class="form-check form-switch"),
@@ -59,7 +57,7 @@ class ShortcodeClassForm(forms.ModelForm):
     
     class Meta:
         model = ShortcodeClass
-        fields = ['url_tags', 'url_destination' , 'url_titel', 'url_source', 'url_medium', 'url_campaign', 'url_term', 'url_content', 'url_tags', 'url_creator', 'url_archivate']
+        fields = ['url_destination' , 'url_titel', 'url_source', 'url_medium', 'url_campaign', 'url_term', 'url_content', 'url_creator', 'url_archivate']
         
         widgets = {
             'url_creator': HiddenInput(),

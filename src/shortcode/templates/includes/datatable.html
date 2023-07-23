@@ -11,7 +11,6 @@
                 <th>Ziel</th>
                 <th>Datum</th>
                 <th>Aktive</th>
-                <th>Tags</th>
             </tr>
             </thead>
             <tfoot>
@@ -20,7 +19,6 @@
                 <th>Ziel</th>
                 <th>Datum</th>
                 <th>Aktive</th>
-                <th>Tags</th>
             </tr>
             </tfoot>
             <tbody>
@@ -31,7 +29,6 @@
                     <td>{{ object.url_destination|truncatechars:22 }}</td>
                     <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
                     <td>{{ object.url_active}}</td>
-                    <td>{{ object.url_tags }}</td>
                 </tr>
                 {% endfor %}
            

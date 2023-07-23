@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #Party
+    'taggit',
+    'corsheaders',
     'crispy_forms',
     "crispy_bootstrap4",
     
@@ -56,6 +58,23 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# ROOT_URLCONF = '127.0.0.1:8000'
+# ROOT_HOSTCONF = '127.0.0.1:8000'
+# DEFAULT_HOST = 'www'
+# DEFAULT_REDIRECT_URL = "http://127.0.0.1:8000:8000" #kirr.co
+# PARENT_HOST = "127.0.0.1:8000:8000"
+
+MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+)
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://127.0.0.1:8000'
+]
+
 
 ROOT_URLCONF = 'src.urls'
 
@@ -108,6 +127,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+CORS_ORIGIN_ALLOW_ALL = True   
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -147,3 +170,6 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+SHORTCODE_MAX = 15
+SHORTCODE_MIN = 6

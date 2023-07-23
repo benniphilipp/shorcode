@@ -7,6 +7,7 @@ from accounts.models import CustomUser
 from .models import ShortcodeClass
 from .forms import ShortcodeClassForm
 
+#ListView
 class ShortcodeClassListView(ListView):
     template_name = "dashboard.html"
     model = ShortcodeClass
@@ -16,6 +17,7 @@ class ShortcodeClassListView(ListView):
         context['form'] = ShortcodeClassForm()
         context['admin'] = self.request.user.id
         context['useremail'] = self.request.user
+        context['sum_archive'] = ShortcodeClass.objects.filter(url_archivate=True).count()
         return context
     
     def get_queryset(self):
@@ -28,7 +30,6 @@ class ShortcodeClassListView(ListView):
 def post_crate_view(request): 
     form = ShortcodeClassForm(data=request.POST)
     if request.is_ajax():
-        print(form)
         if form.is_valid():
             form.save()
 
@@ -50,14 +51,14 @@ def post_detaile_data_view(request, pk):
         'url_medium': obj.url_medium,
         'url_campaign': obj.url_campaign,
         'url_term': obj.url_term,
-        'url_tags': obj.url_tags,
         'url_active': obj.url_active,
         'url_archivate': obj.url_archivate,
         'url_content': obj.url_content,
-        'url_archivate': obj.url_archivate
+        'shortcode': obj.get_short_url
     }
 
     return JsonResponse({'data':data})
+
 
 #Archivieren Shortcode
 def archive_post(request):
@@ -72,6 +73,7 @@ def archive_post(request):
             obj.save()
         return JsonResponse({'count': 'run'})
 
+
 #Update Shortcode
 def update_post(request, pk):
     obj = ShortcodeClass.objects.get(pk=pk)
@@ -82,7 +84,6 @@ def update_post(request, pk):
         new_medium      = request.POST.get('url_medium')
         new_term        = request.POST.get('url_term')
         new_campaign    = request.POST.get('url_campaign')
-        new_tags        = request.POST.get('url_tags')
         new_content     = request.POST.get('url_content')
         
         obj.url_destination = new_destination
@@ -91,7 +92,10 @@ def update_post(request, pk):
         obj.url_medium      = new_medium
         obj.url_term        = new_term
         obj.url_campaign    = new_campaign
-        obj.url_tags        = new_tags
         obj.url_content     = new_content
         obj.save()
         return JsonResponse({'success': 'Dein link wurde erfolgreich geändert',})
+
+
+#Delete
+#https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes

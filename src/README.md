@@ -8,7 +8,7 @@ Django APPs:
     url_campaign --> Url Campaign
     url_term    --> Url Term
     url_content --> Url Content
-    url_tags --> Tags
+    #url_tags --> Tags
     url_creator 
     url_create_date
     url_active
@@ -20,7 +20,7 @@ Django APPs:
     passwort
 
 # Django CMD
-python3 manage.py makemigrations && python manage.py migrate
+python3 manage.py makemigrations && python3 manage.py migrate
 python manage.py collectstatic
 python manage.py runserver
 python manage.py createsuperuser

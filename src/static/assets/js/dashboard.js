@@ -27,7 +27,6 @@ $(document).ready(function(){
         $('#id_url_source').val('')
         $('#id_url_term').val('')
         $('#id_url_titel').val('')
-        $('#id_url_tags').val('')
         $('#id_url_campaign').val('')
         $('#id_url_content').val('')
     }
@@ -56,7 +55,6 @@ $(document).ready(function(){
     const url_medium = document.getElementById('id_url_medium');
     const url_source = document.getElementById('id_url_source');
     const url_term = document.getElementById('id_url_term');
-    const url_tags = document.getElementById('id_url_tags');
     const url_content = document.getElementById('id_url_content');
     const url_campaign = document.getElementById('id_url_campaign');
     const csrf = document.getElementsByName('csrfmiddlewaretoken');
@@ -116,7 +114,8 @@ $(document).ready(function(){
     //Singel View 
     const url_view_update = window.location.origin;
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
-    const url_archivate = document.getElementById('id_url_archivate');
+    // const url_archivate = document.getElementById('id_url_archivate');
+    const shortcode = document.getElementById('id_shortcode');
 
     $('.shortcode-class').on('click', function(event){
         event.preventDefault();
@@ -143,10 +142,9 @@ $(document).ready(function(){
                 url_medium.value = data.url_medium;
                 url_source.value = data.url_source;
                 url_term.value = data.url_term;
-                url_tags.value = data.url_tags;
                 url_content.value = data.url_content;
                 url_campaign.value = data.url_campaign;
-                // url_archivate.value = data.url_archivate;
+                $(shortcode).html(data.shortcode);  
 
             },
             error: function(error){
@@ -174,7 +172,6 @@ $(document).ready(function(){
         fd.append('url_term', url_term.value);
         fd.append('url_campaign', url_campaign.value);
         fd.append('url_creator', url_creator.value);
-        fd.append('url_tags', url_tags.value);
         fd.append('url_content', url_content.value);
 
 
@@ -245,7 +242,6 @@ $(document).ready(function(){
         fd.append('url_term', url_term.value);
         fd.append('url_campaign', url_campaign.value);
         fd.append('url_creator', url_creator.value);
-        fd.append('url_tags', url_tags.value);
         fd.append('url_content', url_content.value);
 
         $.ajax({
@@ -285,43 +281,39 @@ $(document).ready(function(){
     });
 
 
+    //destination https://stackoverflow.com/questions/60286543/how-to-check-if-a-url-is-valid-actually-loads-a-page-with-content-efficiently
+    $("#id_url_destination").on("change", function () {
 
+        var link = $('#id_url_destination').val();
 
+        function UrlExists(url, cb){
+            jQuery.ajax({
+                url:      url,
+                dataType: 'text',
+                type:     'GET',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                complete:  function(xhr){
+                    if(typeof cb === 'function')
+                       cb.apply(this, [xhr.status]);
+                }
+            });
+        }
 
+        UrlExists(link, function(status){
+            if(status === 200){
+               // file was found
+               console.log( "status code 200 returned");
+               $("#id_url_destination").after('<div class="text-success">Deine Website ist erreichbar!</div>');
+            }
+            else if(status === 404){
+               // 404 not found
+               console.log( "status code 404 returned");
+               $("#id_url_destination").after('<div class="text-danger">Deine Website ist erreichbar!</div>');
+            }
+        });
 
-
-    //destination
-    // $("#id_url_destination").on("change", function () {
-        // var destination_text = $('#id_url_destination').val();
-        // $("#destination").text('?utm_source=' + destination_text);
-
-    //     if(destination_text == ''){
-    //         $("#destination").text('');
-    //         $('#text-card').addClass('d-none');
-    //     }
-    //     $('#text-card').removeClass('d-none');
-    // });
-
-    // //titel
-    // $("#id_url_titel").on("change", function () {
-    //     var titel_text = $('#id_url_titel').val();
-    //     $("#titel").text('&utm_medium=' + titel_text);
-
-    //     var valueString = titel_text.replace(/\&/g, '');
-    //     $("#titel").text(valueString);
-
-    //     if(titel_text == ''){
-    //         $("#destination").text('');
-    //         $('#text-card').addClass('d-none');
-
-
-    //     }
-    //     $('#text-card').removeClass('d-none');
-    // });
-
-
-
-    //$('#inputDatabaseName').keyup(function () { alert('test'); });
-
+    });
 
 });
