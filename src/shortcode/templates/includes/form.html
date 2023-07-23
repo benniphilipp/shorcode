@@ -3,7 +3,7 @@
 <aside id="aside-form" class="crate-form p-3">
 
     <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
-        <button id="archive-btn" type="button" class="btn btn-primary btn-sm">Archivieren</button>
+        <button id="archive-btn" type="button" data-archive="" class="btn btn-outline-primary btn-sm">Archivieren</button>
         <button id="closeForm" type="button" class="btn btn-secondary btn-sm">Schließen</button>
     </div>
 
@@ -13,9 +13,12 @@
 
             <form method="post" id="your_form_id">
                 {% crispy form %}   
-                {% csrf_token %}
-                <input type=hidden id="url_creator" name="url_creator" value="{{ admin }}">        
-                <input type=hidden name="data" value="{% url 'shortcode:dashboard-create' %}">        
+
+
+                <input type=hidden id="url_creator" name="url_creator" value="{{ admin }}">  
+
+                <input type=hidden id="update-shortcode-url" name="shortcode" value=""> 
+                <input type=hidden name="data" value="{% url 'shortcode:dashboard-create' %}">           
             </form>
         </div>
     </div>

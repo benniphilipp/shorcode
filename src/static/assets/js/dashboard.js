@@ -18,16 +18,203 @@ $(document).ready(function(){
     const csrftoken = getCookie('csrftoken');
 
 
+    //Reste Fields
+    function resteFields(){
+        //Reset fields
+        $('#id_url_destination').val('')
+        $('#id_url_titel').val('')
+        $('#id_url_medium').val('')
+        $('#id_url_source').val('')
+        $('#id_url_term').val('')
+        $('#id_url_titel').val('')
+        $('#id_url_tags').val('')
+        $('#id_url_campaign').val('')
+        $('#id_url_content').val('')
+    }
+
     // Open Sidebar
     $("#openForm").on('click', function() {  //use a class, since your ID gets mangled
-        $('#aside-form').toggleClass("toggle", 1500); 
-        $('#archive-btn').toggleClass('d-none')
+        $('#aside-form').addClass("toggle"); 
+        $('#archive-btn').addClass('d-none');
+        $('#update-form-shortcode').addClass('d-none');
     });
 
+    // Close Sidebar
     $("#closeForm").click(function() {  //use a class, since your ID gets mangled
-        $('#aside-form').toggleClass("toggle", 1500); 
-        $('#archive-btn').toggleClass('d-none')
+        $('#aside-form').removeClass("toggle", 1500); 
+        $('#archive-btn').removeClass('d-none');
+        $('#update-form-shortcode').removeClass('d-none');
+        $('#crate-form-shortcode').removeClass('d-none');
+        $('#openForm').removeClass("disabled"); 
+
+        resteFields();
     });
+
+    //Variabeln     
+    const url_destination = document.getElementById('id_url_destination');
+    const url_titel = document.getElementById('id_url_titel');
+    const url_medium = document.getElementById('id_url_medium');
+    const url_source = document.getElementById('id_url_source');
+    const url_term = document.getElementById('id_url_term');
+    const url_tags = document.getElementById('id_url_tags');
+    const url_content = document.getElementById('id_url_content');
+    const url_campaign = document.getElementById('id_url_campaign');
+    const csrf = document.getElementsByName('csrfmiddlewaretoken');
+    const url_creator = document.getElementById('url_creator');
+
+
+
+    //Form disabled
+    function disabledTextInput(){
+        $('.disabled-func').each(function() {
+            $(this).find('input[type=text]').attr('disabled', 'disabled');
+        });
+    }
+
+
+    //Overlay ready
+    function overlayReady(){
+        $('#overlay').addClass('overlay-active');
+        var dataImage = jQuery('#overlay').attr('data-image');
+        $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
+    }
+
+
+    //Archive function
+    $('#archive-btn').on('click', function(event){
+        event.preventDefault();
+
+        var dataArchive = jQuery(this).attr('data-archive');
+
+        //form fuc disabled
+        disabledTextInput();
+
+        //Overlay
+        overlayReady();
+        
+        $.ajax({
+            type: 'POST',
+            url: "/dashboard/update/archive/",
+            data: {
+                'csrfmiddlewaretoken': csrftoken,
+                'pk': dataArchive,
+            },
+            success: function(response){
+                console.log(response);
+                setTimeout(()=>{
+                    window.location.reload();
+                    $('#overlay').removeClass('overlay-active');
+                }, 1000);
+            },
+            error: function(error){
+                console.log(error)
+            },
+        })
+
+    })
+
+    //Singel View 
+    const url_view_update = window.location.origin;
+    const updateShortcodeUrl = document.getElementById('update-shortcode-url');
+    const url_archivate = document.getElementById('id_url_archivate');
+
+    $('.shortcode-class').on('click', function(event){
+        event.preventDefault();
+
+        var idShortcode = jQuery(this).attr('data-shortcode');
+        const url_view = url_view_update + '/dashboard/update/' + idShortcode + '/view/'
+        $('#archive-btn').attr('data-archive', idShortcode);
+
+        $.ajax({
+            type: 'GET',
+            url: url_view,
+            success: function(response){
+                const data = response.data
+                console.log(data);
+
+                $('#aside-form').addClass('toggle');
+                $('#crate-form-shortcode').addClass('d-none');
+                $('#openForm').addClass("disabled"); 
+                
+
+                updateShortcodeUrl.value = data.id;
+                url_destination.value = data.url_destination;
+                url_titel.value = data.url_titel;
+                url_medium.value = data.url_medium;
+                url_source.value = data.url_source;
+                url_term.value = data.url_term;
+                url_tags.value = data.url_tags;
+                url_content.value = data.url_content;
+                url_campaign.value = data.url_campaign;
+                // url_archivate.value = data.url_archivate;
+
+            },
+            error: function(error){
+                console.log(error + 'erro');
+            },
+        });
+
+    })
+
+    $('#update-form-shortcode').on('click', function(event){
+        event.preventDefault();
+
+        var idShortcode = $('#update-shortcode-url').val();
+        const url_update = url_view_update + '/dashboard/update/' + idShortcode + '/';
+        $('#archive-btn').attr('data-archive', idShortcode);
+
+        console.log(url_update);
+
+        const fd = new FormData();
+        fd.append('csrfmiddlewaretoken', csrf[0].value)
+        fd.append('url_destination', url_destination.value);
+        fd.append('url_titel', url_titel.value);
+        fd.append('url_source', url_source.value);
+        fd.append('url_medium', url_medium.value);
+        fd.append('url_term', url_term.value);
+        fd.append('url_campaign', url_campaign.value);
+        fd.append('url_creator', url_creator.value);
+        fd.append('url_tags', url_tags.value);
+        fd.append('url_content', url_content.value);
+
+
+        $.ajax({
+            type: 'POST',
+            url: url_update,
+            data: fd,
+            enctype: 'multipart/form-data',
+            success: function(response){
+
+                //form fuc disabled
+                disabledTextInput();
+
+                //Overlay
+                overlayReady();
+
+                resteFields()
+
+                // //Alert
+                alert(response.success, 'success')
+                setTimeout(function(){$('.alert').alert('close')}, 3000)
+
+                setTimeout(()=>{
+                    window.location.reload();
+                    $('#overlay').removeClass('overlay-active');
+                }, 2000);
+
+            },
+            error: function(error){
+                console.log(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+
+
+
+    })
+
 
     //Alert Banner
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
@@ -45,16 +232,6 @@ $(document).ready(function(){
     }
 
     // Crate functions Shortcode
-    const url_destination = document.getElementById('id_url_destination');
-    const url_titel = document.getElementById('id_url_titel');
-    const url_medium = document.getElementById('id_url_medium');
-    const url_source = document.getElementById('id_url_source');
-    const url_term = document.getElementById('id_url_term');
-    const url_tags = document.getElementById('id_url_tags');
-    const url_content = document.getElementById('id_url_content');
-    const url_campaign = document.getElementById('id_url_campaign');
-    const csrf = document.getElementsByName('csrfmiddlewaretoken');
-    const url_creator = document.getElementById('url_creator');
 
     $("#crate-form-shortcode").on("click", function(event) {
         event.preventDefault();
@@ -78,23 +255,23 @@ $(document).ready(function(){
             enctype: 'multipart/form-data',
             success: function(response){
 
-                //Reset fields
-                $('#id_url_destination').val('')
-                $('#id_url_titel').val('')
-                $('#id_url_medium').val('')
-                $('#id_url_source').val('')
-                $('#id_url_term').val('')
-                $('#id_url_titel').val('')
-                $('#id_url_tags').val('')
-                $('#id_url_campaign').val('')
-                $('#id_url_content').val('')
+                //form fuc disabled
+                disabledTextInput();
+
+                //Overlay
+                overlayReady();
+
+                resteFields()
 
                 //Alert
                 alert(response.success, 'success')
                 setTimeout(function(){$('.alert').alert('close')}, 3000)
 
                 //Close Sidebar
-                $('#aside-form').toggleClass("toggle", 1500); 
+                setTimeout(()=>{
+                    window.location.reload();
+                    $('#overlay').removeClass('overlay-active');
+                }, 2000);
 
             },
             error: function(error){
@@ -107,17 +284,23 @@ $(document).ready(function(){
 
     });
 
-    //destination
-    $("#id_url_destination").on("change", function () {
-        var destination_text = $('#id_url_destination').val();
-        $("#destination").text('?utm_source=' + destination_text);
 
-        if(destination_text == ''){
-            $("#destination").text('');
-            $('#text-card').addClass('d-none');
-        }
-        $('#text-card').removeClass('d-none');
-    });
+
+
+
+
+
+    //destination
+    // $("#id_url_destination").on("change", function () {
+        // var destination_text = $('#id_url_destination').val();
+        // $("#destination").text('?utm_source=' + destination_text);
+
+    //     if(destination_text == ''){
+    //         $("#destination").text('');
+    //         $('#text-card').addClass('d-none');
+    //     }
+    //     $('#text-card').removeClass('d-none');
+    // });
 
     // //titel
     // $("#id_url_titel").on("change", function () {

@@ -1,15 +1,15 @@
 Django APPs:
 
 #Shortcode
-    url_destination
-    url_titel
-    url_source
-    url_medium
-    url_campaign
-    url_term
-    url_content
-    url_tags
-    url_creator
+    url_destination -> URL destination
+    url_titel -> titel
+    url_source --> Url Source
+    url_medium --> Url Medium
+    url_campaign --> Url Campaign
+    url_term    --> Url Term
+    url_content --> Url Content
+    url_tags --> Tags
+    url_creator 
     url_create_date
     url_active
     url_archivate
