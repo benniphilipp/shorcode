@@ -1,6 +1,6 @@
 Django APPs:
 
-#Shortcode
+# Shortcode
     url_destination -> URL destination
     url_titel -> titel
     url_source --> Url Source
@@ -14,16 +14,21 @@ Django APPs:
     url_active
     url_archivate
 
-#Analyse
-#User
+# Analytics
+# User
     email
     passwort
 
 # Django CMD
 python3 manage.py makemigrations && python3 manage.py migrate
-python manage.py collectstatic
+
 python manage.py runserver
+
+python manage.py collectstatic
 python manage.py createsuperuser
+
+# ENV
+. env/bin/activate
 
 # Github
 

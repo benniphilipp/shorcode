@@ -6,19 +6,19 @@ from .models import CustomUser
 #Regestriren
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True,
-                             widget=forms.TextInput(attrs={'placeholder': 'Email',
+                             widget=forms.TextInput(attrs={'placeholder': 'E-Mail-Adresse',
                                                            'class': 'form-control',
                                                            }))
     password1 = forms.CharField(max_length=50,
                                 required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Password',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Passwort',
                                                                   'class': 'form-control',
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
                                                                   }))
     password2 = forms.CharField(max_length=50,
                                 required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Passwort bestätigen',
                                                                   'class': 'form-control',
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',

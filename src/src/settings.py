@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     #apps
     'shortcode',
     'accounts',
+    'analytics',
 ]
 
 MIDDLEWARE = [

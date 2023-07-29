@@ -61,6 +61,12 @@
     margin-right: 1.2rem;
 }
 
+.dropdown-menu.show{
+    right: auto;
+    left: 0;
+    width: 98%;
+}
+
 
 /* Sidebar */
 .bd-aside {
