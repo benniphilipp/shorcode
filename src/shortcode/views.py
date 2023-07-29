@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.http.response import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 from accounts.models import CustomUser
 from .models import ShortcodeClass
 from .forms import ShortcodeClassForm
+
 
 #ListView
 class ShortcodeClassListView(ListView):
@@ -25,8 +27,27 @@ class ShortcodeClassListView(ListView):
         current_counters = ShortcodeClass.objects.filter(url_archivate=False)
         return current_counters
 
-
+#Archive
+class ShortcodeArchiveListView(ListView):
+    template_name = "archive.html"
+    model = ShortcodeClass
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ShortcodeClassForm()
+        context['admin'] = self.request.user.id
+        context['useremail'] = self.request.user
+        return context
+    
+    def get_queryset(self):
+        current_counters = ShortcodeClass.objects.filter(url_creator=self.request.user.id)
+        current_counters = ShortcodeClass.objects.filter(url_archivate=True)
+        return current_counters 
+    
+    
 #Create Shortcode
+from django.contrib.auth.decorators import login_required
+@login_required(login_url="/login/")
 def post_crate_view(request): 
     form = ShortcodeClassForm(data=request.POST)
     if request.is_ajax():
@@ -41,6 +62,7 @@ def post_crate_view(request):
 
 
 #Detaile Update View
+@login_required(login_url="/login/")
 def post_detaile_data_view(request, pk):
     obj = ShortcodeClass.objects.get(pk=pk)
     data = {
@@ -61,6 +83,7 @@ def post_detaile_data_view(request, pk):
 
 
 #Archivieren Shortcode
+@login_required(login_url="/login/")
 def archive_post(request):
     if request.is_ajax():
         pk = request.POST.get('pk')
@@ -75,6 +98,7 @@ def archive_post(request):
 
 
 #Update Shortcode
+@login_required(login_url="/login/")
 def update_post(request, pk):
     obj = ShortcodeClass.objects.get(pk=pk)
     if request.is_ajax():

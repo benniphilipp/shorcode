@@ -15,6 +15,7 @@ Django APPs:
     url_archivate
 
 # Analytics
+
 # User
     email
     passwort

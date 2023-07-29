@@ -164,7 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = 'login'
+LOGIN_URL = 'accounts:login'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 AUTH_USER_MODEL = "accounts.CustomUser"

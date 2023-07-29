@@ -92,7 +92,7 @@ $(document).ready(function(){
         
         $.ajax({
             type: 'POST',
-            url: "/dashboard/update/archive/",
+            url: "/shortcode/update/archive/", //shortcode
             data: {
                 'csrfmiddlewaretoken': csrftoken,
                 'pk': dataArchive,
@@ -111,6 +111,7 @@ $(document).ready(function(){
 
     })
 
+
     //Singel View 
     const url_view_update = window.location.origin;
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
@@ -121,7 +122,7 @@ $(document).ready(function(){
         event.preventDefault();
 
         var idShortcode = jQuery(this).attr('data-shortcode');
-        const url_view = url_view_update + '/dashboard/update/' + idShortcode + '/view/'
+        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
         $('#archive-btn').attr('data-archive', idShortcode);
 
         $.ajax({
@@ -158,7 +159,7 @@ $(document).ready(function(){
         event.preventDefault();
 
         var idShortcode = $('#update-shortcode-url').val();
-        const url_update = url_view_update + '/dashboard/update/' + idShortcode + '/';
+        const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
         $('#archive-btn').attr('data-archive', idShortcode);
 
         console.log(url_update);
