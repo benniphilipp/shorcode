@@ -164,7 +164,7 @@ $(document).ready(function(){
         const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
         $('#archive-btn').attr('data-archive', idShortcode);
 
-        console.log(url_update);
+        // console.log(url_update);
 
         const fd = new FormData();
         fd.append('csrfmiddlewaretoken', csrf[0].value)
@@ -346,3 +346,25 @@ $(document).ready(function(){
     });
 
 });
+
+
+// onClick copy to clipboard
+console.clear()
+function copyFunc(elemId) {
+    let that = document.querySelector(elemId);
+    navigator.clipboard.writeText(that?.innerText).then(res => {});
+}
+
+//Copy Button color
+$('.btn-copy').on("click", function(event){
+    event.preventDefault();
+
+    var buttonId = jQuery(this).attr('data-button');
+
+    $('.color' + buttonId).addClass('bg-success text-white');
+    console.log(buttonId)
+    setTimeout(()=>{
+        $('.color' + buttonId).removeClass('bg-success text-white');
+    }, 2000);
+
+})
