@@ -147,7 +147,7 @@ $(document).ready(function(){
                 url_content.value = data.url_content;
                 url_campaign.value = data.url_campaign;
                 idShort.value = data.shortcode;
-                $(shortcode_id).html(data.shortcode);  
+                $(shortcode_id).html(data.get_short_url);  
 
             },
             error: function(error){
@@ -176,6 +176,7 @@ $(document).ready(function(){
         fd.append('url_campaign', url_campaign.value);
         fd.append('url_creator', url_creator.value);
         fd.append('url_content', url_content.value);
+        fd.append('shortcode_id', idShort.value);
 
 
         $.ajax({

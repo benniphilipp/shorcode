@@ -83,6 +83,7 @@ def post_detaile_data_view(request, pk):
         'url_archivate': obj.url_archivate,
         'url_content': obj.url_content,
         'shortcode': obj.shortcode,
+        'get_short_url': obj.get_short_url,
     }
 
     return JsonResponse({'data':data})
@@ -115,7 +116,9 @@ def update_post(request, pk):
         new_term        = request.POST.get('url_term')
         new_campaign    = request.POST.get('url_campaign')
         new_content     = request.POST.get('url_content')
+        new_shortcode     = request.POST.get('shortcode_id')
         
+        obj.shortcode = new_shortcode
         obj.url_destination = new_destination
         obj.url_titel       = new_titel
         obj.url_source      = new_source

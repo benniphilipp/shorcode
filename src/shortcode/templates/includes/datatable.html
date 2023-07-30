@@ -7,6 +7,7 @@
         <table id="example" class="table hover table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
+                <th></th>
                 <th>Titel</th>
                 <th>Ziel</th>
                 <th>Datum</th>
@@ -14,6 +15,7 @@
             </thead>
             <tfoot>
             <tr>
+                <th></th>
                 <th>Titel</th>
                 <th>Ziel</th>
                 <th>Datum</th>
@@ -23,6 +25,7 @@
 
                 {% for object in object_list %}
                 <tr data-shortcode="{{ object.id }}" class="shortcode-class">
+                    <td>{{ object.get_short_url|truncatechars:24 }}</td>
                     <td>{{ object.url_titel|truncatechars:22 }}</td>
                     <td>{{ object.url_destination|truncatechars:22 }}</td>
                     <td>{{ object.url_create_date|date:"d.m.Y" }}</td>

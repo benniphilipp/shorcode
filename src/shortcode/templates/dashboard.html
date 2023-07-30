@@ -37,9 +37,11 @@
                     <div class="col-12 col-md-6">
                         <div class="d-grid d-md-flex justify-content-md-end">
                             <!-- <button class="btn btn-primary me-md-2" type="button">Button</button> -->
+                            {% if sum_archive > 0 %}
                             <a href="{% url 'shortcode:archive-view' %}" type="button" class="btn btn-outline-primary">
                                 Archiviert <span class="badge text-bg-primary">{{sum_archive}}</span>
                             </a>
+                            {% endif %}
                           </div>
                     </div>
                 </div>

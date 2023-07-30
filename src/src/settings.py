@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'crispy_forms',
     "crispy_bootstrap4",
+    'django_hosts',
     
     #apps
     'shortcode',
@@ -162,6 +163,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+
+DEFAULT_HOST = 'www'
+DEFAULT_REDIRECT_URL = "http://www.127.0.0.1:8000" #kirr.co
+PARENT_HOST = "127.0.0.1:8000"
+
+ROOT_HOSTCONF = 'src.hosts'
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'accounts:login'

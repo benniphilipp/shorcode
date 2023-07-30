@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from accounts.models import CustomUser
-from django.urls import reverse
+from django_hosts.resolvers import reverse
 
 from .utils import create_shortcode
 
@@ -38,7 +38,12 @@ class ShortcodeClass(models.Model):
     def archivate_count(self):
         return self.url_archivate.count()
     
+    # @property
+    # def get_short_url(self):
+    #     url_path = self.shortcode
+    #     return url_path
+    
     @property
     def get_short_url(self):
-        url_path = self.shortcode
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
         return url_path
