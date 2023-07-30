@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
@@ -11,11 +12,56 @@ from .models import CustomUser
 from .forms import RegisterForm, LoginForm
 
 from django.views.generic.detail import DetailView
-
+from shortcode.models import ShortcodeClass
 
 # Create your views here.
 def home(request):
     return render(request, 'index.html')
+
+
+
+
+class URLRedirectView(View):
+        
+    def get(self, request, shortcode=None, *args, **kwargs):
+        qs = ShortcodeClass.objects.filter(shortcode__iexact=shortcode)
+        print(qs)
+        if qs.count() != 1 and not qs.exists():
+            raise Http404
+
+        obj = qs.first()
+        
+        global url_basic
+        global utm_campaign
+        global utm_content
+        global utm_term
+
+        gola_url = obj.url_destination
+        if obj.url_source and obj.url_medium:
+            url_basic = '?utm_medium=' + obj.url_medium + '&utm_source=' + obj.url_source
+        else:
+            url_basic = ''
+        if obj.url_campaign:
+            utm_campaign = '&utm_campaign=' + obj.url_campaign
+        else:
+            utm_campaign = ''
+        if obj.url_term:
+            utm_term = '&utm_term=' + obj.url_term
+        else:
+            utm_term = ''
+        if obj.url_content:
+            utm_content = '&utm_content=' + obj.url_content
+        else:
+            utm_content = ''
+            
+        url = gola_url + url_basic + utm_campaign + utm_content + utm_term
+
+        return HttpResponseRedirect(url)
+
+
+
+
+
 
 
 class UserProfileView(DetailView):

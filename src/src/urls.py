@@ -15,15 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
 
+from accounts.views import URLRedirectView
+
 urlpatterns = [
-    path('', include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('shortcode/', include('shortcode.urls')),
-    path('analytics/', include('analytics.urls'))
+    path('analytics/', include('analytics.urls')),
+    path('', include('accounts.urls')),
+    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]
 
 
