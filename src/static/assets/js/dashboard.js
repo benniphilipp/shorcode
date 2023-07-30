@@ -59,6 +59,7 @@ $(document).ready(function(){
     const url_campaign = document.getElementById('id_url_campaign');
     const csrf = document.getElementsByName('csrfmiddlewaretoken');
     const url_creator = document.getElementById('url_creator');
+    const idShort = document.getElementById('id_shortcode');
 
 
 
@@ -116,7 +117,7 @@ $(document).ready(function(){
     const url_view_update = window.location.origin;
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
     // const url_archivate = document.getElementById('id_url_archivate');
-    const shortcode = document.getElementById('id_shortcode');
+    const shortcode_id = document.getElementById('shortcode_id');
 
     $('.shortcode-class').on('click', function(event){
         event.preventDefault();
@@ -145,7 +146,8 @@ $(document).ready(function(){
                 url_term.value = data.url_term;
                 url_content.value = data.url_content;
                 url_campaign.value = data.url_campaign;
-                $(shortcode).html(data.shortcode);  
+                idShort.value = data.shortcode;
+                $(shortcode_id).html(data.shortcode);  
 
             },
             error: function(error){
@@ -252,23 +254,48 @@ $(document).ready(function(){
             enctype: 'multipart/form-data',
             success: function(response){
 
-                //form fuc disabled
-                disabledTextInput();
-
-                //Overlay
-                overlayReady();
-
-                resteFields()
 
                 //Alert
-                alert(response.success, 'success')
+                if(response.success == 'Dein link wurde erfolgreich erstellt'){
+
+                    //form fuc disabled
+                    disabledTextInput();
+
+                    //Overlay
+                    overlayReady();
+
+                    resteFields()
+
+                    alert(response.success, 'success')
+
+                        //Close Sidebar
+                        setTimeout(()=>{
+                            window.location.reload();
+                            $('#overlay').removeClass('overlay-active');
+                        }, 2000);
+
+                }else{
+                    
+                    if(response.danger_url == 'Dieses Feld ist zwingend erforderlich oder existiert bereits.'){
+                        console.log(response.danger_url);
+                        alert(response.danger_url, 'danger');
+                        $('#id_url_destination').addClass('is-invalid')
+
+                    }else if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
+
+                        alert(response.danger_titel, 'danger');   
+                        $('#id_url_titel').addClass('is-invalid')
+
+                    }else if(response.danger == 'Dein link wurde nicht erstellt'){
+                        alert(response.danger, 'danger');  
+                        $('#id_url_titel').addClass('is-invalid')
+                        $('#id_url_destination').addClass('is-invalid')
+                    }
+
+                }
+            
                 setTimeout(function(){$('.alert').alert('close')}, 3000)
 
-                //Close Sidebar
-                setTimeout(()=>{
-                    window.location.reload();
-                    $('#overlay').removeClass('overlay-active');
-                }, 2000);
 
             },
             error: function(error){

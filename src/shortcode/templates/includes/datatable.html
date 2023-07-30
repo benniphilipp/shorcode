@@ -10,7 +10,6 @@
                 <th>Titel</th>
                 <th>Ziel</th>
                 <th>Datum</th>
-                <th>Aktive</th>
             </tr>
             </thead>
             <tfoot>
@@ -18,7 +17,6 @@
                 <th>Titel</th>
                 <th>Ziel</th>
                 <th>Datum</th>
-                <th>Aktive</th>
             </tr>
             </tfoot>
             <tbody>
@@ -28,7 +26,6 @@
                     <td>{{ object.url_titel|truncatechars:22 }}</td>
                     <td>{{ object.url_destination|truncatechars:22 }}</td>
                     <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
-                    <td>{{ object.url_active}}</td>
                 </tr>
                 {% endfor %}
            

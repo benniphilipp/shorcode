@@ -30,10 +30,9 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Titel</th>
+                                    <th scope="col">Ziel</th>
+                                    <th scope="col">Datum</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -42,7 +41,6 @@
                                         <td>{{ object.url_titel|truncatechars:22 }}</td>
                                         <td>{{ object.url_destination|truncatechars:22 }}</td>
                                         <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
-                                        <td>{{ object.url_active}}</td>
                                     </tr>
                                     {% endfor %}    
                                 </tbody>
