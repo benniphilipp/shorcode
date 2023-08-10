@@ -6,9 +6,6 @@ from crispy_forms.bootstrap import InlineCheckboxes
 
 from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, BooleanField
 
-
-
-
 from .models import ShortcodeClass
 
 class ShortcodeClassForm(forms.ModelForm):

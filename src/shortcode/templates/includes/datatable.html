@@ -29,10 +29,9 @@
                         <span class="d-none" id="short{{ object.id }}">{{ object.get_short_url }}</span>
                         <button data-button="{{ object.id }}" class="btn btn-light btn-sm btn-copy color{{ object.id }}" onclick="copyFunc('#short{{ object.id }}')">Kopieren</button>
                     </th>
-                    <!-- <td>{{ object.get_short_url|truncatechars:24 }}</td> -->
-                    <td data-shortcode="{{ object.id }}" class="shortcode-class">{{ object.url_titel|truncatechars:22 }}</td>
-                    <td data-shortcode="{{ object.id }}" class="shortcode-class">{{ object.url_destination|truncatechars:22 }}</td>
-                    <td data-shortcode="{{ object.id }}" class="shortcode-class">{{ object.url_create_date|date:"d.m.Y" }}</td>
+                    <td data-shortcode="{{ object.id }}" class="shortcode-class short-name">{{ object.url_titel|truncatechars:22 }}</td>
+                    <td class="short-name"><a href="{{ object.url_destination }}" target="_blank">{{ object.url_destination|truncatechars:22 }}</a></td>
+                    <td data-shortcode="{{ object.id }}" class="shortcode-class short-name">{{ object.url_create_date|date:"d.m.Y" }}</td>
                 </tr>
                 {% endfor %}
            

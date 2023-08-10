@@ -71,6 +71,9 @@
 
 
 /* Datatabel */
+.short-name:hover{
+    color: #0d6efd;    
+}
 .table>thead {
     background: #edf2ff;
 }
@@ -91,6 +94,11 @@ table.dataTable > thead > tr > th,
 table.dataTable > thead > tr > td {
   padding: 20px 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+table.dataTable.hover > tbody > tr:hover > *, 
+table.dataTable.display > tbody > tr:hover > * {
+    cursor: pointer;
 }
 
 table.dataTable > tfoot > tr > th,

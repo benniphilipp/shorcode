@@ -5,6 +5,7 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/archive.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -26,10 +27,11 @@
                     <div class="col-12 mt-3">
 
                         <!--Datatable-->
-                        <div class="card">
+                        <div class="card p-0 m-0">
                             <table class="table">
                                 <thead>
                                 <tr>
+                                    <th>Auswahl</th>
                                     <th scope="col">Titel</th>
                                     <th scope="col">Ziel</th>
                                     <th scope="col">Datum</th>
@@ -38,7 +40,11 @@
                                 <tbody>
                                     {% for object in object_list %}
                                     <tr data-shortcode="{{ object.id }}" class="shortcode-class">
-                                        <td>{{ object.url_titel|truncatechars:22 }}</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id=""></td>
+                                            </div>    
+                                            <td>{{ object.url_titel|truncatechars:22 }}</td>
                                         <td>{{ object.url_destination|truncatechars:22 }}</td>
                                         <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
                                     </tr>
@@ -59,5 +65,5 @@
     {% endblock body %}
     
     {% block javasript %}
-    <script src="{% static '/assets/js/dashboard.js' %}"></script>
+    <script src="{% static '/assets/js/archive.js' %}"></script>
     {% endblock %}

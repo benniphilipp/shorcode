@@ -38,11 +38,6 @@ class ShortcodeClass(models.Model):
     def archivate_count(self):
         return self.url_archivate.count()
     
-    # @property
-    # def get_short_url(self):
-    #     url_path = self.shortcode
-    #     return url_path
-    
     @property
     def get_short_url(self):
         url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
