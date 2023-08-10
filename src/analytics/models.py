@@ -26,14 +26,14 @@ class ClickEvent(models.Model):
         return "{i}".format(i=self.count)
     
 
-#
-class TimestampToDate(models.Model):
-    event = models.ForeignKey(ClickEvent, on_delete=models.CASCADE)
-    create = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.event
+# class TimestampToDate(models.Model):
+#     event = models.ForeignKey(ClickEvent, on_delete=models.CASCADE)
+#     create = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.event
     
-@receiver(post_save, sender=ClickEvent)
-def time_save(sender, instance, **kwargs):
-    instance.event.save()
+# @receiver(post_save, sender=ClickEvent)
+# def time_save(sender, instance, **kwargs):
+#     instance.event.save()

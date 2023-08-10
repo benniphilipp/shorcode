@@ -34,6 +34,30 @@ class ShortcodeClass(models.Model):
             self.url_destination = "http://" + self.url_destination
         super(ShortcodeClass, self).save(*args, **kwargs)
     
+    
+    @property
+    def get_full_url(self):
+        url_parts = []
+
+        if self.url_destination:
+            url_parts.append(self.url_destination)
+
+        if self.url_medium and self.url_source:
+            url_basic = '?utm_medium=' + self.url_medium + '&utm_source=' + self.url_source
+            url_parts.append(url_basic)
+
+        if self.url_campaign:
+            url_parts.append('&utm_campaign=' + self.url_campaign)
+
+        if self.url_term:
+            url_parts.append('&utm_term=' + self.url_term)
+
+        if self.url_content:
+            url_parts.append('&utm_content=' + self.url_content)
+
+        full_url = ''.join(url_parts)
+        return full_url
+    
     @property
     def archivate_count(self):
         return self.url_archivate.count()

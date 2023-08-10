@@ -63,11 +63,6 @@ class URLRedirectView(View):
         return HttpResponseRedirect(url)
 
 
-
-
-
-
-
 class UserProfileView(DetailView):
     model = CustomUser
     slug_field = "id"

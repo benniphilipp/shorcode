@@ -41,7 +41,7 @@ python manage.py createsuperuser
     - Push
     git add .
     git commit -m '_text'
-    git push --set-upstream origin _create_
+    git push origin _create_
 
 
 
