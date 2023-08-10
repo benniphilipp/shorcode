@@ -25,15 +25,13 @@ class ClickEvent(models.Model):
     def __str__(self):
         return "{i}".format(i=self.count)
     
-
-
-# class TimestampToDate(models.Model):
-#     event = models.ForeignKey(ClickEvent, on_delete=models.CASCADE)
-#     create = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.event
+    def get_short_url(self):
+        return self.short_url.shortcode if self.short_url else ""
     
-# @receiver(post_save, sender=ClickEvent)
-# def time_save(sender, instance, **kwargs):
-#     instance.event.save()
+    
+class DailyClick(models.Model):
+    short_url = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Click on {self.short_url.shortcode} at {self.timestamp}"

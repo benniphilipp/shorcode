@@ -14,7 +14,7 @@ from .forms import RegisterForm, LoginForm
 from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
 
-from analytics.models import ClickEvent
+from analytics.models import ClickEvent, DailyClick
 
 # Create your views here.
 def home(request):
@@ -34,6 +34,7 @@ class URLRedirectView(View):
         obj = qs.first()
         
         print(ClickEvent.objects.create_event(obj))
+        print(DailyClick.objects.create(short_url=obj))
         
         global url_basic
         global utm_campaign

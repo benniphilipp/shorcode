@@ -17,8 +17,8 @@ class AnalyticsView(View):
 class ClickDataView(View):
     def get(self, request, *args, **kwargs):
         click_events = ClickEvent.objects.all()
-        data = [{'timestamp': event.timestamp.isoformat(), 'count': event.count} for event in click_events]
-        return JsonResponse(data, safe=False)
+        click_data = [{'timestamp': event.timestamp, 'count': event.count, 'short_url': event.short_url.shortcode} for event in click_events]
+        return JsonResponse(click_data, safe=False)
 
 
 # https://www.chartjs.org/docs/latest/charts/bar.html

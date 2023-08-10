@@ -6,15 +6,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                // Verarbeite die empfangenen Click-Daten hier
-                var chartData = data.map(entry => {
-                    return { x: entry.timestamp, y: entry.count };
+                var chartData = data.map(function (entry) {
+                    return {
+                        x: moment.utc(entry.timestamp).local(), // Zeit in die lokale Zeitzone konvertieren
+                        y: entry.count,
+                        short_url: entry.short_url
+                    };
                 });
-            
+    
                 chart.data.datasets[0].data = chartData;
                 chart.update();
-                console.log(data)
-  
+                console.log(chartData);
             }
         });
     }
@@ -23,10 +25,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [], // Labels werden automatisch aus den Daten generiert
+            labels: [],
             datasets: [{
                 label: 'Clicks over Time',
-                data: [], // Daten werden dynamisch geladen
+                data: [],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
                 fill: false
@@ -42,14 +44,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     parser: 'iso',
                     time: {
                         unit: 'day'
-                    },
-                    ticks: {
-                        source: 'auto' // Automatische Anpassung der Tick-Positionen
                     }
                 },
                 y: {
-                    position: 'right', // Y-Achse auf der rechten Seite
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y;
+                            if (context.parsed.short_url) {
+                                label += ' (' + context.parsed.short_url + ')';
+                            }
+                            return label;
+                        }
+                    }
                 }
             }
         }
