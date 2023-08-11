@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', (event) => {
 
+    
     function fetchClickDataAndUpdateChart(chart) {
         $.ajax({
             url: '/analytics/click_data/',

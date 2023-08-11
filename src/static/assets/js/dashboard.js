@@ -46,7 +46,6 @@ $(document).ready(function(){
         $('#update-form-shortcode').removeClass('d-none');
         $('#crate-form-shortcode').removeClass('d-none');
         $('#openForm').removeClass("disabled"); 
-
         resteFields();
     });
 
@@ -369,7 +368,7 @@ $(document).ready(function(){
 
     });
 
-});
+
 
 
 // onClick copy to clipboard
@@ -392,3 +391,103 @@ $('.btn-copy').on("click", function(event){
     }, 2000);
 
 })
+
+// var ctx = document.getElementById('myChartClick').getContext('2d');
+// let chart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//         datasets: [{
+//             data: [{
+//                 x: '2021-11-06 23:39:30',
+//                 y: 50
+//             }, {
+//                 x: '2021-11-07 01:00:28',
+//                 y: 60
+//             }, {
+//                 x: '2021-11-07 09:00:28',
+//                 y: 20
+//             }]
+//         }],
+//     },
+//     options: {
+//         scales: {
+//             x: {
+//                 min: '2021-11-07 00:00:00',
+//             }
+//         }
+//     }
+// });
+
+
+
+
+
+function fetchClickDataAndUpdateChart(chart, shortcode) {
+    $.ajax({
+        url: `/analytics/shortcode/${shortcode}/click_data/`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var chartData = data.map(function (entry) {
+                return {
+                    x: moment.utc(entry.click_date).local(),
+                    y: entry.click_count
+                };
+            });
+
+            chart.data.datasets[0].data = chartData;
+            chart.update();
+        }
+    });
+}
+
+var myChart;
+
+$('.shortcode-class').on('click', function() {
+    var shortcode = jQuery(this).attr('data-shortname'); // Hier den Shortcode setzen
+
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    console.log(shortcode);
+    var ctx = document.getElementById('myChartClick').getContext('2d');
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Clicks over Time',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    adapters: {
+                        date: moment,
+                    },
+                    parser: 'iso',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    fetchClickDataAndUpdateChart(myChart, shortcode); 
+});
+
+
+
+});
+
+
