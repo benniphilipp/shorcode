@@ -30,6 +30,10 @@
     --bs-bg-opacity: 0;
 }
 
+.bg-color-gray{
+    background-color: #f8f9fa!important;
+}
+
 .bg-body{
     background-color: #f4f6fa !important;
 }
@@ -83,3 +87,4 @@
 body {
     display: flex;
 }
+

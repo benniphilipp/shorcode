@@ -36,6 +36,7 @@ $(document).ready(function(){
         $('#aside-form').addClass("toggle"); 
         $('#archive-btn').addClass('d-none');
         $('#update-form-shortcode').addClass('d-none');
+        $('#openForm').addClass("disabled"); 
     });
 
     // Close Sidebar
@@ -131,13 +132,11 @@ $(document).ready(function(){
             url: url_view,
             success: function(response){
                 const data = response.data
-                console.log(data);
 
                 $('#aside-form').addClass('toggle');
                 $('#crate-form-shortcode').addClass('d-none');
                 $('#openForm').addClass("disabled"); 
                 
-
                 updateShortcodeUrl.value = data.id;
                 url_destination.value = data.url_destination;
                 url_titel.value = data.url_titel;
@@ -277,9 +276,9 @@ $(document).ready(function(){
 
                 }else{
                     
-                    if(response.danger_url == 'Dieses Feld ist zwingend erforderlich oder existiert bereits.'){
-                        console.log(response.danger_url);
-                        alert(response.danger_url, 'danger');
+                    if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
+                        console.log(response.danger_titel);
+                        alert(response.danger_titel, 'danger');
                         $('#id_url_destination').addClass('is-invalid')
 
                     }else if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
@@ -287,10 +286,6 @@ $(document).ready(function(){
                         alert(response.danger_titel, 'danger');   
                         $('#id_url_titel').addClass('is-invalid')
 
-                    }else if(response.danger == 'Dein link wurde nicht erstellt'){
-                        alert(response.danger, 'danger');  
-                        $('#id_url_titel').addClass('is-invalid')
-                        $('#id_url_destination').addClass('is-invalid')
                     }
 
                 }
@@ -308,6 +303,35 @@ $(document).ready(function(){
         })
 
     });
+
+
+    // Prüfung feld source code
+    $('#id_url_source').on('blur', function () {
+        var inputValue = $(this).val();
+        var otherInputValue = $('#id_url_medium').val();
+
+        if (inputValue && otherInputValue) {
+            // Beide Felder sind ausgefüllt, entferne die Klasse
+            $('#crate-form-shortcode').removeClass('disabled');
+        }
+    });
+
+    $('#id_url_medium').on('blur', function () {
+        var inputValue = $('#id_url_source').val();
+        var otherInputValue = $(this).val();
+
+        if (inputValue && otherInputValue) {
+            // Beide Felder sind ausgefüllt, entferne die Klasse
+            $('#crate-form-shortcode').removeClass('disabled');
+        }
+    });
+
+    $('#id_url_source, #id_url_medium').on('input', function () {
+        // Füge die Klasse hinzu, wenn eines der Felder geändert wird
+        $('#crate-form-shortcode').addClass('disabled');
+    });
+
+
 
 
     //destination https://stackoverflow.com/questions/60286543/how-to-check-if-a-url-is-valid-actually-loads-a-page-with-content-efficiently

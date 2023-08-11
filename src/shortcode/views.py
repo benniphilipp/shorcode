@@ -55,13 +55,13 @@ def post_crate_view(request):
             form.save()
             return JsonResponse({'success': 'Dein link wurde erfolgreich erstellt',}, status=200)
         else:
-            if form['url_titel'].errors:
+            if form['url_destination'].errors:
                 return JsonResponse({'danger_titel': 'Dieses Feld ist zwingend erforderlich.',}, status=200)
-            elif form['url_destination'].errors:
-                print(form['url_destination'].errors)
-                return JsonResponse({'danger_url': 'Dieses Feld ist zwingend erforderlich oder existiert bereits.',}, status=200)
-            else:
-                return JsonResponse({'danger': 'Dein link wurde nicht erstellt',}, status=200)
+            # elif form['url_destination'].errors:
+            #     print(form['url_destination'].errors)
+            #     return JsonResponse({'danger_url': 'Dieses Feld ist zwingend erforderlich oder existiert bereits.',}, status=200)
+            # else:
+            #     return JsonResponse({'danger': 'Dein link wurde nicht erstellt',}, status=200)
                 
         
     return JsonResponse({"error": "Error Test"}, status=400)

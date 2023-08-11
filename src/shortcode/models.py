@@ -10,7 +10,7 @@ SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
 
 # Create your models here.
 class ShortcodeClass(models.Model):
-    url_destination     = models.CharField(max_length=520, unique=True, blank=False)
+    url_destination     = models.CharField(max_length=520, blank=False)
     url_titel           = models.CharField(max_length=125, blank=True)
     url_source          = models.CharField(max_length=525, blank=True)
     url_medium          = models.CharField(max_length=525, blank=True)
