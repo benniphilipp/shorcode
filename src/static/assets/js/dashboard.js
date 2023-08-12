@@ -1,22 +1,21 @@
 $(document).ready(function(){
 
-    const getCookie =(name) => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
-
+    // const getCookie =(name) => {
+    //     let cookieValue = null;
+    //     if (document.cookie && document.cookie !== '') {
+    //         const cookies = document.cookie.split(';');
+    //         for (let i = 0; i < cookies.length; i++) {
+    //             const cookie = cookies[i].trim();
+    //             // Does this cookie string begin with the name we want?
+    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return cookieValue;
+    // }
+    // const csrftoken = getCookie('csrftoken');
 
     //Reste Fields
     function resteFields(){
@@ -48,7 +47,7 @@ $(document).ready(function(){
         $('#openForm').removeClass("disabled"); 
         resteFields();
     });
-
+    
     //Variabeln     
     const url_destination = document.getElementById('id_url_destination');
     const url_titel = document.getElementById('id_url_titel');
@@ -60,6 +59,8 @@ $(document).ready(function(){
     const csrf = document.getElementsByName('csrfmiddlewaretoken');
     const url_creator = document.getElementById('url_creator');
     const idShort = document.getElementById('id_shortcode');
+    
+
 
 
 
@@ -113,47 +114,6 @@ $(document).ready(function(){
     })
 
 
-    //Singel View 
-    const url_view_update = window.location.origin;
-    const updateShortcodeUrl = document.getElementById('update-shortcode-url');
-    // const url_archivate = document.getElementById('id_url_archivate');
-    const shortcode_id = document.getElementById('shortcode_id');
-
-    $('.shortcode-class').on('click', function(event){
-        event.preventDefault();
-
-        var idShortcode = jQuery(this).attr('data-shortcode');
-        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
-        $('#archive-btn').attr('data-archive', idShortcode);
-
-        $.ajax({
-            type: 'GET',
-            url: url_view,
-            success: function(response){
-                const data = response.data
-
-                $('#aside-form').addClass('toggle');
-                $('#crate-form-shortcode').addClass('d-none');
-                $('#openForm').addClass("disabled"); 
-                
-                updateShortcodeUrl.value = data.id;
-                url_destination.value = data.url_destination;
-                url_titel.value = data.url_titel;
-                url_medium.value = data.url_medium;
-                url_source.value = data.url_source;
-                url_term.value = data.url_term;
-                url_content.value = data.url_content;
-                url_campaign.value = data.url_campaign;
-                idShort.value = data.shortcode;
-                $(shortcode_id).html(data.get_short_url);  
-
-            },
-            error: function(error){
-                console.log(error + 'erro');
-            },
-        });
-
-    })
 
     $('#update-form-shortcode').on('click', function(event){
         event.preventDefault();
@@ -198,6 +158,7 @@ $(document).ready(function(){
 
                 setTimeout(()=>{
                     window.location.reload();
+                    runShortcode();
                     $('#overlay').removeClass('overlay-active');
                 }, 2000);
 
@@ -231,7 +192,6 @@ $(document).ready(function(){
     }
 
     // Crate functions Shortcode
-
     $("#crate-form-shortcode").on("click", function(event) {
         event.preventDefault();
 
@@ -263,13 +223,14 @@ $(document).ready(function(){
                     //Overlay
                     overlayReady();
 
-                    resteFields()
-
+                    resteFields();
+                    
                     alert(response.success, 'success')
 
                         //Close Sidebar
                         setTimeout(()=>{
-                            window.location.reload();
+                            location.reload();
+                            runShortcode();
                             $('#overlay').removeClass('overlay-active');
                         }, 2000);
 
@@ -393,29 +354,112 @@ $('.btn-copy').on("click", function(event){
 })
 
 
-
-
-// View Shortcode list View
-
-$.ajax({
-    url: '/shortcode/json-list/',  // Die URL zur JSON ListView
-    dataType: 'json',
-    success: function(serialized_data) {
-        var shortcodeList = $('#shortcode-list');
-        serialized_data.forEach(function(item) {
-            console.log(item);
-            // var shortcodeItem = $('<div class="shortcode-item">');
-            // shortcodeItem.append('<h2>' + item.url_titel + '</h2>');
-            // shortcodeItem.append('<p>' + item.url_destination + '</p>');
-            // // Füge hier weitere Daten hinzu, die du anzeigen möchtest
-            // shortcodeList.append(shortcodeItem);
+    function fetchClickDataAndUpdateChart(chart, shortcode) {
+        $.ajax({
+            url: `/analytics/shortcode/${shortcode}/click_data/`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var chartData = data.map(function (entry) {
+                    return {
+                        x: moment.utc(entry.click_date).local(),
+                        y: entry.click_count
+                    };
+                });
+    
+                chart.data.datasets[0].data = chartData;
+                chart.update();
+            }
         });
-    },
-    error: function(xhr, status, error) {
-        console.error(error);
     }
-});
+    
+    var myChart;
 
+    const url_view_update = window.location.origin;
+    const updateShortcodeUrl = document.getElementById('update-shortcode-url');
+    const shortcode_id = document.getElementById('shortcode_id');
+
+
+    $('#shortcode-list').on('click', '.shortcode-class', function() {
+
+        // Shortcode Singel Edit View
+        var idShortcode = jQuery(this).attr('data-shortcode');
+        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
+        $('#archive-btn').attr('data-archive', idShortcode);
+
+        $.ajax({
+            type: 'GET',
+            url: url_view,
+            success: function(response){
+                const data = response.data
+
+                $('#aside-form').addClass('toggle');
+                $('#crate-form-shortcode').addClass('d-none');
+                $('#openForm').addClass("disabled"); 
+                runShortcode();
+                updateShortcodeUrl.value = data.id;
+                url_destination.value = data.url_destination;
+                url_titel.value = data.url_titel;
+                url_medium.value = data.url_medium;
+                url_source.value = data.url_source;
+                url_term.value = data.url_term;
+                url_content.value = data.url_content;
+                url_campaign.value = data.url_campaign;
+                idShort.value = data.shortcode;
+                $(shortcode_id).html(data.get_short_url);  
+
+            },
+            error: function(error){
+                console.log(error + 'erro');
+            },
+        });
+
+        // Shortcode Chart Clicks
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        var shortcode = jQuery(this).attr('data-shortname');
+        console.log(shortcode);
+        var ctx = document.getElementById('myChartClick').getContext('2d');
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Clicks over Time',
+                    data: [],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        adapters: {
+                            date: moment,
+                        },
+                        parser: 'iso',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        fetchClickDataAndUpdateChart(myChart, shortcode); 
+
+    });
+
+
+
+    
 
 
 // var ctx = document.getElementById('myChartClick').getContext('2d');
@@ -512,6 +556,36 @@ $('.shortcode-class').on('click', function() {
     fetchClickDataAndUpdateChart(myChart, shortcode); 
 });
 
+
+
+
+    // View Shortcode list View
+    function runShortcode(){
+        $.ajax({
+            type: 'GET',
+            url: '/shortcode/json-list/',  // Die URL zur JSON ListView
+            dataType: 'json',
+            success: function(serialized_data) {
+                var shortcodeList = $('#shortcode-list');
+                serialized_data.forEach(function(item) {
+                    // console.log(item);
+                    var shortcodeItem = $('<div class="card p-3 my-3">');
+                    shortcodeItem.append(`<div class="card-header header-elements"><h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"><a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm">Button</a>`);
+                    shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${item.get_short_url}</a><br><a class="text-muted" href="${item.url_destination}">${item.url_destination}</a>`);
+                    shortcodeItem.append(`<div class="card-footer"><small class="text-muted">30 Jul 2023 0 clicks Kein Tags</small>`);
+                    shortcodeList.append(shortcodeItem);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+    }
+
+    runShortcode();
 
 
 });

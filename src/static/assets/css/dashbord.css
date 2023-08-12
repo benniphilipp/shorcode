@@ -166,3 +166,54 @@ table.dataTable > tfoot > tr > td {
 .copied {
 color: green;
 }
+
+
+/**/
+.card-header {
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 0;
+}
+
+.card-footer {
+    color: #000;
+    background-color: transparent;
+    border-top: 0;
+}
+
+.card-footer .text-muted{
+    font-weight: 300;
+    color: #000 !important;  
+}
+
+.header-elements{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card-body{
+    padding: 0 1rem 0.5rem;
+}
+
+.card-body a{
+    font-size: 14px;
+    line-height: 1.6;
+    padding-top: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card-body a.text-muted{
+    font-weight: 300;
+    color: #000 !important;
+}
+
+.me-2{
+    margin-right: 0.5rem !important;
+}
+
+.ms-auto{
+    margin-left: auto !important;
+}

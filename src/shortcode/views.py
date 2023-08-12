@@ -8,7 +8,12 @@ from django.views import View
 from accounts.models import CustomUser
 from .models import ShortcodeClass
 from .forms import ShortcodeClassForm
+from django.utils import timezone
+from analytics.models import ClickEvent
+from django.db.models import Count
 
+
+from django.core.cache import cache
 
 #ListView
 class ShortcodeClassListView(ListView):
@@ -54,16 +59,11 @@ def post_crate_view(request):
     if request.is_ajax():
         if form.is_valid():
             form.save()
+            cache.delete('json_list_view_cache_key')
             return JsonResponse({'success': 'Dein link wurde erfolgreich erstellt',}, status=200)
         else:
             if form['url_destination'].errors:
                 return JsonResponse({'danger_titel': 'Dieses Feld ist zwingend erforderlich.',}, status=200)
-            # elif form['url_destination'].errors:
-            #     print(form['url_destination'].errors)
-            #     return JsonResponse({'danger_url': 'Dieses Feld ist zwingend erforderlich oder existiert bereits.',}, status=200)
-            # else:
-            #     return JsonResponse({'danger': 'Dein link wurde nicht erstellt',}, status=200)
-                
         
     return JsonResponse({"error": "Error Test"}, status=400)
 
@@ -86,7 +86,6 @@ def post_detaile_data_view(request, pk):
         'shortcode': obj.shortcode,
         'get_short_url': obj.get_short_url,
     }
-
     return JsonResponse({'data':data})
 
 
@@ -127,6 +126,7 @@ def update_post(request, pk):
         obj.url_term        = new_term
         obj.url_campaign    = new_campaign
         obj.url_content     = new_content
+        cache.delete('json_list_view_cache_key')
         obj.save()
         return JsonResponse({'success': 'Dein link wurde erfolgreich geändert',})
 
@@ -134,17 +134,29 @@ def update_post(request, pk):
 # View Shortcode list
 @login_required(login_url="/login/")
 def shortcode_view(request):
-    return render(request, 'shortcode-view.html')
+    form = ShortcodeClassForm() 
+    context = {
+        'form': form,
+        'admin': request.user.id,
+        'useremail': request.user
+    }
+    return render(request, 'shortcode-view.html', context)
+
+
 
 # View Shortcode list Json
 class JsonListView(ListView):
     model = ShortcodeClass  # Das Modell, für das du die ListView erstellst
-    queryset = ShortcodeClass.objects.all()  # Alle Objekte aus der Datenbank
+    queryset = ShortcodeClass.objects.annotate(click_count=Count('clickevent'))
     content_type = 'application/json'  # Setze den Content-Type auf JSON
-
+    form_class = ShortcodeClassForm()
+    
     def get_queryset(self):
-        # Du kannst diese Methode überschreiben, um die Queryset-Filterung anzupassen
-        return self.queryset
+        queryset = cache.get('json_list_view_cache_key')
+        if queryset is None:
+            queryset = ShortcodeClass.objects.annotate(click_count=Count('clickevent'))
+            cache.set('json_list_view_cache_key', queryset)
+        return queryset
 
     def serialize_shortcodes(self, shortcode_list):
         serialized_shortcodes = []
@@ -152,10 +164,15 @@ class JsonListView(ListView):
             serialized_shortcodes.append({
                 'url_titel': shortcode.url_titel,
                 'get_short_url': shortcode.get_short_url,
+                'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),
+                'click_count': shortcode.click_count,
+                'url_destination': shortcode.url_destination,
+                'short_id': shortcode.pk,
+                'shortcode': shortcode.shortcode
                 # Füge hier weitere Felder hinzu, die du im JSON-Format anzeigen möchtest
             })
         return serialized_shortcodes
-
+    
     def render_to_response(self, context, **response_kwargs):
         serialized_data = self.serialize_shortcodes(self.get_queryset())
         return JsonResponse(serialized_data, safe=False, content_type=self.content_type)

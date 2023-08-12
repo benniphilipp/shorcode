@@ -25,25 +25,14 @@
             <div class="container-fluid mt-3 pt-3 px-4">
                 <div class="row">
                     <div class="col-12">
-
-                        <h4>Links</h4>
+                        <div class="d-flex flex-row align-items-center">
+                            <h3 class="p-1" style="margin-top: 10px;">Links</h3>
+                            <div class="p-1 ms-auto">
+                                <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="d-grid d-md-block">
-                            <button id="openForm" class="btn btn-primary" type="button">Neu erstellen</button>
-                            <!-- <button class="btn btn-primary" type="button">Button</button> -->
-                          </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="d-grid d-md-flex justify-content-md-end">
-                            <!-- <button class="btn btn-primary me-md-2" type="button">Button</button> -->
-                            {% if sum_archive > 0 %}
-                            <a href="{% url 'shortcode:archive-view' %}" type="button" class="btn btn-outline-primary">
-                                Archiviert <span class="badge text-bg-primary">{{sum_archive}}</span>
-                            </a>
-                            {% endif %}
-                          </div>
-                    </div>
+                    <hr>
                 </div>
             </div>
 
@@ -51,8 +40,24 @@
                 <div class="row">
                     <div class="col-12 mt-3">
 
-                        <!--Datatable-->
-                  
+                        <!--Data Card-->
+                        <div id="shortcode-list"></div>
+                        <!-- <div class="card p-3">
+                            <div class="card-header header-elements">
+                                <h5 class="card-title">layout</h5>
+                                <div class="card-header-elements ms-auto">
+                                    <button type="button" class="btn btn-xs btn-primary btn-sm">Button</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="http://www.127.0.0.1:8000/uxshx8/">http://www.127.0.0.1:8000/uxshx8/</a><br>
+                                <a class="text-muted" href="https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/">https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">30 Jul 2023 0 clicks Kein Tags</small>
+                            </div>
+                        </div> -->
+                        <!--/. Data Card-->
 
                     </div>
                 </div>
@@ -61,8 +66,7 @@
         </div>
 
     <!--Crate & Update Form-->
-
-
+    {% include "includes/form.html" %}
 
 
 {% endblock body %}

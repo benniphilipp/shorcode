@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from accounts.models import CustomUser
 from django_hosts.resolvers import reverse
+from django.utils import timezone
 
 
 from .utils import create_shortcode
