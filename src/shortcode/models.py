@@ -4,6 +4,7 @@ from django.utils import timezone
 from accounts.models import CustomUser
 from django_hosts.resolvers import reverse
 
+
 from .utils import create_shortcode
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
@@ -22,7 +23,7 @@ class ShortcodeClass(models.Model):
     url_archivate       = models.BooleanField(default=False)
     url_active          = models.BooleanField(default=True)
     
-    shortcode = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
+    shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     
     def __str__(self):
         return self.url_titel
@@ -58,9 +59,11 @@ class ShortcodeClass(models.Model):
         full_url = ''.join(url_parts)
         return full_url
     
+    
     @property
     def archivate_count(self):
         return self.url_archivate.count()
+    
     
     @property
     def get_short_url(self):

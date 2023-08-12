@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views import View
 
 from accounts.models import CustomUser
 from .models import ShortcodeClass
@@ -128,6 +129,36 @@ def update_post(request, pk):
         obj.url_content     = new_content
         obj.save()
         return JsonResponse({'success': 'Dein link wurde erfolgreich geändert',})
+
+
+# View Shortcode list
+@login_required(login_url="/login/")
+def shortcode_view(request):
+    return render(request, 'shortcode-view.html')
+
+# View Shortcode list Json
+class JsonListView(ListView):
+    model = ShortcodeClass  # Das Modell, für das du die ListView erstellst
+    queryset = ShortcodeClass.objects.all()  # Alle Objekte aus der Datenbank
+    content_type = 'application/json'  # Setze den Content-Type auf JSON
+
+    def get_queryset(self):
+        # Du kannst diese Methode überschreiben, um die Queryset-Filterung anzupassen
+        return self.queryset
+
+    def serialize_shortcodes(self, shortcode_list):
+        serialized_shortcodes = []
+        for shortcode in shortcode_list:
+            serialized_shortcodes.append({
+                'url_titel': shortcode.url_titel,
+                'get_short_url': shortcode.get_short_url,
+                # Füge hier weitere Felder hinzu, die du im JSON-Format anzeigen möchtest
+            })
+        return serialized_shortcodes
+
+    def render_to_response(self, context, **response_kwargs):
+        serialized_data = self.serialize_shortcodes(self.get_queryset())
+        return JsonResponse(serialized_data, safe=False, content_type=self.content_type)
 
 
 #Delete

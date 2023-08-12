@@ -392,6 +392,32 @@ $('.btn-copy').on("click", function(event){
 
 })
 
+
+
+
+// View Shortcode list View
+
+$.ajax({
+    url: '/shortcode/json-list/',  // Die URL zur JSON ListView
+    dataType: 'json',
+    success: function(serialized_data) {
+        var shortcodeList = $('#shortcode-list');
+        serialized_data.forEach(function(item) {
+            console.log(item);
+            // var shortcodeItem = $('<div class="shortcode-item">');
+            // shortcodeItem.append('<h2>' + item.url_titel + '</h2>');
+            // shortcodeItem.append('<p>' + item.url_destination + '</p>');
+            // // Füge hier weitere Daten hinzu, die du anzeigen möchtest
+            // shortcodeList.append(shortcodeItem);
+        });
+    },
+    error: function(xhr, status, error) {
+        console.error(error);
+    }
+});
+
+
+
 // var ctx = document.getElementById('myChartClick').getContext('2d');
 // let chart = new Chart(ctx, {
 //     type: 'line',

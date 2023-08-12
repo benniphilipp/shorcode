@@ -23,14 +23,16 @@ Django APPs:
 # Django CMD
 python3 manage.py makemigrations && python3 manage.py migrate
 
-python manage.py runserver
+python3 manage.py runserver
+
+python3 manage.py runserver 0.0.0.0:8000
 
 python manage.py collectstatic
 python manage.py createsuperuser
 
 # ENV
 . env/bin/activate
-
+. myprojectenv/bin/activate
 # Github
 
     - Branrch
@@ -43,7 +45,9 @@ python manage.py createsuperuser
     git commit -m '_text'
     git push origin _create_
 
+# SMPTP
 
+python -m smtpd -n -c DebuggingServer localhost:1025
 
 # Test Nutzer
 @name
