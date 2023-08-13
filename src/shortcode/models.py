@@ -23,6 +23,7 @@ class ShortcodeClass(models.Model):
     url_create_date     = models.DateTimeField(default=timezone.now)
     url_archivate       = models.BooleanField(default=False)
     url_active          = models.BooleanField(default=True)
+    favicon_path        = models.CharField(max_length=255, blank=True, null=True)
     
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     

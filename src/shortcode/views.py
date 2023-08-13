@@ -152,11 +152,20 @@ class JsonListView(ListView):
     form_class = ShortcodeClassForm()
     
     def get_queryset(self):
+        page = self.request.GET.get('page')
+        if page is None:
+            page = 1
+        else:
+            page = int(page)
+            
         queryset = cache.get('json_list_view_cache_key')
         if queryset is None:
             queryset = ShortcodeClass.objects.annotate(click_count=Count('clickevent'))
             cache.set('json_list_view_cache_key', queryset)
-        return queryset
+            
+        start_index = (page - 1) * 5 
+        end_index = start_index + 5
+        return queryset[start_index:end_index]
 
     def serialize_shortcodes(self, shortcode_list):
         serialized_shortcodes = []

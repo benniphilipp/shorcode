@@ -158,7 +158,7 @@ $(document).ready(function(){
 
                 setTimeout(()=>{
                     window.location.reload();
-                    runShortcode();
+                    loadMore();
                     $('#overlay').removeClass('overlay-active');
                 }, 2000);
 
@@ -230,7 +230,7 @@ $(document).ready(function(){
                         //Close Sidebar
                         setTimeout(()=>{
                             location.reload();
-                            runShortcode();
+                            loadMore();
                             $('#overlay').removeClass('overlay-active');
                         }, 2000);
 
@@ -396,7 +396,7 @@ $('.btn-copy').on("click", function(event){
                 $('#aside-form').addClass('toggle');
                 $('#crate-form-shortcode').addClass('d-none');
                 $('#openForm').addClass("disabled"); 
-                runShortcode();
+                loadMore();
                 updateShortcodeUrl.value = data.id;
                 url_destination.value = data.url_destination;
                 url_titel.value = data.url_titel;
@@ -420,7 +420,7 @@ $('.btn-copy').on("click", function(event){
         }
 
         var shortcode = jQuery(this).attr('data-shortname');
-        console.log(shortcode);
+        //console.log(shortcode);
         var ctx = document.getElementById('myChartClick').getContext('2d');
         myChart = new Chart(ctx, {
             type: 'line',
@@ -456,39 +456,6 @@ $('.btn-copy').on("click", function(event){
         fetchClickDataAndUpdateChart(myChart, shortcode); 
 
     });
-
-
-
-    
-
-
-// var ctx = document.getElementById('myChartClick').getContext('2d');
-// let chart = new Chart(ctx, {
-//     type: 'line',
-//     data: {
-//         datasets: [{
-//             data: [{
-//                 x: '2021-11-06 23:39:30',
-//                 y: 50
-//             }, {
-//                 x: '2021-11-07 01:00:28',
-//                 y: 60
-//             }, {
-//                 x: '2021-11-07 09:00:28',
-//                 y: 20
-//             }]
-//         }],
-//     },
-//     options: {
-//         scales: {
-//             x: {
-//                 min: '2021-11-07 00:00:00',
-//             }
-//         }
-//     }
-// });
-
-
 
 
 
@@ -557,13 +524,12 @@ $('.shortcode-class').on('click', function() {
 });
 
 
+    var currentPage = 1;  // Startseite
 
-
-    // View Shortcode list View
-    function runShortcode(){
+    function loadMore() {
         $.ajax({
-            type: 'GET',
             url: '/shortcode/json-list/',  // Die URL zur JSON ListView
+            data: { page: currentPage + 1 },  // Aktualisiere den 'page'-Parameter
             dataType: 'json',
             success: function(serialized_data) {
                 var shortcodeList = $('#shortcode-list');
@@ -575,6 +541,7 @@ $('.shortcode-class').on('click', function() {
                     shortcodeItem.append(`<div class="card-footer"><small class="text-muted">30 Jul 2023 0 clicks Kein Tags</small>`);
                     shortcodeList.append(shortcodeItem);
                 });
+                currentPage += 1;  // Aktualisiere die aktuelle Seite
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -585,7 +552,9 @@ $('.shortcode-class').on('click', function() {
         });
     }
 
-    runShortcode();
+    loadMore();
+    // Füge den "Mehr laden"-Button hinzu und binde ihn an die Funktion
+    $('#load-more-button').on('click', loadMore);
 
 
 });
