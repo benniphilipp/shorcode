@@ -71,17 +71,43 @@
     width: 98%;
 }
 
+/*Nav*/
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 250px; /* Breite der Sidebar */
+    width: calc(100% - 250px);
+    height: 75px;
+    z-index:99;
+}
+
+
+/*main*/
+.main{
+    margin-left: 275px; /* Breite der Sidebar */
+    padding: 20px;
+    margin-top: 60px; 
+    background-color: #f1f1f1;
+}
 
 /* Sidebar */
 .bd-aside {
-    scroll-margin-top: 4rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 1.6rem 1.2rem;
     border-right: 0.1rem solid #dbe0eb;
     transition: all 300ms ease-in-out;
-    z-index: 31;
+    z-index: 101;
+    background-color: #fff !important;
+}
+
+.main.scrolled {
+    margin-top: 140px; /* Höhe der Navigationsleiste + Höhe der Sidebar + Abstand */
 }
 
 body {

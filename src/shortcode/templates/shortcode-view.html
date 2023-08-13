@@ -20,41 +20,42 @@
 
             <!--Navbar-->
             {% include "includes/navbar.html" %}
-         
-            
-            <div class="container-fluid mt-3 pt-3 px-4">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex flex-row align-items-center">
-                            <h3 class="p-1" style="margin-top: 10px;">Links</h3>
-                            <div class="p-1 ms-auto">
-                                <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+            <!--Main-->
+            <div class="main">
+                <div class="container-fluid mt-3 pt-3 px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex flex-row align-items-center">
+                                <h3 class="p-1" style="margin-top: 10px;">Links</h3>
+                                <div class="p-1 ms-auto">
+                                    <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                                </div>
                             </div>
                         </div>
+                        <hr>
                     </div>
-                    <hr>
                 </div>
-            </div>
-
-            <div class="container-fluid px-4">
-                <div class="row">
-                    <div class="col-12 mt-3">
-
-                        <!--Data Card-->
-                        <div id="shortcode-list"></div>
-                        <button id="load-more-button" type="button" class="btn btn-primary">Primary</button>
-                        <!--/. Data Card-->
-
-                        <!-- <div class="card">
-                            <div class="card-footer">
-                                <small class="text-muted short-links-footer">
-                                    <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
-                                    <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
-                                    <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
-                                </small>
-                            </div>
-                        </div> -->
-                        
+    
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col-12 mt-3">
+    
+                            <!--Data Card-->
+                            <div id="shortcode-list"></div>
+                            <button id="load-more-button" type="button" class="btn btn-primary">Primary</button>
+                            <!--/. Data Card-->
+    
+                            <!-- <div class="card">
+                                <div class="card-footer">
+                                    <small class="text-muted short-links-footer">
+                                        <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
+                                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+                                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
+                                    </small>
+                                </div>
+                            </div> -->
+                            
+                        </div>
                     </div>
                 </div>
             </div>
