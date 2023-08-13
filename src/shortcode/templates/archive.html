@@ -22,41 +22,43 @@
             <!--Navbar-->
             {% include "includes/navbar.html" %}
 
-            <div class="container-fluid px-4">
-                <div class="row">
-                    <div class="col-12 mt-3">
+            <!--Main-->
+            <div class="main">
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col-12 mt-3">
 
-                        <!--Datatable-->
-                        <div class="card p-0 m-0">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Auswahl</th>
-                                    <th scope="col">Titel</th>
-                                    <th scope="col">Ziel</th>
-                                    <th scope="col">Datum</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {% for object in object_list %}
-                                    <tr data-shortcode="{{ object.id }}" class="shortcode-class">
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id=""></td>
-                                            </div>    
-                                            <td>{{ object.url_titel|truncatechars:22 }}</td>
-                                        <td>{{ object.url_destination|truncatechars:22 }}</td>
-                                        <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
+                            <!--Datatable-->
+                            <div class="card p-0 m-0">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Auswahl</th>
+                                        <th scope="col">Titel</th>
+                                        <th scope="col">Ziel</th>
+                                        <th scope="col">Datum</th>
                                     </tr>
-                                    {% endfor %}    
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {% for object in object_list %}
+                                        <tr data-shortcode="{{ object.id }}" class="shortcode-class">
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id=""></td>
+                                                </div>    
+                                                <td>{{ object.url_titel|truncatechars:22 }}</td>
+                                            <td>{{ object.url_destination|truncatechars:22 }}</td>
+                                            <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
+                                        </tr>
+                                        {% endfor %}    
+                                    </tbody>
+                                </table>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
 
