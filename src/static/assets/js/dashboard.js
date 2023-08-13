@@ -515,17 +515,32 @@ $('.shortcode-class').on('click', function() {
             dataType: 'json',
             success: function(response) {
 
-                console.log(response)
                 var shortcodeList = $('#shortcode-list');
                 var serialized_data = response.data;
 
                 serialized_data.forEach(function(item) {
-                    console.log(item)
-                    // Hier kannst du den HTML-Code für jedes Element erstellen und zur shortcodeList hinzufügen
+
+                    var shortUrl = item.get_short_url;
+                    if (shortUrl.length > 90) {
+                        shortUrl = shortUrl.substring(0, 90) + '...';
+                    }
+
+                    var shortDestination = item.url_destination;
+                    if (shortDestination.length > 90) {
+                        shortDestination = shortDestination.substring(0, 90) + '...';
+                    }
+
+                    // shortcodeList hinzufügen
                     var shortcodeItem = $('<div class="card p-3 my-3">');
-                    shortcodeItem.append(`<div class="card-header header-elements"> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm">Small button</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm">Button</a>`);
-                    shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${item.get_short_url}</a><br><a class="text-muted" href="${item.url_destination}">${item.url_destination}</a>`);
-                    shortcodeItem.append(`<div class="card-footer"><small class="text-muted">30 Jul 2023 0 clicks Kein Tags</small>`);
+                    shortcodeItem.append(`<div class="card-header header-elements"> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
+                    shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
+                    shortcodeItem.append(`<div class="card-footer">
+                    <small class="text-muted short-links-footer">
+                        <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
+                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
+                    </small>
+                    `);
                     shortcodeList.append(shortcodeItem);
                 });
 
@@ -541,7 +556,7 @@ $('.shortcode-class').on('click', function() {
     
                 currentPage += 1;  // Aktualisiere die aktuelle Seite
                 start_index = response.start_index;
-                console.log(currentPage)
+
             },
             error: function(xhr, status, error) {
                 console.error(error);

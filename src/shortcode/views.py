@@ -18,23 +18,6 @@ from bs4 import BeautifulSoup
 
 from django.core.cache import cache
 
-#ListView
-class ShortcodeClassListView(ListView):
-    template_name = "dashboard.html"
-    model = ShortcodeClass
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = ShortcodeClassForm()
-        context['admin'] = self.request.user.id
-        context['useremail'] = self.request.user
-        context['sum_archive'] = ShortcodeClass.objects.filter(url_archivate=True).count()
-        return context
-    
-    def get_queryset(self):
-        current_counters = ShortcodeClass.objects.filter(url_creator=self.request.user.id)
-        current_counters = ShortcodeClass.objects.filter(url_archivate=False)
-        return current_counters
 
 #Archive
 class ShortcodeArchiveListView(ListView):
@@ -155,7 +138,7 @@ def load_shortcode_data_view(request):
         
         start_index = (page - 1) * per_page
         end_index = start_index + per_page
-        print(start_index)
+
         shortcodes = ShortcodeClass.objects.all()[start_index:end_index]
 
         data = []
@@ -167,7 +150,7 @@ def load_shortcode_data_view(request):
                 click_count = 0
 
             item = {
-                'id': shortcode.id,
+                'short_id': shortcode.pk,
                 'url_titel': shortcode.url_titel,
                 'get_short_url': shortcode.get_short_url,
                 'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),

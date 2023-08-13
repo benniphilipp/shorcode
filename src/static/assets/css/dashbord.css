@@ -225,3 +225,16 @@ color: green;
     margin-top: -3px;
     margin-right: 9px;
 }
+
+.short-links-footer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    margin-top: .5rem;
+}
+
+
+.orb-icon {
+    margin-right: .5rem
+}

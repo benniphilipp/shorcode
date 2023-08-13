@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     #Party
     'taggit',
+    'fontawesomefree',
     'corsheaders',
     'crispy_forms',
     "crispy_bootstrap4",
