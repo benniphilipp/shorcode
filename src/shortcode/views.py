@@ -7,6 +7,8 @@ from django.views.generic.list import ListView
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views import View
+import csv
+from django.http import HttpResponse
 
 from accounts.models import CustomUser
 from .models import ShortcodeClass
@@ -206,3 +208,26 @@ class GetFaviconView(View):
                 return JsonResponse({'error': 'Favicon not found'}, status=404)
         except requests.exceptions.RequestException as e:
             return JsonResponse({'error': str(e)}, status=500)
+   
+   
+# Export Shortcode
+def export_shortcodes_to_excel(request):
+    if request.method == 'POST':
+        selected_ids = request.POST.getlist('selected_ids[]')
+        selected_shortcodes = [int(id_str.split('_')[-1]) for id_str in selected_ids]
+
+        # Erzeuge die HTTPResponse mit der CSV-Inhalt
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=shortcodes.csv'
+
+        # Erstelle einen CSV-Writer und schreibe die Header-Zeile
+        writer = csv.writer(response)
+        writer.writerow(['ID', 'URL Titel', 'Aktiviert', 'Shortcode', 'Utm'])
+
+        # Füge ausgewählte Shortcodes-Daten hinzu
+        for shortcode_id in selected_shortcodes:
+            shortcode = ShortcodeClass.objects.get(pk=shortcode_id)
+            row = [shortcode.id, shortcode.url_titel, shortcode.get_short_url, shortcode.url_active, shortcode.get_full_url]
+            writer.writerow(row)
+
+        return response

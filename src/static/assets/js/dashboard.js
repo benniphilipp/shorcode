@@ -1,21 +1,21 @@
 $(document).ready(function(){
 
-    // const getCookie =(name) => {
-    //     let cookieValue = null;
-    //     if (document.cookie && document.cookie !== '') {
-    //         const cookies = document.cookie.split(';');
-    //         for (let i = 0; i < cookies.length; i++) {
-    //             const cookie = cookies[i].trim();
-    //             // Does this cookie string begin with the name we want?
-    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return cookieValue;
-    // }
-    // const csrftoken = getCookie('csrftoken');
+    const getCookie =(name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
 
     //Reste Fields
     function resteFields(){
@@ -532,7 +532,7 @@ $('.shortcode-class').on('click', function() {
 
                     // shortcodeList hinzufügen
                     var shortcodeItem = $('<div class="card p-3 my-3">');
-                    shortcodeItem.append(`<div class="card-header header-elements"> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
+                    shortcodeItem.append(`<div class="card-header header-elements"> <form id="shortcode-form"><input type="checkbox" name="selected_shortcodes" value="shortcode_id_${item.short_id}"></form> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
                     shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
                     shortcodeItem.append(`<div class="card-footer">
                     <small class="text-muted short-links-footer">
@@ -611,6 +611,47 @@ $('.shortcode-class').on('click', function() {
                 $("#result").html("Error fetching favicon.");
             }
         });
+    });
+
+
+    //Export
+    function exportSelectedShortcodes(csrfToken) {
+        var selectedShortcodes = [];  // Hier die ausgewählten Shortcodes hinzufügen
+        
+        // Annahme: selectedShortcodes ist ein Array von IDs der ausgewählten Shortcodes
+        $('input[name="selected_shortcodes"]:checked').each(function() {
+            selectedShortcodes.push($(this).val());
+        });
+        console.log(selectedShortcodes)
+        if (selectedShortcodes.length === 0) {
+            alert('Bitte wählen Sie mindestens einen Shortcode aus.');
+            return;
+        }
+    
+        $.ajax({
+            url: '/shortcode/ajax/export-shortcodes/',
+            method: 'POST',
+            data: { 
+                'selected_ids[]': selectedShortcodes,
+                csrfmiddlewaretoken: csrfToken
+            },
+            success: function(response) {
+                var blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'shortcodes.xlsx';
+                link.click();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Export Button
+    $('#export-button').on('click', function() {
+        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+        exportSelectedShortcodes(csrfToken);
     });
 
 

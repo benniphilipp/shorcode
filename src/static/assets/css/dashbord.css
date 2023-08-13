@@ -238,3 +238,8 @@ color: green;
 .orb-icon {
     margin-right: .5rem
 }
+
+#shortcode-form{
+    margin-top: 13px;
+    margin-right: 10px;
+}
