@@ -9,9 +9,9 @@
 
 {% block body %}
 
-    <div id="overlay" data-image="{% static '/gif/load-38_256.gif' %}">
-        
-    </div>
+    <!--Overlay Save-->
+    <div id="overlay" data-image="{% static '/gif/load-38_256.gif' %}"></div>
+    <div id="overlay-open"></div>
 
     <!--Sidebar-->
     {% include "includes/sidebar.html" %}
@@ -20,6 +20,7 @@
 
             <!--Navbar-->
             {% include "includes/navbar.html" %}
+
             <!--Main-->
             <div class="main">
                 <div class="container-fluid mt-3 pt-3 px-4">
@@ -45,16 +46,6 @@
                             <div id="shortcode-list"></div>
                             <button id="load-more-button" type="button" class="btn btn-primary">Primary</button>
                             <!--/. Data Card-->
-    
-                            <!-- <div class="card">
-                                <div class="card-footer">
-                                    <small class="text-muted short-links-footer">
-                                        <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
-                                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
-                                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
-                                    </small>
-                                </div>
-                            </div> -->
                             
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 
-
+/*Overlay Save*/
 .overlay-active{
     position: fixed;
     top: 0;
@@ -20,6 +20,19 @@
     flex-direction: column;
 }
 
+/*Overlay Open*/
+.overlay-open{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9994;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(158 195 220 / 60%);
+}
 
 /* Form */
 .crate-form{

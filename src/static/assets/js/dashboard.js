@@ -37,6 +37,7 @@ $(document).ready(function(){
         $('#archive-btn').addClass('d-none');
         $('#update-form-shortcode').addClass('d-none');
         $('#openForm').addClass("disabled"); 
+        $('#overlay-open').addClass("overlay-open"); 
     });
 
     // Close Sidebar
@@ -46,6 +47,7 @@ $(document).ready(function(){
         $('#update-form-shortcode').removeClass('d-none');
         $('#crate-form-shortcode').removeClass('d-none');
         $('#openForm').removeClass("disabled");
+        $('#overlay-open').removeClass("overlay-open"); 
         $('#shortcode_id').html('');
         resteFields();
     });
@@ -106,6 +108,7 @@ $(document).ready(function(){
                 setTimeout(()=>{
                     window.location.reload();
                     $('#overlay').removeClass('overlay-active');
+                    $('#overlay-open').removeClass("overlay-open"); 
                 }, 1000);
             },
             error: function(error){
@@ -156,6 +159,7 @@ $(document).ready(function(){
                 // //Alert
                 alert(response.success, 'success')
                 setTimeout(function(){$('.alert').alert('close')}, 3000)
+                $('#overlay-open').removeClass("overlay-open"); 
 
                 setTimeout(()=>{
                     window.location.reload();
@@ -358,13 +362,13 @@ $(document).ready(function(){
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
     const shortcode_id = document.getElementById('shortcode_id');
 
-
+    // Shortcode Singel Edit View
     $('#shortcode-list').on('click', '.shortcode-class', function() {
 
-        // Shortcode Singel Edit View
         var idShortcode = jQuery(this).attr('data-shortcode');
         const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
         $('#archive-btn').attr('data-archive', idShortcode);
+        $('#overlay-open').addClass("overlay-open"); 
 
         $.ajax({
             type: 'GET',
@@ -531,7 +535,7 @@ $('.shortcode-class').on('click', function() {
                     }
 
                     // shortcodeList hinzufügen
-                    var shortcodeItem = $('<div class="card p-3 my-3">');
+                    var shortcodeItem = $('<div class="card p-3 my-3 border border-0">');
                     shortcodeItem.append(`<div class="card-header header-elements"> <form id="shortcode-form"><input type="checkbox" name="selected_shortcodes" value="shortcode_id_${item.short_id}"></form> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
                     shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
                     shortcodeItem.append(`<div class="card-footer">
