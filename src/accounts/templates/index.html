@@ -1,8 +1,91 @@
-{% extends "basic.html" %}
+
 {% load static %}
 
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-Index User
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startseite | Datenpunkt</title>
 
-{% endblock body %}
+    <!--Style CSS Import-->
+    <link rel="stylesheet" type="text/css" href="{% static '/app-assets/css/bootstrap/bootstrap.min.css' %}">
+
+    <!--Favicons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static '/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static '/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static '/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stratseite | Datenpunkt</title>
+
+</head>
+    <body style="background-color: #f5f6f7;">
+        <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center" style="background-color: #fff;">
+            <div class="container">
+                <a href="/" class="navbar-brand d-flex w-50 me-auto">
+                    <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="40" height="40">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingNavbar3">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+                    <ul class="nav navbar-nav ms-auto w-100 justify-content-end">
+                        <li class="nav-item">
+
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'shortcode:shortcode_list_view' %}" class="btn btn-primary">Dashboard</a>
+                            {% else %}
+                                <a href="{% url 'accounts:users-register' %}" class="btn btn-primary">Kostenlos registrieren</a>
+                                <a href="{% url 'accounts:login' %}" class="btn btn-outline-success">Einloggen</a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section id="intro" style="background-color: #CEDAFA;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-12 py-5 my-5">
+                        <h1 class="py-3 my-3">Verkürze, Teile, Verfolge: Deine Verbindungen neu gedacht</h1>
+                        <h3 class="py-3 my-3">Unserer Shortcode-Plattform, wo du Links ganz neu erlebst. Kreiere im Handumdrehen kurze und aussagekräftige Verknüpfungen, 
+                            die sich problemlos teilen lassen. Optimiere deine Verbindungen und behalte ihre Leistung im Blick. Starte jetzt und erlebe eine völlig neue Art der Linkverwaltung.</h3>
+                            <a class="btn btn-primary" href="#">Jetzt starten</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-12 py-5 my-5">
+                    <p>Einfachheit trifft auf Leistungsfähigkeit. Unsere Shortcode-Plattform ermöglicht es dir, 
+                        lange und komplizierte URLs in kurze, benutzerfreundliche Links umzuwandeln. Mit nur wenigen Klicks kannst 
+                        du personalisierte QR-Codes erstellen, die direkt zu deinen Inhalten führen. Verleihe deinen Links eine individuelle 
+                        Note und behalte gleichzeitig 
+                        die Klickstatistiken im Auge, um zu sehen, welche Verbindungen am besten funktionieren.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+</html>
+
+

@@ -17,7 +17,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     
                 chart.data.datasets[0].data = chartData;
                 chart.update();
-                console.log(chartData);
             }
         });
     }
@@ -89,22 +88,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 $('#total-links-container').html(`
-                    <i class="fa-solid fa-link"></i>
-                    <small>${data.total_links} von 10000 verwendet</small>
+                    <p><i class="fa-solid fa-link"></i>
+                    <small>${data.total_links} von 10000 verwendet</small></p>
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ${data.total_links}%;" aria-valuenow="${data.total_links}" aria-valuemin="0" aria-valuemax="10000">${data.total_links}%</div>
                     </div>
                 `);
 
                 $('#archiv-links-container').html(`
-                <i class="fa-solid fa-link"></i>
-                <small>${data.total_archiv} von 10000 archiviert</small>
+                <p><i class="fa-solid fa-link"></i>
+                <small>${data.total_archiv} von 10000 archiviert</small></p>
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ${data.total_archiv}%;" aria-valuenow="${data.total_archiv}" aria-valuemin="0" aria-valuemax="10000">${data.total_archiv}%</div>
                     </div>
                 `);
 
-                $('#count-links-container').html(`<i class="fa-solid fa-earth-americas"></i> <small> Link Klicks ${value_click} </small>`);
+                $('#count-links-container').html(`<p><i class="fa-solid fa-earth-americas"></i> <small> Link Klicks ${value_click} </small></p>`);
 
 
             },
