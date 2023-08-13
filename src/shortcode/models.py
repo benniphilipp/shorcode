@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 from django_hosts.resolvers import reverse
 from django.utils import timezone
 
-
 from .utils import create_shortcode
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)

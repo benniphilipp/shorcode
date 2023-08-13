@@ -9,7 +9,7 @@ from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, Bo
 from .models import ShortcodeClass
 
 class ShortcodeClassForm(forms.ModelForm):
-    
+
     url_destination = forms.CharField(label="Ziel", widget=forms.TextInput(attrs={'placeholder': 'Ziel Url'}))
     url_titel = forms.CharField(label="Titel", widget=forms.TextInput(attrs={'placeholder': 'Titel'}))
     shortcode = forms.CharField(label="Shortcode", required=False, widget=forms.TextInput(attrs={'placeholder': 'shortcode'}))

@@ -1,3 +1,6 @@
+
+import requests
+
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
@@ -11,7 +14,7 @@ from .forms import ShortcodeClassForm
 from django.utils import timezone
 from analytics.models import ClickEvent
 from django.db.models import Count
-
+from bs4 import BeautifulSoup
 
 from django.core.cache import cache
 
@@ -144,48 +147,79 @@ def shortcode_view(request):
 
 
 
-# View Shortcode list Json
-class JsonListView(ListView):
-    model = ShortcodeClass  # Das Modell, für das du die ListView erstellst
-    queryset = ShortcodeClass.objects.annotate(click_count=Count('clickevent'))
-    content_type = 'application/json'  # Setze den Content-Type auf JSON
-    form_class = ShortcodeClassForm()
-    
-    def get_queryset(self):
-        page = self.request.GET.get('page')
-        if page is None:
-            page = 1
-        else:
-            page = int(page)
-            
-        queryset = cache.get('json_list_view_cache_key')
-        if queryset is None:
-            queryset = ShortcodeClass.objects.annotate(click_count=Count('clickevent'))
-            cache.set('json_list_view_cache_key', queryset)
-            
-        start_index = (page - 1) * 5 
-        end_index = start_index + 5
-        return queryset[start_index:end_index]
+# View Shortcode list Json        
+def load_shortcode_data_view(request):
+    if request.is_ajax():
+        page = int(request.GET.get('page', 1))
+        per_page = 5  # Anzahl der Einträge pro Seite
+        
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+        print(start_index)
+        shortcodes = ShortcodeClass.objects.all()[start_index:end_index]
 
-    def serialize_shortcodes(self, shortcode_list):
-        serialized_shortcodes = []
-        for shortcode in shortcode_list:
-            serialized_shortcodes.append({
+        data = []
+        for shortcode in shortcodes:
+            try:
+                click_event = ClickEvent.objects.get(short_url=shortcode)
+                click_count = click_event.count
+            except ClickEvent.DoesNotExist:
+                click_count = 0
+
+            item = {
+                'id': shortcode.id,
                 'url_titel': shortcode.url_titel,
                 'get_short_url': shortcode.get_short_url,
                 'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),
-                'click_count': shortcode.click_count,
+                'click_count': click_count,
                 'url_destination': shortcode.url_destination,
-                'short_id': shortcode.pk,
-                'shortcode': shortcode.shortcode
+                'shortcode': shortcode.shortcode,
+                'favicon_path': shortcode.favicon_path
                 # Füge hier weitere Felder hinzu, die du im JSON-Format anzeigen möchtest
-            })
-        return serialized_shortcodes
-    
-    def render_to_response(self, context, **response_kwargs):
-        serialized_data = self.serialize_shortcodes(self.get_queryset())
-        return JsonResponse(serialized_data, safe=False, content_type=self.content_type)
+            }
+            data.append(item)
+
+        total_shortcodes = ShortcodeClass.objects.count()
+
+        return JsonResponse({
+            'data': data,
+            'total_shortcodes': total_shortcodes,
+            'page': page,
+            'per_page': per_page,
+            'start_index': start_index 
+        })
+
 
 
 #Delete
 #https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes
+
+
+class GetFaviconView(View):
+    def get(self, request):
+        url = request.GET.get('url')  # Die URL der fremden Website
+        try:
+            response = requests.get(url)
+            content = response.content
+            soup = BeautifulSoup(content, 'html.parser')
+            favicon_link = soup.find('link', rel='icon')
+            
+            if favicon_link:
+                favicon_url = favicon_link.get('href')
+                if not favicon_url.startswith('http'):
+                    # Handle relative URLs
+                    base_url = url.split('/')[2]
+                    favicon_url = f'http://{base_url}/{favicon_url}'
+                
+                # Finde das entsprechende ShortcodeClass-Objekt
+                shortcode_instance = ShortcodeClass.objects.get(url_destination=url)
+                
+                # Speichere die favicon_url im favicon_path-Feld
+                shortcode_instance.favicon_path = favicon_url
+                shortcode_instance.save()
+                
+                return JsonResponse({'favicon_url': favicon_url})
+            else:
+                return JsonResponse({'error': 'Favicon not found'}, status=404)
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({'error': str(e)}, status=500)

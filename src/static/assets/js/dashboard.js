@@ -28,6 +28,7 @@ $(document).ready(function(){
         $('#id_url_titel').val('')
         $('#id_url_campaign').val('')
         $('#id_url_content').val('')
+        $('#id_shortcode').val('')
     }
 
     // Open Sidebar
@@ -44,7 +45,8 @@ $(document).ready(function(){
         $('#archive-btn').removeClass('d-none');
         $('#update-form-shortcode').removeClass('d-none');
         $('#crate-form-shortcode').removeClass('d-none');
-        $('#openForm').removeClass("disabled"); 
+        $('#openForm').removeClass("disabled");
+        $('#shortcode_id').html('');
         resteFields();
     });
     
@@ -114,7 +116,6 @@ $(document).ready(function(){
     })
 
 
-
     $('#update-form-shortcode').on('click', function(event){
         event.preventDefault();
 
@@ -158,7 +159,6 @@ $(document).ready(function(){
 
                 setTimeout(()=>{
                     window.location.reload();
-                    loadMore();
                     $('#overlay').removeClass('overlay-active');
                 }, 2000);
 
@@ -230,7 +230,6 @@ $(document).ready(function(){
                         //Close Sidebar
                         setTimeout(()=>{
                             location.reload();
-                            loadMore();
                             $('#overlay').removeClass('overlay-active');
                         }, 2000);
 
@@ -332,26 +331,6 @@ $(document).ready(function(){
 
 
 
-// onClick copy to clipboard
-console.clear()
-function copyFunc(elemId) {
-    let that = document.querySelector(elemId);
-    navigator.clipboard.writeText(that?.innerText).then(res => {});
-}
-
-//Copy Button color
-$('.btn-copy').on("click", function(event){
-    event.preventDefault();
-
-    var buttonId = jQuery(this).attr('data-button');
-
-    $('.color' + buttonId).addClass('bg-success text-white');
-    console.log(buttonId)
-    setTimeout(()=>{
-        $('.color' + buttonId).removeClass('bg-success text-white');
-    }, 2000);
-
-})
 
 
     function fetchClickDataAndUpdateChart(chart, shortcode) {
@@ -396,7 +375,6 @@ $('.btn-copy').on("click", function(event){
                 $('#aside-form').addClass('toggle');
                 $('#crate-form-shortcode').addClass('d-none');
                 $('#openForm').addClass("disabled"); 
-                loadMore();
                 updateShortcodeUrl.value = data.id;
                 url_destination.value = data.url_destination;
                 url_titel.value = data.url_titel;
@@ -524,27 +502,50 @@ $('.shortcode-class').on('click', function() {
 });
 
 
+
+
+
     var currentPage = 1;  // Startseite
+    var totalShortcodes = 0;  // Gesamtanzahl der Shortcodes
 
     function loadMore() {
         $.ajax({
-            url: '/shortcode/json-list/',  // Die URL zur JSON ListView
-            data: { page: currentPage + 1 },  // Aktualisiere den 'page'-Parameter
+            url: `/shortcode/json-list/?page=${currentPage}`,  // Die URL zur JSON ListView
+            data: { page: currentPage  },  // Aktualisiere den 'page'-Parameter
             dataType: 'json',
-            success: function(serialized_data) {
+            success: function(response) {
+
+                console.log(response)
                 var shortcodeList = $('#shortcode-list');
+                var serialized_data = response.data;
+
                 serialized_data.forEach(function(item) {
-                    // console.log(item);
+                    console.log(item)
+                    // Hier kannst du den HTML-Code für jedes Element erstellen und zur shortcodeList hinzufügen
                     var shortcodeItem = $('<div class="card p-3 my-3">');
-                    shortcodeItem.append(`<div class="card-header header-elements"><h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"><a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm">Button</a>`);
+                    shortcodeItem.append(`<div class="card-header header-elements"> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm">Small button</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm">Button</a>`);
                     shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${item.get_short_url}</a><br><a class="text-muted" href="${item.url_destination}">${item.url_destination}</a>`);
                     shortcodeItem.append(`<div class="card-footer"><small class="text-muted">30 Jul 2023 0 clicks Kein Tags</small>`);
                     shortcodeList.append(shortcodeItem);
                 });
+
+                if (totalShortcodes === 0) {
+                    totalShortcodes = response.total_shortcodes;
+                }
+                
+                if (serialized_data.length === 0 || response.page * response.per_page >= totalShortcodes) {
+                    $('#load-more-button').hide();
+                } else {
+                    $('#load-more-button').show();
+                }
+    
                 currentPage += 1;  // Aktualisiere die aktuelle Seite
+                start_index = response.start_index;
+                console.log(currentPage)
             },
             error: function(xhr, status, error) {
                 console.error(error);
+                console.log(url)
             },
             cache: false,
             contentType: false,
@@ -553,8 +554,49 @@ $('.shortcode-class').on('click', function() {
     }
 
     loadMore();
-    // Füge den "Mehr laden"-Button hinzu und binde ihn an die Funktion
+
     $('#load-more-button').on('click', loadMore);
+
+
+    // onClick copy to clipboard
+    console.clear()
+
+    //Copy Button color
+    $('#shortcode-list').on("click", '.btn-copy', function(event){
+        event.preventDefault();
+
+        var buttonId = $(this).attr('data-button');
+
+        let that = document.getElementById(buttonId);
+        navigator.clipboard.writeText(that?.innerText).then(res => {});
+     
+        $('.color' + buttonId).addClass('bg-success text-white');
+        setTimeout(()=>{
+            $('.color' + buttonId).removeClass('bg-success text-white');
+        }, 2000);
+
+    })
+
+
+
+
+    $("#crate-form-shortcode").click(function() {
+        var url = $("#id_url_destination").val();
+        console.log(url);
+        $.ajax({
+            url: '/shortcode/get_favicon/?url=' + encodeURIComponent(url),
+            success: function(data) {
+                if (data.favicon_url) {
+                    $("#result").html(`<img src="${data.favicon_url}" alt="Favicon">`);
+                } else {
+                    $("#result").html("Favicon not found");
+                }
+            },
+            error: function() {
+                $("#result").html("Error fetching favicon.");
+            }
+        });
+    });
 
 
 });
