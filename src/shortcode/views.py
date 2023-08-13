@@ -141,8 +141,8 @@ def load_shortcode_data_view(request):
         start_index = (page - 1) * per_page
         end_index = start_index + per_page
 
-        shortcodes = ShortcodeClass.objects.all()[start_index:end_index]
-
+        shortcodes = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=False)[start_index:end_index]
+        
         data = []
         for shortcode in shortcodes:
             try:
@@ -164,7 +164,8 @@ def load_shortcode_data_view(request):
             }
             data.append(item)
 
-        total_shortcodes = ShortcodeClass.objects.count()
+        # total_shortcodes = ShortcodeClass.objects.count()
+        total_shortcodes = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=True).count()
 
         return JsonResponse({
             'data': data,
@@ -173,11 +174,6 @@ def load_shortcode_data_view(request):
             'per_page': per_page,
             'start_index': start_index 
         })
-
-
-
-#Delete
-#https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes
 
 
 class GetFaviconView(View):
@@ -209,7 +205,7 @@ class GetFaviconView(View):
         except requests.exceptions.RequestException as e:
             return JsonResponse({'error': str(e)}, status=500)
    
-   
+
 # Export Shortcode
 def export_shortcodes_to_excel(request):
     if request.method == 'POST':
@@ -231,3 +227,6 @@ def export_shortcodes_to_excel(request):
             writer.writerow(row)
 
         return response
+    
+#Delete
+#https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes

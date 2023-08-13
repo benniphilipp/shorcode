@@ -12,26 +12,54 @@
         <!--Navbar-->
         {% include "includes/navbar.html" %}
 
+        <!--Main-->
+        <div class="main">
 
-    <!--Main-->
-    <div class="main">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Website Analytics</h5>
+            <div class="container-fluid mt-3 pt-3 px-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex flex-row align-items-center">
+                            <h3 class="p-1" style="margin-top: 10px;">Analytics</h3>
+                            <!-- <div class="p-1 ms-auto">
+                                <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                                <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button>
+                            </div> -->
                         </div>
-                        <div class="card-body pb-2">
-                            <div>
-                                <canvas id="myChart"></canvas>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="container-fluid px-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4 mt-3">
+                        <div class="card border border-0">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center border border-0">
+                                <h5 class="card-title mb-0">Website Analytics</h5>
+                            </div>
+                            <div class="card-body pb-2">
+                                <div>
+                                    <canvas id="myChart"></canvas>
+                                </div>  
                             </div>  
-                        </div>  
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 mb-4 mt-3">
+                        <div class="card border border-0">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center border border-0">
+                                <h5 class="card-title mb-0">Website Analytics</h5>
+                            </div>
+                            <div class="card-body pb-2">
+                                <div id="total-links-container"></div>
+                                <div id="archiv-links-container"></div>
+                                <div id="count-links-container"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
 
 
 

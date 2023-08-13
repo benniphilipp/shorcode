@@ -16,7 +16,21 @@ class AnalyticsView(View):
         return render(request, "analytics.html")
 
 
+def total_links_json_view(request):
+    total_links = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=False).count()
+    total_archiv = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=True).count()
+    click_events = ClickEvent.objects.all()
+    click_data = [{'timestamp': event.timestamp, 'count': event.count, 'short_url': event.short_url.shortcode} for event in click_events]
+    item = {
+        'total_links': total_links,
+        'total_archiv': total_archiv,
+        'click_data': click_data
+        }
 
+    return JsonResponse(item)
+
+
+# Clich Analytics Shorcode Detile View 
 class ClickDataView(View):
     def get(self, request, *args, **kwargs):
         click_events = ClickEvent.objects.all()
@@ -24,7 +38,7 @@ class ClickDataView(View):
         return JsonResponse(click_data, safe=False)
 
 
-
+# Analytics 
 def shortcode_click_data(request, shortcode):
     shortcode_obj = get_object_or_404(ShortcodeClass, shortcode=shortcode)
     
