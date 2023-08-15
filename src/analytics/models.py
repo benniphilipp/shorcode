@@ -35,3 +35,19 @@ class DailyClick(models.Model):
     
     def __str__(self):
         return f"Click on {self.short_url.shortcode} at {self.timestamp}"
+    
+    
+# IPGeolocation
+class IPGeolocation(models.Model):
+    ip_address = models.GenericIPAddressField()
+    country = models.CharField(max_length=100, blank=True)
+    region = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    os = models.CharField(max_length=100, blank=True)
+    device = models.CharField(max_length=100, blank=True)
+    browser = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.ip_address

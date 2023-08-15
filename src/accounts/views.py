@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
 from django.contrib.auth.views import LoginView
+import requests
+from user_agents import parse
 
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -14,7 +16,7 @@ from .forms import RegisterForm, LoginForm
 from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
 
-from analytics.models import ClickEvent, DailyClick
+from analytics.models import ClickEvent, DailyClick, IPGeolocation
 
 # Create your views here.
 def home(request):
@@ -24,17 +26,64 @@ def home(request):
 
 
 class URLRedirectView(View):
+    
+    #https://ipapi.co/#api
+    def get_user_agent_info(self, request):
+        user_agent_string = request.META.get('HTTP_USER_AGENT', '')
+        
+        user_agent = parse(user_agent_string)
+        os_info = user_agent.os.family  # Betriebssystem-Familie
+        device_info = user_agent.device.family  # Geräte-Familie
+        browser_info = user_agent.browser.family  # Browser-Familie
+        
+        user_agent_info = {
+            'os': os_info,
+            'device': device_info,
+            'browser': browser_info
+        }
+        
+        return user_agent_info
+            
         
     def get(self, request, shortcode=None, *args, **kwargs):
         qs = ShortcodeClass.objects.filter(shortcode__iexact=shortcode)
-        print(qs)
+
         if qs.count() != 1 and not qs.exists():
             raise Http404
 
         obj = qs.first()
         
-        print(ClickEvent.objects.create_event(obj))
-        print(DailyClick.objects.create(short_url=obj))
+        user_agent_info = self.get_user_agent_info(request)
+        print(user_agent_info)
+        
+        ip_address = '8.8.8.8' #request.META.get('REMOTE_ADDR')  # IP-Adresse des Benutzers
+        response = requests.get(f'https://ipapi.co/{ip_address}/json/')
+
+        if response.status_code == 200:
+            data = response.json()
+            
+            latitude = data.get('latitude')
+            longitude = data.get('longitude')
+            city = data.get('city')
+            country_name = data.get('country_name')
+            region = data.get('region')
+            
+            ip_geolocation = IPGeolocation(
+                ip_address=ip_address, 
+                latitude=latitude,
+                longitude=longitude,
+                city=city,
+                country=country_name,
+                region=region,
+                os=user_agent_info['os'],
+                device=user_agent_info['device'],
+                browser=user_agent_info['browser']
+            )
+            ip_geolocation.save()
+
+        
+        # print(ClickEvent.objects.create_event(obj))
+        # print(DailyClick.objects.create(short_url=obj))
         
         global url_basic
         global utm_campaign
