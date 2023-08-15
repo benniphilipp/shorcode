@@ -101,8 +101,8 @@ class URLRedirectView(View):
                 )
                 ip_geolocation.save()    
         
-        # print(ClickEvent.objects.create_event(obj))
-        # print(DailyClick.objects.create(short_url=obj))
+        ClickEvent.objects.create_event(obj)
+        DailyClick.objects.create(short_url=obj)
         
         global url_basic
         global utm_campaign
