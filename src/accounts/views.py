@@ -23,8 +23,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-
-
 class URLRedirectView(View):
     
     #https://ipapi.co/#api
@@ -52,35 +50,56 @@ class URLRedirectView(View):
             raise Http404
 
         obj = qs.first()
-        
+
         user_agent_info = self.get_user_agent_info(request)
         print(user_agent_info)
+
+        ip_address = request.META.get('REMOTE_ADDR')
         
-        ip_address = '8.8.8.8' #request.META.get('REMOTE_ADDR')  # IP-Adresse des Benutzers
-        response = requests.get(f'https://ipapi.co/{ip_address}/json/')
+        try:
+            response = requests.get(f'https://ipapi.co/{ip_address}/json/')
+            if response.status_code == 200:
+                data = response.json()
 
-        if response.status_code == 200:
-            data = response.json()
-            
-            latitude = data.get('latitude')
-            longitude = data.get('longitude')
-            city = data.get('city')
-            country_name = data.get('country_name')
-            region = data.get('region')
-            
-            ip_geolocation = IPGeolocation(
-                ip_address=ip_address, 
-                latitude=latitude,
-                longitude=longitude,
-                city=city,
-                country=country_name,
-                region=region,
-                os=user_agent_info['os'],
-                device=user_agent_info['device'],
-                browser=user_agent_info['browser']
-            )
-            ip_geolocation.save()
+                latitude = data.get('latitude')
+                longitude = data.get('longitude')
+                city = data.get('city')
+                country_name = data.get('country_name')
+                region = data.get('region')
 
+                ip_geolocation = IPGeolocation(
+                    ip_address=ip_address,
+                    latitude=latitude,
+                    longitude=longitude,
+                    city=city,
+                    country=country_name,
+                    region=region,
+                    os=user_agent_info['os'],
+                    device=user_agent_info['device'],
+                    browser=user_agent_info['browser']
+                )
+                ip_geolocation.save()
+                
+        except requests.exceptions.RequestException:
+
+                latitude = 0.0
+                longitude = 0.0
+                city = "Unknown"
+                country_name = "Unknown"
+                region = "Unknown"
+
+                ip_geolocation = IPGeolocation(
+                    ip_address=ip_address,
+                    latitude=latitude,
+                    longitude=longitude,
+                    city=city,
+                    country=country_name,
+                    region=region,
+                    os=user_agent_info['os'],
+                    device=user_agent_info['device'],
+                    browser=user_agent_info['browser']
+                )
+                ip_geolocation.save()    
         
         # print(ClickEvent.objects.create_event(obj))
         # print(DailyClick.objects.create(short_url=obj))

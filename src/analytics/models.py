@@ -40,14 +40,14 @@ class DailyClick(models.Model):
 # IPGeolocation
 class IPGeolocation(models.Model):
     ip_address = models.GenericIPAddressField()
-    country = models.CharField(max_length=100, blank=True)
-    region = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    os = models.CharField(max_length=100, blank=True)
-    device = models.CharField(max_length=100, blank=True)
-    browser = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    region = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    os = models.CharField(max_length=100, blank=True, null=True)
+    device = models.CharField(max_length=100, blank=True, null=True)
+    browser = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.ip_address
