@@ -9,6 +9,7 @@ from .views import (
         export_shortcodes_to_excel,
         filter_and_search_shortcodes,
         get_all_tags,
+        CreateTagView,
         shortcode_view)
 
 from django.contrib.auth.decorators import login_required
@@ -27,4 +28,5 @@ urlpatterns = [
     path('get_favicon/', GetFaviconView.as_view(), name='get_favicon'),
     path('serach/', filter_and_search_shortcodes, name='serach'),
     path('tags/', get_all_tags, name='tags'),
+    path('tags-create/', CreateTagView.as_view(), name='tags'),
 ]

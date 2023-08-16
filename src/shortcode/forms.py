@@ -65,8 +65,8 @@ class ShortcodeClassForm(forms.ModelForm):
             HTML('<div class="row"><div class="form-group col-12 my-2"></div></div>'),
             #Field('url_archivate', css_class="form-check-input", wrapper_class="form-check form-switch"),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="crate-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Neuen Link Kreieren">'),
-            HTML('<input id="update-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Änderung Speichern">')
+            HTML('<input id="crate-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
+            HTML('<input id="update-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -76,6 +76,23 @@ class ShortcodeClassForm(forms.ModelForm):
         widgets = {
             'url_creator': HiddenInput(),
         }
+        
+        
+class CreateTagForm(forms.ModelForm):
+    name = forms.CharField(label="Tags", required=False, widget=forms.TextInput(attrs={'placeholder': 'Tags'}))
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('name', css_class='form-group col-12 my-2'),
+                css_class='row'
+            )
+        )
+    class Meta:
+        model = Tag
+        fields = ['name'] 
         
 
             

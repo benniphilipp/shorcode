@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 from accounts.models import CustomUser
 from .models import ShortcodeClass, Tag
-from .forms import ShortcodeClassForm
+from .forms import ShortcodeClassForm, CreateTagForm
 from django.utils import timezone
 from analytics.models import ClickEvent
 from django.db.models import Count
@@ -170,8 +170,10 @@ def update_post(request, pk):
 @login_required(login_url="/login/")
 def shortcode_view(request):
     form = ShortcodeClassForm() 
+    tags_form = CreateTagForm()
     context = {
         'form': form,
+        'tags_form': tags_form,
         'admin': request.user.id,
         'useremail': request.user
     }
@@ -276,6 +278,22 @@ def export_shortcodes_to_excel(request):
             writer.writerow(row)
 
         return response
+
+
+# Create Tag
+class CreateTagView(View):
+    def post(self, request, *args, **kwargs):
+        tag_name = request.POST.get('tag_name')  # Annahme des Tag-Namens über POST-Anfrage
+        
+        if tag_name:
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+            
+            if created:
+                return JsonResponse({'message': f'Tag "{tag_name}" wurde erstellt.'}, status=201)
+            else:
+                return JsonResponse({'message': f'Tag "{tag_name}" existiert bereits.'}, status=400)
+        else:
+            return JsonResponse({'message': 'Tag-Name fehlt.'}, status=400)
     
 #Delete
 #https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes

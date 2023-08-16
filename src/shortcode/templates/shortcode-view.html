@@ -31,6 +31,9 @@
                                 <div class="p-1 ms-auto">
                                     <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
                                     <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button>
+                                    <button type="button" class="btn btn-primary" id="exampleModal">Tag erstellen</button>
+
+                                      
                                 </div>
                             </div>
                         </div>
@@ -80,6 +83,8 @@
 
     <!--Crate & Update Form-->
     {% include "includes/form.html" %}
+    {% include "includes/modal.html" %}
+
 
 
 {% endblock body %}
@@ -91,4 +96,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 <script>var faviconPath = '{% static "/images/Favicon/favicon-32x32.png" %}';</script>
 <script src="{% static '/assets/js/dashboard.js' %}"></script>
+
 {% endblock %}

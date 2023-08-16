@@ -781,6 +781,37 @@ $('.shortcode-class').on('click', function() {
     });
 
 
+
+    //Create Tags
+    $('#createTagButton').click(function() {
+        const tag_name = $('#tag_name').val();
+    
+        $.ajax({
+          type: 'POST',
+          url: '/shortcode/tags-create/',  // Passe die URL entsprechend an
+          data: {
+            tag_name: tag_name
+          },
+          success: function(response) {
+            // Zeige eine Erfolgsmeldung an oder aktualisiere die Tag-Liste
+            alert(response.message);
+            $('#createTagModal').modal('hide');
+          },
+          error: function(error) {
+            // Zeige eine Fehlermeldung an
+            alert('Fehler beim Erstellen des Tags.');
+          }
+        });
+      });
+
+      $('#exampleModal').click(function(){
+        console.log('run');
+        $('#createTagModal').modal('show');
+      });
+
+
+
+
 });
 
 
