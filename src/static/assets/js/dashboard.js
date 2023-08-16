@@ -781,6 +781,18 @@ $('.shortcode-class').on('click', function() {
     });
 
 
+    // Open Tag Model
+    $('#exampleModal').click(function(){
+        $('#model-form-tag').addClass('active');
+    });
+
+    // Close Tag Model
+    $('#tag-close').click(function(){
+        $('.form-tag-view').css('display', 'block');
+        $('#model-form-tag').removeClass('active');
+        $('#id_name').val('');
+        $('#tag-edit').html('<span id="tag-edit">Tags Löschen oder Bearbeiten</span>')
+    })
 
     //Create Tags
     $('#createTagButton').click(function(event) {
@@ -796,27 +808,73 @@ $('.shortcode-class').on('click', function() {
             csrfmiddlewaretoken: csrf_token
           },
           success: function(response) {
-            // Zeige eine Erfolgsmeldung an oder aktualisiere die Tag-Liste
+           
+            $('#id_name').val('');
+
             loadTags();
-            $('#model-form-tag').removeClass('active')
+            $('#model-form-tag').removeClass('active');
+            
+
           },
           error: function(error) {
-            // Zeige eine Fehlermeldung an
-            // alert('Fehler beim Erstellen des Tags.');
             console.log(error);
           }
         });
-      });
+    });
 
 
+    // Load Tags
+    function load_tags_id(){
+        $.ajax({
+            url: '/shortcode/tags-list/',
+            method: 'GET',
+            success: function(response) {
+                const tags = response.tags;
+                // Verarbeitung der Tags, z.B. Hinzufügen zur Dropdown-Liste
+                let tagOptions = '';
 
-      $('#exampleModal').click(function(){
-        $('#model-form-tag').addClass('active');
-      });
+                tags.forEach(tag => {
+                    tagOptions += `<li class="delete-tag-button" id="tag-${tag.id}" data-tag-id="${tag.id}">${tag.name}</li>`;
+                });
+                
+                $('#tag-edit').html(`<ul>${tagOptions}</ul>`);
 
-      $('#tag-close').click(function(){
-        $('#model-form-tag').removeClass('active')
-      })
+            },
+            error: function(error) {
+                // Fehlerverarbeitung
+            }
+        });
+    }
+
+    // Edit Tag Open
+    $('#tag-edit').click(function(){
+        
+        $('.form-tag-view').css('display', 'none');
+        //Load Tags ID
+        load_tags_id();
+
+    })
+
+    // Delete Tag func
+    $('#tag-edit').on('click', '.delete-tag-button', function() {
+        const tagId = $(this).data('tag-id');
+        var csrfToken = getCookie('csrftoken');
+        console.log(tagId);
+        $.ajax({
+            url: `/shortcode/tags-delete/${tagId}/`,
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: csrfToken // Das CSRF-Token aus dem Formular
+            },
+            success: function(response) {
+                // Erfolgsverarbeitung, z.B. Tag aus der Anzeige entfernen
+                $(`#tag-${tagId}`).remove();
+            },
+            error: function(error) {
+                // Fehlerverarbeitung
+            }
+        });
+    });
 
 
 

@@ -203,3 +203,8 @@
     font-size: 23px;
 }
 
+#tag-edit{
+    cursor: pointer;
+    color: #0c3ebb;
+}
+

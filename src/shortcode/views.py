@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django.views import View
 import csv
 from django.http import HttpResponse
@@ -23,6 +24,7 @@ from django.core.cache import cache
 #View Tags
 def get_all_tags(request):
     tags = Tag.objects.all().values_list('name', flat=True)
+    
     return JsonResponse({'tags': list(tags)})
 
 # Suche
@@ -294,6 +296,20 @@ class CreateTagView(View):
                 return JsonResponse({'message': f'Tag "{tag_name}" existiert bereits.'}, status=400)
         else:
             return JsonResponse({'message': 'Tag-Name fehlt.'}, status=400)
-    
+
+# Viwe
+class TagDeleteView(View):
+    def post(self, request, tag_id):
+        tag = get_object_or_404(Tag, id=tag_id)
+        tag.delete()
+        return JsonResponse({'message': 'Tag deleted successfully'})
+
+
+class TagListView(View):
+    def get(self, request):
+        tags = Tag.objects.all()
+        data = [{'id': tag.id, 'name': tag.name} for tag in tags]
+        return JsonResponse({'tags': data})
+
 #Delete
 #https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes

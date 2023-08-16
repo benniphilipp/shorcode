@@ -10,6 +10,8 @@ from .views import (
         filter_and_search_shortcodes,
         get_all_tags,
         CreateTagView,
+        TagDeleteView,
+        TagListView,
         shortcode_view)
 
 from django.contrib.auth.decorators import login_required
@@ -28,5 +30,7 @@ urlpatterns = [
     path('get_favicon/', GetFaviconView.as_view(), name='get_favicon'),
     path('serach/', filter_and_search_shortcodes, name='serach'),
     path('tags/', get_all_tags, name='tags'),
-    path('tags-create/', CreateTagView.as_view(), name='tags'),
+    path('tags-create/', CreateTagView.as_view(), name='tags-create'),
+    path('tags-list/', TagListView.as_view(), name='tag-list'),
+    path('tags-delete/<int:tag_id>/', TagDeleteView.as_view(), name='tag-delete'),
 ]
