@@ -284,7 +284,7 @@ def export_shortcodes_to_excel(request):
 class CreateTagView(View):
     def post(self, request, *args, **kwargs):
         tag_name = request.POST.get('tag_name')  # Annahme des Tag-Namens über POST-Anfrage
-        
+        print(tag_name)
         if tag_name:
             tag, created = Tag.objects.get_or_create(name=tag_name)
             

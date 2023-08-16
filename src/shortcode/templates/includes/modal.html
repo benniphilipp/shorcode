@@ -1,7 +1,10 @@
 {% load crispy_forms_tags %}
 
-<div class="tag-overlay">
+<div class="tag-overlay" id="model-form-tag">
     <div class="tag-overlay-body">
+        <div class="tag-header d-flex" id="tag-close">
+            <i class="fa-solid fa-xmark ms-auto"></i>
+        </div>
         <form>
             {% crispy tags_form %} 
         </form>

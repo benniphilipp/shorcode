@@ -783,31 +783,40 @@ $('.shortcode-class').on('click', function() {
 
 
     //Create Tags
-    $('#createTagButton').click(function() {
-        const tag_name = $('#tag_name').val();
+    $('#createTagButton').click(function(event) {
+        event.preventDefault();
+        const tag_name = $('#id_name').val();
+        const csrf_token = $('[name="csrfmiddlewaretoken"]').val();
     
         $.ajax({
           type: 'POST',
           url: '/shortcode/tags-create/',  // Passe die URL entsprechend an
           data: {
-            tag_name: tag_name
+            tag_name: tag_name,
+            csrfmiddlewaretoken: csrf_token
           },
           success: function(response) {
             // Zeige eine Erfolgsmeldung an oder aktualisiere die Tag-Liste
-            alert(response.message);
-            $('#createTagModal').modal('hide');
+            loadTags();
+            $('#model-form-tag').removeClass('active')
           },
           error: function(error) {
             // Zeige eine Fehlermeldung an
-            alert('Fehler beim Erstellen des Tags.');
+            // alert('Fehler beim Erstellen des Tags.');
+            console.log(error);
           }
         });
       });
 
+
+
       $('#exampleModal').click(function(){
-        console.log('run');
-        $('#createTagModal').modal('show');
+        $('#model-form-tag').addClass('active');
       });
+
+      $('#tag-close').click(function(){
+        $('#model-form-tag').removeClass('active')
+      })
 
 
 

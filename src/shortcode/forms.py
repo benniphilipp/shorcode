@@ -88,7 +88,8 @@ class CreateTagForm(forms.ModelForm):
             Row(
                 Column('name', css_class='form-group col-12 my-2'),
                 css_class='row'
-            )
+            ),
+            HTML('<input id="createTagButton" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
         )
     class Meta:
         model = Tag

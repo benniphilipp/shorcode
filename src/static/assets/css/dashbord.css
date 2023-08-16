@@ -168,3 +168,38 @@
 #reset-filter-btn i{
     font-size: 1.4rem;
 }
+
+/* Tag form */
+.tag-overlay{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 99999;
+    background-color: rgb(158 195 220 / 60%);
+}
+
+.tag-overlay.active{
+    display: flex;
+}
+
+.tag-overlay-body{
+    padding: 30px;
+    min-width: 400px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.tag-overlay-body label{
+    margin-bottom: 10px;
+}
+
+.tag-overlay-body i{
+    cursor: pointer;
+    font-size: 23px;
+}
+
