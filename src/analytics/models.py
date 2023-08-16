@@ -39,7 +39,7 @@ class DailyClick(models.Model):
     
 # IPGeolocation
 class IPGeolocation(models.Model):
-    ip_address = models.GenericIPAddressField()
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     region = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
@@ -50,4 +50,4 @@ class IPGeolocation(models.Model):
     browser = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return self.ip_address
+        return 'ip'

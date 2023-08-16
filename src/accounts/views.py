@@ -54,8 +54,8 @@ class URLRedirectView(View):
         user_agent_info = self.get_user_agent_info(request)
         print(user_agent_info)
 
-        ip_address = request.META.get('REMOTE_ADDR')
-        
+        ip_address = request.META.get('HTTP_X_REAL_IP', '')
+
         try:
             response = requests.get(f'https://ipapi.co/{ip_address}/json/')
             if response.status_code == 200:
@@ -79,9 +79,12 @@ class URLRedirectView(View):
                     browser=user_agent_info['browser']
                 )
                 ip_geolocation.save()
+                print("IP Geolocation saved successfully!")  # Debug output
+            else:
+                print("IP API request failed with status code:", response.status_code)  # Debug output
                 
         except requests.exceptions.RequestException:
-
+                print("IP API request exception:", e) 
                 latitude = 0.0
                 longitude = 0.0
                 city = "Unknown"

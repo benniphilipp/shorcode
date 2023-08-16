@@ -30,6 +30,13 @@ python3 manage.py runserver 0.0.0.0:8000
 python manage.py collectstatic
 python manage.py createsuperuser
 
+# Pip
+pip freeze > requirements.txt
+pip install -r requirements.txt
+
+# Server
+sudo reboot
+
 # ENV
 . env/bin/activate
 . myprojectenv/bin/activate
@@ -63,3 +70,7 @@ pw@web.de
 
 benniph86@gmail.com
 TqXRm5ikowzmYtZVyCMC
+
+
+# Framworks
+https://apexcharts.com/features/
