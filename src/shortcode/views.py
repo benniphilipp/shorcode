@@ -11,7 +11,7 @@ import csv
 from django.http import HttpResponse
 
 from accounts.models import CustomUser
-from .models import ShortcodeClass
+from .models import ShortcodeClass, Tag
 from .forms import ShortcodeClassForm
 from django.utils import timezone
 from analytics.models import ClickEvent
@@ -59,7 +59,10 @@ def post_crate_view(request):
 #Detaile Update View
 @login_required(login_url="/login/")
 def post_detaile_data_view(request, pk):
+    
     obj = ShortcodeClass.objects.get(pk=pk)
+    tags = [tag.id for tag in obj.tags.all()]
+    
     data = {
         'id': obj.pk,
         'url_destination': obj.url_destination,
@@ -73,6 +76,7 @@ def post_detaile_data_view(request, pk):
         'url_content': obj.url_content,
         'shortcode': obj.shortcode,
         'get_short_url': obj.get_short_url,
+        'tags': tags,
     }
     return JsonResponse({'data':data})
 
@@ -105,7 +109,8 @@ def update_post(request, pk):
         new_campaign    = request.POST.get('url_campaign')
         new_content     = request.POST.get('url_content')
         new_shortcode     = request.POST.get('shortcode_id')
-        
+        new_tags        = request.POST.get('tags')
+        print(new_tags)
         obj.shortcode = new_shortcode
         obj.url_destination = new_destination
         obj.url_titel       = new_titel
@@ -114,6 +119,12 @@ def update_post(request, pk):
         obj.url_term        = new_term
         obj.url_campaign    = new_campaign
         obj.url_content     = new_content
+        
+        if new_tags:
+            tag_ids = [int(tag_id) for tag_id in new_tags.split(',')]  # Konvertiere die Tag-IDs in eine Liste von Integers
+            obj.tags.set(tag_ids)
+        
+        
         cache.delete('json_list_view_cache_key')
         obj.save()
         return JsonResponse({'success': 'Dein link wurde erfolgreich geändert',})

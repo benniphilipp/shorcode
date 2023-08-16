@@ -9,6 +9,14 @@ from .utils import create_shortcode
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 # Create your models here.
 class ShortcodeClass(models.Model):
     url_destination     = models.CharField(max_length=520, blank=False)
@@ -23,6 +31,8 @@ class ShortcodeClass(models.Model):
     url_archivate       = models.BooleanField(default=False)
     url_active          = models.BooleanField(default=True)
     favicon_path        = models.CharField(max_length=255, blank=True, null=True)
+    
+    tags                = models.ManyToManyField(Tag, related_name='shortcodes')
     
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     

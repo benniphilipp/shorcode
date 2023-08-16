@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ShortcodeClass
-# Register your models here.
+from .models import ShortcodeClass, Tag
 
 admin.site.register(ShortcodeClass)
+admin.site.register(Tag)

@@ -29,6 +29,13 @@ $(document).ready(function(){
         $('#id_url_campaign').val('')
         $('#id_url_content').val('')
         $('#id_shortcode').val('')
+
+        const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+        tagsCheckboxes.each(function(index, checkbox) {
+            const tagValue = parseInt($(checkbox).val());
+
+            $(checkbox).prop('checked', '');
+        });
     }
 
     // Open Sidebar
@@ -125,6 +132,7 @@ $(document).ready(function(){
         var idShortcode = $('#update-shortcode-url').val();
         const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
         $('#archive-btn').attr('data-archive', idShortcode);
+        //const tags = formData.filter(item => item.name === 'tags')[0].value.split(',');
 
         // console.log(url_update);
 
@@ -140,6 +148,13 @@ $(document).ready(function(){
         fd.append('url_content', url_content.value);
         fd.append('shortcode_id', idShort.value);
 
+
+        const selectedTags = [];
+        $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
+            selectedTags.push($(this).val());
+
+        });
+        fd.append('tags', selectedTags.join(','));
 
         $.ajax({
             type: 'POST',
@@ -174,9 +189,6 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
         })
-
-
-
     })
 
 
@@ -388,7 +400,19 @@ $(document).ready(function(){
                 url_content.value = data.url_content;
                 url_campaign.value = data.url_campaign;
                 idShort.value = data.shortcode;
+
                 $(shortcode_id).html(data.get_short_url);  
+
+                // Tags-Felder auswählen
+                const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+                console.log(tagsCheckboxes)
+                tagsCheckboxes.each(function(index, checkbox) {
+                    const tagValue = parseInt($(checkbox).val());
+                    const tagIsSelected = data.tags.includes(tagValue);
+                    $(checkbox).prop('checked', tagIsSelected);
+                });
+
+                tagsCheckboxes.trigger('change');
 
             },
             error: function(error){

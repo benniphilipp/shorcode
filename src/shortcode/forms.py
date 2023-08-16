@@ -6,7 +6,7 @@ from crispy_forms.bootstrap import InlineCheckboxes
 
 from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, BooleanField
 
-from .models import ShortcodeClass
+from .models import ShortcodeClass, Tag
 
 class ShortcodeClassForm(forms.ModelForm):
 
@@ -18,11 +18,18 @@ class ShortcodeClassForm(forms.ModelForm):
     url_campaign = forms.CharField(label="Campaign", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B spring_sale'}))
     url_term = forms.CharField(label="Term", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
     url_content = forms.CharField(label="Content", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'id_tags'}), required=False)
+    # tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.filter(is_active=True, is_loaded=False), required=False)
     #url_archivate = forms.BooleanField(label="Archiviert", initial=True, required=False) 
     
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        if self.instance.pk:
+            # Wenn es eine Instanz gibt (also ein Bearbeiten stattfindet)
+            self.initial['tags'] = self.instance.tags.all()
+        
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
@@ -51,6 +58,11 @@ class ShortcodeClassForm(forms.ModelForm):
                 Column('url_content', css_class='form-group col-md-6 my-2 disabled-func'),
                 css_class='row'
             ),
+            Row(
+                Column('tags', css_class='form-group col-12 my-2'),
+                css_class='row'
+            ),
+            HTML('<div class="row"><div class="form-group col-12 my-2"></div></div>'),
             #Field('url_archivate', css_class="form-check-input", wrapper_class="form-check form-switch"),
             Hidden('url_creator', '{{ admin }}'),
             HTML('<input id="crate-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Neuen Link Kreieren">'),
@@ -59,7 +71,7 @@ class ShortcodeClassForm(forms.ModelForm):
     
     class Meta:
         model = ShortcodeClass
-        fields = ['url_destination' , 'url_titel', 'url_source', 'url_medium', 'url_campaign', 'url_term', 'url_content', 'url_creator', 'url_archivate', 'shortcode']
+        fields = ['url_destination' , 'url_titel', 'url_source', 'url_medium', 'url_campaign', 'url_term', 'url_content', 'url_creator', 'url_archivate', 'tags', 'shortcode']
         
         widgets = {
             'url_creator': HiddenInput(),
