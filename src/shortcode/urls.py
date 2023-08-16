@@ -7,6 +7,8 @@ from .views import (
         archive_post, update_post, 
         ShortcodeArchiveListView, 
         export_shortcodes_to_excel,
+        filter_and_search_shortcodes,
+        get_all_tags,
         shortcode_view)
 
 from django.contrib.auth.decorators import login_required
@@ -23,4 +25,6 @@ urlpatterns = [
     path('update/<pk>/', update_post, name='dashboard-update'),
     path('update/<pk>/view/', post_detaile_data_view, name='dashboard-update-view'),
     path('get_favicon/', GetFaviconView.as_view(), name='get_favicon'),
+    path('serach/', filter_and_search_shortcodes, name='serach'),
+    path('tags/', get_all_tags, name='tags'),
 ]

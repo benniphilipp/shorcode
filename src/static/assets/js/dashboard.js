@@ -566,7 +566,7 @@ $('.shortcode-class').on('click', function() {
                     <small class="text-muted short-links-footer">
                         <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
                         <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
-                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
+                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> ${item.tags.join(', ')} Tags</span>
                     </small>
                     `);
                     shortcodeList.append(shortcodeItem);
@@ -576,11 +576,11 @@ $('.shortcode-class').on('click', function() {
                     totalShortcodes = response.total_shortcodes;
                 }
                 
-                if (serialized_data.length === 0 || response.page * response.per_page >= totalShortcodes) {
-                    $('#load-more-button').hide();
-                } else {
-                    $('#load-more-button').show();
-                }
+                // if (serialized_data.length === 0 || response.page * response.per_page >= totalShortcodes) {
+                //     $('#load-more-button').hide();
+                // } else {
+                //     $('#load-more-button').show();
+                // }
     
                 currentPage += 1;  // Aktualisiere die aktuelle Seite
                 start_index = response.start_index;
@@ -680,6 +680,104 @@ $('.shortcode-class').on('click', function() {
     $('#export-button').on('click', function() {
         var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
         exportSelectedShortcodes(csrfToken);
+    });
+
+
+
+    //Search
+    $('#filter-search-form').on('change', function(event) {
+        event.preventDefault();
+
+        $('#reset-filter-btn').removeClass('d-none')
+        var shortcodeList = $('#shortcode-list');
+        var selectedTag = $('#tag-filter').val();
+
+        const searchQuery = $('#search-input').val();
+        $.ajax({
+            type: 'GET',
+            url: '/shortcode/serach/',  // Passe die URL an
+            data: {
+                tags: [selectedTag],
+                q: searchQuery
+            },
+            success: function(response) {
+                const shortcodes = response.shortcodes;
+                // Verarbeite die Shortcodes-Daten und aktualisiere die Anzeige
+
+                $('#shortcode-list').empty();
+
+                shortcodes.forEach(function(item) {
+                    console.log(item)
+                    var shortUrl = item.get_short_url;
+                    if (shortUrl.length > 90) {
+                        shortUrl = shortUrl.substring(0, 90) + '...';
+                    }
+
+                    var shortDestination = item.url_destination;
+                    if (shortDestination.length > 90) {
+                        shortDestination = shortDestination.substring(0, 90) + '...';
+                    }
+
+                    // shortcodeList hinzufügen
+                    var shortcodeItem = $('<div class="card p-3 my-3 border border-0">');
+                    shortcodeItem.append(`<div class="card-header header-elements"> <form id="shortcode-form"><input type="checkbox" name="selected_shortcodes" value="shortcode_id_${item.short_id}"></form> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
+                    shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
+                    shortcodeItem.append(`<div class="card-footer">
+                    <small class="text-muted short-links-footer">
+                        <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
+                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
+                    </small>
+                    `);
+                    shortcodeList.append(shortcodeItem);
+                });
+
+
+                // console.log(shortcodes);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+
+
+    // Tags View for filter
+    function loadTags() {
+        $.ajax({
+            type: 'GET',
+            url: '/shortcode/tags/',  // Passe die URL an
+            success: function(response) {
+                const tags = response.tags;
+
+                // Verarbeite die Tags und aktualisiere den Filter
+                const tagFilter = $('#tag-filter');
+                tagFilter.empty();
+                tags.forEach(function(tag) {
+                    const option = $('<option>').text(tag).val(tag);
+                    tagFilter.append(option);
+                });
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    
+    // Rufe die Tags beim Laden der Seite auf
+    loadTags();
+
+
+    //Filter Reste
+    $('#reset-filter-btn').on('click', function(event) {
+
+        $('#tag-filter').val([]); // Dies setzt die Auswahl der Tags zurück
+        $('#shortcode-list').empty();
+        $('#reset-filter-btn').addClass('d-none')
+
+        loadMore();
     });
 
 

@@ -1,6 +1,6 @@
 
 import requests
-
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
@@ -19,6 +19,42 @@ from django.db.models import Count
 from bs4 import BeautifulSoup
 
 from django.core.cache import cache
+
+#View Tags
+def get_all_tags(request):
+    tags = Tag.objects.all().values_list('name', flat=True)
+    return JsonResponse({'tags': list(tags)})
+
+# Suche
+def filter_and_search_shortcodes(request):
+    query = request.GET.get('q')
+    tags = request.GET.getlist('tags[]')  # Mehrere Tags als Liste
+    shortcodes = ShortcodeClass.objects.all()
+
+    if tags:
+        shortcodes = shortcodes.filter(url_creator=request.user, tags__name__in=tags)
+
+    if query:
+        shortcodes = shortcodes.filter(url_creator=request.user, url_titel__icontains=query)
+
+    for shortcode in shortcodes:
+        try:
+            click_event = ClickEvent.objects.get(short_url=shortcode)
+            click_count = click_event.count
+        except ClickEvent.DoesNotExist:
+            click_count = 0
+
+    data = [{
+        'short_id': shortcode.pk,
+        'url_titel': shortcode.url_titel,
+        'get_short_url': shortcode.get_short_url,
+        'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),
+        'click_count': click_count,
+        'url_destination': shortcode.url_destination,
+        'shortcode': shortcode.shortcode,
+        'favicon_path': shortcode.favicon_path,
+        } for shortcode in shortcodes]
+    return JsonResponse({'shortcodes': data})
 
 
 #Archive
@@ -110,7 +146,7 @@ def update_post(request, pk):
         new_content     = request.POST.get('url_content')
         new_shortcode     = request.POST.get('shortcode_id')
         new_tags        = request.POST.get('tags')
-        print(new_tags)
+
         obj.shortcode = new_shortcode
         obj.url_destination = new_destination
         obj.url_titel       = new_titel
@@ -154,14 +190,16 @@ def load_shortcode_data_view(request):
 
         shortcodes = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=False)[start_index:end_index]
         
-        data = []
+        
+        data = []  
         for shortcode in shortcodes:
             try:
                 click_event = ClickEvent.objects.get(short_url=shortcode)
                 click_count = click_event.count
             except ClickEvent.DoesNotExist:
                 click_count = 0
-
+                
+            tags = [tag.name for tag in shortcode.tags.all()]
             item = {
                 'short_id': shortcode.pk,
                 'url_titel': shortcode.url_titel,
@@ -170,8 +208,8 @@ def load_shortcode_data_view(request):
                 'click_count': click_count,
                 'url_destination': shortcode.url_destination,
                 'shortcode': shortcode.shortcode,
-                'favicon_path': shortcode.favicon_path
-                # Füge hier weitere Felder hinzu, die du im JSON-Format anzeigen möchtest
+                'favicon_path': shortcode.favicon_path,
+                'tags': tags
             }
             data.append(item)
 
