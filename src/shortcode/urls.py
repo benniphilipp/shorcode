@@ -12,6 +12,7 @@ from .views import (
         CreateTagView,
         TagDeleteView,
         TagListView,
+        edit_tag,
         shortcode_view)
 
 from django.contrib.auth.decorators import login_required
@@ -32,5 +33,6 @@ urlpatterns = [
     path('tags/', get_all_tags, name='tags'),
     path('tags-create/', CreateTagView.as_view(), name='tags-create'),
     path('tags-list/', TagListView.as_view(), name='tag-list'),
+    path('tags-edit/<int:tag_id>/', edit_tag, name='tag-edit'),
     path('tags-delete/<int:tag_id>/', TagDeleteView.as_view(), name='tag-delete'),
 ]

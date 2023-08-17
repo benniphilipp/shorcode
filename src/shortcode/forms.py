@@ -79,7 +79,7 @@ class ShortcodeClassForm(forms.ModelForm):
         
         
 class CreateTagForm(forms.ModelForm):
-    name = forms.CharField(label="Tags", required=False, widget=forms.TextInput(attrs={'placeholder': 'Tags'}))
+    name = forms.CharField(label="", required=False, widget=forms.TextInput(attrs={'placeholder': 'Tags erstellen'}))
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -89,7 +89,7 @@ class CreateTagForm(forms.ModelForm):
                 Column('name', css_class='form-group col-12 my-2'),
                 css_class='row'
             ),
-            HTML('<input id="createTagButton" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
+            HTML('<input id="createTagButton" class="btn btn-primary mt-3 mb-3" type="submit" value="Speichern">'),
         )
     class Meta:
         model = Tag

@@ -790,8 +790,10 @@ $('.shortcode-class').on('click', function() {
     $('#tag-close').click(function(){
         $('.form-tag-view').css('display', 'block');
         $('#model-form-tag').removeClass('active');
+        $('#tag-list-edit').css('display', 'none');
         $('#id_name').val('');
         $('#tag-edit').html('<span id="tag-edit">Tags Löschen oder Bearbeiten</span>')
+        $('.icon-modal-right').css('display', 'block');
     })
 
     //Create Tags
@@ -834,10 +836,15 @@ $('.shortcode-class').on('click', function() {
                 let tagOptions = '';
 
                 tags.forEach(tag => {
-                    tagOptions += `<li class="delete-tag-button" id="tag-${tag.id}" data-tag-id="${tag.id}">${tag.name}</li>`;
+                    tagOptions += `
+                    <div class="input-group mb-3" id="tag-${tag.id}">
+                        <input type="text" class="form-control" id="tag-value${tag.id}" value="${tag.name}" placeholder="">
+                        <button class="btn btn-outline-danger delete-tag-button" type="button" data-tag-id="${tag.id}">Löschen</button>
+                        <button class="btn btn-outline-primary edit-tag-button" type="button" data-tag-id="${tag.id}">Änderungen speichern</button>
+                    </div>`
                 });
                 
-                $('#tag-edit').html(`<ul>${tagOptions}</ul>`);
+                $('#tag-list-edit').html(`${tagOptions}`);
 
             },
             error: function(error) {
@@ -846,17 +853,21 @@ $('.shortcode-class').on('click', function() {
         });
     }
 
-    // Edit Tag Open
+    
+    // Open Model Tags Bearbeiten
     $('#tag-edit').click(function(){
-        
         $('.form-tag-view').css('display', 'none');
+        $('#tag-list-edit').css('display', 'block');
+        $('.icon-modal-right').css('display', 'none');
+        $('#tag-edit').html(``);
+
         //Load Tags ID
         load_tags_id();
-
     })
 
+
     // Delete Tag func
-    $('#tag-edit').on('click', '.delete-tag-button', function() {
+    $('#tag-list-edit').on('click', '.delete-tag-button', function() {
         const tagId = $(this).data('tag-id');
         var csrfToken = getCookie('csrftoken');
         console.log(tagId);
@@ -872,6 +883,33 @@ $('.shortcode-class').on('click', function() {
             },
             error: function(error) {
                 // Fehlerverarbeitung
+            }
+        });
+    });
+
+
+    // AJAX for editing tags
+    $('#tag-list-edit').on('click', '.edit-tag-button', function(event) {
+        event.preventDefault();
+        const tagId = $(this).data('tag-id');
+        var csrfToken = getCookie('csrftoken');
+
+        const tagName = $('#tag-value'+tagId).val();  // Input field for tag name
+        console.log(tagName)
+        $.ajax({
+            type: 'POST',
+            url: `/shortcode/tags-edit/${tagId}/`,
+            data: {
+                csrfmiddlewaretoken: csrfToken,
+                tag_name: tagName,
+            },
+            success: function(response) {
+                // Handle success, e.g., close modal, refresh tag list, etc.
+                load_tags_id();
+            },
+            error: function(error) {
+                // Handle error
+                console.log(error);
             }
         });
     });

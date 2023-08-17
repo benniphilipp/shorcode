@@ -203,8 +203,36 @@
     font-size: 23px;
 }
 
+#tag-list-edit{
+    display: none;
+}
+
 #tag-edit{
     cursor: pointer;
     color: #0c3ebb;
+    padding-right: 8px;
+    display: inline-block;
+}
+
+
+.icon-modal-left,
+.icon-modal-right{
+    font-size: 20px !important;
+    margin-top: -1px;
+}
+.icon-modal-left{
+    color: #0c3ebb;
+    display: none;
+}
+.icon-modal-right{
+    color: #0c3ebb;
+    display: block;
+}
+
+.model-box:hover > .icon-modal-left,
+#tag-edit:hover,
+#tag-edit:hover + .icon-modal-left,
+#tag-edit:hover + .icon-modal-right{
+    color: #6c757d;
 }
 

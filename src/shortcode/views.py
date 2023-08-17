@@ -311,5 +311,16 @@ class TagListView(View):
         data = [{'id': tag.id, 'name': tag.name} for tag in tags]
         return JsonResponse({'tags': data})
 
+# View Tag Edit
+def edit_tag(request, tag_id):
+    if request.method == 'POST':
+        tag = get_object_or_404(Tag, id=tag_id)
+        new_tag_name = request.POST.get('tag_name')
+        print(new_tag_name)
+        tag.name = new_tag_name
+        tag.save()
+
+        return JsonResponse({'message': 'Tag updated successfully.'})
+
 #Delete
 #https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes
