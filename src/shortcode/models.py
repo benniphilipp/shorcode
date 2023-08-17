@@ -12,6 +12,7 @@ SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,)
 
     def __str__(self):
         return self.name

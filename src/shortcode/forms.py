@@ -89,6 +89,7 @@ class CreateTagForm(forms.ModelForm):
                 Column('name', css_class='form-group col-12 my-2'),
                 css_class='row'
             ),
+            Hidden('user', '{{ admin }}'),
             HTML('<input id="createTagButton" class="btn btn-primary mt-3 mb-3" type="submit" value="Speichern">'),
         )
     class Meta:

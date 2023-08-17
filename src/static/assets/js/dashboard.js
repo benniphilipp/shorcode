@@ -810,20 +810,21 @@ $('.shortcode-class').on('click', function() {
             csrfmiddlewaretoken: csrf_token
           },
           success: function(response) {
-           
-            $('#id_name').val('');
-
             loadTags();
+            $('#id_name').val('');
             $('#model-form-tag').removeClass('active');
-            
-
           },
-          error: function(error) {
-            console.log(error);
+          error: function(xhr, textStatus, errorThrown) {
+            var responseJson = xhr.responseJSON;
+            if (responseJson && responseJson.message) {
+              $('#error-message').text(responseJson.message);
+            } else {
+              $('#error-message').text('Ein Fehler ist aufgetreten.');
+            }
+            $('#error-modal').modal('show');
           }
         });
     });
-
 
     // Load Tags
     function load_tags_id(){
@@ -882,6 +883,7 @@ $('.shortcode-class').on('click', function() {
                 $(`#tag-${tagId}`).remove();
             },
             error: function(error) {
+                console.log(error);
                 // Fehlerverarbeitung
             }
         });
