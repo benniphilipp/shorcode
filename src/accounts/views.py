@@ -50,12 +50,18 @@ class URLRedirectView(View):
             raise Http404
 
         obj = qs.first()
-
         user_agent_info = self.get_user_agent_info(request)
-        print(user_agent_info)
 
         ip_address = request.META.get('HTTP_X_REAL_IP', '')
+        print(ip_address)
+        
+        # Referrer
+        referrer = request.META.get('HTTP_REFERER', None)
 
+        if referrer:
+            # Verarbeite den Referrer hier weiter
+            print(f"Referrer: {referrer}")
+            
         try:
             response = requests.get(f'https://ipapi.co/{ip_address}/json/')
             if response.status_code == 200:
@@ -70,6 +76,7 @@ class URLRedirectView(View):
                 ip_geolocation = IPGeolocation(
                     ip_address=ip_address,
                     latitude=latitude,
+                    shortcode=obj,
                     longitude=longitude,
                     city=city,
                     country=country_name,

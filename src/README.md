@@ -37,6 +37,10 @@ pip install -r requirements.txt
 # Server
 sudo reboot
 
+source myprojectenv/bin/activate
+python manage.py clearcache
+
+
 # ENV
 . env/bin/activate
 . myprojectenv/bin/activate

@@ -39,6 +39,7 @@ class DailyClick(models.Model):
     
 # IPGeolocation
 class IPGeolocation(models.Model):
+    shortcode = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE, related_name='geolocations')
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     region = models.CharField(max_length=100, blank=True, null=True)
@@ -48,6 +49,7 @@ class IPGeolocation(models.Model):
     os = models.CharField(max_length=100, blank=True, null=True)
     device = models.CharField(max_length=100, blank=True, null=True)
     browser = models.CharField(max_length=100, blank=True, null=True)
+    timestamp   = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'ip'
+        return f'IPGeolocation for Shortcode: {self.shortcode.shortcode}'

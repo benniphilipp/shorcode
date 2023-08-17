@@ -565,7 +565,7 @@ $('.shortcode-class').on('click', function() {
                     shortcodeItem.append(`<div class="card-footer">
                     <small class="text-muted short-links-footer">
                         <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
-                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+                        <span class="short-chart" data-anaylyse="${ item.short_id }"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
                         <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> ${item.tags.join(', ')} Tags</span>
                     </small>
                     `);
@@ -601,9 +601,6 @@ $('.shortcode-class').on('click', function() {
     $('#load-more-button').on('click', loadMore);
 
 
-    // onClick copy to clipboard
-    console.clear()
-
     //Copy Button color
     $('#shortcode-list').on("click", '.btn-copy', function(event){
         event.preventDefault();
@@ -616,6 +613,8 @@ $('.shortcode-class').on('click', function() {
         $('.color' + buttonId).addClass('bg-success text-white');
         setTimeout(()=>{
             $('.color' + buttonId).removeClass('bg-success text-white');
+                // onClick copy to clipboard
+                console.clear()
         }, 2000);
 
     })
@@ -725,7 +724,7 @@ $('.shortcode-class').on('click', function() {
                     shortcodeItem.append(`<div class="card-footer">
                     <small class="text-muted short-links-footer">
                         <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
-                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+                        <span class="short-chart" data-anaylyse="${ item.short_id }"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
                         <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
                     </small>
                     `);

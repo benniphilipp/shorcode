@@ -295,7 +295,6 @@ class CreateTagView(View):
 #View Tags
 def get_all_tags(request):
     tags = Tag.objects.filter(user=request.user).values_list('name', flat=True)
-    print(tags)
     return JsonResponse({'tags': list(tags)})
 
 
