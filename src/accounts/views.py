@@ -208,3 +208,25 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     success_url = reverse_lazy('accounts:login')
     
 
+
+
+
+# Test API
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from django.shortcuts import get_object_or_404
+from .models import APIKey  # Annahme: Du hast ein Modell für API-Keys
+from .serializers import ClickDataSerializer 
+
+
+@api_view(['POST'])
+def save_click_data(request):
+    api_key = request.data.get('api_key')
+    print("Received API Key:", api_key)
+    
+    # Weitere Verarbeitung oder Aktionen hier...
+    
+    return Response({'message': 'Data received and processed.'}, status=status.HTTP_200_OK)

@@ -55,7 +55,7 @@ python manage.py clearcache
     - Push
     git add .
     git commit -m '_text'
-    git push origin _create_
+    git push origin create
 
 # SMPTP
 

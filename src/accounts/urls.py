@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, RegisterView, CustomLoginView, ResetPasswordView, UserProfileView
+from .views import home, RegisterView, CustomLoginView, ResetPasswordView, UserProfileView, save_click_data
 from django.contrib.auth import views as auth_views
 from accounts.forms import LoginForm
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='accounts/login.html', authentication_form=LoginForm), name='login'),
     path('profile/<pk>/', UserProfileView.as_view(), name='user-profile'),
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('api/v1/save_click_data/', save_click_data, name='save_click_data'),
 ]

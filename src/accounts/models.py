@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+
+import secrets
+import string
 
 from django.utils import timezone
 
@@ -50,3 +54,26 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+# Test Demo data
+class APIKey(models.Model):
+    key = models.CharField(max_length=255, unique=True, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.key:  # Wenn das Feld leer ist (nur bei Erstellung eines neuen Objekts)
+            self.key = self.generate_key()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def generate_key(length=32):
+        characters = string.ascii_letters + string.digits
+        api_key = ''.join(secrets.choice(characters) for _ in range(length))
+        return api_key
+
+
+
+
+
+

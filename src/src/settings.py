@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #Party
+    'rest_framework',
     'taggit',
     'fontawesomefree',
     'corsheaders',
@@ -38,6 +39,13 @@ INSTALLED_APPS = [
     'accounts',
     'analytics',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
