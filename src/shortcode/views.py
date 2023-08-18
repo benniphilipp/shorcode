@@ -10,12 +10,13 @@ from django.shortcuts import get_object_or_404
 from django.views import View
 import csv
 from django.http import HttpResponse
+from datetime import timedelta, date, datetime
 
 from accounts.models import CustomUser
 from .models import ShortcodeClass, Tag
 from .forms import ShortcodeClassForm, CreateTagForm
 from django.utils import timezone
-from analytics.models import ClickEvent
+from analytics.models import ClickEvent, DailyClick, IPGeolocation
 from django.db.models import Count
 from bs4 import BeautifulSoup
 
@@ -322,6 +323,6 @@ def edit_tag(request, tag_id):
         tag.save()
 
         return JsonResponse({'message': 'Tag updated successfully.'})
-
+    
 #Delete
 #https://stackoverflow.com/questions/27625425/django-and-ajax-delete-multiple-items-wth-check-boxes

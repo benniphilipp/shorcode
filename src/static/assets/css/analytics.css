@@ -19,10 +19,21 @@
     color: #0c3ebb; 
 }
 
+.short-chart,
+.fa-link,
+.fa-computer-mouse,
+#shorcode-url{
+    color: #0c3ebb;
+}
+
+.short-chart:hover,
+#icon-close-trigger:hover{
+    color: #0c3ebb;
+}
+
 .fa-link,
 .fa-computer-mouse{
     font-size: 40px;
-    color: #0c3ebb;
 }
 
 /* anayltics-overlay */
@@ -47,11 +58,6 @@
     display: inline-block;
 }
 
-#icon-close-trigger:hover{
-    color: #0c3ebb;
-}
-
-
 #icon-close-trigger i{
     font-size: 28px;
     display: inline-block;
@@ -63,9 +69,12 @@ body.overlay{
 
 .short-chart{
     cursor: pointer;
+    font-weight: bold;
     text-decoration: underline;
 }
 
-.short-chart:hover{
-    color: #0c3ebb;
+#shorcode-url{
+    font-size: 17px;
+    font-weight: bold;
 }
+

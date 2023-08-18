@@ -6,7 +6,7 @@
             <div class="col-12 d-flex justify-content-between">
                 <div class="text-hradline">
                     <h2>Link-Statistiken</h2>
-                    <h3>http://127.0.0.1:8000/shortcode/list/</h3>
+                    <h3 id="shorcode-url">http://127.0.0.1:8000/shortcode/list/</h3>
                 </div>
                 <div class="icon-close">
                     <div id="icon-close-trigger">
@@ -16,28 +16,34 @@
             </div>
         </div>
     </div>
-
+<a href=""></a>
 
     <div class="container mt-3 pt-3">
         <div class="row">
             <div class="col-12 col-lg-3">
-                <div class="card">
-                    <h6>Erstellt am</h6>
+                <div class="card h-100 border-0 d-flex align-items-center justify-content-center">
+                    <div>
+                        <h6>Erstellt am</h6>
+                        <p id="creation_date" class="text-center mb-0"></p>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card">
-                    <h6>Daten ansicht</h6>
-                </div>
-            </div>
-            <div class="col-12 col-lg-3">
-                <div class="card">
+                <div class="card h-100 border-0 d-flex align-items-center justify-content-center">
                     <h6>Letze änderung</h6>
+                    <p id="last_modification_date" class="text-center mb-0"></p>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card">
-                    <h6>Weitergelitet</h6>
+                <div class="card h-100 border-0 d-flex align-items-center justify-content-center py-5">
+                    <h6>Daten ansicht</h6>
+                    <p id="redirections_counter" class="text-center mb-0"></p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="card h-100 border-0 d-flex align-items-center justify-content-center">
+                    <h6>Original link</h6>
+                    <p id="id-destination" class="text-center mb-0"></p>
                 </div>
             </div>
         </div>
@@ -46,7 +52,7 @@
     <div class="container mt-3 pt-3">
         <div class="row">
             <div class="col-12 col-lg-6">
-                <div class="card h-100">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Intervall</h5>
                     </div>
@@ -56,7 +62,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-6">
-                <div class="card h-100">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Top Länder</h5>
                     </div>
@@ -71,63 +77,47 @@
     <div class="container mt-3 pt-3">
         <div class="row">
             <div class="col-12 col-lg-3">
-                <div class="card">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Top Städte</h5>
                     </div>
                     <ul class="list-group p-2 list-group-flush">
-                        <li class="list-group-item">An active item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        <li class="list-group-item">A fourth item</li>
-                        <li class="list-group-item">And a fifth one</li>
-                      </ul>
+                        <div id="top-countries-list"></div>
+                    </ul>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Top Browser</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">An active item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                            <li class="list-group-item">A fourth item</li>
-                            <li class="list-group-item">And a fifth one</li>
+                            <div id="top-browsers-list"></div>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Top-Betriebssysteme</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">An active item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                            <li class="list-group-item">A fourth item</li>
-                            <li class="list-group-item">And a fifth one</li>
+                            <div id="top-os-list"></div>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card">
+                <div class="card h-100 border-0">
                     <div class="card-header">
                         <h5>Top Referrer</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body border-0">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item" aria-current="true">An active item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                            <li class="list-group-item">A fourth item</li>
-                            <li class="list-group-item">And a fifth one</li>
+                            <div id="top-referrers-list"></div>
                         </ul>
                     </div>
                 </div>

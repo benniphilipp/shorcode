@@ -32,7 +32,8 @@ class ShortcodeClass(models.Model):
     url_archivate       = models.BooleanField(default=False)
     url_active          = models.BooleanField(default=True)
     favicon_path        = models.CharField(max_length=255, blank=True, null=True)
-    
+    created_at          = models.DateTimeField(default=timezone.now)
+    updated_at          = models.DateTimeField(default=timezone.now)
     tags                = models.ManyToManyField(Tag, related_name='shortcodes')
     
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
@@ -40,6 +41,12 @@ class ShortcodeClass(models.Model):
     def __str__(self):
         return self.url_titel
     
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
+        
     def save(self, *args, **kwargs):
         if self.shortcode is None or self.shortcode == "":
             self.shortcode = create_shortcode(self)

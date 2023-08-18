@@ -30,7 +30,7 @@ class ClickEvent(models.Model):
     
     
 class DailyClick(models.Model):
-    short_url = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE)
+    short_url = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE, related_name='daily_clicks')
     timestamp = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -50,6 +50,7 @@ class IPGeolocation(models.Model):
     device = models.CharField(max_length=100, blank=True, null=True)
     browser = models.CharField(max_length=100, blank=True, null=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
+    referrer = models.CharField(max_length=255, default="Unknown Referrer")
 
     def __str__(self):
         return f'IPGeolocation for Shortcode: {self.shortcode.shortcode}'
