@@ -27,7 +27,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import get_object_or_404
-from .models import APIKey 
+from .models import APIKey
 from .serializers import ClickDataSerializer, DataSerializer
 
 # Create your views here.
@@ -262,9 +262,6 @@ class SaveClickData(APIView):
                 return Response({'message': 'Error while storing data.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
 

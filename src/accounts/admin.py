@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 admin.site.register(CustomUser)
 
 
+
 class APIKeyAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
@@ -34,15 +35,6 @@ class APIKeyAdmin(admin.ModelAdmin):
         return api_key
 
 admin.site.register(APIKey, APIKeyAdmin)
-
-
-
-# class TokenAdmin(admin.ModelAdmin):
-#     list_display = ('key', 'user', 'created')
-#     list_filter = ('created',)
-
-# admin.site.unregister(Token) 
-# admin.site.register(Token, TokenAdmin) 
 
 
 
