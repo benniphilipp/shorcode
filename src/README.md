@@ -78,3 +78,13 @@ TqXRm5ikowzmYtZVyCMC
 
 # Framworks
 https://apexcharts.com/features/
+
+
+# API View
+website_title
+website_url
+referrer
+ip_address
+os
+device
+browser

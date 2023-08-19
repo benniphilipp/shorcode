@@ -5,6 +5,7 @@ from django.views import View
 from django.contrib.auth.views import LoginView
 import requests
 from user_agents import parse
+from analytics.models import ClickData
 
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -17,6 +18,17 @@ from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
 
 from analytics.models import ClickEvent, DailyClick, IPGeolocation
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import get_object_or_404
+from .models import APIKey 
+from .serializers import ClickDataSerializer, DataSerializer
 
 # Create your views here.
 def home(request):
@@ -211,22 +223,50 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 
 
 
-# Test API
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from .models import APIKey  # Annahme: Du hast ein Modell für API-Keys
-from .serializers import ClickDataSerializer 
+# Save Click Data Websiet
+class SaveClickData(APIView):
+    authentication_classes = [TokenAuthentication]
+    def post(self, request, format=None):
+
+        user_email = request.data.get('user_email')
+
+        try:
+            user = CustomUser.objects.get(email=user_email)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = DataSerializer(data=request.data)
+        if serializer.is_valid():
+            # Validierte Daten aus dem Serializer abrufen
+            website_title = serializer.validated_data['website_title']
+            website_url = serializer.validated_data['website_url']
+            referrer = serializer.validated_data['referrer']
+            ip_address = serializer.validated_data['ip_address']
+            os = serializer.validated_data['os']
+            device = serializer.validated_data['device']
+            browser = serializer.validated_data['browser']
+            try:
+                ClickData.objects.create(
+                    user=user,  # Aktuellen Benutzer speichern
+                    website_title=website_title,
+                    website_url=website_url,
+                    referrer=referrer,
+                    ip_address=ip_address,
+                    os=os,
+                    device=device,
+                    browser=browser
+                )
+                return Response({'message': 'Data received and stored.'}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({'message': 'Error while storing data.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def save_click_data(request):
-    api_key = request.data.get('api_key')
-    print("Received API Key:", api_key)
-    
-    # Weitere Verarbeitung oder Aktionen hier...
-    
-    return Response({'message': 'Data received and processed.'}, status=status.HTTP_200_OK)
+
+
+
+
+
+

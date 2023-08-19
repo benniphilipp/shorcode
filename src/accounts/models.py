@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+
 
 import secrets
 import string
@@ -23,6 +31,8 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
+        
+        create_token_for_user(user)
         return user
 
     def create_superuser(self, email, password, **extra_fields):
@@ -62,9 +72,14 @@ class APIKey(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        if not self.key:  # Wenn das Feld leer ist (nur bei Erstellung eines neuen Objekts)
+        if not self.key:
             self.key = self.generate_key()
+            self.create_token()
+            print(self.key)
         super().save(*args, **kwargs)
+
+    def create_token(self):
+        Token.objects.create(user=self.user)
 
     @staticmethod
     def generate_key(length=32):
@@ -74,6 +89,13 @@ class APIKey(models.Model):
 
 
 
+def create_token_for_user(user):
+    token, created = Token.objects.get_or_create(user=user)
+    return token
 
+@receiver(post_save, sender=get_user_model())
+def create_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        create_token_for_user(instance)
 
 

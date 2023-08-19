@@ -3,6 +3,7 @@ import environ
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 env = environ.Env(
 
@@ -17,6 +18,7 @@ DEBUG = env('DEBUG')
 
 SECRET_KEY = env('SECRET_KEY')
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,6 +29,7 @@ INSTALLED_APPS = [
     
     #Party
     'rest_framework',
+    'rest_framework.authtoken',
     'taggit',
     'fontawesomefree',
     'corsheaders',
@@ -42,12 +45,18 @@ INSTALLED_APPS = [
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

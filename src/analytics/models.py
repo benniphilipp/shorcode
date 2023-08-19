@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from accounts.models import CustomUser
 from shortcode.models import ShortcodeClass
 # Create your models here.
 
@@ -54,3 +54,20 @@ class IPGeolocation(models.Model):
 
     def __str__(self):
         return f'IPGeolocation for Shortcode: {self.shortcode.shortcode}'
+    
+
+
+
+class ClickData(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    website_title = models.CharField(max_length=255)
+    website_url = models.URLField()
+    referrer = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField()
+    os = models.CharField(max_length=255)
+    device = models.CharField(max_length=255)
+    browser = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.website_title} - {self.ip_address} - {self.timestamp}"
