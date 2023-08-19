@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('shortcode/', include('shortcode.urls')),
     path('analytics/', include('analytics.urls')),
+    path('webclicktracker/', include('webclicktracker.urls')),
     path('', include('accounts.urls')),
     url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]

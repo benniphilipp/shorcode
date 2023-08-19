@@ -18,6 +18,9 @@ DEBUG = env('DEBUG')
 
 SECRET_KEY = env('SECRET_KEY')
 
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,6 +44,8 @@ INSTALLED_APPS = [
     'shortcode',
     'accounts',
     'analytics',
+    'webclicktracker',
+    
 ]
 
 
@@ -98,7 +103,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'src.wsgi.application'
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 # Erkenne die aktuelle Umgebung
 if env('DJANGO_ENVIRONMENT') == 'local':

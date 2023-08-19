@@ -1,0 +1,6 @@
+<form id="input-form" method="POST">
+    {% csrf_token %}
+    <label for="url-input">URL:</label>
+    <input type="text" id="url-input" name="url" required>
+    <button id="submit-button" type="submit">Speichern</button>
+</form>

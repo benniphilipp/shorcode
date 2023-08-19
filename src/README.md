@@ -16,6 +16,9 @@ Django APPs:
 
 # Analytics
 
+# WebClickTracker
+webclicktracker
+
 # User
     email
     passwort
@@ -29,6 +32,8 @@ python3 manage.py runserver 0.0.0.0:8000
 
 python manage.py collectstatic
 python manage.py createsuperuser
+
+python3 manage.py startapp APP_NAME
 
 # Pip
 pip freeze > requirements.txt

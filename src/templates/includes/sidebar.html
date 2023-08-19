@@ -23,5 +23,9 @@
                 </a>
             </li>
             <li>
+                <a href="{% url 'webclicktracker:click_view' %}" class="nav-link {% if '/webclicktracker/' == request.get_full_path %} active {% endif %}">
+                    Websiten Trecker
+                </a>
+            </li>
         </ul>
     </div>
