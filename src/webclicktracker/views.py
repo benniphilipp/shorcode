@@ -118,7 +118,7 @@ def create_website(request):
 
 
 
-
+# Websiten reinigung
 def remove_duplicate_pages():
     # Zähle die Anzahl der Vorkommen jeder URL
     url_counts = WebsiteClick.objects.values('url').annotate(url_count=Count('url'))
@@ -148,7 +148,9 @@ def remove_duplicates_view(request):
 
 
 
-def save_website_click_recursive(url, user, parent_path=None, depth=0, max_depth=2, base_url=None):
+# Funktion Website crawler
+@csrf_exempt
+def save_website_click_recursive(url, user, website_instance, parent_path=None, depth=0, max_depth=2, base_url=None):
     if base_url is None:
         base_url = url  # Setze die ursprüngliche URL als Basis-URL
 
@@ -166,8 +168,8 @@ def save_website_click_recursive(url, user, parent_path=None, depth=0, max_depth
         # Überprüfen Sie, ob eine WebsiteClick-Instanz mit dem gleichen Titel und derselben URL existiert
         existing_click = WebsiteClick.objects.filter(title=title, url=url).first()
         if not existing_click:
-            # Wenn keine Instanz gefunden wurde, erstellen Sie eine neue
-            website_click = WebsiteClick.objects.create(url=url, click_path=url_path, title=title, user=user)
+            # Wenn keine Instanz gefunden wurde, erstellen Sie eine neue WebsiteClick-Instanz
+            website_click = WebsiteClick.objects.create(website=website_instance, click_path=url_path, title=title, url=url, user=user)
 
             if depth < max_depth:
                 for link in soup.find_all('a'):
@@ -176,37 +178,40 @@ def save_website_click_recursive(url, user, parent_path=None, depth=0, max_depth
                         full_link_url = urljoin(url, link_url)
                         parsed_url = urlparse(full_link_url)
                         if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(base_url).netloc:
-                            save_website_click_recursive(full_link_url, user, parent_path=url_path, depth=depth + 1, max_depth=max_depth, base_url=base_url)
+                            save_website_click_recursive(full_link_url, user, website_instance, parent_path=url_path, depth=depth + 1, max_depth=max_depth, base_url=base_url)
                             time.sleep(1)
 
                 for button in soup.find_all('button'):
                     button_text = button.text
                     button_id = button.get('id')
                     button_class = ' '.join(button.get('class', []))
-                    Button.objects.create(website_click=website_click, button_text=button_text, button_id=button_id, button_class=button_class)
+                    Button.objects.get_or_create(website_click=website_click, button_text=button_text, button_id=button_id, button_class=button_class)
 
                 for nav_link in soup.find_all('a'):
                     nav_link_url = nav_link.get('href')
                     if nav_link_url:
                         full_nav_link_url = urljoin(url, nav_link_url)
                         parsed_nav_link_url = urlparse(full_nav_link_url)
-                        if parsed_nav_link_url.scheme not in ('tel', 'mailto') and parsed_nav_link_url.netloc == urlparse(base_url).netloc:
+                        if (parsed_nav_link_url.scheme not in ('tel', 'mailto') and
+                                parsed_nav_link_url.netloc == urlparse(base_url).netloc):
                             nav_link_id = nav_link.get('id')
                             nav_link_class = ' '.join(nav_link.get('class', []))
-                            existing_link = Link.objects.filter(link=full_nav_link_url).first()
-                            if not existing_link:
-                                Link.objects.create(website_click=website_click, link=full_nav_link_url, link_id=nav_link_id, link_class=nav_link_class)
-                                time.sleep(1)
-                    
+                            Link.objects.get_or_create(website_click=website_click, link=full_nav_link_url, link_id=nav_link_id, link_class=nav_link_class)
+                            time.sleep(1)
 
+
+
+# Start Website crawler
+@csrf_exempt
 def save_click_view(request: HttpRequest):
     if request.method == 'POST' and request.is_ajax():
         url = request.POST.get('url')
-        user = request.user  # Hier den eingeloggten Benutzer abrufen
+        user = request.user
+
+        website_instance = Website.objects.get(url=url)  # Hier die entsprechende Logik, um die Website-Instanz zu erhalten
         
-        # Hier startet die rekursive Website-Analyse
-        save_website_click_recursive(url, user)  # Korrekte Argumente hinzugefügt
-        
+        save_website_click_recursive(url, user, website_instance)
+
         response_data = {
             'message': 'Analyse gestartet'
         }
@@ -214,3 +219,58 @@ def save_click_view(request: HttpRequest):
         return JsonResponse(response_data)
 
     return JsonResponse({'message': 'Fehler: Ungültige Anfrage'})
+
+
+
+
+# GoJS
+def website_data_json(request, website_id):
+    try:
+        website = Website.objects.get(id=website_id)
+    except Website.DoesNotExist:
+        return JsonResponse({'error': 'Website not found'}, status=404)
+
+    website_data = {
+        'id': website.id,
+        'url': website.url,
+        'title': website.title,
+        'favicon': website.favicon,
+        'first_image': website.first_image,
+        'meta_description': website.meta_description,
+        'user_id': website.user_id,
+        'clicks': []
+    }
+
+    website_clicks = WebsiteClick.objects.filter(website=website)  # Änderung: Filtere nach der Website
+    for click in website_clicks:
+        click_data = {
+            'id': click.id,
+            'click_path': click.url,
+            'title': click.title,
+            'user_id': click.user_id,
+            'links': [],
+            'buttons': []
+        }
+
+        links = Link.objects.filter(website_click=click)
+        for link in links:
+            link_data = {
+                'link': link.link,
+                'link_id': link.link_id,
+                'link_class': link.link_class
+            }
+            click_data['links'].append(link_data)
+
+        buttons = Button.objects.filter(website_click=click)
+        for button in buttons:
+            button_data = {
+                'button_text': button.button_text,
+                'button_id': button.button_id,
+                'button_class': button.button_class
+            }
+            click_data['buttons'].append(button_data)
+
+        website_data['clicks'].append(click_data)
+        
+    website_data['clicks'] = sorted(website_data['clicks'], key=lambda x: x['click_path'])
+    return JsonResponse(website_data)

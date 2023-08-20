@@ -5,7 +5,9 @@ from .views import (website_click_view,
                     save_website_click_recursive, 
                     create_website, 
                     website_list,
-                    website_detail)
+                    website_detail,
+                    website_data_json
+                    )
 
 app_name = 'webclicktracker'
 
@@ -17,6 +19,7 @@ urlpatterns = [
     path('create_website/', create_website, name='create_website'),
     path('website-list/', website_list, name='website_list'),
     path('website/<int:website_id>/', website_detail, name='website-detail'),
+    path('website/<int:website_id>/data/', website_data_json, name='website-data-json'),
     # path('analyse/<int:shortcode>/', click_analyse, name='click-data-analyse'),
     # path('click_data/', ClickDataView.as_view(), name='click-data'),
     # path('analytics/total-links/', total_links_json_view, name='total_links_json'),

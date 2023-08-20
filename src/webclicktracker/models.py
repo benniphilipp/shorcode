@@ -13,8 +13,6 @@ class Website(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
-
-
     def __str__(self):
         return self.url
 
@@ -23,6 +21,7 @@ class WebsiteClick(models.Model):
     url = models.URLField()
     click_path = models.TextField()
     title = models.CharField(max_length=200)
+    website = models.ForeignKey(Website, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,)
     created_at          = models.DateTimeField(default=timezone.now)
     updated_at          = models.DateTimeField(default=timezone.now)

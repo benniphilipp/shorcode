@@ -45,6 +45,7 @@ $(document).ready(function() {
             }
         });
     });
+    
 
     // Button Website graper
     $("#submit-button").click(function(e) {
@@ -183,7 +184,42 @@ $(document).ready(function() {
 
     getWebsiteList();
 
-    
+    // 
+    $.ajax({
+        url: '/webclicktracker/website/3/data/',
+        type: 'GET',
+        success: function(data) {
+            var $clickDataList = $('#clickDataList');
+            console.log(data);
+            if (data && data.clicks && Array.isArray(data.clicks)) {
+                data.clicks.forEach(function(click) {
+                    var clickHtml = '<p>Website: ' + click.click_path + '</p>';
+                    
+                    // if (click.links && Array.isArray(click.links)) {
+                    //     clickHtml += '<ul>';
+                    //     click.links.forEach(function(link) {
+                    //         clickHtml += '<li>Link: ' + link.link + ' - Class: ' + link.link_class + '</li>';
+                    //     });
+                    //     clickHtml += '</ul>';
+                    // }
+                    
+                    // if (click.buttons && Array.isArray(click.buttons)) {
+                    //     clickHtml += '<ul>';
+                    //     click.buttons.forEach(function(button) {
+                    //         clickHtml += '<li>Button: ' + button.button_text + ' - Class: ' + button.button_class + '</li>';
+                    //     });
+                    //     clickHtml += '</ul>';
+                    // }
+                    
+                    $clickDataList.append(clickHtml);
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+         
 
 });
 

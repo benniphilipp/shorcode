@@ -29,23 +29,9 @@
                                     <button id="openWebsiteModel" class="btn btn-primary mt-1" type="button">Webseite anlegen</button>
                                     <button id="removeDuplicatesBtn" class="btn btn-secondary p-2 mt-1" type="button">Doppelte Seiten entfernen</button>
                                 </div>
-
-                                <!-- <div class="p-1 ms-auto">
-                                    <button id="" class="btn btn-primary mt-1" type="button">Link erstellen</button>
-                                </div> -->
                             </div>
                         </div>
                         <hr>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-lg-12">
-                            <form id="input-form" method="POST">
-                                {% csrf_token %}
-                                <label for="url-input">URL:</label>
-                                <input type="text" id="url-input" name="url" required>
-                                <button id="submit-button" type="submit">Speichern</button>
-                            </form>
-                        </div>
                     </div>
                 </div>
 
@@ -55,19 +41,7 @@
                             <div id="website-list"></div>
                         </div>
                     </div>
-                </div>
-
-
-                <!-- <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-md-3"></div>
-                        <div class="col-12 col-md-9"></div>
-                    </div>
-                </div> -->
-                <!-- <a href="" target="_blank"></a>    
-                <span class="meta"></span>             -->
-
-                
+                </div>                
 
             </div>
 
@@ -76,13 +50,13 @@
 
         {% include "includes/website-modal.html" %}
 
-{% endblock body %}
+{% endblock %}
 
 {% block javasript %}
 <script>
     var website_image = "{% static '/images/hook_image.jpg' %}";
 </script>
-<script defer src="{% static '/assets/js/toast-alert.js' %}"></script>
+
 <script defer src="{% static '/assets/js/webclicktracker.js' %}"></script>
 
 {% endblock %}
