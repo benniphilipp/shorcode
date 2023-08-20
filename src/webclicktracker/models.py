@@ -3,7 +3,17 @@ from django.utils import timezone
 from accounts.models import CustomUser
 
 
-#
+class Website(models.Model):
+    url = models.URLField(unique=True)
+    title = models.CharField(max_length=200)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
 class WebsiteClick(models.Model):
     url = models.URLField()
     click_path = models.TextField()

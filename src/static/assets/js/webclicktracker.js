@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
 
+    // Dopplete inhatle löschen.
     $("#removeDuplicatesBtn").click(function() {
 
         $("#removeDuplicatesBtn").prop("disabled", true);
@@ -20,7 +21,7 @@ $(document).ready(function() {
         });
     });
 
-
+    // Button Website graper
     $("#submit-button").click(function(e) {
         e.preventDefault();
     
@@ -53,6 +54,32 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Crate Website Json
+    $('#create-website-btn').click(function() {
+        var url = 'https://example.com';  // Setze die URL der Website
+        var title = 'Example Website';  // Setze den Titel der Website
+        var user_id = 1;  // Setze die ID des Benutzers (z.B. aus der Session)
+        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: '/create_website/',
+            method: 'POST',
+            data: {
+                'url': url,
+                'title': title,
+                'user_id': user_id,
+                csrfmiddlewaretoken: csrfToken,
+            },
+            success: function(data) {
+                // $('#result').html('<p>Website created with ID: ' + data.id + '</p>');
+            },
+            error: function() {
+                // $('#result').html('<p>Error creating website.</p>');
+            }
+        });
+    });
+
 
     
 

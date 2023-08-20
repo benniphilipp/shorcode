@@ -1,6 +1,10 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import WebsiteClick, Link, Button
+
+from .models import WebsiteClick, Link, Button, Website
+from accounts.models import CustomUser
+from .forms import WebsiteForm
+
 from urllib.parse import urljoin, urlparse
 from collections import defaultdict
 from django.db.models import Count
@@ -16,8 +20,36 @@ import json
 Ich muss ihr noch die Nachriten an Ajax übergben.
 '''
 
+# HTML View
 def website_click_view(request):
     return render(request, 'click-view.html')
+
+# Crate View Website
+@csrf_exempt
+def create_website(request):
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        title = request.POST.get('title')
+        user_id = request.POST.get('user_id')  # Nehme den Benutzer aus der Anfrage (z.B. aus der Session)
+
+        user = CustomUser.objects.get(id=user_id)  # Passe das an dein Benutzermodell an
+
+        form = WebsiteForm({'url': url, 'title': title})
+        if form.is_valid():
+            website = form.save(user)
+
+            response_data = {
+                'id': website.id,
+                'url': website.url,
+                'title': website.title,
+                'user': website.user.username  # Oder einen anderen Benutzer-Bezeichner verwenden
+            }
+
+            return JsonResponse(response_data)
+        else:
+            return JsonResponse({'message': 'Form is not valid'})
+
+    return JsonResponse({'message': 'Invalid request method'})
 
 
 
@@ -28,7 +60,6 @@ def remove_duplicate_pages():
     # Erstelle eine leere Liste für doppelte URLs
     duplicate_urls = []
 
-    # Durchlaufe die URLs und speichere die doppelten URLs
     for entry in url_counts:
         if entry['url_count'] > 1:
             duplicate_urls.append(entry['url'])
@@ -62,7 +93,7 @@ def save_website_click_recursive(url, user, parent_path=None, depth=0, max_depth
         title = soup.title.string if soup.title else "Untitled"
         url_path = url  # Initialisiere den URL-Pfad mit der aktuellen URL
 
-        time.sleep(5)
+        time.sleep(6)
         if parent_path:
             url_path = f"{parent_path} > {url_path}"  # Füge den aktuellen Pfad hinzu
 
@@ -99,7 +130,7 @@ def save_website_click_recursive(url, user, parent_path=None, depth=0, max_depth
                             existing_link = Link.objects.filter(link=full_nav_link_url).first()
                             if not existing_link:
                                 Link.objects.create(website_click=website_click, link=full_nav_link_url, link_id=nav_link_id, link_class=nav_link_class)
-                            time.sleep(1)
+                                time.sleep(1)
                     
 
 def save_click_view(request: HttpRequest):
