@@ -25,7 +25,11 @@
                         <div class="col-12">
                             <div class="d-flex flex-row align-items-center">
                                 <h3 class="p-1" style="margin-top: 10px;">Website Trecker</h3>
-                                <button id="removeDuplicatesBtn">Doppelte Seiten entfernen</button>
+                                <div class="p-1 ms-auto">
+                                    <button id="openWebsiteModel" class="btn btn-primary mt-1" type="button">Webseite anlegen</button>
+                                    <button id="removeDuplicatesBtn" class="btn btn-secondary p-2 mt-1" type="button">Doppelte Seiten entfernen</button>
+                                </div>
+
                                 <!-- <div class="p-1 ms-auto">
                                     <button id="" class="btn btn-primary mt-1" type="button">Link erstellen</button>
                                 </div> -->
@@ -42,19 +46,14 @@
                                 <button id="submit-button" type="submit">Speichern</button>
                             </form>
                         </div>
-                        <div class="col-12 col-lg-12">
-                            <!-- Fortschrittsanzeige -->
-                            <div id="progressBarContainer" style="display: none;">
-                                <progress id="progressBar" value="0" max="100"></progress>
-                                <p>Fortschritt: <span id="currentPage">0</span> / <span id="totalPages">0</span></p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
 
+
+        {% include "includes/website-modal.html" %}
 
 {% endblock body %}
 

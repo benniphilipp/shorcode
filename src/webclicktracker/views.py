@@ -22,27 +22,36 @@ Ich muss ihr noch die Nachriten an Ajax übergben.
 
 # HTML View
 def website_click_view(request):
-    return render(request, 'click-view.html')
+    form = WebsiteForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'click-view.html', context)
 
 # Crate View Website
 @csrf_exempt
 def create_website(request):
     if request.method == 'POST':
+        
         url = request.POST.get('url')
-        title = request.POST.get('title')
-        user_id = request.POST.get('user_id')  # Nehme den Benutzer aus der Anfrage (z.B. aus der Session)
-
-        user = CustomUser.objects.get(id=user_id)  # Passe das an dein Benutzermodell an
-
-        form = WebsiteForm({'url': url, 'title': title})
+        user_id = request.POST.get('user_id')
+        
+        # Überprüfen, ob die URL bereits vorhanden ist
+        existing_website = Website.objects.filter(url=url).first()
+        
+        if existing_website:
+            return JsonResponse({'message': 'URL already exists'})
+        
+        form = WebsiteForm({'url': url})
+        
         if form.is_valid():
-            website = form.save(user)
+            website = form.save(commit=False)
+            website.user_id = user_id
+            website.save()
 
             response_data = {
-                'id': website.id,
                 'url': website.url,
-                'title': website.title,
-                'user': website.user.username  # Oder einen anderen Benutzer-Bezeichner verwenden
+                'user': website.user_id
             }
 
             return JsonResponse(response_data)

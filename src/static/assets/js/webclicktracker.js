@@ -55,29 +55,46 @@ $(document).ready(function() {
         });
     }
 
+
+    // Open Website Modal
+    $('#openWebsiteModel').on('click', function(){
+        $('#model-form-website').addClass('active');
+    });
+
+
+    // Close Website Modal
+    $('#website-close').on('click', function(){
+        $('#model-form-website').removeClass('active');
+    });
+
+
     // Crate Website Json
-    $('#create-website-btn').click(function() {
-        var url = 'https://example.com';  // Setze die URL der Website
-        var title = 'Example Website';  // Setze den Titel der Website
-        var user_id = 1;  // Setze die ID des Benutzers (z.B. aus der Session)
+    $('#create-website-btn').click(function(e) {
+        e.preventDefault();
+        var url = $('#id_url').val();  // Setze die URL der Website
+        var user_id = $('input[name="user"]').val();  // Setze die ID des Benutzers (z.B. aus der Session)
         var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
 
+        console.log(user_id);
+
         $.ajax({
-            url: '/create_website/',
+            url: '/webclicktracker/create_website/',
             method: 'POST',
             data: {
                 'url': url,
-                'title': title,
                 'user_id': user_id,
                 csrfmiddlewaretoken: csrfToken,
             },
             success: function(data) {
                 // $('#result').html('<p>Website created with ID: ' + data.id + '</p>');
+                console.log(data);
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.log(error);
                 // $('#result').html('<p>Error creating website.</p>');
             }
         });
+
     });
 
 

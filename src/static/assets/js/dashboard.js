@@ -854,7 +854,7 @@ $('.shortcode-class').on('click', function() {
     }
 
     
-    // Open Model Tags Bearbeiten
+    // Open Modal Tags Bearbeiten
     $('#tag-edit').click(function(){
         $('.form-tag-view').css('display', 'none');
         $('#tag-list-edit').css('display', 'block');

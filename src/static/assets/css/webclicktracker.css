@@ -1,0 +1,41 @@
+/* Color */
+.website-overlay-body i{
+    color: #0c3ebb;
+}
+
+.website-overlay-body i:hover{
+    color: #6c757d;
+}
+
+.website-overlay-body{
+    background-color: #fff;
+}
+
+/* Tag form */
+.website-overlay{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 99999;
+    background-color: rgb(158 195 220 / 60%);
+}
+
+.website-overlay.active{
+    display: flex;
+}
+
+.website-overlay-body{
+    padding: 30px;
+    min-width: 400px;
+    border-radius: 10px;
+}
+
+.website-overlay-body i{
+    cursor: pointer;
+    font-size: 23px;
+}
