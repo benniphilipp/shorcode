@@ -40,7 +40,7 @@ def create_website(request):
         existing_website = Website.objects.filter(url=url).first()
         
         if existing_website:
-            return JsonResponse({'message': 'URL already exists'})
+            return JsonResponse({'message': 'Url existiert bereits'})
         
         form = WebsiteForm({'url': url})
         
@@ -50,13 +50,12 @@ def create_website(request):
             website.save()
 
             response_data = {
-                'url': website.url,
-                'user': website.user_id
+                'message': 'Webseite angelegt'
             }
 
             return JsonResponse(response_data)
         else:
-            return JsonResponse({'message': 'Form is not valid'})
+            return JsonResponse({'message': 'Das Formular ist ungültig'})
 
     return JsonResponse({'message': 'Invalid request method'})
 

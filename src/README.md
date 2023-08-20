@@ -93,3 +93,9 @@ ip_address
 os
 device
 browser
+
+
+# Facebook
+
+https://developers.facebook.com/docs/meta-pixel/reference#standard-events
+
