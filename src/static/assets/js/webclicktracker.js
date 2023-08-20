@@ -131,9 +131,57 @@ $(document).ready(function() {
                 // $('#result').html('<p>Error creating website.</p>');
             }
         });
-
     });
 
+    // List View Website
+    function getWebsiteList() {
+        $.ajax({
+            url: '/webclicktracker/website-list/',  // Passe den Pfad zur Website-Liste-View an
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Hier kannst du die Daten aus dem JSON verwenden
+                var websiteList = data;
+
+                // Verarbeite die Daten weiter, z.B. fülle eine Tabelle damit
+                var websiteDiv = $('#website-list');
+                websiteList.forEach(item => {
+                    var websiteCard = $(`
+                        <div class="card border-0 mt-3">
+                            <div class="card-header website-card-header border-0 pt-4">
+                                <img src="${item.favicon}" class="img-thumbnail website-favicon-img" alt="favicon.ico">
+                                <a href="/webclicktracker/website/${item.id}" class="btn btn-xs btn-primary btn-sm ms-auto" type="button">Webseite Treking</a>
+                            </div>
+                            <div class="card-body">
+                                
+                                <div class="container g-0">
+                                    <div class="row g-0">
+                                        <div class="col-12 col-md-2">
+                                            <img src="${item.first_image ? item.first_image : website_image}" class="website-image-card img-fluid rounded" alt="Website Image">
+                                        </div>
+                                        <div class="col-12 col-md-10">
+                                        <h5>${item.title}</h5>
+                                        <p><span class="website-meta">Meta Beschreibung:<br></span>${item.meta_description ? item.meta_description : 'Keine Beschreibung zufinden'}</p>
+                                        <a class="website-link-blue" href="${item.url}" target="_blank">${item.url}</a>      
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    `)
+
+                    websiteDiv.append(websiteCard);
+                });
+
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    getWebsiteList();
 
     
 

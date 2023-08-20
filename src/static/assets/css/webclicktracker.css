@@ -1,8 +1,10 @@
 /* Color */
+.website-link-blue,
 .website-overlay-body i{
     color: #0c3ebb;
 }
 
+.website-link-blue:hover,
 .website-overlay-body i:hover{
     color: #6c757d;
 }
@@ -50,4 +52,41 @@
 
 #error-message.active{
     display: block;
+}
+
+/* Card Website */
+.website-card-header{
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.website-favicon-img{
+    border: 0;
+    width: 32px;
+    height: 32px;
+    margin-top: -3px;
+    margin-right: 9px;
+}
+
+.website-card-footer{
+    color: #000;
+    background-color: transparent;
+    border-top: 0;
+}
+
+.website-image-card{
+    height: 140px;
+    width: 140px;
+    object-fit: cover;
+}
+
+.website-meta{
+    font-weight: bold;
+}
+
+.website-link-blue{
+    font-weight: bold;
 }

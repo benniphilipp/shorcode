@@ -49,6 +49,26 @@
                     </div>
                 </div>
 
+                <div class="container-fluid mt-3 pt-3 px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="website-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3"></div>
+                        <div class="col-12 col-md-9"></div>
+                    </div>
+                </div> -->
+                <!-- <a href="" target="_blank"></a>    
+                <span class="meta"></span>             -->
+
+                
+
             </div>
 
         </div>
@@ -59,6 +79,9 @@
 {% endblock body %}
 
 {% block javasript %}
+<script>
+    var website_image = "{% static '/images/hook_image.jpg' %}";
+</script>
 <script defer src="{% static '/assets/js/toast-alert.js' %}"></script>
 <script defer src="{% static '/assets/js/webclicktracker.js' %}"></script>
 

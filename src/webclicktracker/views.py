@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from bs4 import BeautifulSoup
 import re
@@ -29,6 +29,35 @@ def website_click_view(request):
         'form': form,
     }
     return render(request, 'click-view.html', context)
+
+# Detaile View Website
+def website_detail(request, website_id):
+    website = get_object_or_404(Website, id=website_id)
+    
+    context = {
+        'website': website,
+    }
+    
+    return render(request, 'website_detail.html', context)
+
+# List View Website
+def website_list(request):
+    websites = Website.objects.all()
+    website_data = []
+    
+    for website in websites:
+        website_info = {
+            'id': website.id,
+            'url': website.url,
+            'title': website.title,
+            'meta_description': website.meta_description,
+            'first_image': website.first_image,
+            'favicon': website.favicon,
+            'created_at': website.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        }
+        website_data.append(website_info)
+    
+    return JsonResponse(website_data, safe=False)
 
 # Crate View Website
 @csrf_exempt
