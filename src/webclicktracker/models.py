@@ -6,9 +6,14 @@ from accounts.models import CustomUser
 class Website(models.Model):
     url = models.URLField(unique=True)
     title = models.CharField(max_length=200, blank=True, null=True)
+    favicon = models.URLField(blank=True, null=True)  # Favicon URL
+    first_image = models.URLField(blank=True, null=True)  # URL des ersten Bildes der Website
+    meta_description = models.TextField(blank=True, null=True)  # Meta-Beschreibung der Website
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+
 
     def __str__(self):
         return self.url

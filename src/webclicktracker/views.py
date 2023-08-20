@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from bs4 import BeautifulSoup
+import re
 
 from .models import WebsiteClick, Link, Button, Website
 from accounts.models import CustomUser
@@ -47,17 +49,44 @@ def create_website(request):
         if form.is_valid():
             website = form.save(commit=False)
             website.user_id = user_id
-            website.save()
+            
+            # Webseite abrufen und analysieren
+            response = requests.get(url)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                website.title = soup.title.string if soup.title else None
+                website.meta_description = soup.find('meta', attrs={'name': 'description'})['content'] if soup.find('meta', attrs={'name': 'description'}) else None
+                
+                # Extrahiere die URL des ersten Bildes
+                first_image_tag = soup.find('img')
+                if first_image_tag:
+                    first_image_url = first_image_tag['src']
+                    website.first_image = first_image_url
+                    
+                # Extrahiere die URL des Favicon
+                favicon_link = soup.find('link', rel='icon') or soup.find('link', rel='shortcut icon')
+                if favicon_link:
+                    favicon_url = favicon_link['href']
+                    if not re.match(r'^https?://', favicon_url):
+                        # Erstelle eine vollständige URL, wenn sie relativ ist
+                        parsed_url = urlparse(url)
+                        favicon_url = urljoin(f'{parsed_url.scheme}://{parsed_url.netloc}', favicon_url)
+                    website.favicon = favicon_url                    
+                
+                website.save()
 
-            response_data = {
-                'message': 'Webseite angelegt'
-            }
+                response_data = {
+                    'message': 'Webseite angelegt'
+                }
 
-            return JsonResponse(response_data)
+                return JsonResponse(response_data)
+            else:
+                return JsonResponse({'message': 'Fehler beim Abrufen der Webseite'})
         else:
             return JsonResponse({'message': 'Das Formular ist ungültig'})
 
     return JsonResponse({'message': 'Invalid request method'})
+
 
 
 
