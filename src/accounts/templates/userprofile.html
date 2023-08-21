@@ -1,5 +1,6 @@
 {% extends "basic.html" %}
 {% load static %}
+{% load custom_tags %}
 
 {% block body %}
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/accounts.css' %}">
@@ -8,9 +9,41 @@
     {% include "includes/sidebar.html" %}
 
     <div class="container-fluid p-0 bg-body">
-        
-        <!--Navbar-->
-        {% include "includes/navbar.html" %}
+
+    <!--Navbar-->
+    {% include "includes/navbar.html" %}
+
+    <!--Main-->
+    <div class="main">
+        <div class="row justify-content-center">
+
+            <div class="col-6 mt-5">
+                <div class="card border-0">
+                    <div class="card-header bg-white">
+                        <h5>Deine E-Mail-Adresse: {{ user.email }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Bei uns werden Passwörter standardmäßig sicher gehasht und nicht entschlüsselt. Dies ist aus Sicherheitsgründen wichtig, da das Speichern von Passwörtern im Klartext ein erhebliches Sicherheitsrisiko darstellen würde.
+                        Bitte melde dich ab und beantrage das Zurücksetzen des Passworts. Anschließend kannst du ein neues Passwort erstellen.</p>
+                        <a href="{% url 'accounts:logout' %}" type="button" class="btn btn-primary mt-2">Abmelden</a>
+                    </div>
+                </div>
+
+                <div class="card border-0 mt-5">
+                    <div class="card-header bg-white">
+                        <h5>Konto Löschen</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Du möchtest dein Konto bei uns auflösen? Kein Problem, sende uns bitte eine E-Mail, und wir werden umgehend alle deine Daten unwiderruflich löschen.</p>
+                        <a href="mailto:support@pixel-west.com">support@pixel-west.com</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 
     </div>
 

@@ -12,12 +12,14 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.urls import reverse_lazy
 from .models import CustomUser
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UserUpdateForm
 
 from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
 
 from analytics.models import ClickEvent, DailyClick, IPGeolocation
+
+from django.http import JsonResponse
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -271,8 +273,6 @@ class SaveClickData(APIView):
                 return Response({'message': 'Error while storing data.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 

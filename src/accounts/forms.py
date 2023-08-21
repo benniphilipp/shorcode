@@ -51,4 +51,6 @@ class LoginForm(AuthenticationForm):
         model = CustomUser
         fields = ['username', 'password', 'remember_me']
         
-        
+class UserUpdateForm(forms.Form):
+    email = forms.EmailField(required=False)
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
