@@ -18,8 +18,15 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
+
+
 '''
-Ich muss ihr noch die Nachriten an Ajax übergben.
+@ToDo
+-    Ich muss ihr noch die Nachriten an Ajax übergben.
+- 1. Die Website die angezeit werden sollen dafür benutz werden, das man schenll Kurze links erstteln kann.
+- 2. Die Website soll sauber crawler werden.
+- 3. Danch sollen die Daten die der Trecking Code oder das Plugin aufnimmt an die Passenen Page und und an die Links und Buttons übergeben werden.
+- 4. Prüfung der Websiten links ob noch erreichbar, über Selery.
 '''
 
 # HTML View
@@ -219,7 +226,6 @@ def save_click_view(request: HttpRequest):
         return JsonResponse(response_data)
 
     return JsonResponse({'message': 'Fehler: Ungültige Anfrage'})
-
 
 
 

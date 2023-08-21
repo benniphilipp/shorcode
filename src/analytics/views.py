@@ -11,7 +11,13 @@ from django.views import View
 from .models import ClickEvent, DailyClick, IPGeolocation, ClickEvent
 from shortcode.models import ShortcodeClass
 
-
+'''
+@ToDo
+    - 1.    Automatisches Versenden von Analyseberichten.
+    - 2.    Intelligente Vorschläge für optimale Veröffentlichung Zeitpunkte
+    - 3.    Websiten beuscher Zeitraum auf 24 Studen wan in wlecher zeit sind die meisten besucher auf der Website
+    - 4.    Logo Tauschen
+'''
 
 
 # Create your views here.

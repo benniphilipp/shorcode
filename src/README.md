@@ -1,20 +1,11 @@
 Django APPs:
 
 # Shortcode
-    url_destination -> URL destination
-    url_titel -> titel
-    url_source --> Url Source
-    url_medium --> Url Medium
-    url_campaign --> Url Campaign
-    url_term    --> Url Term
-    url_content --> Url Content
-    #url_tags --> Tags
-    url_creator 
-    url_create_date
-    url_active
-    url_archivate
 
 # Analytics
+
+# Link in Bio
+python3 manage.py startapp linkinbio
 
 # WebClickTracker
 webclicktracker
@@ -80,10 +71,8 @@ pw@web.de
 benniph86@gmail.com
 TqXRm5ikowzmYtZVyCMC
 
-
 # Framworks
 https://apexcharts.com/features/
-
 
 # API View
 website_title
@@ -94,8 +83,6 @@ os
 device
 browser
 
-
 # Facebook
-
 https://developers.facebook.com/docs/meta-pixel/reference#standard-events
 

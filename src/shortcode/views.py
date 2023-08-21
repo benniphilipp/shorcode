@@ -22,6 +22,14 @@ from bs4 import BeautifulSoup
 
 from django.core.cache import cache
 
+'''
+@Todo
+    - 1. Eingebaute A/B-Test-Funktionen könnten es Nutzern ermöglichen, verschiedene Versionen desselben Links zu erstellen und zu testen, um herauszufinden, welche besser abschneidet.
+    - 2. Die Möglichkeit, verschiedene Ziel-URLs für verschiedene Zielgruppen festzulegen, könnte es Nutzern ermöglichen, personalisierte Inhalte an verschiedene Empfänger zu senden.
+    - 3. Qr-Code für den link als dowload png, svg und jpg
+    - 4. Ablaufdatum des links danach gibt es eine Alternative
+    - 5. Tags Ansicht anpassen nebeinander
+'''
 
 # Suche
 def filter_and_search_shortcodes(request):

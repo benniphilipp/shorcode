@@ -30,6 +30,15 @@ from django.shortcuts import get_object_or_404
 from .models import APIKey
 from .serializers import ClickDataSerializer, DataSerializer
 
+'''
+@ToDo
+1. Profile Page fertigstellen
+    - Logo oder Bild
+    - Notweiterleitung
+    - Externe Doamin Testen wen die Server einstellungen stimmen.
+'''
+
+
 # Create your views here.
 def home(request):
     return render(request, 'index.html')
