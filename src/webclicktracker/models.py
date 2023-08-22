@@ -17,7 +17,7 @@ class Website(models.Model):
         return self.url
 
 
-class WebsiteClick(models.Model):
+class WebsitePages(models.Model):
     url = models.URLField()
     click_path = models.TextField()
     title = models.CharField(max_length=200)
@@ -31,7 +31,7 @@ class WebsiteClick(models.Model):
 
 
 class Link(models.Model):
-    website_click = models.ForeignKey(WebsiteClick, on_delete=models.CASCADE)
+    website_click = models.ForeignKey(WebsitePages, on_delete=models.CASCADE)
     link = models.URLField()
     link_id = models.CharField(max_length=100, blank=True, null=True)
     link_class = models.CharField(max_length=100, blank=True, null=True)
@@ -40,7 +40,7 @@ class Link(models.Model):
 
 
 class Button(models.Model):
-    website_click = models.ForeignKey(WebsiteClick, on_delete=models.CASCADE)
+    website_click = models.ForeignKey(WebsitePages, on_delete=models.CASCADE)
     button_text = models.CharField(max_length=200)
     button_id = models.CharField(max_length=100, blank=True, null=True)
     button_class = models.CharField(max_length=100, blank=True, null=True)

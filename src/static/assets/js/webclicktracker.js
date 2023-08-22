@@ -54,7 +54,7 @@ $(document).ready(function() {
         $("#submit-button").prop("disabled", true);
         var url = $('#url-input').val();
         var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
-
+        console.log(url)
         // Starte den rekursiven Vorgang und aktualisiere den Fortschrittsbalken
         startRecursiveProcess(url, csrfToken);
         

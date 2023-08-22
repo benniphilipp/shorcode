@@ -3,11 +3,10 @@ from django.views.decorators.csrf import csrf_exempt
 from bs4 import BeautifulSoup
 import re
 
-from .models import WebsiteClick, Link, Button, Website
+from .models import WebsitePages, Link, Button, Website
 from accounts.models import CustomUser
 from .forms import WebsiteForm
 
-from urllib.parse import urljoin, urlparse
 from collections import defaultdict
 from django.db.models import Count
 from django.http import JsonResponse, HttpRequest
@@ -18,7 +17,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-
+from urllib.parse import urljoin, urlparse, urlunparse
 
 '''
 @ToDo
@@ -128,7 +127,7 @@ def create_website(request):
 # Websiten reinigung
 def remove_duplicate_pages():
     # Zähle die Anzahl der Vorkommen jeder URL
-    url_counts = WebsiteClick.objects.values('url').annotate(url_count=Count('url'))
+    url_counts = WebsitePages.objects.values('url').annotate(url_count=Count('url'))
 
     # Erstelle eine leere Liste für doppelte URLs
     duplicate_urls = []
@@ -139,7 +138,7 @@ def remove_duplicate_pages():
 
     # Durchlaufe die doppelten URLs und behalte den neuesten Eintrag
     for url in duplicate_urls:
-        duplicate_entries = WebsiteClick.objects.filter(url=url).order_by('-created_at')[1:]
+        duplicate_entries = WebsitePages.objects.filter(url=url).order_by('-created_at')[1:]
         for entry in duplicate_entries:
             entry.delete()
 
@@ -155,78 +154,213 @@ def remove_duplicates_view(request):
 
 
 
-# Funktion Website crawler
-@csrf_exempt
-def save_website_click_recursive(url, user, website_instance, parent_path=None, depth=0, max_depth=2, base_url=None):
-    if base_url is None:
-        base_url = url  # Setze die ursprüngliche URL als Basis-URL
 
-    response = requests.get(url, verify=False)  # Deaktivierung der SSL-Zertifikatsüberprüfung
-    
+def add_default_scheme(url):
+    if isinstance(url, tuple):
+        url = url[0]  # Nehme den ersten Eintrag aus der Tuple
+    parsed_url = urlparse(url)
+    if not parsed_url.scheme:
+        url = "http://" + url  # Füge Standard-Schema hinzu
+    return url
+
+
+# Schritt 1: Website aufrufen und Daten extrahieren
+def fetch_website_data(url):
+    response = requests.get(url, verify=False)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         title = soup.title.string if soup.title else "Untitled"
-        url_path = url  # Initialisiere den URL-Pfad mit der aktuellen URL
+        return title, soup
+    return None, None
 
-        time.sleep(6)
-        if parent_path:
-            url_path = f"{parent_path} > {url_path}"  # Füge den aktuellen Pfad hinzu
+# Schritt 2: Website Titel holen
+def save_page_titles(cleaned_links):
+    cleaned_links = [add_default_scheme(link) for link in cleaned_links]
+    
+    page_titles = {}
+    
+    for page_url in cleaned_links:
+        response = requests.get(page_url, verify=False)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            title = soup.title.string if soup.title else "Untitled"
+            page_titles[page_url] = title
+    
+    return page_titles
 
-        # Überprüfen Sie, ob eine WebsiteClick-Instanz mit dem gleichen Titel und derselben URL existiert
-        existing_click = WebsiteClick.objects.filter(title=title, url=url).first()
-        if not existing_click:
-            # Wenn keine Instanz gefunden wurde, erstellen Sie eine neue WebsiteClick-Instanz
-            website_click = WebsiteClick.objects.create(website=website_instance, click_path=url_path, title=title, url=url, user=user)
 
-            if depth < max_depth:
-                for link in soup.find_all('a'):
+#  Schritt 3: Buttons holen
+def save_buttons_on_pages(full_link_url):
+    full_link_url = add_default_scheme(full_link_url)
+    all_buttons = []
+
+    response = requests.get(full_link_url, verify=False)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        buttons_seen = set()  # Hier speichern wir die gesehenen Klassen der Buttons auf der Seite
+        buttons = soup.find_all('button')
+        
+        for button in buttons:
+            button_class = ' '.join(button.get('class', []))
+            if button_class not in buttons_seen:
+                buttons_seen.add(button_class)
+                
+                button_text = button.text
+                button_id = button.get('id')
+                all_buttons.append({'button_text': button_text, 'button_id': button_id, 'button_class': button_class})
+    
+    print("Buttons fertig")    
+    return all_buttons
+
+#  Schritt 4: Links holen
+def save_links_on_pages(header_links):
+    header_links = add_default_scheme(header_links)
+    all_links = set()
+
+    response = requests.get(header_links, verify=False)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        a_links = soup.find_all('a')
+        for a_link in a_links:
+            link_url = a_link.get('href')
+            link_id = a_link.get('id')
+            link_class = ' '.join(a_link.get('class', []))
+            
+            if link_url:
+                full_link_url = urljoin(header_links, link_url)
+                parsed_url = urlparse(full_link_url)
+                
+                if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(header_links).netloc:
+                    all_links.add((full_link_url, link_id, link_class))
+    
+    print("Links fertig")
+    return all_links
+
+
+
+def save_header_links(url):
+    response = requests.get(url, verify=False)  
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Finde den header-Tag
+        header = soup.find('header')
+        if header:
+
+            header_links = header.find_all('a')
+            cleaned_links = set()
+            for link in header_links:
+                link_url = link.get('href')
+                if link_url:
+                    full_link_url = urljoin(url, link_url)
+                    parsed_url = urlparse(full_link_url)
+                    if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(url).netloc:
+                        
+                        # Füge den Link der bereinigten URL hinzu
+                        cleaned_links.add(full_link_url)
+            return cleaned_links       
+
+
+
+def find_breadcrumbs(page_url):
+    page_url = add_default_scheme(page_url)
+    breadcrumbs_links = set()  # Hier verwenden wir ein Set
+
+    response = requests.get(page_url, verify=False)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        breadcrumbs_classes = ["breadcrumbs", "breadcrumb", "crumbs", "trail"]
+        breadcrumbs_ids = ["breadcrumbs", "breadcrumb", "crumbs", "trail"]
+        
+        for class_name in breadcrumbs_classes:
+            elements_with_class = soup.find_all(class_=class_name)
+            for element in elements_with_class:
+                links = element.find_all('a')
+                for link in links:
                     link_url = link.get('href')
-                    if link_url:
-                        full_link_url = urljoin(url, link_url)
-                        parsed_url = urlparse(full_link_url)
-                        if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(base_url).netloc:
-                            save_website_click_recursive(full_link_url, user, website_instance, parent_path=url_path, depth=depth + 1, max_depth=max_depth, base_url=base_url)
-                            time.sleep(1)
+                    breadcrumbs_links.add(link_url)  # Hinzufügen zum Set
+                
+        for id_name in breadcrumbs_ids:
+            element_with_id = soup.find(id=id_name)
+            if element_with_id:
+                links = element_with_id.find_all('a')
+                for link in links:
+                    link_url = link.get('href')
+                    breadcrumbs_links.add(link_url)  # Hinzufügen zum Set
+    
+    return breadcrumbs_links
 
-                for button in soup.find_all('button'):
-                    button_text = button.text
-                    button_id = button.get('id')
-                    button_class = ' '.join(button.get('class', []))
-                    Button.objects.get_or_create(website_click=website_click, button_text=button_text, button_id=button_id, button_class=button_class)
+     
 
-                for nav_link in soup.find_all('a'):
-                    nav_link_url = nav_link.get('href')
-                    if nav_link_url:
-                        full_nav_link_url = urljoin(url, nav_link_url)
-                        parsed_nav_link_url = urlparse(full_nav_link_url)
-                        if (parsed_nav_link_url.scheme not in ('tel', 'mailto') and
-                                parsed_nav_link_url.netloc == urlparse(base_url).netloc):
-                            nav_link_id = nav_link.get('id')
-                            nav_link_class = ' '.join(nav_link.get('class', []))
-                            Link.objects.get_or_create(website_click=website_click, link=full_nav_link_url, link_id=nav_link_id, link_class=nav_link_class)
-                            time.sleep(1)
+# Rekursive Funktion zum Speichern von Website-Daten
+def save_website_click_recursive(url, user, website):
+    header_links = save_header_links(url)  # Rufe die Funktion auf, um die Links zu erhalten
 
+    non_header_links = set() 
+    collected_links = set()
+            
+    page_titles = save_page_titles(header_links) 
+    for page_url, title in page_titles.items():
+        website_page = WebsitePages.objects.create(url=page_url, title=title, website=website, user=user)
+        print(f'WebsitePages Save: {website_page}')
+        
+        collected_links.add(page_url)
+        
+
+        links_on_page = save_links_on_pages(page_url) 
+        non_header_links.update(links_on_page) 
+
+    for page_url, link_id, link_class in non_header_links:
+        link_id = link_id if link_id else ""
+        link_class = link_class if link_class else ""
+        full_link_url = urljoin(page_url, link_id + link_class)
+        links_on_page = save_links_on_pages(full_link_url)  # Übergebe das 'user'-Argument
+        for link_url in links_on_page:
+            Link.objects.create(website_click=website_page, link=link_url, link_id=link_id, link_class=link_class)
+
+    print("Links wurden erfolgreich gespeichert.")
+
+    buttons_on_page = save_buttons_on_pages(full_link_url)  # Übergebe das 'user'-Argument
+    for button_info in buttons_on_page:
+        button = Button.objects.create(website_click=website_page, **button_info)
+        print(f'Button: {button}')
+    
+    print("Buttons wurden erfolgreich gespeichert.")
+
+    for page_url, breadcrumb_id, breadcrumb_class in non_header_links:
+        breadcrumbs = find_breadcrumbs(page_url)
+        link_id = breadcrumb_id if breadcrumb_id else None
+        link_class = breadcrumb_class if breadcrumb_class else None
+        Link.objects.create(website_click=website_page, link=breadcrumbs, link_id=link_id, link_class=link_class)
+    
+    print("Breadcrumbs wurden erfolgreich gespeichert.")
 
 
 # Start Website crawler
 @csrf_exempt
-def save_click_view(request: HttpRequest):
+def save_click_view(request):
     if request.method == 'POST' and request.is_ajax():
         url = request.POST.get('url')
         user = request.user
 
-        website_instance = Website.objects.get(url=url)  # Hier die entsprechende Logik, um die Website-Instanz zu erhalten
-        
-        save_website_click_recursive(url, user, website_instance)
-
-        response_data = {
-            'message': 'Analyse gestartet'
-        }
+        try:
+            website = Website.objects.get(url=url)  # Hole die vorhandene Website-Instanz
+            save_website_click_recursive(url, user, website)  # Übergebe die Website-Instanz
+            response_data = {
+                'message': 'Analyse gestartet'
+            }
+        except Website.DoesNotExist:
+            response_data = {
+                'error': 'Website-Datensatz existiert nicht'
+            }
 
         return JsonResponse(response_data)
 
     return JsonResponse({'message': 'Fehler: Ungültige Anfrage'})
-
 
 
 # GoJS
@@ -247,7 +381,7 @@ def website_data_json(request, website_id):
         'clicks': []
     }
 
-    website_clicks = WebsiteClick.objects.filter(website=website)  # Änderung: Filtere nach der Website
+    website_clicks = WebsitePages.objects.filter(website=website)  # Änderung: Filtere nach der Website
     for click in website_clicks:
         click_data = {
             'id': click.id,
