@@ -4,6 +4,8 @@ Django APPs:
 
 # Analytics
 
+# Tracking AI
+python3 manage.py startapp trackingai
 # Link in Bio
 python3 manage.py startapp linkinbio
 

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'analytics',
     'webclicktracker',
     'linkinbio',
-    
+    'trackingai',
 ]
 
 

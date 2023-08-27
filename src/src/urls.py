@@ -27,6 +27,8 @@ urlpatterns = [
     path('shortcode/', include('shortcode.urls')),
     path('analytics/', include('analytics.urls')),
     path('webclicktracker/', include('webclicktracker.urls')),
+    path('trackingai/', include('trackingai.urls')),
+    path('linkinbio/', include('linkinbio.urls')),
     path('', include('accounts.urls')),
     url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 '''
 @ToDo
@@ -10,3 +11,6 @@ from django.shortcuts import render
 6. Teilen Button
 7. Seiten Trecking nach bedarf Desktop oder Mobile
 '''
+
+def linkinnbio(request):
+    return render(request, 'linkinbio_list.html')
