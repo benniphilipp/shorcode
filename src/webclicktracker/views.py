@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from bs4 import BeautifulSoup
 import re
 
-from .models import WebsitePages, Link, Button, Website
+from .models import WebsitePages, Link, Button, Website, Subpage
 from accounts.models import CustomUser
 from .forms import WebsiteForm
 
@@ -21,9 +21,7 @@ from urllib.parse import urljoin, urlparse, urlunparse
 
 '''
 @ToDo
--    Ich muss ihr noch die Nachriten an Ajax übergben.
-- 1. Die Website die angezeit werden sollen dafür benutz werden, das man schenll Kurze links erstteln kann.
-- 2. Die Website soll sauber crawler werden.
+- 1. Ich muss ihr noch die Nachriten an Ajax übergben.
 - 3. Danch sollen die Daten die der Trecking Code oder das Plugin aufnimmt an die Passenen Page und und an die Links und Buttons übergeben werden.
 - 4. Prüfung der Websiten links ob noch erreichbar, über Selery.
 '''
@@ -154,24 +152,66 @@ def remove_duplicates_view(request):
 
 
 
-
+# Prüfung https
 def add_default_scheme(url):
     if isinstance(url, tuple):
-        url = url[0]  # Nehme den ersten Eintrag aus der Tuple
+        url = url[0]  
     parsed_url = urlparse(url)
     if not parsed_url.scheme:
-        url = "http://" + url  # Füge Standard-Schema hinzu
+        url = "http://" + url
     return url
 
 
-# Schritt 1: Website aufrufen und Daten extrahieren
-def fetch_website_data(url):
+
+# Schritt 1: alle Header links holen
+def save_header_links(url):
     response = requests.get(url, verify=False)
+
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        title = soup.title.string if soup.title else "Untitled"
-        return title, soup
-    return None, None
+
+        # Finde den header-Tag
+        header = soup.find('header')
+        if header:
+            header_links = header.find_all('a')
+            cleaned_links = set()  # Hier verwenden wir ein Set, um Duplikate zu vermeiden
+            for link in header_links:
+                link_url = link.get('href')
+                if link_url:
+                    full_link_url = urljoin(url, link_url)
+                    parsed_url = urlparse(full_link_url)
+                    if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(url).netloc:
+                        # Füge den Link der bereinigten URL hinzu
+                        cleaned_links.add(full_link_url)
+            return cleaned_links      
+
+
+
+#  Schritt 2: Links holen
+def links_pages_crawler(header_links):
+    header_links = add_default_scheme(header_links)
+    all_links = set()
+
+    response = requests.get(header_links, verify=False)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        a_links = soup.find_all('a')
+        for a_link in a_links:
+            link_url = a_link.get('href')
+            link_id = a_link.get('id')
+            link_class = ' '.join(a_link.get('class', []))
+            
+            if link_url:
+                full_link_url = urljoin(header_links, link_url)
+                parsed_url = urlparse(full_link_url)
+                
+                if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(header_links).netloc:
+                    all_links.add((full_link_url, link_id, link_class))
+    
+    #print("Links fertig")
+    return all_links
+
 
 # Schritt 2: Website Titel holen
 def save_page_titles(cleaned_links):
@@ -210,71 +250,43 @@ def save_buttons_on_pages(full_link_url):
                 button_id = button.get('id')
                 all_buttons.append({'button_text': button_text, 'button_id': button_id, 'button_class': button_class})
     
-    print("Buttons fertig")    
+    #print("Buttons fertig")    
     return all_buttons
 
-#  Schritt 4: Links holen
-def save_links_on_pages(header_links):
-    header_links = add_default_scheme(header_links)
-    all_links = set()
 
-    response = requests.get(header_links, verify=False)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        a_links = soup.find_all('a')
-        for a_link in a_links:
-            link_url = a_link.get('href')
-            link_id = a_link.get('id')
-            link_class = ' '.join(a_link.get('class', []))
-            
-            if link_url:
-                full_link_url = urljoin(header_links, link_url)
-                parsed_url = urlparse(full_link_url)
-                
-                if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(header_links).netloc:
-                    all_links.add((full_link_url, link_id, link_class))
+#Speichert Buttonts
+def save_buttons_to_page(website_page, buttons_list):
+    saved_classes = set()
+    saved_ids = set()
     
-    print("Links fertig")
-    return all_links
-
-
-
-def save_header_links(url):
-    response = requests.get(url, verify=False)  
-
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
+    for button_data in buttons_list:
+        button_text = button_data['button_text']
+        button_id = button_data['button_id']
+        button_class = button_data['button_class']
         
-        # Finde den header-Tag
-        header = soup.find('header')
-        if header:
-
-            header_links = header.find_all('a')
-            cleaned_links = set()
-            for link in header_links:
-                link_url = link.get('href')
-                if link_url:
-                    full_link_url = urljoin(url, link_url)
-                    parsed_url = urlparse(full_link_url)
-                    if parsed_url.scheme not in ('tel', 'mailto') and parsed_url.netloc == urlparse(url).netloc:
-                        
-                        # Füge den Link der bereinigten URL hinzu
-                        cleaned_links.add(full_link_url)
-            return cleaned_links       
+        # Prüfe, ob die Klasse bereits gespeichert wurde
+        if button_class and button_class not in saved_classes:
+            Button.objects.create(website_click=website_page, button_text=button_text, button_class=button_class)
+            saved_classes.add(button_class)
+        
+        # Prüfe, ob die ID bereits gespeichert wurde
+        if button_id and button_id not in saved_ids:
+            Button.objects.create(website_click=website_page, button_text=button_text, button_id=button_id)
+            saved_ids.add(button_id)
 
 
-
+# holt Breadcrume 
 def find_breadcrumbs(page_url):
+    print(f"Searching breadcrumbs on page: {page_url}")
     page_url = add_default_scheme(page_url)
     breadcrumbs_links = set()  # Hier verwenden wir ein Set
-
+    
     response = requests.get(page_url, verify=False)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        breadcrumbs_classes = ["breadcrumbs", "breadcrumb", "crumbs", "trail"]
-        breadcrumbs_ids = ["breadcrumbs", "breadcrumb", "crumbs", "trail"]
+        
+        breadcrumbs_classes = ["woocommerce-breadcrumb", "breadcrumbs", "breadcrumb", "crumbs", "trail"]
+        breadcrumbs_ids = ["woocommerce-breadcrumb", "breadcrumbs", "breadcrumb", "crumbs", "trail"]
         
         for class_name in breadcrumbs_classes:
             elements_with_class = soup.find_all(class_=class_name)
@@ -294,50 +306,145 @@ def find_breadcrumbs(page_url):
     
     return breadcrumbs_links
 
+    
+# Funktion zum Holen des aktuellen Titels einer Webseite
+def get_current_page_title(url):
+    response = requests.get(url, verify=False)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        title_tag = soup.find('title')
+        if title_tag:
+            return title_tag.get_text()
+    return None
+    
      
+# # Funktion zum Erstellen und Speichern von WebsitePages mit Titeln
+def create_website_page_with_title(url, title, website_instance, user):
+    # Normalize the URL by removing trailing slashes
+    normalized_url = url.rstrip('/')
+    
+    # Check if the normalized URL already exists
+    existing_page = WebsitePages.objects.filter(url=normalized_url).first()
+    if existing_page:
+        return existing_page
+    
+    website_page = WebsitePages.objects.create(url=normalized_url, title=title, website=website_instance, user=user)
+    return website_page
 
-# Rekursive Funktion zum Speichern von Website-Daten
-def save_website_click_recursive(url, user, website):
-    header_links = save_header_links(url)  # Rufe die Funktion auf, um die Links zu erhalten
 
-    non_header_links = set() 
-    collected_links = set()
+def is_subpage(url):
+    return '/' in url and url.count('/') > 2
+
+
+# Funktion zum Speichern einer Seite
+def save_page(url, title, website_instance, user):
+    page = WebsitePages.objects.create(url=url, title=title, website=website_instance, user=user)
+    print(f'WebsitePages Save: {page}')
+    return page
+
+
+# # Funktion zum Speichern von Unterseiten
+def save_subpage(url, title, parent_page):
+    subpage = Subpage.objects.create(url=url, title=title, parent_page=parent_page)
+    print(f'Subpage Save: {subpage}')
+    return subpage
+
+def get_hierarchy_level(url):
+    parsed_url = urlparse(url)
+    path_segments = parsed_url.path.split('/')
+    non_empty_segments = [segment for segment in path_segments if segment]
+    return len(non_empty_segments)
+
+
+def save_website_click_recursive(url, user, website_instance, visited_links=None):
+    
+    if visited_links is None:
+        visited_links = set()
+
+    # Holen des aktuellen Seitentitels
+    
+
+    # Heade links holen
+    header_links = save_header_links(url)
+    
+    
+    # Links holen        
+    for header_item in header_links:        
+        # Erstelle und speichere eine WebsitePages-Instanz mit den Links aus dem Header mit Titel
+        
+        current_page_title = get_current_page_title(header_item)
+        website_page_instance = create_website_page_with_title(url=header_item, title=current_page_title, website_instance=website_instance, user=user)
+        
+        if header_item not in visited_links:
+            visited_links.add(header_item)            
+            # Beispiel: Die Seite besuchen und Links sammeln
+            all_links_on_page = links_pages_crawler(header_item)
             
-    page_titles = save_page_titles(header_links) 
-    for page_url, title in page_titles.items():
-        website_page = WebsitePages.objects.create(url=page_url, title=title, website=website, user=user)
-        print(f'WebsitePages Save: {website_page}')
-        
-        collected_links.add(page_url)
-        
-
-        links_on_page = save_links_on_pages(page_url) 
-        non_header_links.update(links_on_page) 
-
-    for page_url, link_id, link_class in non_header_links:
-        link_id = link_id if link_id else ""
-        link_class = link_class if link_class else ""
-        full_link_url = urljoin(page_url, link_id + link_class)
-        links_on_page = save_links_on_pages(full_link_url)  # Übergebe das 'user'-Argument
-        for link_url in links_on_page:
-            Link.objects.create(website_click=website_page, link=link_url, link_id=link_id, link_class=link_class)
-
-    print("Links wurden erfolgreich gespeichert.")
-
-    buttons_on_page = save_buttons_on_pages(full_link_url)  # Übergebe das 'user'-Argument
-    for button_info in buttons_on_page:
-        button = Button.objects.create(website_click=website_page, **button_info)
-        print(f'Button: {button}')
+            '''Ich brauch noch eine funktion die Header links mit einen Extra Tag oder in ein Module Speichert.'''
     
-    print("Buttons wurden erfolgreich gespeichert.")
+            for link_data in all_links_on_page:
+                link_url, link_id, link_class = link_data
 
-    for page_url, breadcrumb_id, breadcrumb_class in non_header_links:
-        breadcrumbs = find_breadcrumbs(page_url)
-        link_id = breadcrumb_id if breadcrumb_id else None
-        link_class = breadcrumb_class if breadcrumb_class else None
-        Link.objects.create(website_click=website_page, link=breadcrumbs, link_id=link_id, link_class=link_class)
-    
-    print("Breadcrumbs wurden erfolgreich gespeichert.")
+                # Überprüfe, ob der Link nicht im Header vorhanden war, bevor du ihn speicherst
+                if link_url not in header_links:
+                    
+                    # Hier links Header Speichern
+                    Link.objects.create(website_click=website_page_instance, link=link_url, link_id=link_id, link_class=link_class)
+                    linked_websites = WebsitePages.objects.filter(url=link_url)
+                    
+                    # Überprüfe, ob die verlinkte Seite bereits gespeichert ist
+                    try:
+                        linked_websites = WebsitePages.objects.get(url=link_url)
+                    except WebsitePages.DoesNotExist:
+                        linked_websites = None
+                            
+                    linked_websites = WebsitePages.objects.filter(url=link_url)  # Hier korrigiert
+                    # Falls die Seite nicht gespeichert ist, rufe die Funktion rekursiv auf
+                    if not linked_websites.exists():
+                        linked_websites = create_website_page_with_title(link_url, current_page_title, website_instance, user)  # Hier korrigiert
+                    else:
+                        linked_websites = linked_websites.first()
+                        
+                        
+                    buttons_list = save_buttons_on_pages(link_url)
+        
+                    saved_classes = set()
+                    saved_ids = set()
+                    
+                    for button_data in buttons_list:
+                        button_text = button_data['button_text']
+                        button_id = button_data['button_id']
+                        button_class = button_data['button_class']
+                        
+                        # Prüfe, ob die Klasse bereits gespeichert wurde
+                        if button_class and button_class not in saved_classes:
+                            Button.objects.create(website_click=website_page_instance, button_text=button_text, button_class=button_class)
+                            saved_classes.add(button_class)
+                        
+                        # Prüfe, ob die ID bereits gespeichert wurde
+                        if button_id and button_id not in saved_ids:
+                            Button.objects.create(website_click=website_page_instance, button_text=button_text, button_id=button_id)
+                            saved_ids.add(button_id)
+                        
+                        
+            
+                breadcrumbs_links = find_breadcrumbs(link_url)
+                
+                for breadcrumb_link in breadcrumbs_links:
+                    # Überprüfe auf leere Werte, bevor du den Link hinzufügst
+                    if breadcrumb_link:
+                        # Breadcrumb-Link zu speichern
+                        linked_websites = WebsitePages.objects.filter(url=breadcrumb_link)
+                        
+                        # Überprüfe, ob die verlinkte Seite bereits gespeichert ist
+                        if not linked_websites.exists():
+                            linked_websites = create_website_page_with_title(breadcrumb_link, current_page_title, website_instance, user)
+                        else:
+                            linked_websites = linked_websites.first()
+                        
+                        print(f'Breadcrumb-Link gespeichert: {breadcrumb_link}')
+
+
 
 
 # Start Website crawler
@@ -348,8 +455,8 @@ def save_click_view(request):
         user = request.user
 
         try:
-            website = Website.objects.get(url=url)  # Hole die vorhandene Website-Instanz
-            save_website_click_recursive(url, user, website)  # Übergebe die Website-Instanz
+            website_instance = Website.objects.get(url=url)  # Hole die vorhandene Website-Instanz
+            save_website_click_recursive(url, user, website_instance)  # Übergebe die Website-Instanz
             response_data = {
                 'message': 'Analyse gestartet'
             }
@@ -378,39 +485,26 @@ def website_data_json(request, website_id):
         'first_image': website.first_image,
         'meta_description': website.meta_description,
         'user_id': website.user_id,
-        'clicks': []
+        'pages': []  # Änderung: 'clicks' in 'pages' umbenannt
     }
+    
+    website_pages = WebsitePages.objects.filter(website=website)  # Alle Seiten für die Website
 
-    website_clicks = WebsitePages.objects.filter(website=website)  # Änderung: Filtere nach der Website
-    for click in website_clicks:
-        click_data = {
-            'id': click.id,
-            'click_path': click.url,
-            'title': click.title,
-            'user_id': click.user_id,
-            'links': [],
-            'buttons': []
+    for page in website_pages:
+        page_data = {
+            'id': page.id,
+            'url': page.url,
+            'title': page.title,
+            'user_id': page.user_id,
         }
 
-        links = Link.objects.filter(website_click=click)
-        for link in links:
-            link_data = {
-                'link': link.link,
-                'link_id': link.link_id,
-                'link_class': link.link_class
-            }
-            click_data['links'].append(link_data)
+        website_data['pages'].append(page_data)
 
-        buttons = Button.objects.filter(website_click=click)
-        for button in buttons:
-            button_data = {
-                'button_text': button.button_text,
-                'button_id': button.button_id,
-                'button_class': button.button_class
-            }
-            click_data['buttons'].append(button_data)
 
-        website_data['clicks'].append(click_data)
-        
-    website_data['clicks'] = sorted(website_data['clicks'], key=lambda x: x['click_path'])
     return JsonResponse(website_data)
+
+
+
+
+
+

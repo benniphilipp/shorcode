@@ -30,6 +30,13 @@ class WebsitePages(models.Model):
         return self.title
 
 
+class Subpage(models.Model):
+    parent_page = models.ForeignKey(WebsitePages, on_delete=models.CASCADE)
+    url = models.URLField()
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=100, default='Subpage')
+
+
 class Link(models.Model):
     website_click = models.ForeignKey(WebsitePages, on_delete=models.CASCADE)
     link = models.URLField()

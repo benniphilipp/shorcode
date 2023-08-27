@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block css %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/jquery.orgchart.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/webclicktracker.css' %}">
 
 {% endblock %}
@@ -70,6 +71,7 @@ var website_image = "{% static '/images/hook_image.jpg' %}";
 </script>
 
 <script defer src="{% static '/assets/js/toast-alert.js' %}"></script>
+<script defer src="{% static '/assets/js/jquery.orgchart.js' %}"></script>
 <script defer src="{% static '/assets/js/webclicktracker.js' %}"></script>
 
 {% endblock %}
