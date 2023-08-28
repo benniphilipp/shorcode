@@ -2,6 +2,7 @@ from django.views.generic.base import View
 from django.shortcuts import render
 from datetime import timedelta, date, datetime
 from collections import Counter
+from django.db.models import Sum
 
 from django.db.models import Count
 from django.db.models.functions import TruncDate
@@ -29,8 +30,6 @@ class AnalyticsView(View):
 def click_analyse(request, shortcode):
 
         obj = ShortcodeClass.objects.get(pk=shortcode)
-        
-        
         
         daily_clicks = obj.daily_clicks.all() 
         
@@ -112,9 +111,6 @@ def click_analyse(request, shortcode):
         top_referrers_data = IPGeolocation.objects.filter(shortcode=obj).values('referrer').annotate(count=Count('referrer')).order_by('-count')[:10]
         top_referrers = [(referrer['referrer'], referrer['count']) for referrer in top_referrers_data]
         
-
-        
-
         # Daten für ApexCharts
         data = {
             'creation_date': creation_date,
@@ -142,23 +138,17 @@ def click_analyse(request, shortcode):
 def total_links_json_view(request):
     total_links = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=False).count()
     total_archiv = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=True).count()
-    click_events = ClickEvent.objects.all()
-    click_data = [{'timestamp': event.timestamp, 'count': event.count, 'short_url': event.short_url.shortcode} for event in click_events]
+    
+    total_clicks = ClickEvent.get_total_clicks_for_user(request.user)
+    
     item = {
         'total_links': total_links,
         'total_archiv': total_archiv,
-        'click_data': click_data
+        'total_clicks': total_clicks,
         }
 
     return JsonResponse(item)
 
-
-# Clich Analytics Shorcode Detile View 
-class ClickDataView(View):
-    def get(self, request, *args, **kwargs):
-        click_events = ClickEvent.objects.all()
-        click_data = [{'timestamp': event.timestamp, 'count': event.count, 'short_url': event.short_url.shortcode} for event in click_events]
-        return JsonResponse(click_data, safe=False)
 
 
 # Analytics 

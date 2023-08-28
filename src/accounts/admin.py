@@ -9,6 +9,7 @@ admin.site.register(CustomUser)
 
 
 
+
 class APIKeyAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):

@@ -12,9 +12,14 @@
                 <div class="butto-name">{{ user.email }}</div>
                 </button>
 
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start border-0">
                     <li><a class="dropdown-item" href="{% url 'accounts:user-profile' user.id %}">Nutzerprofil</a></li>
                     <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Abmelden</a></li>
+
+                    {% if user|is_free_user %}
+                        <li><a class="dropdown-item" href="#">Free User</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
     

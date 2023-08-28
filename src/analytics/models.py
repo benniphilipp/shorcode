@@ -3,6 +3,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from accounts.models import CustomUser
 from shortcode.models import ShortcodeClass
+
+from django.db.models import Sum
 # Create your models here.
 
 class ClickEventManager(models.Manager):
@@ -29,6 +31,13 @@ class ClickEvent(models.Model):
         return self.short_url.shortcode if self.short_url else ""
     
     
+    @staticmethod
+    def get_total_clicks_for_user(user):
+        user_shortcodes = ShortcodeClass.objects.filter(url_creator=user, url_archivate=False)
+        total_clicks = ClickEvent.objects.filter(short_url__in=user_shortcodes).aggregate(total=Sum('count'))['total']
+        return total_clicks or 0
+    
+    
 class DailyClick(models.Model):
     short_url = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE, related_name='daily_clicks')
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -36,7 +45,7 @@ class DailyClick(models.Model):
     def __str__(self):
         return f"Click on {self.short_url.shortcode} at {self.timestamp}"
     
-    
+
 # IPGeolocation
 class IPGeolocation(models.Model):
     shortcode = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE, related_name='geolocations')

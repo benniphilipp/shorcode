@@ -6,13 +6,15 @@ from django.contrib.auth.views import LoginView
 import requests
 from user_agents import parse
 from analytics.models import ClickData
+from django.views.decorators.csrf import csrf_exempt
 
+from django.views.generic.detail import BaseDetailView
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 
 from django.urls import reverse_lazy
 from .models import CustomUser
-from .forms import RegisterForm, LoginForm, UserUpdateForm
+from .forms import RegisterForm, LoginForm, UserUpdateForm, ProfileFormAdresse
 
 from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
@@ -27,6 +29,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from django.shortcuts import get_object_or_404
 from .models import APIKey
@@ -165,10 +168,20 @@ class URLRedirectView(View):
         return HttpResponseRedirect(url)
 
 
+# User Profile Single View
 class UserProfileView(DetailView):
     model = CustomUser
     slug_field = "id"
     template_name = "userprofile.html"
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        api_key = APIKey.objects.get(user=user)
+        context['api_key'] = api_key.key
+        context['user_adressform'] = ProfileFormAdresse()
+        return context
 
 
 class RegisterView(View):
@@ -232,9 +245,6 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     
 
 
-
-
-
 # Save Click Data Websiet
 class SaveClickData(APIView):
     authentication_classes = [TokenAuthentication]
@@ -275,4 +285,51 @@ class SaveClickData(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Create Adresse
+@login_required(login_url="/login/")
+def update_user_json(request, pk):
+    
+    obj = CustomUser.objects.get(pk=pk)
+    print(obj)
+    if request.is_ajax():
+        # Aktualisiere die Benutzerdaten basierend auf den POST-Daten
+        new_first_name = request.POST.get('first_name')
+        new_last_name = request.POST.get('last_name')
+        new_address = request.POST.get('address')
+        new_zip_code = request.POST.get('zip_code')
+        new_city = request.POST.get('city')
 
+        obj.first_name = new_first_name
+        obj.last_name = new_last_name
+        obj.address = new_address
+        obj.zip_code = new_zip_code
+        obj.city = new_city
+        obj.save()
+        
+        return JsonResponse({'success': True, 'message': 'Profil erfolgreich aktualisiert.'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Nur POST-Anfragen sind erlaubt.'}, status=400)
+
+
+# Single View Adresse 
+class CustomUserJsonView(BaseDetailView):
+    model = CustomUser
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        try:
+            user = self.model.objects.get(pk=user_id)
+            user_data = {
+                'address': user.address,
+                'zip_code': user.zip_code,
+                'city': user.city,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+            }
+            return JsonResponse(user_data)
+        except self.model.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)

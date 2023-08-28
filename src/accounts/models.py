@@ -48,12 +48,18 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+# User Model
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField("email address", unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    free_user = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    zip_code = models.CharField(max_length=20, blank=True, null=True)
+    city = models.CharField(max_length=20, blank=True, null=True)
+    payment_code = models.CharField(max_length=20, blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -64,7 +70,7 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-# Test Demo data
+# Token API
 class APIKey(models.Model):
     key = models.CharField(max_length=255, unique=True, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -95,5 +101,3 @@ def create_token_for_user(user):
 def create_token(sender, instance=None, created=False, **kwargs):
     if created:
         create_token_for_user(instance)
-
-

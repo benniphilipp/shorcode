@@ -1,76 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    
-    function fetchClickDataAndUpdateChart(chart) {
-        $.ajax({
-            url: '/analytics/click_data/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var chartData = data.map(function (entry) {
-                    return {
-                        x: moment.utc(entry.timestamp).local(), // Zeit in die lokale Zeitzone konvertieren
-                        y: entry.count,
-                        short_url: entry.short_url
-                    };
-                });
-    
-                chart.data.datasets[0].data = chartData;
-                chart.update();
-            }
-        });
-    }
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Clicks over Time',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    type: 'time',
-                    adapters: {
-                        date: moment,
-                    },
-                    parser: 'iso',
-                    time: {
-                        unit: 'day'
-                    }
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            var label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            label += context.parsed.y;
-                            if (context.parsed.short_url) {
-                                label += ' (' + context.parsed.short_url + ')';
-                            }
-                            return label;
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    fetchClickDataAndUpdateChart(myChart); 
 
     // Count links
         // Führe Ajax-Request aus, um die Gesamtanzahl der Links abzurufen
@@ -79,7 +8,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             type: 'GET',
             dataType: 'json',
             success: function(data) {
-                
+                console.log(data.click_data)
                 // Füge die Gesamtanzahl der Links in das HTML-Element ein
                 if(data.click_data > 0){
                     value_click = data.click_data
@@ -103,7 +32,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     </div>
                 `);
 
-                $('#count-links-container').html(`<p><i class="fa-solid fa-earth-americas"></i> <small> Link Klicks ${value_click} </small></p>`);
+                $('#count-links-container').html(`<p><i class="fa-solid fa-earth-americas"></i> <small> Link Klicks ${data.total_clicks} </small></p>`);
 
 
             },

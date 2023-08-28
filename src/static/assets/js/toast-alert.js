@@ -1,10 +1,10 @@
 // $(document).ready(function() {
 
-        // function clearContent() {
-        //     setTimeout(function() {
-        //         $('#toast-alert').html('');
-        //     }, 4000);
-        // }
+//         function clearContent() {
+//                 setTimeout(function() {
+//                 $('#toast-alert').html('');
+//                 }, 4000);
+//         }
 
 //     function ls_toast(parmToast){
 //         $('#toast-alert').html(`
@@ -22,5 +22,6 @@
 //         `)
 //     };
 
+ 
 //     console.log('Toast run script');
 // });
