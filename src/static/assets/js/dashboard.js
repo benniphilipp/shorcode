@@ -72,9 +72,6 @@ $(document).ready(function(){
     const idShort = document.getElementById('id_shortcode');
     
 
-
-
-
     //Form disabled
     function disabledTextInput(){
         $('.disabled-func').each(function() {
@@ -125,7 +122,7 @@ $(document).ready(function(){
 
     })
 
-
+    // Update Shorcode View
     $('#update-form-shortcode').on('click', function(event){
         event.preventDefault();
 
@@ -348,28 +345,6 @@ $(document).ready(function(){
 
 
 
-
-    function fetchClickDataAndUpdateChart(chart, shortcode) {
-        $.ajax({
-            url: `/analytics/shortcode/${shortcode}/click_data/`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var chartData = data.map(function (entry) {
-                    return {
-                        x: moment.utc(entry.click_date).local(),
-                        y: entry.click_count
-                    };
-                });
-    
-                chart.data.datasets[0].data = chartData;
-                chart.update();
-            }
-        });
-    }
-    
-    var myChart;
-
     const url_view_update = window.location.origin;
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
     const shortcode_id = document.getElementById('shortcode_id');
@@ -401,11 +376,11 @@ $(document).ready(function(){
                 url_campaign.value = data.url_campaign;
                 idShort.value = data.shortcode;
 
-                $(shortcode_id).html(data.get_short_url);  
+                $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
 
                 // Tags-Felder auswählen
                 const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
-                console.log(tagsCheckboxes)
+
                 tagsCheckboxes.each(function(index, checkbox) {
                     const tagValue = parseInt($(checkbox).val());
                     const tagIsSelected = data.tags.includes(tagValue);
@@ -420,116 +395,7 @@ $(document).ready(function(){
             },
         });
 
-        // Shortcode Chart Clicks
-        if (myChart) {
-            myChart.destroy();
-        }
-
-        var shortcode = jQuery(this).attr('data-shortname');
-        //console.log(shortcode);
-        var ctx = document.getElementById('myChartClick').getContext('2d');
-        myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Clicks over Time',
-                    data: [],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        adapters: {
-                            date: moment,
-                        },
-                        parser: 'iso',
-                        time: {
-                            unit: 'day'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        fetchClickDataAndUpdateChart(myChart, shortcode); 
-
     });
-
-
-
-function fetchClickDataAndUpdateChart(chart, shortcode) {
-    $.ajax({
-        url: `/analytics/shortcode/${shortcode}/click_data/`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            var chartData = data.map(function (entry) {
-                return {
-                    x: moment.utc(entry.click_date).local(),
-                    y: entry.click_count
-                };
-            });
-
-            chart.data.datasets[0].data = chartData;
-            chart.update();
-        }
-    });
-}
-
-var myChart;
-
-$('.shortcode-class').on('click', function() {
-    var shortcode = jQuery(this).attr('data-shortname'); // Hier den Shortcode setzen
-
-    if (myChart) {
-        myChart.destroy();
-    }
-
-    console.log(shortcode);
-    var ctx = document.getElementById('myChartClick').getContext('2d');
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Clicks over Time',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    type: 'time',
-                    adapters: {
-                        date: moment,
-                    },
-                    parser: 'iso',
-                    time: {
-                        unit: 'day'
-                    }
-                },
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    fetchClickDataAndUpdateChart(myChart, shortcode); 
-});
-
-
 
 
 
@@ -572,15 +438,16 @@ $('.shortcode-class').on('click', function() {
                     shortcodeList.append(shortcodeItem);
                 });
 
+                // Shortcode Load more
                 if (totalShortcodes === 0) {
                     totalShortcodes = response.total_shortcodes;
                 }
-                
-                // if (serialized_data.length === 0 || response.page * response.per_page >= totalShortcodes) {
-                //     $('#load-more-button').hide();
-                // } else {
-                //     $('#load-more-button').show();
-                // }
+
+                if (serialized_data.length === 0 || response.page * response.per_page >= totalShortcodes) {
+                    $('#load-more-button').hide();
+                } else {
+                    $('#load-more-button').show();
+                }
     
                 currentPage += 1;  // Aktualisiere die aktuelle Seite
                 start_index = response.start_index;
@@ -597,7 +464,6 @@ $('.shortcode-class').on('click', function() {
     }
 
     loadMore();
-
     $('#load-more-button').on('click', loadMore);
 
 
@@ -609,7 +475,24 @@ $('.shortcode-class').on('click', function() {
 
         let that = document.getElementById(buttonId);
         navigator.clipboard.writeText(that?.innerText).then(res => {});
-     
+
+        $('.color' + buttonId).addClass('bg-success text-white');
+        setTimeout(()=>{
+            $('.color' + buttonId).removeClass('bg-success text-white');
+                // onClick copy to clipboard
+                console.clear()
+        }, 2000);
+
+    })
+
+    $('#aside-form').on("click", '.btn-copy', function(event){
+        event.preventDefault();
+
+        var buttonId = $(this).attr('data-button');
+
+        let that = document.getElementById(buttonId);
+        navigator.clipboard.writeText(that?.innerText).then(res => {});
+
         $('.color' + buttonId).addClass('bg-success text-white');
         setTimeout(()=>{
             $('.color' + buttonId).removeClass('bg-success text-white');
@@ -620,8 +503,7 @@ $('.shortcode-class').on('click', function() {
     })
 
 
-
-
+    // Löst das holen von Favicon aus
     $("#crate-form-shortcode").click(function() {
         var url = $("#id_url_destination").val();
         console.log(url);
@@ -641,7 +523,7 @@ $('.shortcode-class').on('click', function() {
     });
 
 
-    //Export
+    // Export Shortcode
     function exportSelectedShortcodes(csrfToken) {
         var selectedShortcodes = [];  // Hier die ausgewählten Shortcodes hinzufügen
         
@@ -675,7 +557,7 @@ $('.shortcode-class').on('click', function() {
         });
     }
 
-    // Export Button
+    // Export Button csrfToken
     $('#export-button').on('click', function() {
         var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
         exportSelectedShortcodes(csrfToken);
@@ -683,7 +565,7 @@ $('.shortcode-class').on('click', function() {
 
 
 
-    //Search
+    // Freiesuche für Shorcode
     $('#filter-search-form').on('change', function(event) {
         event.preventDefault();
 
@@ -866,7 +748,7 @@ $('.shortcode-class').on('click', function() {
     })
 
 
-    // Delete Tag func
+    // Löscht den Tag
     $('#tag-list-edit').on('click', '.delete-tag-button', function() {
         const tagId = $(this).data('tag-id');
         var csrfToken = getCookie('csrftoken');

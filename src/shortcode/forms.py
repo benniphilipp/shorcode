@@ -1,16 +1,13 @@
-from django.forms import ModelForm, forms
+from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, BooleanField
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, HTML, Hidden, Div, Field
-from crispy_forms.bootstrap import InlineCheckboxes
-
-from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, BooleanField
 
 from .models import ShortcodeClass, Tag
 
 class ShortcodeClassForm(forms.ModelForm):
 
-    url_destination = forms.CharField(label="Ziel", widget=forms.TextInput(attrs={'placeholder': 'Ziel Url'}))
+    url_destination = forms.CharField(label="Ziel-Url", widget=forms.TextInput(attrs={'placeholder': 'Ziel Url'}))
     url_titel = forms.CharField(label="Titel", widget=forms.TextInput(attrs={'placeholder': 'Titel'}))
     shortcode = forms.CharField(label="Shortcode", required=False, widget=forms.TextInput(attrs={'placeholder': 'shortcode'}))
     url_source = forms.CharField(label="Source", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B Google, Newsletter'}))
@@ -19,9 +16,6 @@ class ShortcodeClassForm(forms.ModelForm):
     url_term = forms.CharField(label="Term", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
     url_content = forms.CharField(label="Content", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'id_tags'}), required=False)
-    # tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.filter(is_active=True, is_loaded=False), required=False)
-    #url_archivate = forms.BooleanField(label="Archiviert", initial=True, required=False) 
-    
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -63,7 +57,6 @@ class ShortcodeClassForm(forms.ModelForm):
                 css_class='row'
             ),
             HTML('<div class="row"><div class="form-group col-12 my-2"></div></div>'),
-            #Field('url_archivate', css_class="form-check-input", wrapper_class="form-check form-switch"),
             Hidden('url_creator', '{{ admin }}'),
             HTML('<input id="crate-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
             HTML('<input id="update-form-shortcode" class="btn btn-primary mt-3" type="submit" value="Speichern">')

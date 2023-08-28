@@ -221,8 +221,8 @@ def load_shortcode_data_view(request):
             }
             data.append(item)
 
-        # total_shortcodes = ShortcodeClass.objects.count()
-        total_shortcodes = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=True).count()
+
+        total_shortcodes = ShortcodeClass.objects.filter(url_creator=request.user, url_archivate=False).count()
 
         return JsonResponse({
             'data': data,
@@ -233,6 +233,7 @@ def load_shortcode_data_view(request):
         })
 
 
+# Holt das Favicon
 class GetFaviconView(View):
     def get(self, request):
         url = request.GET.get('url')  # Die URL der fremden Website
@@ -298,7 +299,6 @@ class CreateTagView(View):
             return JsonResponse({'message': f'Tag "{tag_name}" wurde erstellt.'}, status=201)
         else:
             return JsonResponse({'message': f'Tag "{tag_name}" existiert bereits.'}, status=400)
-
 
 
 #View Tags

@@ -148,33 +148,3 @@ def total_links_json_view(request):
         }
 
     return JsonResponse(item)
-
-
-
-# Analytics 
-def shortcode_click_data(request, shortcode):
-    shortcode_obj = get_object_or_404(ShortcodeClass, shortcode=shortcode)
-    
-    click_data = DailyClick.objects.filter(short_url=shortcode_obj).annotate(
-        click_date=TruncDate('timestamp')
-    ).values('click_date').annotate(
-        click_count=Count('id')
-    ).order_by('click_date')
-    
-    click_data_json = list(click_data)
-    return JsonResponse(click_data_json, safe=False)
-
-
-
-
-
-
-
-
-
-
-
-
-# https://www.chartjs.org/docs/latest/charts/bar.html
-# https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript
-# https://stackoverflow.com/questions/3514784/how-to-detect-a-mobile-device-using-jquery

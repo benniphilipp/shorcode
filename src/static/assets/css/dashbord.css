@@ -215,6 +215,10 @@
     display: inline-block;
 }
 
+#your_form_id .custom-checkbox{
+    display: inline-block;
+    padding-left: 10px;
+}
 
 .icon-modal-left,
 .icon-modal-right{

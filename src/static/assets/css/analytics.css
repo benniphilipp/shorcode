@@ -36,6 +36,10 @@
     font-size: 40px;
 }
 
+#shortcode_id .fa-link{
+    font-size: 12px;
+}
+
 /* anayltics-overlay */
 .anayltics-overlay{
     top: 0;
