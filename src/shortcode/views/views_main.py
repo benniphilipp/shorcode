@@ -13,7 +13,7 @@ from datetime import timedelta, date, datetime
 
 from accounts.models import CustomUser
 from shortcode.models import ShortcodeClass, Tag
-from shortcode.forms import ShortcodeClassForm, CreateTagForm, LimitationShorcodeForm
+from shortcode.forms import ShortcodeClassForm, CreateTagForm, LimitationShorcodeForm, GeoTargetingForm, AndroidTargetingForm, IosTargetingForm
 from django.utils import timezone
 from analytics.models import ClickEvent, DailyClick, IPGeolocation
 from django.db.models import Count
@@ -189,8 +189,14 @@ def shortcode_view(request):
     form = ShortcodeClassForm() 
     tags_form = CreateTagForm()
     limitation_form = LimitationShorcodeForm()
+    geo_targeting_form = GeoTargetingForm()
+    android_targetingform = AndroidTargetingForm()
+    ios_targetingform = IosTargetingForm()
     context = {
         'form': form,
+        'geo_targeting_form': geo_targeting_form,
+        'android_targetingform': android_targetingform,
+        'ios_targetingform': ios_targetingform,
         'limitation_form': limitation_form,
         'tags_form': tags_form,
         'admin': request.user.id,

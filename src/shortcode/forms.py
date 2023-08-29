@@ -122,4 +122,82 @@ class LimitationShorcodeForm(forms.ModelForm):
     class Meta:
         model = ShortcodeClass
         fields = ['count', 'start_date', 'end_date', 'alternative_url', 'limitation_active'] 
-            
+
+
+# Geo-Targeting Form
+class GeoTargetingForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+                
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Field('geo_targeting_on_off', css_class="form-check-input", wrapper_class="form-check form-switch"),
+                css_class='row'
+            ),
+            Row(
+                Column('template_geo', css_class='form-group col-md-6 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Row(
+                Column('link_geo', css_class='form-group col-md-12 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Hidden('url_creator', '{{ admin }}'),
+            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+        )
+    
+    class Meta:
+        model = ShortcodeClass
+        fields = ['geo_targeting_on_off', 'link_geo', 'template_geo']
+
+
+# Android-Targeting From
+class AndroidTargetingForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+                
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Field('android_on_off', css_class="form-check-input", wrapper_class="form-check form-switch"),
+                css_class='row'
+            ),
+            Row(
+                Column('android', css_class='form-group col-12 col-md-12 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Hidden('url_creator', '{{ admin }}'),
+            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+        )
+    
+    class Meta:
+        model = ShortcodeClass
+        fields = ['android', 'android_on_off']
+
+
+# iOS-Targeting
+class IosTargetingForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+                
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Field('ios_on_off', css_class="form-check-input", wrapper_class="form-check form-switch"),
+                css_class='row'
+            ),
+            Row(
+                Column('ios', css_class='form-group col-12 col-md-12 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Hidden('url_creator', '{{ admin }}'),
+            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+        )
+
+    class Meta:
+        model = ShortcodeClass
+        fields = ['ios_on_off', 'ios'] 

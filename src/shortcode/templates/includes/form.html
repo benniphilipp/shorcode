@@ -26,6 +26,12 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Begrenzung von URLs</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="geo-targeting-tab" data-bs-toggle="pill" data-bs-target="#geo-targeting" type="button" role="tab" aria-controls="geo-targeting" aria-selected="false">Geo-Targeting</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="mobile-tab" data-bs-toggle="pill" data-bs-target="#mobile" type="button" role="tab" aria-controls="mobile-tab" aria-selected="false">Geräte Targeting</button>
+                    </li>
                 </ul>
             </div>
 
@@ -56,6 +62,29 @@
                             <input type=hidden id="url_creator" name="url_creator" value="{{ admin }}">  
                         </form>
                     </div>
+
+                    <!--Geo Targeting-->
+                    <div class="tab-pane fade" id="geo-targeting" role="tabpanel"  aria-labelledby="geo-targeting-tab">
+                        <h6>Geo Targeting</h6>
+                        <p>Beim Geo-Targeting werden alternative Links für den Shortcode hinterlegt.</p>
+                        <form method="POST">
+                            {% crispy geo_targeting_form %} 
+                        </form>
+                    </div>
+
+                    <!--Android-Targeting iOS-Targeting-->
+                    <div class="tab-pane fade" id="mobile" role="tabpanel"  aria-labelledby="mobile-tab">
+                        <h6>Android & IOS Targeting</h6>
+            
+                        <form method="POST">
+                            {% crispy android_targetingform %} 
+                        </form>
+
+                        <form method="POST">
+                            {% crispy ios_targetingform %} 
+                        </form>
+                    </div>
+
                 </div>                    
             </div>
 
