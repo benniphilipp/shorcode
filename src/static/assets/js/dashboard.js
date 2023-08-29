@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
     const getCookie =(name) => {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -17,7 +18,8 @@ $(document).ready(function(){
     }
     const csrftoken = getCookie('csrftoken');
 
-    //Reste Fields
+
+    /***************** Reste Fields nach dem Update oder Erstellen von Shorcode *****************/
     function resteFields(){
         //Reset fields
         $('#id_url_destination').val('')
@@ -38,18 +40,30 @@ $(document).ready(function(){
         });
     }
 
-    // Open Sidebar
+    /***************** Open Sidebar for Crate Shorcode *****************/
     $("#openForm").on('click', function() {  //use a class, since your ID gets mangled
         $('#aside-form').addClass("toggle"); 
         $('#archive-btn').addClass('d-none');
         $('#update-form-shortcode').addClass('d-none');
         $('#openForm').addClass("disabled"); 
         $('#overlay-open').addClass("overlay-open"); 
+
+        // limitation
         $('#pills-profile-tab').addClass('disabled')
         $('#limitation-form').hide();
+
+        // iOS-Targeting & Android-Targeting
+        $('#mobile-tab').addClass('disabled');
+        $('#ios-targeting-from').hide();
+        $('#android-targeting-form').hide();
+
+        // Geo-Targeting
+        $('#geo-targeting-tab').addClass('disabled');
+        $('#geo-targeting-form').hide();
+
     });
 
-    // Close Sidebar
+    /***************** Close Sidebar *****************/
     $("#closeForm").click(function() {  //use a class, since your ID gets mangled
         $('#aside-form').removeClass("toggle", 1500); 
         $('#archive-btn').removeClass('d-none');
@@ -58,22 +72,35 @@ $(document).ready(function(){
         $('#openForm').removeClass("disabled");
         $('#overlay-open').removeClass("overlay-open"); 
         $('#shortcode_id').html('');
+
+        // limitation
         $('#pills-profile-tab').removeClass('disabled')
         $('#limitation-form').show();
+
+        // iOS-Targeting & Android-Targeting
+        $('#mobile-tab').removeClass('disabled');
+        $('#ios-targeting-from').show();
+        $('#android-targeting-form').show();
+
+        // Geo-Targeting
+        $('#geo-targeting-tab').removeClass('disabled');
+        $('#geo-targeting-form').show();
+
         resteFields();
     });
+
     
     //Variabeln     
-    const url_destination = document.getElementById('id_url_destination');
-    const url_titel = document.getElementById('id_url_titel');
-    const url_medium = document.getElementById('id_url_medium');
-    const url_source = document.getElementById('id_url_source');
-    const url_term = document.getElementById('id_url_term');
-    const url_content = document.getElementById('id_url_content');
-    const url_campaign = document.getElementById('id_url_campaign');
-    const csrf = document.getElementsByName('csrfmiddlewaretoken');
-    const url_creator = document.getElementById('url_creator');
-    const idShort = document.getElementById('id_shortcode');
+    // const url_destination = document.getElementById('id_url_destination');
+    // const url_titel = document.getElementById('id_url_titel');
+    // const url_medium = document.getElementById('id_url_medium');
+    // const url_source = document.getElementById('id_url_source');
+    // const url_term = document.getElementById('id_url_term');
+    // const url_content = document.getElementById('id_url_content');
+    // const url_campaign = document.getElementById('id_url_campaign');
+    // const csrf = document.getElementsByName('csrfmiddlewaretoken');
+    // const url_creator = document.getElementById('url_creator');
+    // const idShort = document.getElementById('id_shortcode');
     // limitation
     // const startDateInputField = document.getElementById('id_start_date');
     // const endDateInputField = document.getElementById('id_end_date');
@@ -362,52 +389,52 @@ $(document).ready(function(){
     const shortcode_id = document.getElementById('shortcode_id');
 
     // Shortcode Singel Edit View
-    $('#shortcode-list').on('click', '.shortcode-class', function() {
+    // $('#shortcode-list').on('click', '.shortcode-class', function() {
 
-        var idShortcode = jQuery(this).attr('data-shortcode');
-        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
-        $('#archive-btn').attr('data-archive', idShortcode);
-        $('#overlay-open').addClass("overlay-open"); 
+        // var idShortcode = jQuery(this).attr('data-shortcode');
+        // const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/'
+        // $('#archive-btn').attr('data-archive', idShortcode);
+        // $('#overlay-open').addClass("overlay-open"); 
 
-        $.ajax({
-            type: 'GET',
-            url: url_view,
-            success: function(response){
-                const data = response.data
+        // $.ajax({
+        //     type: 'GET',
+        //     url: url_view,
+        //     success: function(response){
+        //         const data = response.data
 
-                $('#aside-form').addClass('toggle');
-                $('#crate-form-shortcode').addClass('d-none');
-                $('#openForm').addClass("disabled"); 
-                updateShortcodeUrl.value = data.id;
-                url_destination.value = data.url_destination;
-                url_titel.value = data.url_titel;
-                url_medium.value = data.url_medium;
-                url_source.value = data.url_source;
-                url_term.value = data.url_term;
-                url_content.value = data.url_content;
-                url_campaign.value = data.url_campaign;
-                idShort.value = data.shortcode;
+        //         $('#aside-form').addClass('toggle');
+        //         $('#crate-form-shortcode').addClass('d-none');
+        //         $('#openForm').addClass("disabled"); 
+        //         updateShortcodeUrl.value = data.id;
+        //         url_destination.value = data.url_destination;
+        //         url_titel.value = data.url_titel;
+        //         url_medium.value = data.url_medium;
+        //         url_source.value = data.url_source;
+        //         url_term.value = data.url_term;
+        //         url_content.value = data.url_content;
+        //         url_campaign.value = data.url_campaign;
+        //         idShort.value = data.shortcode;
 
-                $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
+        //         $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
 
-                // Tags-Felder auswählen
-                const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+        //         // Tags-Felder auswählen
+        //         const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
 
-                tagsCheckboxes.each(function(index, checkbox) {
-                    const tagValue = parseInt($(checkbox).val());
-                    const tagIsSelected = data.tags.includes(tagValue);
-                    $(checkbox).prop('checked', tagIsSelected);
-                });
+        //         tagsCheckboxes.each(function(index, checkbox) {
+        //             const tagValue = parseInt($(checkbox).val());
+        //             const tagIsSelected = data.tags.includes(tagValue);
+        //             $(checkbox).prop('checked', tagIsSelected);
+        //         });
 
-                tagsCheckboxes.trigger('change');
+        //         tagsCheckboxes.trigger('change');
 
-            },
-            error: function(error){
-                console.log(error + 'erro');
-            },
-        });
+        //     },
+        //     error: function(error){
+        //         console.log(error + 'erro');
+        //     },
+        // });
 
-    });
+    //});
 
 
 

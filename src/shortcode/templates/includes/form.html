@@ -67,7 +67,7 @@
                     <div class="tab-pane fade" id="geo-targeting" role="tabpanel"  aria-labelledby="geo-targeting-tab">
                         <h6>Geo Targeting</h6>
                         <p>Beim Geo-Targeting werden alternative Links für den Shortcode hinterlegt.</p>
-                        <form method="POST">
+                        <form id="geo-targeting-form">
                             {% crispy geo_targeting_form %} 
                         </form>
                     </div>
@@ -76,11 +76,13 @@
                     <div class="tab-pane fade" id="mobile" role="tabpanel"  aria-labelledby="mobile-tab">
                         <h6>Android & IOS Targeting</h6>
             
-                        <form method="POST">
+                        <!--Android From-->
+                        <form method="POST" id="android-targeting-form">
                             {% crispy android_targetingform %} 
                         </form>
 
-                        <form method="POST">
+                        <!--IOS Form-->
+                        <form method="POST" id="ios-targeting-from">
                             {% crispy ios_targetingform %} 
                         </form>
                     </div>

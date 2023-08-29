@@ -10,8 +10,10 @@ from django.views import View
 import csv
 from django.http import HttpResponse
 from datetime import timedelta, date, datetime
+from django.core.serializers import serialize
 
 from accounts.models import CustomUser
+from geotargeting.models import GeoThemplate
 from shortcode.models import ShortcodeClass, Tag
 from shortcode.forms import ShortcodeClassForm, CreateTagForm, LimitationShorcodeForm, GeoTargetingForm, AndroidTargetingForm, IosTargetingForm
 from django.utils import timezone
@@ -116,6 +118,11 @@ def post_detaile_data_view(request, pk):
     obj = ShortcodeClass.objects.get(pk=pk)
     tags = [tag.id for tag in obj.tags.all()]
     
+    if obj.template_geo is not None:
+        template_geo_id = obj.template_geo.themplate_name
+    else:
+        template_geo_id = None
+    
     data = {
         'id': obj.pk,
         'url_destination': obj.url_destination,
@@ -130,6 +137,14 @@ def post_detaile_data_view(request, pk):
         'shortcode': obj.shortcode,
         'get_short_url': obj.get_short_url,
         'tags': tags,
+        'url_id_count': obj.count,
+        'url_id_end_date': obj.start_date,
+        'url_id_start_date': obj.end_date,
+        'url_id_alternative_url': obj.alternative_url,
+        'url_id_link_geo': obj.link_geo,
+        'url_id_template_geo': template_geo_id,
+        'url_id_android': obj.android,
+        'url_id_ios': obj.ios
     }
     return JsonResponse({'data':data})
 

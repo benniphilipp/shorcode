@@ -1,5 +1,19 @@
 from django.urls import path
-from shortcode.views.views_limitation import toggle_limitation_active_status, get_limitation_active_status
+
+from shortcode.views.views_targeting import (
+    toggle_limitation_active_status, 
+    get_limitation_active_status,
+    get_deatile_android_targeting,
+    get_detaile_ios_targeting,
+    get_detaile_geo_targeting,
+    toggle_geo_targeting_active_satus,
+    toggle_android_targeting_active_status,
+    toggle_ios_targeting_active_status,
+    limitationTargetingUpdateView,
+    GeoTargetingUpdateView,
+    AndroidTargetingUpdateView,
+    IosTargetingUpdateView)
+
 from shortcode.views.views_main import (
         post_crate_view, 
         load_shortcode_data_view, 
@@ -36,6 +50,16 @@ urlpatterns = [
     path('tags-list/', TagListView.as_view(), name='tag-list'),
     path('tags-edit/<int:tag_id>/', edit_tag, name='tag-edit'),
     path('tags-delete/<int:tag_id>/', TagDeleteView.as_view(), name='tag-delete'),
-    path('toggle_limitation_active/<int:pk>/', toggle_limitation_active_status, name='toggle_limitation_active'),
+    path('toggle_limitation_active_status/<int:pk>/', toggle_limitation_active_status, name='toggle_limitation_active_status'),
     path('get_limitation_active_status/<int:pk>/', get_limitation_active_status, name='get_limitation_active_status'),
+    path('get_detaile_geo_targeting/<int:pk>/', get_detaile_geo_targeting, name='get_detaile_geo_targeting'),
+    path('get_detaile_ios_targeting/<int:pk>/', get_detaile_ios_targeting, name='get_detaile_ios_targeting'),
+    path('get_deatile_android_targeting/<int:pk>/', get_deatile_android_targeting, name='get_deatile_android_targeting'),
+    path('toggle_geo_targeting_active_satus/<int:pk>/', toggle_geo_targeting_active_satus, name='toggle_geo_targeting_active_satus'),
+    path('toggle_android_targeting_active_status/<int:pk>/', toggle_android_targeting_active_status, name='toggle_android_targeting_active_status'),
+    path('toggle_ios_targeting_active_status/<int:pk>/', toggle_ios_targeting_active_status, name='toggle_ios_targeting_active_status'),
+    path('update_limitation_targeting/<int:pk>/', limitationTargetingUpdateView.as_view(), name='update_geo_targeting'),
+    path('update_geo_targeting/<int:pk>/', GeoTargetingUpdateView.as_view(), name='update_geo_targeting'),
+    path('update_android_targeting/<int:pk>/', AndroidTargetingUpdateView.as_view(), name='update_android_targeting'),
+    path('update_ios_targeting/<int:pk>/', IosTargetingUpdateView.as_view(), name='update_ios_targeting'),
 ]

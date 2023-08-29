@@ -1,6 +1,24 @@
 $(document).ready(function(){
 
 
+    const getCookie =(name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+
     /* Alert Box Close */
     function clearContent() {
         setTimeout(function() {
@@ -27,25 +45,26 @@ $(document).ready(function(){
     };
 
 
-    /***************** Limitation limitation *****************/
 
     // Input Field Date Time
     function limitationDateTime(){
         var startDateInput = document.getElementById("id_start_date");
         if (startDateInput) {
-          var currentDate = luxon.DateTime.local();
-          startDateInput.value =  currentDate.toFormat('dd.MM.yyyy HH:mm');
+            var currentDate = luxon.DateTime.local();
+            var formattedStartDate = currentDate.toFormat('yyyy-LL-dd HH:mm:ss.SSSZZ');
+            startDateInput.value = formattedStartDate || "0001-01-01 00:00:00";
         }
     
         // Input Field Date End
         var entDateInput = document.getElementById("id_end_date");
         if (entDateInput) {
             var currentDate = luxon.DateTime.local();
-            entDateInput.value =  currentDate.toFormat('dd.MM.yyyy HH:mm');
+            var formattedEndDate = currentDate.toFormat('yyyy-LL-dd HH:mm:ss.SSSZZ');
+            entDateInput.value = formattedEndDate || "0001-01-01 00:00:00";   
         }
     }
 
-    /***************** Shortcode *****************/
+
 
     //Variabeln     
     const url_destination = document.getElementById('id_url_destination');
@@ -58,12 +77,402 @@ $(document).ready(function(){
     const csrf = document.getElementsByName('csrfmiddlewaretoken');
     const url_creator = document.getElementById('url_creator');
     const idShort = document.getElementById('id_shortcode');
-    // limitation
-    // const startDateInputField = document.getElementById('id_start_date');
-    // const endDateInputField = document.getElementById('id_end_date');
-    // const countDatafield = document.getElementById('id_count');
-    // const alternativeDataField = document.getElementById('id_alternative_url');
 
+    const url_id_start_date = document.getElementById('id_start_date');
+    const url_id_end_date = document.getElementById('id_end_date');
+    const url_id_count = document.getElementById('id_count');
+    const url_id_alternative_url = document.getElementById('id_alternative_url');
+
+    const url_id_template_geo = document.getElementById('id_template_geo');
+    const url_id_link_geo = document.getElementById('id_link_geo');
+
+    const url_id_android = document.getElementById('id_android');
+
+    const url_id_ios = document.getElementById('id_ios');
+
+    const url_view_update = window.location.origin;
+    const updateShortcodeUrl = document.getElementById('update-shortcode-url');
+    const shortcode_id = document.getElementById('shortcode_id');
+
+
+    /* Einzelansicht felder Befühlung */
+    $('#shortcode-list').on('click', '.shortcode-class', function() {
+
+        var startDateInput = document.getElementById("id_start_date");
+        var entDateInput = document.getElementById("id_end_date");
+
+        // Shorcode Single Ansicht
+        var idShortcode = jQuery(this).attr('data-shortcode');
+        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/';
+        $('#archive-btn').attr('data-archive', idShortcode);
+        $('#overlay-open').addClass("overlay-open"); 
+
+        $.ajax({
+            type: 'GET',
+            url: url_view,
+            success: function(response){
+                const data = response.data
+
+                $('#aside-form').addClass('toggle');
+                $('#crate-form-shortcode').addClass('d-none');
+                $('#openForm').addClass("disabled"); 
+                updateShortcodeUrl.value = data.id;
+                url_destination.value = data.url_destination;
+                url_titel.value = data.url_titel;
+                url_medium.value = data.url_medium;
+                url_source.value = data.url_source;
+                url_term.value = data.url_term;
+                url_content.value = data.url_content;
+                url_campaign.value = data.url_campaign;
+                idShort.value = data.shortcode;
+                url_id_start_date.value = data.url_id_start_date
+                url_id_end_date.value = data.url_id_end_date
+                url_id_count.value = data.url_id_count
+                url_id_alternative_url.value = data.url_id_alternative_url
+                url_id_link_geo.value = data.url_id_link_geo
+                url_id_android.value = data.url_id_android
+                url_id_ios.value = data.url_id_ios
+
+
+                const templateGeoJson = data.url_id_template_geo;
+
+                if(templateGeoJson){
+                    const templateSelect = $('#id_template_geo');
+                    templateSelect.empty();
+                    const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
+                    templateSelect.append(option);    
+                }
+
+                $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
+
+                // Tags-Felder auswählen
+                const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+
+                tagsCheckboxes.each(function(index, checkbox) {
+                    const tagValue = parseInt($(checkbox).val());
+                    const tagIsSelected = data.tags.includes(tagValue);
+                    $(checkbox).prop('checked', tagIsSelected);
+                });
+
+                tagsCheckboxes.trigger('change');
+
+            },
+            error: function(error){
+                console.log(error + 'erro');
+            },
+        });
+
+
+        /* Funktion zum abrufen des Status der Swiches */
+        function shorcodeSwitchesStatus(elementsID, url, disabledClass){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+
+                    const data = response.status_switches;
+
+                    if(data){
+                        $(elementsID).prop('checked', true);
+                        $(disabledClass).prop('disabled', false);
+                    }else{
+                        $(elementsID).prop('checked', false);
+                        $(disabledClass).prop('disabled', true);
+                    }
+                    
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        /* limitation */
+        var disabledClass = '.disabled-limitation';
+        var url = `/shortcode/get_limitation_active_status/${idShortcode}/`;
+        var elementsID = '#id_limitation_active';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
+
+        /* Geo-Targeting */
+        var disabledClass = '.disabled-geo';
+        var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
+        var elementsID = '#id_geo_targeting_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
+
+        /* iOS-Targeting */
+        var disabledClass = '.disabled-ios'
+        var url = `/shortcode/get_detaile_ios_targeting/${idShortcode}/`;
+        var elementsID = '#id_ios_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
+
+        /* Android-Targeting */
+        var disabledClass = '.disabled-android';
+        var url = `/shortcode/get_deatile_android_targeting/${idShortcode}/`;
+        var elementsID = '#id_android_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
+
+
+        /***************** Start Swiches Update View *****************/
+
+        /* Funktion Edite Swiches */
+        $('.checkboxinput').on('change', function() {
+            var currentStatus = $(this).data('status');
+            var isChecked = $(this).prop('checked');
+
+            function shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit){
+                $.ajax({
+                    url: shortUrl,
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': csrftoken,
+                        'pk': idShortcode,
+                        'current_status': currentStatus
+                    },
+                    success: function(response) {
+                        const data = response.status_switches;
+
+                        if(data){
+                            $(elementsShortID).prop('checked', true);
+                            $(disabledClassEdit).prop('disabled', false);
+                        }else{
+                            $(elementsShortID).prop('checked', false);
+                            $(disabledClassEdit).prop('disabled', true);
+                        }
+
+                        console.log(data);
+                        if(elementsShortID == '#id_limitation_active' && data == true){
+                            // Datum Anzeige
+                            limitationDateTime();
+                        }else{
+                            $(startDateInput).val('')
+                            $(entDateInput).val('')
+                        }
+
+                    },
+                    error: function(error) {
+                        console.log("Fehler:", error);
+                    }
+                });
+            }
+
+
+            if (isChecked) {
+                if('id_limitation_active' == this.id){
+                    /* limitation */
+                    var disabledClassEdit = '.disabled-limitation';
+                    elementsShortID = '#id_limitation_active';
+                    shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_geo_targeting_on_off' == this.id){
+                    /* Geo-Targeting */
+                    var disabledClassEdit = '.disabled-geo';
+                    var elementsShortID = '#id_geo_targeting_on_off';
+                    var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_android_on_off' == this.id){
+                    /* Android-Targeting */
+                    var disabledClassEdit = '.disabled-android';
+                    var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    var elementsShortID = '#id_android_on_off';
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else{
+                    /* iOS-Targeting */
+                    var disabledClassEdit = '.disabled-ios'
+                    var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    var elementsShortID = '#id_ios_on_off';
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }
+            }else{
+                if('id_limitation_active' == this.id){
+                    /* limitation */
+                    var disabledClassEdit = '.disabled-limitation';
+                    elementsShortID = '#id_limitation_active';
+                    shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_geo_targeting_on_off' == this.id){
+                    /* Geo-Targeting */
+                    var disabledClassEdit = '.disabled-geo';
+                    var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    var elementsShortID = '#id_geo_targeting_on_off';
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_android_on_off' == this.id){
+                    /* Android-Targeting */
+                    var disabledClassEdit = '.disabled-android';
+                    var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    var elementsShortID = '#id_android_on_off';
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else{
+                    /* iOS-Targeting */
+                    var disabledClassEdit = '.disabled-ios'
+                    var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    var elementsShortID = '#id_ios_on_off';
+                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }
+            }
+
+
+        });
+
+
+    });
+
+
+    /* Update Send limitation */
+    $('.send-limitation-form').click(function(event) {
+        event.preventDefault();
+
+        var idShortcode = $('#update-shortcode-url').val();
+        var formAction = `/shortcode/update_limitation_targeting/${idShortcode}/`;
+
+        var id_start_date = $('#id_start_date').val();
+        var id_end_date = $('#id_end_date').val();
+        var id_count = $('#id_count').val();
+        var id_alternative_url = $('#id_alternative_url').val();
+        
+        const fd = new FormData();
+        fd.append('id_end_date', id_end_date);
+        fd.append('id_start_date', id_start_date);
+        fd.append('id_count', id_count);
+        fd.append('id_alternative_url', id_alternative_url);
+
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            data: fd,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Formular wurde erfolgreich aktualisiert.');
+                } else {
+                    console.log('Fehler beim Aktualisieren des Formulars:', response.errors);
+                }
+            },
+            error: function(error) {
+                console.log('Fehler beim Ajax-Aufruf:', error.response_data);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+
+    });
+
+    /* Update Send Geo-Targeting */
+    $('.send-update-form').click(function(event){
+        event.preventDefault();
+
+        var idShortcode = $('#update-shortcode-url').val();
+        var formAction = `/shortcode/update_geo_targeting/${idShortcode}/`;
+
+        var id_template_geo = $('#id_template_geo').val();
+        var id_link_geo = $('#id_link_geo').val();
+
+        const fd = new FormData();
+        fd.append('id_template_geo', id_template_geo);
+        fd.append('id_link_geo', id_link_geo);
+
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            data: fd,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Formular wurde erfolgreich aktualisiert.');
+                } else {
+                    console.log('Fehler beim Aktualisieren des Formulars:', response);
+                }
+            },
+            error: function(error) {
+                console.log('Fehler beim Ajax-Aufruf:', error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+
+    });
+
+    /* Android-Targeting */
+    $('.send-android-form').click(function(event){        
+        event.preventDefault();
+ 
+        var idShortcode = $('#update-shortcode-url').val();
+        var formAction = `/shortcode/update_android_targeting/${idShortcode}/`;
+
+        var id_android = $('#id_android').val();
+
+        const fd = new FormData();
+        fd.append('android', id_android);
+
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            data: fd,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Formular wurde erfolgreich aktualisiert.');
+                } else {
+                    console.log('Fehler beim Aktualisieren des Formulars:', response);
+                }
+            },
+            error: function(error) {
+                console.log('Fehler beim Ajax-Aufruf:', error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false, 
+        });
+
+    });
+
+
+    $('.send-ios-form').click(function(event){
+        event.preventDefault();
+
+        var idShortcode = $('#update-shortcode-url').val();
+        var formAction = `/shortcode/update_ios_targeting/${idShortcode}/`;
+        var ios = $('#id_ios').val();
+
+        const fd = new FormData();
+        fd.append('ios', ios);
+
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            data: fd,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Formular wurde erfolgreich aktualisiert.');
+                } else {
+                    console.log('Fehler beim Aktualisieren des Formulars:', response);
+                }
+            },
+            error: function(error) {
+                console.log('Fehler beim Ajax-Aufruf:', error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false, 
+        });
+
+    });
+
+    
 
     /* Crate functions Shortcode */
     $("#crate-form-shortcode").on("click", function(event) {

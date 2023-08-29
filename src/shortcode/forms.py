@@ -4,6 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, HTML, Hidden, Div, Field
 
 from .models import ShortcodeClass, Tag
+from geotargeting.models import GeoThemplate
 
 class ShortcodeClassForm(forms.ModelForm):
 
@@ -93,6 +94,11 @@ class CreateTagForm(forms.ModelForm):
 # Begrenzung von URLs
 class LimitationShorcodeForm(forms.ModelForm):
     
+    start_date = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    end_date = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    count = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    alternative_url = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
                 
@@ -103,20 +109,20 @@ class LimitationShorcodeForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
-                Column('start_date', css_class='form-group col-md-6 my-2 disabled-func'),
-                Column('end_date', css_class='form-group col-md-6 my-2 disabled-func'),
+                Column('start_date', css_class='form-group col-md-6 my-2'),
+                Column('end_date', css_class='form-group col-md-6 my-2'),
                 css_class='row'
             ),
             Row(
-                Column('count', css_class='form-group col-md-6 my-2 disabled-func'),
+                Column('count', css_class='form-group col-md-6 my-2'),
                 css_class='row'
             ),
             Row(
-                Column('alternative_url', css_class='form-group col-md-12 my-2 disabled-func'),
+                Column('alternative_url', css_class='form-group col-md-12 my-2'),
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+            HTML('<input id="" class="btn btn-primary mt-3 disabled-limitation send-limitation-form" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -127,9 +133,14 @@ class LimitationShorcodeForm(forms.ModelForm):
 # Geo-Targeting Form
 class GeoTargetingForm(forms.ModelForm):
     
+    template_geo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}))
+    # link_geo = forms.ModelChoiceField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}), queryset=GeoThemplate.objects.all())
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-                
+
+        self.fields['template_geo']=forms.ModelChoiceField(required=False, queryset=GeoThemplate.objects.all())
+        
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
@@ -137,15 +148,15 @@ class GeoTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
-                Column('template_geo', css_class='form-group col-md-6 my-2 disabled-func'),
+                Column('template_geo', css_class='form-group col-md-6 my-2'),
                 css_class='row'
             ),
             Row(
-                Column('link_geo', css_class='form-group col-md-12 my-2 disabled-func'),
+                Column('link_geo', css_class='form-group col-md-12 my-2'),
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+            HTML('<input class="btn btn-primary mt-3 disabled-geo send-update-form" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -155,6 +166,8 @@ class GeoTargetingForm(forms.ModelForm):
 
 # Android-Targeting From
 class AndroidTargetingForm(forms.ModelForm):
+
+    android = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-android'}))
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -166,11 +179,11 @@ class AndroidTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
-                Column('android', css_class='form-group col-12 col-md-12 my-2 disabled-func'),
+                Column('android', css_class='form-group col-12 col-md-12 my-2'),
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+            HTML('<input id="" class="btn btn-primary mt-3 disabled-android send-android-form" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -180,6 +193,8 @@ class AndroidTargetingForm(forms.ModelForm):
 
 # iOS-Targeting
 class IosTargetingForm(forms.ModelForm):
+    
+    ios = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-ios'}))
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -191,11 +206,11 @@ class IosTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
-                Column('ios', css_class='form-group col-12 col-md-12 my-2 disabled-func'),
+                Column('ios', css_class='form-group col-12 col-md-12 my-2'),
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+            HTML('<input class="btn btn-primary mt-3 disabled-ios send-ios-form" type="submit" value="Speichern">')
         )
 
     class Meta:
