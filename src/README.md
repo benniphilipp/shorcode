@@ -4,6 +4,9 @@ Django APPs:
 
 # Analytics
 
+# Geo-Targeting
+python3 manage.py startapp geotargeting
+
 # Tracking AI
 python3 manage.py startapp trackingai
 # Link in Bio
@@ -37,7 +40,6 @@ sudo reboot
 
 source myprojectenv/bin/activate
 python manage.py clearcache
-
 
 # ENV
 . env/bin/activate

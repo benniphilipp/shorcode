@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import (
+from shortcode.views.views_limitation import toggle_limitation_active_status, get_limitation_active_status
+from shortcode.views.views_main import (
         post_crate_view, 
         load_shortcode_data_view, 
         GetFaviconView, 
@@ -35,4 +36,6 @@ urlpatterns = [
     path('tags-list/', TagListView.as_view(), name='tag-list'),
     path('tags-edit/<int:tag_id>/', edit_tag, name='tag-edit'),
     path('tags-delete/<int:tag_id>/', TagDeleteView.as_view(), name='tag-delete'),
+    path('toggle_limitation_active/<int:pk>/', toggle_limitation_active_status, name='toggle_limitation_active'),
+    path('get_limitation_active_status/<int:pk>/', get_limitation_active_status, name='get_limitation_active_status'),
 ]

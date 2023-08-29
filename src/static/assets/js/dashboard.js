@@ -45,6 +45,8 @@ $(document).ready(function(){
         $('#update-form-shortcode').addClass('d-none');
         $('#openForm').addClass("disabled"); 
         $('#overlay-open').addClass("overlay-open"); 
+        $('#pills-profile-tab').addClass('disabled')
+        $('#limitation-form').hide();
     });
 
     // Close Sidebar
@@ -56,6 +58,8 @@ $(document).ready(function(){
         $('#openForm').removeClass("disabled");
         $('#overlay-open').removeClass("overlay-open"); 
         $('#shortcode_id').html('');
+        $('#pills-profile-tab').removeClass('disabled')
+        $('#limitation-form').show();
         resteFields();
     });
     
@@ -70,7 +74,11 @@ $(document).ready(function(){
     const csrf = document.getElementsByName('csrfmiddlewaretoken');
     const url_creator = document.getElementById('url_creator');
     const idShort = document.getElementById('id_shortcode');
-    
+    // limitation
+    // const startDateInputField = document.getElementById('id_start_date');
+    // const endDateInputField = document.getElementById('id_end_date');
+    // const countDatafield = document.getElementById('id_count');
+    // const alternativeDataField = document.getElementById('id_alternative_url');
 
     //Form disabled
     function disabledTextInput(){
@@ -123,70 +131,70 @@ $(document).ready(function(){
     })
 
     // Update Shorcode View
-    $('#update-form-shortcode').on('click', function(event){
-        event.preventDefault();
+    // $('#update-form-shortcode').on('click', function(event){
+    //     event.preventDefault();
 
-        var idShortcode = $('#update-shortcode-url').val();
-        const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
-        $('#archive-btn').attr('data-archive', idShortcode);
-        //const tags = formData.filter(item => item.name === 'tags')[0].value.split(',');
+    //     var idShortcode = $('#update-shortcode-url').val();
+    //     const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
+    //     $('#archive-btn').attr('data-archive', idShortcode);
+    //     //const tags = formData.filter(item => item.name === 'tags')[0].value.split(',');
 
-        // console.log(url_update);
+    //     // console.log(url_update);
 
-        const fd = new FormData();
-        fd.append('csrfmiddlewaretoken', csrf[0].value)
-        fd.append('url_destination', url_destination.value);
-        fd.append('url_titel', url_titel.value);
-        fd.append('url_source', url_source.value);
-        fd.append('url_medium', url_medium.value);
-        fd.append('url_term', url_term.value);
-        fd.append('url_campaign', url_campaign.value);
-        fd.append('url_creator', url_creator.value);
-        fd.append('url_content', url_content.value);
-        fd.append('shortcode_id', idShort.value);
+    //     const fd = new FormData();
+    //     fd.append('csrfmiddlewaretoken', csrf[0].value)
+    //     fd.append('url_destination', url_destination.value);
+    //     fd.append('url_titel', url_titel.value);
+    //     fd.append('url_source', url_source.value);
+    //     fd.append('url_medium', url_medium.value);
+    //     fd.append('url_term', url_term.value);
+    //     fd.append('url_campaign', url_campaign.value);
+    //     fd.append('url_creator', url_creator.value);
+    //     fd.append('url_content', url_content.value);
+    //     fd.append('shortcode_id', idShort.value);
 
 
-        const selectedTags = [];
-        $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
-            selectedTags.push($(this).val());
+    //     const selectedTags = [];
+    //     $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
+    //         selectedTags.push($(this).val());
 
-        });
-        fd.append('tags', selectedTags.join(','));
+    //     });
+    //     fd.append('tags', selectedTags.join(','));
 
-        $.ajax({
-            type: 'POST',
-            url: url_update,
-            data: fd,
-            enctype: 'multipart/form-data',
-            success: function(response){
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: url_update,
+    //         data: fd,
+    //         enctype: 'multipart/form-data',
+    //         success: function(response){
 
-                //form fuc disabled
-                disabledTextInput();
+    //             //form fuc disabled
+    //             disabledTextInput();
 
-                //Overlay
-                overlayReady();
+    //             //Overlay
+    //             overlayReady();
 
-                resteFields()
+    //             resteFields()
 
-                // //Alert
-                alert(response.success, 'success')
-                setTimeout(function(){$('.alert').alert('close')}, 3000)
-                $('#overlay-open').removeClass("overlay-open"); 
+    //             // //Alert
+    //             alert(response.success, 'success')
+    //             setTimeout(function(){$('.alert').alert('close')}, 3000)
+    //             $('#overlay-open').removeClass("overlay-open"); 
 
-                setTimeout(()=>{
-                    window.location.reload();
-                    $('#overlay').removeClass('overlay-active');
-                }, 2000);
+    //             setTimeout(()=>{
+    //                 window.location.reload();
+    //                 $('#overlay').removeClass('overlay-active');
+    //             }, 2000);
 
-            },
-            error: function(error){
-                console.log(error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-        })
-    })
+    //         },
+    //         error: function(error){
+    //             console.log(error);
+    //         },
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //     })
+    // })
 
 
     //Alert Banner
@@ -204,77 +212,81 @@ $(document).ready(function(){
     alertPlaceholder.append(wrapper)
     }
 
-    // Crate functions Shortcode
-    $("#crate-form-shortcode").on("click", function(event) {
-        event.preventDefault();
+    // // Crate functions Shortcode
+    // $("#crate-form-shortcode").on("click", function(event) {
+    //     event.preventDefault();
 
-        const fd = new FormData();
-        fd.append('csrfmiddlewaretoken', csrf[0].value)
-        fd.append('url_destination', url_destination.value);
-        fd.append('url_titel', url_titel.value);
-        fd.append('url_source', url_source.value);
-        fd.append('url_medium', url_medium.value);
-        fd.append('url_term', url_term.value);
-        fd.append('url_campaign', url_campaign.value);
-        fd.append('url_creator', url_creator.value);
-        fd.append('url_content', url_content.value);
+    //     const fd = new FormData();
+    //     fd.append('csrfmiddlewaretoken', csrf[0].value)
+    //     fd.append('url_destination', url_destination.value);
+    //     fd.append('url_titel', url_titel.value);
+    //     fd.append('url_source', url_source.value);
+    //     fd.append('url_medium', url_medium.value);
+    //     fd.append('url_term', url_term.value);
+    //     fd.append('url_campaign', url_campaign.value);
+    //     fd.append('url_creator', url_creator.value);
+    //     fd.append('url_content', url_content.value);
+    //     fd.append('start_date', startDateInputField.value)
+    //     fd.append('end_date', endDateInputField.value)
+    //     fd.append('count', countDatafield.value)
+    //     fd.append('alternative_url', alternativeDataField.value)
 
-        $.ajax({
-            type: 'POST',
-            url: $("input[name=data]").val(),
-            data: fd,
-            enctype: 'multipart/form-data',
-            success: function(response){
+    //     console.log(fd)
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: $("input[name=data]").val(),
+    //         data: fd,
+    //         enctype: 'multipart/form-data',
+    //         success: function(response){
 
+    //             //Alert
+    //             if(response.success == 'Dein link wurde erfolgreich erstellt'){
 
-                //Alert
-                if(response.success == 'Dein link wurde erfolgreich erstellt'){
+    //                 //form fuc disabled
+    //                 // disabledTextInput();
 
-                    //form fuc disabled
-                    disabledTextInput();
+    //                 // //Overlay
+    //                 // overlayReady();
 
-                    //Overlay
-                    overlayReady();
-
-                    resteFields();
+    //                 // resteFields();
                     
-                    alert(response.success, 'success')
+    //                 // alert(response.success, 'success')
 
-                        //Close Sidebar
-                        setTimeout(()=>{
-                            location.reload();
-                            $('#overlay').removeClass('overlay-active');
-                        }, 2000);
+    //                 //     //Close Sidebar
+    //                 //     setTimeout(()=>{
+    //                 //         location.reload();
+    //                 //         $('#overlay').removeClass('overlay-active');
+    //                 //     }, 2000);
 
-                }else{
+    //             }else{
                     
-                    if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
-                        console.log(response.danger_titel);
-                        alert(response.danger_titel, 'danger');
-                        $('#id_url_destination').addClass('is-invalid')
+    //                 if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
+    //                     console.log(response.danger_titel);
+    //                     alert(response.danger_titel, 'danger');
+    //                     $('#id_url_destination').addClass('is-invalid')
 
-                    }else if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
+    //                 }else if(response.danger_titel == 'Dieses Feld ist zwingend erforderlich.'){
 
-                        alert(response.danger_titel, 'danger');   
-                        $('#id_url_titel').addClass('is-invalid')
+    //                     alert(response.danger_titel, 'danger');   
+    //                     $('#id_url_titel').addClass('is-invalid')
 
-                    }
+    //                 }
 
-                }
+    //             }
             
-                setTimeout(function(){$('.alert').alert('close')}, 3000)
+    //             setTimeout(function(){$('.alert').alert('close')}, 3000)
 
 
-            },
-            error: function(error){
-                console.log(error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-        })
+    //         },
+    //         error: function(error){
+    //             console.log(error);
+    //         },
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //     })
 
-    });
+    // });
 
 
     // Prüfung feld source code
@@ -506,20 +518,22 @@ $(document).ready(function(){
     // Löst das holen von Favicon aus
     $("#crate-form-shortcode").click(function() {
         var url = $("#id_url_destination").val();
-        console.log(url);
-        $.ajax({
-            url: '/shortcode/get_favicon/?url=' + encodeURIComponent(url),
-            success: function(data) {
-                if (data.favicon_url) {
-                    $("#result").html(`<img src="${data.favicon_url}" alt="Favicon">`);
-                } else {
-                    $("#result").html("Favicon not found");
+        var titel = $("#id_url_titel").val();
+        if(url && titel){
+            $.ajax({
+                url: '/shortcode/get_favicon/?url=' + encodeURIComponent(url),
+                success: function(data) {
+                    if (data.favicon_url) {
+                        $("#result").html(`<img src="${data.favicon_url}" alt="Favicon">`);
+                    } else {
+                        $("#result").html("Favicon not found");
+                    }
+                },
+                error: function() {
+                    $("#result").html("Error fetching favicon.");
                 }
-            },
-            error: function() {
-                $("#result").html("Error fetching favicon.");
-            }
-        });
+            });
+        }
     });
 
 

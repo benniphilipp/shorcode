@@ -29,6 +29,7 @@ urlpatterns = [
     path('webclicktracker/', include('webclicktracker.urls')),
     path('trackingai/', include('trackingai.urls')),
     path('linkinbio/', include('linkinbio.urls')),
+    path('geotargeting/', include('geotargeting.urls')),
     path('', include('accounts.urls')),
     url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]

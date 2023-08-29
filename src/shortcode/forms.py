@@ -90,4 +90,36 @@ class CreateTagForm(forms.ModelForm):
         fields = ['name'] 
         
 
+# Begrenzung von URLs
+class LimitationShorcodeForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+                
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Field('limitation_active', css_class="form-check-input", wrapper_class="form-check form-switch"),
+                css_class='row'
+            ),
+            Row(
+                Column('start_date', css_class='form-group col-md-6 my-2 disabled-func'),
+                Column('end_date', css_class='form-group col-md-6 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Row(
+                Column('count', css_class='form-group col-md-6 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Row(
+                Column('alternative_url', css_class='form-group col-md-12 my-2 disabled-func'),
+                css_class='row'
+            ),
+            Hidden('url_creator', '{{ admin }}'),
+            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">')
+        )
+    
+    class Meta:
+        model = ShortcodeClass
+        fields = ['count', 'start_date', 'end_date', 'alternative_url', 'limitation_active'] 
             

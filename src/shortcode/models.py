@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from accounts.models import CustomUser
+from geotargeting.models import GeoThemplate
 from django_hosts.resolvers import reverse
 from django.utils import timezone
 
@@ -37,6 +38,26 @@ class ShortcodeClass(models.Model):
     tags                = models.ManyToManyField(Tag, related_name='shortcodes')
     
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
+    
+    # Begrenzung von URLs
+    limitation_active = models.BooleanField(default=False)
+    count = models.IntegerField(default=0)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    alternative_url = models.URLField(max_length=200, blank=True, null=True)
+
+    # Geo-Targeting
+    geo_targeting_on_off = models.BooleanField(default=False)
+    link_geo = models.CharField(max_length=320, blank=True, null=True)
+    template_geo = models.ForeignKey(GeoThemplate, on_delete=models.PROTECT, blank=True, null=True)
+    
+    # Android-Targeting
+    android_on_off = models.BooleanField(default=False)
+    android = models.CharField(max_length=320, blank=True, null=True)
+    
+    # iOS-Targeting
+    ios_on_off = models.BooleanField(default=False)
+    ios = models.CharField(max_length=320, blank=True, null=True)
     
     def __str__(self):
         return self.url_titel
@@ -88,3 +109,4 @@ class ShortcodeClass(models.Model):
     def get_short_url(self):
         url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
         return url_path
+    

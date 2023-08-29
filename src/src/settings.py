@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'webclicktracker',
     'linkinbio',
     'trackingai',
+    'geotargeting',
+    
 ]
 
 
@@ -100,6 +102,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+
+DATETIME_INPUT_FORMATS = [
+    '%d.%m.%Y %H:%M',  # Füge hier das gewünschte Format hinzu
 ]
 
 WSGI_APPLICATION = 'src.wsgi.application'
