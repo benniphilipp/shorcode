@@ -94,10 +94,11 @@ class CreateTagForm(forms.ModelForm):
 # Begrenzung von URLs
 class LimitationShorcodeForm(forms.ModelForm):
     
-    start_date = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
-    end_date = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
-    count = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
-    alternative_url = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    start_date = forms.CharField(required=False, label="Start Datum", widget=forms.TextInput(attrs={'class': 'disabled-limitation time-limitation'}))
+    end_date = forms.CharField(required=False, label="End Datum", widget=forms.TextInput(attrs={'class': 'disabled-limitation time-limitation'}))
+    count = forms.CharField(required=False, label="Zahl der Klicks", widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    alternative_url = forms.CharField(required=False, label="Alternativ URL", widget=forms.TextInput(attrs={'class': 'disabled-limitation'}))
+    limitation_active = forms.BooleanField(label='Ablaufdatum / Klicklimit Aktivieren', required=False)
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -105,7 +106,7 @@ class LimitationShorcodeForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Field('limitation_active', css_class="form-check-input", wrapper_class="form-check form-switch"),
+                Field('limitation_active', css_class="form-check-input", wrapper_class="form-check"),
                 css_class='row'
             ),
             Row(
@@ -122,7 +123,6 @@ class LimitationShorcodeForm(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3 disabled-limitation send-limitation-form" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -133,8 +133,7 @@ class LimitationShorcodeForm(forms.ModelForm):
 # Geo-Targeting Form
 class GeoTargetingForm(forms.ModelForm):
     
-    template_geo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}))
-    # link_geo = forms.ModelChoiceField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}), queryset=GeoThemplate.objects.all())
+    link_geo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}))
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -87,6 +87,11 @@ $(document).ready(function(){
         $('#geo-targeting-form').show();
 
         resteFields();
+
+        setTimeout(()=>{
+            location.reload();
+            $('#overlay').removeClass('overlay-active');
+        }, 500);
     });
 
     

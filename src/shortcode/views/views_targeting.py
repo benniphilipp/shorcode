@@ -67,6 +67,7 @@ def toggle_limitation_active_status(request, pk):
         try:
             shortcode = ShortcodeClass.objects.get(pk=pk)
             shortcode.limitation_active = not shortcode.limitation_active
+            print(shortcode)
             shortcode.save()
             return JsonResponse({'success': True, 'status_switches': shortcode.limitation_active})
         except ShortcodeClass.DoesNotExist:
@@ -126,13 +127,31 @@ class limitationTargetingUpdateView(LoginRequiredMixin, UpdateView):
         new_start_date = self.request.POST.get('id_start_date')
         new_end_date = self.request.POST.get('id_end_date')
         new_count = self.request.POST.get('id_count')
-        new_alternative_url= self.request.POST.get('id_alternative_url')
+        new_alternative_url = self.request.POST.get('id_alternative_url')
+        new_limitation_active = self.request.POST.get('limitation_active')
 
-        try:            
-            self.object.count = new_count
+        try:          
+            if new_count:
+                self.object.count = new_count
+            else:
+                self.object.count = 0
+            
             self.object.alternative_url = new_alternative_url
-            self.object.start_date = new_start_date
-            self.object.end_date = new_end_date
+            
+            if new_start_date:
+                self.object.start_date = new_start_date
+            else:
+                self.object.start_date = None
+                
+            if new_end_date:
+                self.object.end_date = new_end_date
+            else:
+                self.object.end_date = None
+                
+            if new_limitation_active == 'false':
+                self.object.limitation_active = False
+            else:
+                self.object.limitation_active = True
             self.object.save()
             
             response_data = {
@@ -164,8 +183,7 @@ class GeoTargetingUpdateView(LoginRequiredMixin, UpdateView):
         new_link_geo = self.request.POST.get('id_link_geo')
         
         new_template_geo = GeoThemplate.objects.filter(id=template_geo).first()
-        print(new_template_geo)
-        print(new_link_geo)
+
         try: 
             self.object.template_geo = new_template_geo
             self.object.link_geo = new_link_geo
