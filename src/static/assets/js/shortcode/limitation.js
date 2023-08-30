@@ -58,10 +58,6 @@ $(document).ready(function(){
             success: function(response){
                 const data = response.data
 
-                $('#aside-form').addClass('toggle');
-                $('#crate-form-shortcode').addClass('d-none');
-                $('#openForm').addClass("disabled"); 
-
                 url_id_start_date.value = data.url_id_start_date
                 url_id_end_date.value = data.url_id_end_date
                 url_id_count.value = data.url_id_count
@@ -77,6 +73,7 @@ $(document).ready(function(){
     $('#shortcode-list').on('click', '.shortcode-class', function() {
         limitationView();
     });
+    
 
     /* Limitation zum speichern Switsch */
     $('#id_limitation_active').on('change', function(event){
@@ -86,7 +83,7 @@ $(document).ready(function(){
         const url_id_end_date = document.getElementById('id_end_date');
         var currentStatus = $(this).data('status');
 
-        var idShortcode = jQuery('.shortcode-class').attr('data-shortcode');
+        var idShortcode = $('.shortcode-class').attr('data-shortcode');
         const shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
 
         var currentStatus = $(this).data('status');
@@ -146,21 +143,18 @@ $(document).ready(function(){
         var id_alternative_url = $('#id_alternative_url').val();
         var selectedStatus = $('#id_limitation_active').prop('checked');
 
-
         if ($("#id_alternative_url").val() === "") {
             $('#id_alternative_url').css('border-color', '#dc3545');
         } else {
             $('#id_alternative_url').css('border-color', '#198754');
         }
 
-
-
         const fd = new FormData();
         fd.append('id_end_date', id_end_date);
         fd.append('id_start_date', id_start_date);
         fd.append('id_count', id_count);
         fd.append('id_alternative_url', id_alternative_url);
-        fd.append('limitation_active', selectedStatus)
+        fd.append('limitation_active', selectedStatus);
 
         $.ajax({
             url: formAction,
@@ -233,22 +227,22 @@ $(document).ready(function(){
 
 
     $("#id_start_date").datepicker({
-        dateFormat: "yy-mm-dd", // Datumsformat
-        timeFormat: "HH:mm:ss", // Uhrzeitformat (optional)
-        showSecond: true,       // Zeige Sekunden (optional)
-        timeSuffix: " ",        // Zeitzonenkennung (optional)
-        changeMonth: true,      // Monat auswählen (optional)
-        changeYear: true        // Jahr auswählen (optional)
+        dateFormat: "yy-mm-dd", 
+        timeFormat: "HH:mm:ss", 
+        showSecond: true,       
+        timeSuffix: " ",        
+        changeMonth: true,     
+        changeYear: true        
     });
 
     
     $("#id_end_date").datepicker({
-        dateFormat: "yy-mm-dd", // Datumsformat
-        timeFormat: "HH:mm:ss", // Uhrzeitformat (optional)
-        showSecond: true,       // Zeige Sekunden (optional)
-        timeSuffix: " ",        // Zeitzonenkennung (optional)
-        changeMonth: true,      // Monat auswählen (optional)
-        changeYear: true        // Jahr auswählen (optional)
+        dateFormat: "yy-mm-dd", 
+        timeFormat: "HH:mm:ss", 
+        showSecond: true,       
+        timeSuffix: " ",        
+        changeMonth: true,     
+        changeYear: true        
     });
 
 

@@ -95,3 +95,6 @@ https://developers.facebook.com/docs/meta-pixel/reference#standard-events
 https://www.chartjs.org/docs/latest/charts/bar.html
 https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript
 https://stackoverflow.com/questions/3514784/how-to-detect-a-mobile-device-using-jquery
+
+# Bilder Suche
+https://www.freepik.com/author/vectorjuice

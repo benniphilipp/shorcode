@@ -182,7 +182,7 @@ class AndroidTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3 disabled-android send-android-form" type="submit" value="Speichern">')
+            #HTML('<input id="" class="btn btn-primary mt-3 disabled-android send-android-form" type="submit" value="Speichern">')
         )
     
     class Meta:
@@ -209,7 +209,7 @@ class IosTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input class="btn btn-primary mt-3 disabled-ios send-ios-form" type="submit" value="Speichern">')
+            #HTML('<input class="btn btn-primary mt-3 disabled-ios send-ios-form" type="submit" value="Speichern">')
         )
 
     class Meta:

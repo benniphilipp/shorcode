@@ -44,6 +44,87 @@ $(document).ready(function(){
         clearContent();
     };
 
+        /** Update Shorcode View **/
+        $('#update-form-shortcode').on('click', function(event){
+            event.preventDefault();
+    
+            var idShortcode = $('#update-shortcode-url').val();
+            const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
+            $('#archive-btn').attr('data-archive', idShortcode);
+    
+            const fd = new FormData();
+            fd.append('csrfmiddlewaretoken', csrf[0].value)
+            fd.append('url_destination', url_destination.value);
+            fd.append('url_titel', url_titel.value);
+            fd.append('url_source', url_source.value);
+            fd.append('url_medium', url_medium.value);
+            fd.append('url_term', url_term.value);
+            fd.append('url_campaign', url_campaign.value);
+            fd.append('url_creator', url_creator.value);
+            fd.append('url_content', url_content.value);
+            fd.append('shortcode_id', idShort.value);
+    
+            const selectedTags = [];
+            $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
+                selectedTags.push($(this).val());
+    
+            });
+    
+            fd.append('tags', selectedTags.join(','));
+    
+            $.ajax({
+                type: 'POST',
+                url: url_update,
+                data: fd,
+                enctype: 'multipart/form-data',
+                success: function(response){
+    
+                    //form fuc disabled
+                    $('.disabled-func').each(function() {
+                        $(this).find('input[type=text]').attr('disabled', 'disabled');
+                    });
+    
+                    //Overlay
+                    $('#overlay').addClass('overlay-active');
+                    var dataImage = jQuery('#overlay').attr('data-image');
+                    $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
+    
+                    //Reset fields
+                    $('#id_url_destination').val('')
+                    $('#id_url_titel').val('')
+                    $('#id_url_medium').val('')
+                    $('#id_url_source').val('')
+                    $('#id_url_term').val('')
+                    $('#id_url_titel').val('')
+                    $('#id_url_campaign').val('')
+                    $('#id_url_content').val('')
+                    $('#id_shortcode').val('')
+    
+                    const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+                    tagsCheckboxes.each(function(index, checkbox) {
+                        const tagValue = parseInt($(checkbox).val());
+    
+                        $(checkbox).prop('checked', '');
+                    });
+    
+                    // //Alert
+                    ls_toast(response.success);
+    
+                    setTimeout(()=>{
+                        window.location.reload();
+                        $('#overlay').removeClass('overlay-active');
+                    }, 2000);
+    
+                },
+                error: function(error){
+                    console.log(error);
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+            })
+        });
+
 
 
     // Input Field Date Time
@@ -78,12 +159,6 @@ $(document).ready(function(){
     const url_creator = document.getElementById('url_creator');
     const idShort = document.getElementById('id_shortcode');
 
-    const url_id_link_geo = document.getElementById('id_link_geo');
-
-    const url_id_android = document.getElementById('id_android');
-
-    const url_id_ios = document.getElementById('id_ios');
-
     const url_view_update = window.location.origin;
     const updateShortcodeUrl = document.getElementById('update-shortcode-url');
     const shortcode_id = document.getElementById('shortcode_id');
@@ -91,9 +166,6 @@ $(document).ready(function(){
 
     /* Einzelansicht felder Befühlung */
     $('#shortcode-list').on('click', '.shortcode-class', function() {
-
-        // const url_id_start_date = document.getElementById("id_start_date");
-        // const url_id_end_date = document.getElementById("id_end_date");
 
         // Shorcode Single Ansicht
         var idShortcode = jQuery(this).attr('data-shortcode');
@@ -119,23 +191,15 @@ $(document).ready(function(){
                 url_content.value = data.url_content;
                 url_campaign.value = data.url_campaign;
                 idShort.value = data.shortcode;
-                // url_id_start_date.value = data.url_id_start_date
-                // url_id_end_date.value = data.url_id_end_date
-                // url_id_count.value = data.url_id_count
-                // url_id_alternative_url.value = data.url_id_alternative_url
-                url_id_link_geo.value = data.url_id_link_geo
-                url_id_android.value = data.url_id_android
-                url_id_ios.value = data.url_id_ios
 
+                // const templateGeoJson = data.url_id_template_geo;
 
-                const templateGeoJson = data.url_id_template_geo;
-
-                if(templateGeoJson){
-                    const templateSelect = $('#id_template_geo');
-                    templateSelect.empty();
-                    const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
-                    templateSelect.append(option);    
-                }
+                // if(templateGeoJson){
+                //     const templateSelect = $('#id_template_geo');
+                //     templateSelect.empty();
+                //     const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
+                //     templateSelect.append(option);    
+                // }
 
                 $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
 
@@ -188,10 +252,10 @@ $(document).ready(function(){
         shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
         /* Geo-Targeting */
-        var disabledClass = '.disabled-geo';
-        var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
-        var elementsID = '#id_geo_targeting_on_off';
-        shorcodeSwitchesStatus(elementsID, url, disabledClass);
+        // var disabledClass = '.disabled-geo';
+        // var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
+        // var elementsID = '#id_geo_targeting_on_off';
+        // shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
         /* iOS-Targeting */
         var disabledClass = '.disabled-ios'
@@ -213,50 +277,39 @@ $(document).ready(function(){
             var currentStatus = $(this).data('status');
             var isChecked = $(this).prop('checked');
 
-            function shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit){
-                $.ajax({
-                    url: shortUrl,
-                    type: 'POST',
-                    data: {
-                        'csrfmiddlewaretoken': csrftoken,
-                        'pk': idShortcode,
-                        'current_status': currentStatus
-                    },
-                    success: function(response) {
-                        const data = response.status_switches;
+            // function shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit){
+            //     $.ajax({
+            //         url: shortUrl,
+            //         type: 'POST',
+            //         data: {
+            //             'csrfmiddlewaretoken': csrftoken,
+            //             'pk': idShortcode,
+            //             'current_status': currentStatus
+            //         },
+            //         success: function(response) {
+            //             const data = response.status_switches;
 
-                        if(data){
-                            $(elementsShortID).prop('checked', true);
-                            $(disabledClassEdit).prop('disabled', false);
-                        }else{
-                            $(elementsShortID).prop('checked', false);
-                            $(disabledClassEdit).prop('disabled', true);
+            //             if(data){
+            //                 $(elementsShortID).prop('checked', true);
+            //                 $(disabledClassEdit).prop('disabled', false);
+            //             }else{
+            //                 $(elementsShortID).prop('checked', false);
+            //                 $(disabledClassEdit).prop('disabled', true);
 
-                            var elementsWithClass = $(disabledClassEdit);
-                            elementsWithClass.each(function(index, element) {
-                                var fieldValue = $(element).val();
-                                if (fieldValue) {
-                                    $(element).val('');
-                                }
-                            });
-
-
-                        }
-
-                        // if(elementsShortID == '#id_limitation_active' && data == true){
-                        //     // Datum Anzeige
-                        //     //limitationDateTime();
-                        // }else{
-                        //     $(url_id_start_date).val('')
-                        //     $(url_id_end_date).val('')
-                        // }
-
-                    },
-                    error: function(error) {
-                        console.log("Fehler:", error);
-                    }
-                });
-            }
+            //                 var elementsWithClass = $(disabledClassEdit);
+            //                 elementsWithClass.each(function(index, element) {
+            //                     var fieldValue = $(element).val();
+            //                     if (fieldValue) {
+            //                         $(element).val('');
+            //                     }
+            //                 });
+            //             }
+            //         },
+            //         error: function(error) {
+            //             console.log("Fehler:", error);
+            //         }
+            //     });
+            // }
 
 
             if (isChecked) {
@@ -269,22 +322,22 @@ $(document).ready(function(){
                     //sendLimitationForm();
                 }else if('id_geo_targeting_on_off' == this.id){
                     /* Geo-Targeting */
-                    var disabledClassEdit = '.disabled-geo';
-                    var elementsShortID = '#id_geo_targeting_on_off';
-                    var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-geo';
+                    // var elementsShortID = '#id_geo_targeting_on_off';
+                    // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }else if('id_android_on_off' == this.id){
                     /* Android-Targeting */
-                    var disabledClassEdit = '.disabled-android';
-                    var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
-                    var elementsShortID = '#id_android_on_off';
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-android';
+                    // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_android_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }else{
                     /* iOS-Targeting */
-                    var disabledClassEdit = '.disabled-ios'
-                    var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
-                    var elementsShortID = '#id_ios_on_off';
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-ios'
+                    // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_ios_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }
             }else{
                 if('id_limitation_active' == this.id){
@@ -295,22 +348,22 @@ $(document).ready(function(){
                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }else if('id_geo_targeting_on_off' == this.id){
                     /* Geo-Targeting */
-                    var disabledClassEdit = '.disabled-geo';
-                    var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
-                    var elementsShortID = '#id_geo_targeting_on_off';
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-geo';
+                    // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    // var elementsShortID = '#id_geo_targeting_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }else if('id_android_on_off' == this.id){
                     /* Android-Targeting */
-                    var disabledClassEdit = '.disabled-android';
-                    var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
-                    var elementsShortID = '#id_android_on_off';
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-android';
+                    // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_android_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }else{
                     /* iOS-Targeting */
-                    var disabledClassEdit = '.disabled-ios'
-                    var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
-                    var elementsShortID = '#id_ios_on_off';
-                    shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    // var disabledClassEdit = '.disabled-ios'
+                    // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_ios_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
                 }
             }
         });
@@ -463,78 +516,78 @@ $(document).ready(function(){
 
     });
 
-    /* Android-Targeting */
-    $('.send-android-form').click(function(event){        
-        event.preventDefault();
+    // /* Android-Targeting */
+    // $('.send-android-form').click(function(event){        
+    //     event.preventDefault();
  
-        var idShortcode = $('#update-shortcode-url').val();
-        var formAction = `/shortcode/update_android_targeting/${idShortcode}/`;
+    //     var idShortcode = $('#update-shortcode-url').val();
+    //     var formAction = `/shortcode/update_android_targeting/${idShortcode}/`;
 
-        var id_android = $('#id_android').val();
+    //     var id_android = $('#id_android').val();
 
-        const fd = new FormData();
-        fd.append('android', id_android);
+    //     const fd = new FormData();
+    //     fd.append('android', id_android);
 
-        $.ajax({
-            url: formAction,
-            type: 'POST',
-            data: fd,
-            headers: {
-                'X-CSRFToken': csrftoken
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    console.log('Formular wurde erfolgreich aktualisiert.');
-                } else {
-                    console.log('Fehler beim Aktualisieren des Formulars:', response);
-                }
-            },
-            error: function(error) {
-                console.log('Fehler beim Ajax-Aufruf:', error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false, 
-        });
+    //     $.ajax({
+    //         url: formAction,
+    //         type: 'POST',
+    //         data: fd,
+    //         headers: {
+    //             'X-CSRFToken': csrftoken
+    //         },
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             if (response.success) {
+    //                 console.log('Formular wurde erfolgreich aktualisiert.');
+    //             } else {
+    //                 console.log('Fehler beim Aktualisieren des Formulars:', response);
+    //             }
+    //         },
+    //         error: function(error) {
+    //             console.log('Fehler beim Ajax-Aufruf:', error);
+    //         },
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false, 
+    //     });
 
-    });
+    // });
 
     /* Update Send iOS-Targeting */
-    $('.send-ios-form').click(function(event){
-        event.preventDefault();
+    // $('.send-ios-form').click(function(event){
+    //     event.preventDefault();
 
-        var idShortcode = $('#update-shortcode-url').val();
-        var formAction = `/shortcode/update_ios_targeting/${idShortcode}/`;
-        var ios = $('#id_ios').val();
+    //     var idShortcode = $('#update-shortcode-url').val();
+    //     var formAction = `/shortcode/update_ios_targeting/${idShortcode}/`;
+    //     var ios = $('#id_ios').val();
 
-        const fd = new FormData();
-        fd.append('ios', ios);
+    //     const fd = new FormData();
+    //     fd.append('ios', ios);
 
-        $.ajax({
-            url: formAction,
-            type: 'POST',
-            data: fd,
-            headers: {
-                'X-CSRFToken': csrftoken
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    console.log('Formular wurde erfolgreich aktualisiert.');
-                } else {
-                    console.log('Fehler beim Aktualisieren des Formulars:', response);
-                }
-            },
-            error: function(error) {
-                console.log('Fehler beim Ajax-Aufruf:', error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false, 
-        });
+    //     $.ajax({
+    //         url: formAction,
+    //         type: 'POST',
+    //         data: fd,
+    //         headers: {
+    //             'X-CSRFToken': csrftoken
+    //         },
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             if (response.success) {
+    //                 console.log('Formular wurde erfolgreich aktualisiert.');
+    //             } else {
+    //                 console.log('Fehler beim Aktualisieren des Formulars:', response);
+    //             }
+    //         },
+    //         error: function(error) {
+    //             console.log('Fehler beim Ajax-Aufruf:', error);
+    //         },
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false, 
+    //     });
 
-    });
+    // });
 
     
 
@@ -629,89 +682,10 @@ $(document).ready(function(){
     });
 
 
-    /** Update Shorcode View **/
-    $('#update-form-shortcode').on('click', function(event){
-        event.preventDefault();
 
-        var idShortcode = $('#update-shortcode-url').val();
-        const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
-        $('#archive-btn').attr('data-archive', idShortcode);
 
-        const fd = new FormData();
-        fd.append('csrfmiddlewaretoken', csrf[0].value)
-        fd.append('url_destination', url_destination.value);
-        fd.append('url_titel', url_titel.value);
-        fd.append('url_source', url_source.value);
-        fd.append('url_medium', url_medium.value);
-        fd.append('url_term', url_term.value);
-        fd.append('url_campaign', url_campaign.value);
-        fd.append('url_creator', url_creator.value);
-        fd.append('url_content', url_content.value);
-        fd.append('shortcode_id', idShort.value);
-
-        const selectedTags = [];
-        $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
-            selectedTags.push($(this).val());
-
-        });
-
-        fd.append('tags', selectedTags.join(','));
-
-        $.ajax({
-            type: 'POST',
-            url: url_update,
-            data: fd,
-            enctype: 'multipart/form-data',
-            success: function(response){
-
-                //form fuc disabled
-                $('.disabled-func').each(function() {
-                    $(this).find('input[type=text]').attr('disabled', 'disabled');
-                });
-
-                //Overlay
-                $('#overlay').addClass('overlay-active');
-                var dataImage = jQuery('#overlay').attr('data-image');
-                $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
-
-                //Reset fields
-                $('#id_url_destination').val('')
-                $('#id_url_titel').val('')
-                $('#id_url_medium').val('')
-                $('#id_url_source').val('')
-                $('#id_url_term').val('')
-                $('#id_url_titel').val('')
-                $('#id_url_campaign').val('')
-                $('#id_url_content').val('')
-                $('#id_shortcode').val('')
-
-                const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
-                tagsCheckboxes.each(function(index, checkbox) {
-                    const tagValue = parseInt($(checkbox).val());
-
-                    $(checkbox).prop('checked', '');
-                });
-
-                // //Alert
-                ls_toast(response.success);
-
-                setTimeout(()=>{
-                    window.location.reload();
-                    $('#overlay').removeClass('overlay-active');
-                }, 2000);
-
-            },
-            error: function(error){
-                console.log(error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-        })
-    })
-
-    $('#id_template_geo').addClass('form-select')
-    $('#id_template_geo').addClass('disabled-geo')
+    // $('#id_template_geo').addClass('form-select')
+    // $('#id_template_geo').addClass('disabled-geo')
 
 
 

@@ -67,7 +67,7 @@ def toggle_limitation_active_status(request, pk):
         try:
             shortcode = ShortcodeClass.objects.get(pk=pk)
             shortcode.limitation_active = not shortcode.limitation_active
-            print(shortcode)
+
             shortcode.save()
             return JsonResponse({'success': True, 'status_switches': shortcode.limitation_active})
         except ShortcodeClass.DoesNotExist:
@@ -216,10 +216,16 @@ class AndroidTargetingUpdateView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         new_android = self.request.POST.get('android')
-        print(new_android)
+        new_android_on_off = self.request.POST.get('android_on_off')
         
         try:
             self.object.android = new_android
+            
+            if new_android_on_off == 'false':
+                self.object.android_on_off = False
+            else:
+                self.object.android_on_off = True
+                
             self.object.save()
             
             response_data = {
@@ -249,10 +255,17 @@ class IosTargetingUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         new_ios = self.request.POST.get('ios')
-        
+        new_ios_on_off = self.request.POST.get('ios_on_off')
+
         try:
             self.object.ios = new_ios
-            self.object.save()
+            
+            if new_ios_on_off == 'false':
+                self.object.new_ios_on_off = False
+            else:
+                self.object.new_ios_on_off = True
+                
+            self.object.save() 
             
             response_data = {
                 'success': True,
