@@ -155,7 +155,7 @@ class GeoTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('url_creator', '{{ admin }}'),
-            HTML('<input class="btn btn-primary mt-3 disabled-geo send-update-form" type="submit" value="Speichern">')
+            #HTML('<input class="btn btn-primary mt-3 disabled-geo send-update-form" type="submit" value="Speichern">')
         )
     
     class Meta:

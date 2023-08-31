@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import requests
 
@@ -12,6 +13,11 @@ Template Name
 Land / Gesamtes Land
 Region
 """
+
+@login_required(login_url="/login/")
+def index_geo_targeting(request):
+    return render(request, 'index-geo-targeting-view.html')
+    
 
 """Ruf alle Länder ab"""
 def get_country_codes_and_ids():

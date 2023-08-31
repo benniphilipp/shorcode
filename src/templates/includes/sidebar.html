@@ -12,16 +12,25 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'shortcode:shortcode_list_view' %}" class="nav-link {% if '/shortcode/list/' == request.get_full_path %} active {% endif %}">
-         
+                <a href="{% url 'shortcode:shortcode_list_view' %}" class="link-nav link-links nav-link {% if '/shortcode/list/' == request.get_full_path %} active {% endif %}">
                     Links
+                    <i class="fa-solid fa-chevron-down links-down"></i>
                 </a>
-            </li>
-            <li>
+
+                <div class="collapse" id="links-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{% url 'geotargeting:index_geo_targeting' %}" class="link-dark link-geo {% if '/geotargeting/' == request.get_full_path %} active {% endif %} rounded mt-2">Geo Targetin Themplate</a></li>
+                        <li><a href="{% url 'shortcode:archive-view' %}" class="link-dark link-archiv rounded mt-2 {% if '/shortcode/archive/' == request.get_full_path %} active {% endif %}">Link Archiv</a></li>
+                        <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li>
+                        <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+                    </ul>
+                </div>
+
+            <!-- </li>
                 <a href="{% url 'shortcode:archive-view' %}" class="nav-link {% if '/shortcode/archive/' == request.get_full_path %} active {% endif %}">
-                    Archiv  {{sum_archive}}
+                    Archiv 
                 </a>
-            </li>
+            </li> -->
             <!-- <li>
                 <a href="{% url 'webclicktracker:click_view' %}" class="nav-link {% if '/webclicktracker/' == request.get_full_path %} active {% endif %}">
                     Websiten Trecker

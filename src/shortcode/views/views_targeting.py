@@ -286,4 +286,3 @@ class IosTargetingUpdateView(LoginRequiredMixin, UpdateView):
             'errors': form.errors
         }
         return JsonResponse(response_data, status=400)
-    

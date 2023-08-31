@@ -68,13 +68,12 @@
                     <div class="tab-pane fade" id="geo-targeting" role="tabpanel"  aria-labelledby="geo-targeting-tab">
                         <h6 class="mt-3">Geo Targeting</h6>
                         <small>
-                            Geo-Targeting wird verwendet, um Nutzer basierend auf ihrem geografischen Standort zu identifizieren. Dabei werden Klickdaten erfasst, um den Nutzer je nach Herkunft auf eine bestimmte Seite umzuleiten.<br>
-                            <b>Demnächst verfügbar.</b>
+                            Geo-Targeting wird verwendet, um Nutzer basierend auf ihrem geografischen Standort zu identifizieren. Dabei werden Klickdaten erfasst, um den Nutzer je nach Herkunft auf eine bestimmte Seite umzuleiten.
                         </small>
-                        <!--<form id="geo-targeting-form">
-                            crispy geo_targeting_form 
-                        </form> -->
-                        <img src="{% static '/images/Geo-Targeting.webp' %}" class="img-fluid" alt="Geo Targeting">
+                        <form id="geo-targeting-form">
+                            {% crispy geo_targeting_form %}  
+                        </form>
+
                     </div>
 
                     <!--Android-Targeting iOS-Targeting-->

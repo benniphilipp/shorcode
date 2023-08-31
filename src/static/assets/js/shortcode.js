@@ -252,10 +252,10 @@ $(document).ready(function(){
         shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
         /* Geo-Targeting */
-        // var disabledClass = '.disabled-geo';
-        // var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
-        // var elementsID = '#id_geo_targeting_on_off';
-        // shorcodeSwitchesStatus(elementsID, url, disabledClass);
+        var disabledClass = '.disabled-geo';
+        var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
+        var elementsID = '#id_geo_targeting_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
         /* iOS-Targeting */
         var disabledClass = '.disabled-ios'
@@ -684,8 +684,7 @@ $(document).ready(function(){
 
 
 
-    // $('#id_template_geo').addClass('form-select')
-    // $('#id_template_geo').addClass('disabled-geo')
+
 
 
 

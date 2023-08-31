@@ -127,6 +127,30 @@
     z-index:99;
 }
 
+.links-down{
+    margin-left:auto;
+}
+
+.link-nav{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.link-dark{
+    display: inline-flex;
+    padding: 0.1875rem 0.5rem;
+    margin-top: 0.125rem;
+    margin-left: 1.25rem;
+    text-decoration: none;
+}
+
+.link-dark:hover{
+    background-color: #edf2ff;
+}
+.link-dark.active{
+    background-color: #edf2ff;
+}
 
 /*main*/
 .main{
