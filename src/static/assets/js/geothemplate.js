@@ -88,6 +88,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const geoID = $('#geo-id').val();
 
         // Update
+        
         $.ajax({
             type: 'POST',
             url: `/geotargeting/update/${geoID}/`,  // Stellen Sie sicher, die URL richtig anzupassen

@@ -47,8 +47,6 @@
                                         <select id="tag-filter" class="form-select" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
                                             <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
                                         </select>
                                     </div>
                                     <div class="col-4">
@@ -68,9 +66,10 @@
                         <div class="col-12 mt-3">
     
                             <!--Data Card-->
+                            <div id="gif-load" class="d-none"><img class="mx-auto d-block" src="{% static '/gif/load-38_256.gif' %}" width="50px"></div>
                             <div id="shortcode-list"></div>
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button id="load-more-button" type="button" class="btn btn-primary mt-3">Weitere Shortcodes laden</button>
+                                <button id="load-more-button" type="button" class="btn btn-primary mt-3 d-none">Weitere Shortcodes laden</button>
                             </div>
                             <!--/. Data Card-->
                             
@@ -95,25 +94,24 @@
 <!--/. Icon Default-->
 
 <!--Chart js-->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
  
 <!--jQuery UI-->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!---Shorcode Scripts Tageting-->
-<script src="{% static '/assets/js/shortcode/geo-targeting.js' %}"></script>
-<script src="{% static '/assets/js/shortcode/limitation.js' %}"></script>
+<!-- <script src="{% static '/assets/js/shortcode/geo-targeting.js' %}"></script> -->
+<!-- <script src="{% static '/assets/js/shortcode/limitation.js' %}"></script>
 <script src="{% static '/assets/js/shortcode/android.js' %}"></script>
-<script src="{% static '/assets/js/shortcode/ios.js' %}"></script>
+<script src="{% static '/assets/js/shortcode/ios.js' %}"></script> -->
 
 <!--Shorctcode JS Allgemein-->
-<script src="{% static '/assets/js/shortcode.js' %}"></script>
+<script src="{% static '/assets/js/tags.js' %}"></script>
+<script src="{% static '/assets/js/export-shortcode.js' %}"></script>
+<script src="{% static '/assets/js/shortcode-neu.js' %}"></script>
 
 <!--Shorctcode JS Dashboard Wird später gelöscht-->
-<script src="{% static '/assets/js/dashboard.js' %}"></script>
+<!-- <script src="{% static '/assets/js/dashboard.js' %}"></script> -->
 
 <!--Neu-->
 <script src="{% static '/assets/js/analytics-dashboard.js' %}"></script>

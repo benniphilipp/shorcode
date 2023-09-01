@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
     const getCookie =(name) => {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
