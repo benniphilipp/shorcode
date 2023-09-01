@@ -8,6 +8,9 @@ from accounts.models import CustomUser
 
 class GeoThemplateForm(forms.ModelForm):
     
+    themplate_name = forms.CharField(required=True)
+    land = forms.CharField(required=True)
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         

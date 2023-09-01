@@ -1,10 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    /*
-    1. Fomular Härtung
-    */
-
-
     //Alert
     function clearContent() {
         setTimeout(function() {
@@ -110,11 +105,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         url: '/geotargeting/list/',
                         dataType: 'json',
                         success: function (data) {
-                            var list = $('#geothemplate-list');
-                            list.empty();
-                            data.forEach(function (item) {
-                                list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> Name: <span class="name_geo mr-3' + item.id + '">&nbsp;' + item.themplate_name + ' ' + '</span>&ensp;Land: ' + item.land + '</span>&nbsp;Region: ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
-                            });
+
+                            $('#gif-load').removeClass('d-none');
+
+                            setTimeout(function() {
+                                var list = $('#geothemplate-list');
+                                list.empty();
+                                data.forEach(function (item) {
+                                    list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> <i style="margin-right:5px;" class="fa-solid fa-file"></i> <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;<i style="margin-right:5px;" class="fa-solid fa-earth-europe"></i> ' + item.land + '</span>&nbsp;<i style="margin-right:5px;" class="fa-solid fa-map"></i> ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
+                                });
+                                $('#gif-load').addClass('d-none');
+                            }, 500);
     
                             $('#geothemplate-form')[0].reset();
                         }
@@ -184,11 +185,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             $('#aside-form').removeClass("toggle");
                             $('#overlay-open').removeClass("overlay-open");
     
+                            $('#gif-load').removeClass('d-none');
+
                             var list = $('#geothemplate-list');
                             list.empty();
-                            data.forEach(function (item) {
-                                list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> Name: <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;Land: ' + item.land + '</span>&nbsp;Region: ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
-                            });
+                            setTimeout(function() {
+                                data.forEach(function (item) {
+                                    list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> Name: <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;Land: ' + item.land + '</span>&nbsp;Region: ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
+                                });
+                                $('#gif-load').addClass('d-none');
+                            }, 500);
     
                             $('#geothemplate-form')[0].reset();
                         }
@@ -279,25 +285,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-
+    
     //List View Geo
     $.ajax({
         url: '/geotargeting/list/',
         dataType: 'json',
         success: function (data) {
-            var list = $('#geothemplate-list');
-            list.empty();
-            data.forEach(function (item) {
-                list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> Name: <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;Land: ' + item.land + '</span>&nbsp;Region: ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
-            });
-        }
-    });
 
-    // Hover list
-    $(document).on("mouseenter", ".list-geo", function() {
-        $(this).addClass("list-group-item-primary");
-    }).on("mouseleave", ".list-geo", function() {
-        $(this).removeClass("list-group-item-primary");
+            $('#gif-load').removeClass('d-none');
+
+            setTimeout(function() {
+                var list = $('#geothemplate-list');
+                list.empty();
+                data.forEach(function (item) {
+                    list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> <i style="margin-right:5px;" class="fa-solid fa-file"></i> <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;<i style="margin-right:5px;" class="fa-solid fa-earth-europe"></i> ' + item.land + '</span>&nbsp;<i style="margin-right:5px;" class="fa-solid fa-map"></i> ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
+                });
+                $('#gif-load').addClass('d-none');
+            }, 500);
+
+        }
     });
 
 
@@ -321,11 +327,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         $('#aside-form').removeClass("toggle");
                         $('#overlay-open').removeClass("overlay-open");
 
-                        var list = $('#geothemplate-list');
-                        list.empty();
-                        data.forEach(function (item) {
-                            list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> Name: <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;Land: ' + item.land + '</span>&nbsp;Region: ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
-                        });
+                        $('#gif-load').removeClass('d-none');
+
+                        setTimeout(function() {
+                            var list = $('#geothemplate-list');
+                            list.empty();
+                            data.forEach(function (item) {
+                                list.append('<li class="list-group-item list-geo d-flex justify-content-start align-items-center"> <i style="margin-right:5px;" class="fa-solid fa-file"></i> <span class="mr-3 name_geo' + item.id + '">' + item.themplate_name + '</span>&ensp;<i style="margin-right:5px;" class="fa-solid fa-earth-europe"></i> ' + item.land + '</span>&nbsp;<i style="margin-right:5px;" class="fa-solid fa-map"></i> ' + item.themplate_region + '<div class="ms-auto"><i class="fa-solid fa-pencil themplate-edit p-3" data-themplate-edit="' + item.id + '"></i> <i class="fa-solid fa-trash themplate-delate p-3" data-themplate-delate="' + item.id + '"></i></div></li>');
+                            });
+                            $('#gif-load').addClass('d-none');
+                        }, 500);
 
                         $('#geothemplate-form')[0].reset();
                     }
@@ -359,11 +370,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         $('#aside-form').removeClass("toggle");
         $('#overlay-open').removeClass("overlay-open");  
 
+        $('#geothemplate-form').removeClass("d-none"); 
+        $('#geothemplate-form-delete').addClass("d-none"); 
+
         $('#geothemplate-form')[0].reset();
     });
-
-
-
     
 
 });

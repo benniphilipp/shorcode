@@ -69,3 +69,22 @@ ul#countryList li:hover{
     background-color: #edf2ff;
     color: #0c3ebb;
 }
+
+/* Hover IOCNS list */
+.themplate-edit:hover{
+    color: #0c3ebb;
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+
+.themplate-delate:hover{
+    color: #dc3545;
+    cursor: pointer;    
+    transition: color 0.3s ease; 
+}
+
+#geothemplate-list .fa-map,
+#geothemplate-list .fa-earth-europe,
+#geothemplate-list .fa-file{
+    color: #d1d1d1;
+}
