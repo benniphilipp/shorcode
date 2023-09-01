@@ -1,22 +1,81 @@
+import requests
+from django.http import JsonResponse
+
+from django.views import View
+from django.views.generic.edit import FormView
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-import requests
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 
+from .forms import GeoThemplateForm
+from .models import GeoThemplate
 
-"""
-Beim Geo-Targeting werden Templates erstellt. Diese Templates enthalten folgende Optionen:
-
-Geo Tamplate:
-
-Template Name
-Land / Gesamtes Land
-Region
-"""
 
 @login_required(login_url="/login/")
 def index_geo_targeting(request):
-    return render(request, 'index-geo-targeting-view.html')
+    form = GeoThemplateForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'index-geo-targeting-view.html', context)
+
+# Datile Geo View
+class GeoThemplateDetailView(View):
+    def get(self, request, pk):
+        geo_template = get_object_or_404(GeoThemplate, pk=pk)
+        data = {
+            'template_user': geo_template.themplate_user.id,
+            'template_name': geo_template.themplate_name,
+            'land': geo_template.land,
+            'template_region': geo_template.themplate_region,
+            # Fügen Sie hier weitere Felder hinzu, die Sie benötigen
+        }
+        return JsonResponse(data)
+
+# List View Geo
+def geo_themplate_list_view(request):
+    geothemplate = GeoThemplate.objects.filter(themplate_user=request.user)
+    data = [{'themplate_name': item.themplate_name, 'land': item.land, 'themplate_region': item.themplate_region, 'id': item.pk} for item in geothemplate]
+    return JsonResponse(data, safe=False)
+
+
+# Form View Geo
+class GeoThemplateListView(FormView):
+    template_name = 'index-geo-targeting-view.html'
+    form_class = GeoThemplateForm
+    success_url = '/geotargeting/list/'  # Hier deine gewünschte Erfolgs-URL einfügen
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['geothemplates'] = GeoThemplate.objects.all()
+        return context
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+# Update View GEO
+class GeoThemplateUpdateView(View):
+    def post(self, request, pk):
+        geo_template = get_object_or_404(GeoThemplate, pk=pk)
+        form = GeoThemplateForm(request.POST, instance=geo_template)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+
+
+# Delate View
+class GeoThemplateDeleteView(View):
+    def post(self, request, pk):
+        geo_template = get_object_or_404(GeoThemplate, pk=pk)
+        geo_template.delete()
+        return JsonResponse({'success': True})
     
 
 """Ruf alle Länder ab"""
@@ -42,3 +101,17 @@ def country_name(request):
     else:
         # Handle den Fall, wenn keine Länderdaten gefunden wurden
         return JsonResponse({'message': 'Keine Länderdaten gefunden.'})
+    
+    
+def get_regions(request, geoname_id):
+    username = 'benjaminphilipp'
+    base_url = f'http://api.geonames.org/childrenJSON?geonameId={geoname_id}&username={username}'
+
+    response = requests.get(base_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        regions = data.get('geonames', [])
+        return JsonResponse(regions, safe=False)
+    else:
+        return JsonResponse([], safe=False)
