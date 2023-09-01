@@ -13,12 +13,6 @@
     background-color: #ffffff9e;
 }
 
-.overlay-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
 /*Overlay Open*/
 .overlay-open{
@@ -35,28 +29,26 @@
 }
 
 /* Form */
-.crate-form{
-    display: none;
+#aside-form {
+    width: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-left: 0;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
     height: 100vh;
     z-index: 10000;
-    right: 0;
-    top: 0;
-    bottom: 0;
     background-color: #fff;
-    margin-left: -690px;
-    position: absolute;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
-
 #aside-form.toggle {
-    right: 0;
-    top: 0;
-    bottom: 0;
+    visibility: visible;
+    opacity: 1;
     width: 690px;
-    margin-left: 0;
-    display: block;
-    position: fixed;
-    transition:all 5s;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 #aside-form .card{
@@ -243,16 +235,13 @@
     color: #6c757d;
 }
 
-
 .btn-copy{
     color: #0c3ebb;
 }
 
-
 #shortcode_id .fa-link{
     font-size: 12px;
 }
-
 
 #shortcode_id:hover > button > i{
     color: #0d6efd;
