@@ -60,16 +60,16 @@ $(document).ready(function(){
     });
     
     //Variabeln     
-    const url_destination = document.getElementById('id_url_destination');
-    const url_titel = document.getElementById('id_url_titel');
-    const url_medium = document.getElementById('id_url_medium');
-    const url_source = document.getElementById('id_url_source');
-    const url_term = document.getElementById('id_url_term');
-    const url_content = document.getElementById('id_url_content');
-    const url_campaign = document.getElementById('id_url_campaign');
-    const csrf = document.getElementsByName('csrfmiddlewaretoken');
-    const url_creator = document.getElementById('url_creator');
-    const idShort = document.getElementById('id_shortcode');
+    // const url_destination = document.getElementById('id_url_destination');
+    // const url_titel = document.getElementById('id_url_titel');
+    // const url_medium = document.getElementById('id_url_medium');
+    // const url_source = document.getElementById('id_url_source');
+    // const url_term = document.getElementById('id_url_term');
+    // const url_content = document.getElementById('id_url_content');
+    // const url_campaign = document.getElementById('id_url_campaign');
+    // const csrf = document.getElementsByName('csrfmiddlewaretoken');
+    // const url_creator = document.getElementById('url_creator');
+    // const idShort = document.getElementById('id_shortcode');
     
 
 
@@ -92,120 +92,120 @@ $(document).ready(function(){
 
 
     //Archive function
-    $('#archive-btn').on('click', function(event){
-        event.preventDefault();
+    // $('#archive-btn').on('click', function(event){
+    //     event.preventDefault();
 
-        var dataArchive = jQuery(this).attr('data-archive');
+    //     var dataArchive = jQuery(this).attr('data-archive');
 
-        //form fuc disabled
-        disabledTextInput();
+    //     //form fuc disabled
+    //     disabledTextInput();
 
-        //Overlay
-        overlayReady();
+    //     //Overlay
+    //     overlayReady();
         
-        $.ajax({
-            type: 'POST',
-            url: "/shortcode/update/archive/", //shortcode
-            data: {
-                'csrfmiddlewaretoken': csrftoken,
-                'pk': dataArchive,
-            },
-            success: function(response){
-                console.log(response);
-                setTimeout(()=>{
-                    window.location.reload();
-                    $('#overlay').removeClass('overlay-active');
-                    $('#overlay-open').removeClass("overlay-open"); 
-                }, 1000);
-            },
-            error: function(error){
-                console.log(error)
-            },
-        })
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "/shortcode/update/archive/", //shortcode
+    //         data: {
+    //             'csrfmiddlewaretoken': csrftoken,
+    //             'pk': dataArchive,
+    //         },
+    //         success: function(response){
+    //             console.log(response);
+    //             setTimeout(()=>{
+    //                 window.location.reload();
+    //                 $('#overlay').removeClass('overlay-active');
+    //                 $('#overlay-open').removeClass("overlay-open"); 
+    //             }, 1000);
+    //         },
+    //         error: function(error){
+    //             console.log(error)
+    //         },
+    //     })
 
-    })
-
-
-    $('#update-form-shortcode').on('click', function(event){
-        event.preventDefault();
-
-        var idShortcode = $('#update-shortcode-url').val();
-        const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
-        $('#archive-btn').attr('data-archive', idShortcode);
-        //const tags = formData.filter(item => item.name === 'tags')[0].value.split(',');
-
-        // console.log(url_update);
-
-        const fd = new FormData();
-        fd.append('csrfmiddlewaretoken', csrf[0].value)
-        fd.append('url_destination', url_destination.value);
-        fd.append('url_titel', url_titel.value);
-        fd.append('url_source', url_source.value);
-        fd.append('url_medium', url_medium.value);
-        fd.append('url_term', url_term.value);
-        fd.append('url_campaign', url_campaign.value);
-        fd.append('url_creator', url_creator.value);
-        fd.append('url_content', url_content.value);
-        fd.append('shortcode_id', idShort.value);
+    // })
 
 
-        const selectedTags = [];
-        $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
-            selectedTags.push($(this).val());
+    // $('#update-form-shortcode').on('click', function(event){
+    //     event.preventDefault();
 
-        });
-        fd.append('tags', selectedTags.join(','));
+    //     var idShortcode = $('#update-shortcode-url').val();
+    //     const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
+    //     $('#archive-btn').attr('data-archive', idShortcode);
+    //     //const tags = formData.filter(item => item.name === 'tags')[0].value.split(',');
 
-        $.ajax({
-            type: 'POST',
-            url: url_update,
-            data: fd,
-            enctype: 'multipart/form-data',
-            success: function(response){
+    //     // console.log(url_update);
 
-                //form fuc disabled
-                disabledTextInput();
+    //     const fd = new FormData();
+    //     fd.append('csrfmiddlewaretoken', csrf[0].value)
+    //     fd.append('url_destination', url_destination.value);
+    //     fd.append('url_titel', url_titel.value);
+    //     fd.append('url_source', url_source.value);
+    //     fd.append('url_medium', url_medium.value);
+    //     fd.append('url_term', url_term.value);
+    //     fd.append('url_campaign', url_campaign.value);
+    //     fd.append('url_creator', url_creator.value);
+    //     fd.append('url_content', url_content.value);
+    //     fd.append('shortcode_id', idShort.value);
 
-                //Overlay
-                overlayReady();
 
-                resteFields()
+    //     const selectedTags = [];
+    //     $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
+    //         selectedTags.push($(this).val());
 
-                // //Alert
-                alert(response.success, 'success')
-                setTimeout(function(){$('.alert').alert('close')}, 3000)
-                $('#overlay-open').removeClass("overlay-open"); 
+    //     });
+    //     fd.append('tags', selectedTags.join(','));
 
-                setTimeout(()=>{
-                    window.location.reload();
-                    $('#overlay').removeClass('overlay-active');
-                }, 2000);
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: url_update,
+    //         data: fd,
+    //         enctype: 'multipart/form-data',
+    //         success: function(response){
 
-            },
-            error: function(error){
-                console.log(error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-        })
-    })
+    //             //form fuc disabled
+    //             disabledTextInput();
+
+    //             //Overlay
+    //             overlayReady();
+
+    //             resteFields()
+
+    //             // //Alert
+    //             alert(response.success, 'success')
+    //             setTimeout(function(){$('.alert').alert('close')}, 3000)
+    //             $('#overlay-open').removeClass("overlay-open"); 
+
+    //             setTimeout(()=>{
+    //                 window.location.reload();
+    //                 $('#overlay').removeClass('overlay-active');
+    //             }, 2000);
+
+    //         },
+    //         error: function(error){
+    //             console.log(error);
+    //         },
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //     })
+    // })
 
 
     //Alert Banner
-    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    // const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
 
-    const alert = (message, type) => {
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-        `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-        '</div>'
-    ].join('')
+    // const alert = (message, type) => {
+    // const wrapper = document.createElement('div')
+    // wrapper.innerHTML = [
+    //     `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    //     `   <div>${message}</div>`,
+    //     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    //     '</div>'
+    // ].join('')
 
-    alertPlaceholder.append(wrapper)
-    }
+    // alertPlaceholder.append(wrapper)
+    // }
 
     // Crate functions Shortcode
     $("#crate-form-shortcode").on("click", function(event) {
@@ -281,68 +281,68 @@ $(document).ready(function(){
 
 
     // Prüfung feld source code
-    $('#id_url_source').on('blur', function () {
-        var inputValue = $(this).val();
-        var otherInputValue = $('#id_url_medium').val();
+    // $('#id_url_source').on('blur', function () {
+    //     var inputValue = $(this).val();
+    //     var otherInputValue = $('#id_url_medium').val();
 
-        if (inputValue && otherInputValue) {
-            // Beide Felder sind ausgefüllt, entferne die Klasse
-            $('#crate-form-shortcode').removeClass('disabled');
-        }
-    });
+    //     if (inputValue && otherInputValue) {
+    //         // Beide Felder sind ausgefüllt, entferne die Klasse
+    //         $('#crate-form-shortcode').removeClass('disabled');
+    //     }
+    // });
 
-    $('#id_url_medium').on('blur', function () {
-        var inputValue = $('#id_url_source').val();
-        var otherInputValue = $(this).val();
+    // $('#id_url_medium').on('blur', function () {
+    //     var inputValue = $('#id_url_source').val();
+    //     var otherInputValue = $(this).val();
 
-        if (inputValue && otherInputValue) {
-            // Beide Felder sind ausgefüllt, entferne die Klasse
-            $('#crate-form-shortcode').removeClass('disabled');
-        }
-    });
+    //     if (inputValue && otherInputValue) {
+    //         // Beide Felder sind ausgefüllt, entferne die Klasse
+    //         $('#crate-form-shortcode').removeClass('disabled');
+    //     }
+    // });
 
-    $('#id_url_source, #id_url_medium').on('input', function () {
-        // Füge die Klasse hinzu, wenn eines der Felder geändert wird
-        $('#crate-form-shortcode').addClass('disabled');
-    });
+    // $('#id_url_source, #id_url_medium').on('input', function () {
+    //     // Füge die Klasse hinzu, wenn eines der Felder geändert wird
+    //     $('#crate-form-shortcode').addClass('disabled');
+    // });
 
 
 
 
     //destination https://stackoverflow.com/questions/60286543/how-to-check-if-a-url-is-valid-actually-loads-a-page-with-content-efficiently
-    $("#id_url_destination").on("change", function () {
+    // $("#id_url_destination").on("change", function () {
 
-        var link = $('#id_url_destination').val();
+    //     var link = $('#id_url_destination').val();
 
-        function UrlExists(url, cb){
-            jQuery.ajax({
-                url:      url,
-                dataType: 'text',
-                type:     'GET',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                complete:  function(xhr){
-                    if(typeof cb === 'function')
-                       cb.apply(this, [xhr.status]);
-                }
-            });
-        }
+    //     function UrlExists(url, cb){
+    //         jQuery.ajax({
+    //             url:      url,
+    //             dataType: 'text',
+    //             type:     'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/x-www-form-urlencoded'
+    //             },
+    //             complete:  function(xhr){
+    //                 if(typeof cb === 'function')
+    //                    cb.apply(this, [xhr.status]);
+    //             }
+    //         });
+    //     }
 
-        UrlExists(link, function(status){
-            if(status === 200){
-               // file was found
-               console.log( "status code 200 returned");
-               $("#id_url_destination").after('<div class="text-success">Deine Website ist erreichbar!</div>');
-            }
-            else if(status === 404){
-               // 404 not found
-               console.log( "status code 404 returned");
-               $("#id_url_destination").after('<div class="text-danger">Deine Website ist erreichbar!</div>');
-            }
-        });
+    //     UrlExists(link, function(status){
+    //         if(status === 200){
+    //            // file was found
+    //            console.log( "status code 200 returned");
+    //            $("#id_url_destination").after('<div class="text-success">Deine Website ist erreichbar!</div>');
+    //         }
+    //         else if(status === 404){
+    //            // 404 not found
+    //            console.log( "status code 404 returned");
+    //            $("#id_url_destination").after('<div class="text-danger">Deine Website ist erreichbar!</div>');
+    //         }
+    //     });
 
-    });
+    // });
 
 
 
@@ -602,183 +602,183 @@ $('.shortcode-class').on('click', function() {
 
 
     // onClick copy to clipboard
-    console.clear()
+    // console.clear()
 
-    //Copy Button color
-    $('#shortcode-list').on("click", '.btn-copy', function(event){
-        event.preventDefault();
+    // //Copy Button color
+    // $('#shortcode-list').on("click", '.btn-copy', function(event){
+    //     event.preventDefault();
 
-        var buttonId = $(this).attr('data-button');
+    //     var buttonId = $(this).attr('data-button');
 
-        let that = document.getElementById(buttonId);
-        navigator.clipboard.writeText(that?.innerText).then(res => {});
+    //     let that = document.getElementById(buttonId);
+    //     navigator.clipboard.writeText(that?.innerText).then(res => {});
      
-        $('.color' + buttonId).addClass('bg-success text-white');
-        setTimeout(()=>{
-            $('.color' + buttonId).removeClass('bg-success text-white');
-        }, 2000);
+    //     $('.color' + buttonId).addClass('bg-success text-white');
+    //     setTimeout(()=>{
+    //         $('.color' + buttonId).removeClass('bg-success text-white');
+    //     }, 2000);
 
-    })
-
-
+    // })
 
 
-    $("#crate-form-shortcode").click(function() {
-        var url = $("#id_url_destination").val();
-        console.log(url);
-        $.ajax({
-            url: '/shortcode/get_favicon/?url=' + encodeURIComponent(url),
-            success: function(data) {
-                if (data.favicon_url) {
-                    $("#result").html(`<img src="${data.favicon_url}" alt="Favicon">`);
-                } else {
-                    $("#result").html("Favicon not found");
-                }
-            },
-            error: function() {
-                $("#result").html("Error fetching favicon.");
-            }
-        });
-    });
+
+
+    // $("#crate-form-shortcode").click(function() {
+    //     var url = $("#id_url_destination").val();
+    //     console.log(url);
+    //     $.ajax({
+    //         url: '/shortcode/get_favicon/?url=' + encodeURIComponent(url),
+    //         success: function(data) {
+    //             if (data.favicon_url) {
+    //                 $("#result").html(`<img src="${data.favicon_url}" alt="Favicon">`);
+    //             } else {
+    //                 $("#result").html("Favicon not found");
+    //             }
+    //         },
+    //         error: function() {
+    //             $("#result").html("Error fetching favicon.");
+    //         }
+    //     });
+    // });
 
 
     //Export
-    function exportSelectedShortcodes(csrfToken) {
-        var selectedShortcodes = [];  // Hier die ausgewählten Shortcodes hinzufügen
+    // function exportSelectedShortcodes(csrfToken) {
+    //     var selectedShortcodes = [];  // Hier die ausgewählten Shortcodes hinzufügen
         
-        // Annahme: selectedShortcodes ist ein Array von IDs der ausgewählten Shortcodes
-        $('input[name="selected_shortcodes"]:checked').each(function() {
-            selectedShortcodes.push($(this).val());
-        });
-        console.log(selectedShortcodes)
-        if (selectedShortcodes.length === 0) {
-            alert('Bitte wählen Sie mindestens einen Shortcode aus.');
-            return;
-        }
+    //     // Annahme: selectedShortcodes ist ein Array von IDs der ausgewählten Shortcodes
+    //     $('input[name="selected_shortcodes"]:checked').each(function() {
+    //         selectedShortcodes.push($(this).val());
+    //     });
+    //     console.log(selectedShortcodes)
+    //     if (selectedShortcodes.length === 0) {
+    //         alert('Bitte wählen Sie mindestens einen Shortcode aus.');
+    //         return;
+    //     }
     
-        $.ajax({
-            url: '/shortcode/ajax/export-shortcodes/',
-            method: 'POST',
-            data: { 
-                'selected_ids[]': selectedShortcodes,
-                csrfmiddlewaretoken: csrfToken
-            },
-            success: function(response) {
-                var blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = 'shortcodes.xlsx';
-                link.click();
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    }
+    //     $.ajax({
+    //         url: '/shortcode/ajax/export-shortcodes/',
+    //         method: 'POST',
+    //         data: { 
+    //             'selected_ids[]': selectedShortcodes,
+    //             csrfmiddlewaretoken: csrfToken
+    //         },
+    //         success: function(response) {
+    //             var blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    //             var link = document.createElement('a');
+    //             link.href = window.URL.createObjectURL(blob);
+    //             link.download = 'shortcodes.xlsx';
+    //             link.click();
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error(error);
+    //         }
+    //     });
+    // }
 
-    // Export Button
-    $('#export-button').on('click', function() {
-        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
-        exportSelectedShortcodes(csrfToken);
-    });
+    // // Export Button
+    // $('#export-button').on('click', function() {
+    //     var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+    //     exportSelectedShortcodes(csrfToken);
+    // });
 
 
 
     //Search
-    $('#filter-search-form').on('change', function(event) {
-        event.preventDefault();
+    // $('#filter-search-form').on('change', function(event) {
+    //     event.preventDefault();
 
-        $('#reset-filter-btn').removeClass('d-none')
-        var shortcodeList = $('#shortcode-list');
-        var selectedTag = $('#tag-filter').val();
+    //     $('#reset-filter-btn').removeClass('d-none')
+    //     var shortcodeList = $('#shortcode-list');
+    //     var selectedTag = $('#tag-filter').val();
 
-        const searchQuery = $('#search-input').val();
-        $.ajax({
-            type: 'GET',
-            url: '/shortcode/serach/',  // Passe die URL an
-            data: {
-                tags: [selectedTag],
-                q: searchQuery
-            },
-            success: function(response) {
-                const shortcodes = response.shortcodes;
-                // Verarbeite die Shortcodes-Daten und aktualisiere die Anzeige
+    //     const searchQuery = $('#search-input').val();
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/shortcode/serach/',  // Passe die URL an
+    //         data: {
+    //             tags: [selectedTag],
+    //             q: searchQuery
+    //         },
+    //         success: function(response) {
+    //             const shortcodes = response.shortcodes;
+    //             // Verarbeite die Shortcodes-Daten und aktualisiere die Anzeige
 
-                $('#shortcode-list').empty();
+    //             $('#shortcode-list').empty();
 
-                shortcodes.forEach(function(item) {
-                    console.log(item)
-                    var shortUrl = item.get_short_url;
-                    if (shortUrl.length > 90) {
-                        shortUrl = shortUrl.substring(0, 90) + '...';
-                    }
+    //             shortcodes.forEach(function(item) {
+    //                 console.log(item)
+    //                 var shortUrl = item.get_short_url;
+    //                 if (shortUrl.length > 90) {
+    //                     shortUrl = shortUrl.substring(0, 90) + '...';
+    //                 }
 
-                    var shortDestination = item.url_destination;
-                    if (shortDestination.length > 90) {
-                        shortDestination = shortDestination.substring(0, 90) + '...';
-                    }
+    //                 var shortDestination = item.url_destination;
+    //                 if (shortDestination.length > 90) {
+    //                     shortDestination = shortDestination.substring(0, 90) + '...';
+    //                 }
 
-                    // shortcodeList hinzufügen
-                    var shortcodeItem = $('<div class="card p-3 my-3 border border-0">');
-                    shortcodeItem.append(`<div class="card-header header-elements"> <form id="shortcode-form"><input type="checkbox" name="selected_shortcodes" value="shortcode_id_${item.short_id}"></form> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
-                    shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
-                    shortcodeItem.append(`<div class="card-footer">
-                    <small class="text-muted short-links-footer">
-                        <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
-                        <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
-                        <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
-                    </small>
-                    `);
-                    shortcodeList.append(shortcodeItem);
-                });
+    //                 // shortcodeList hinzufügen
+    //                 var shortcodeItem = $('<div class="card p-3 my-3 border border-0">');
+    //                 shortcodeItem.append(`<div class="card-header header-elements"> <form id="shortcode-form"><input type="checkbox" name="selected_shortcodes" value="shortcode_id_${item.short_id}"></form> <img src="${item.favicon_path? `${item.favicon_path}`: `${faviconPath}`}" class="img-thumbnail favicon-img" alt="favicon.ico"> <h5 class="card-title">${item.url_titel}</h5><div class="card-header-elements ms-auto"> <span class="d-none" id="short${ item.short_id }">${item.get_short_url}</span> <button data-button="short${ item.short_id }" type="button" class="btn btn-secondary btn-copy colorshort${ item.short_id } btn-sm"><i class="fa-regular fa-copy"></i> Kopieren</button> <a data-shortcode="${item.short_id}" data-shortname="${item.shortcode}" class="shortcode-class short-name btn btn-xs btn-primary btn-sm"><i class="fa-solid fa-pencil"></i> Bearbeiten</a>`);
+    //                 shortcodeItem.append(`<div class="card-body"><a href="${item.get_short_url}">${shortUrl}</a><br><a class="text-muted" href="${item.url_destination}">${shortDestination}</a>`);
+    //                 shortcodeItem.append(`<div class="card-footer">
+    //                 <small class="text-muted short-links-footer">
+    //                     <span class="short-calendar"><i class="fa-regular fa-calendar orb-icon"></i> ${item.url_create_date} </span>
+    //                     <span class="short-chart"><i class="fa-solid fa-chart-line orb-icon"></i> ${item.click_count} klicks </span>
+    //                     <span class="short-tags"><i class="fa-solid fa-tag orb-icon"></i> Kein Tags</span>
+    //                 </small>
+    //                 `);
+    //                 shortcodeList.append(shortcodeItem);
+    //             });
 
 
-                // console.log(shortcodes);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    });
+    //             // console.log(shortcodes);
+    //         },
+    //         error: function(error) {
+    //             console.log(error);
+    //         }
+    //     });
+    // });
 
 
 
     // Tags View for filter
-    function loadTags() {
-        $.ajax({
-            type: 'GET',
-            url: '/shortcode/tags/',  // Passe die URL an
-            success: function(response) {
-                const tags = response.tags;
+    // function loadTags() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/shortcode/tags/',  // Passe die URL an
+    //         success: function(response) {
+    //             const tags = response.tags;
 
-                // Verarbeite die Tags und aktualisiere den Filter
-                const tagFilter = $('#tag-filter');
-                tagFilter.empty();
-                tags.forEach(function(tag) {
-                    const option = $('<option>').text(tag).val(tag);
-                    tagFilter.append(option);
-                });
+    //             // Verarbeite die Tags und aktualisiere den Filter
+    //             const tagFilter = $('#tag-filter');
+    //             tagFilter.empty();
+    //             tags.forEach(function(tag) {
+    //                 const option = $('<option>').text(tag).val(tag);
+    //                 tagFilter.append(option);
+    //             });
 
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    }
+    //         },
+    //         error: function(error) {
+    //             console.log(error);
+    //         }
+    //     });
+    // }
     
-    // Rufe die Tags beim Laden der Seite auf
-    loadTags();
+    // // Rufe die Tags beim Laden der Seite auf
+    // loadTags();
 
 
     //Filter Reste
-    $('#reset-filter-btn').on('click', function(event) {
+    // $('#reset-filter-btn').on('click', function(event) {
 
-        $('#tag-filter').val([]); // Dies setzt die Auswahl der Tags zurück
-        $('#shortcode-list').empty();
-        $('#reset-filter-btn').addClass('d-none')
+    //     $('#tag-filter').val([]); // Dies setzt die Auswahl der Tags zurück
+    //     $('#shortcode-list').empty();
+    //     $('#reset-filter-btn').addClass('d-none')
 
-        loadMore();
-    });
+    //     loadMore();
+    // });
 
 
 });

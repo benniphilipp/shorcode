@@ -44,86 +44,86 @@
 //         clearContent();
 //     };
 
-//         /** Update Shorcode View **/
-//         $('#update-form-shortcode').on('click', function(event){
-//             event.preventDefault();
+        /** Update Shorcode View **/
+        // $('#update-form-shortcode').on('click', function(event){
+        //     event.preventDefault();
     
-//             var idShortcode = $('#update-shortcode-url').val();
-//             const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
-//             $('#archive-btn').attr('data-archive', idShortcode);
+        //     var idShortcode = $('#update-shortcode-url').val();
+        //     const url_update = url_view_update + '/shortcode/update/' + idShortcode + '/';
+        //     $('#archive-btn').attr('data-archive', idShortcode);
     
-//             const fd = new FormData();
-//             fd.append('csrfmiddlewaretoken', csrf[0].value)
-//             fd.append('url_destination', url_destination.value);
-//             fd.append('url_titel', url_titel.value);
-//             fd.append('url_source', url_source.value);
-//             fd.append('url_medium', url_medium.value);
-//             fd.append('url_term', url_term.value);
-//             fd.append('url_campaign', url_campaign.value);
-//             fd.append('url_creator', url_creator.value);
-//             fd.append('url_content', url_content.value);
-//             fd.append('shortcode_id', idShort.value);
+        //     const fd = new FormData();
+        //     fd.append('csrfmiddlewaretoken', csrf[0].value)
+        //     fd.append('url_destination', url_destination.value);
+        //     fd.append('url_titel', url_titel.value);
+        //     fd.append('url_source', url_source.value);
+        //     fd.append('url_medium', url_medium.value);
+        //     fd.append('url_term', url_term.value);
+        //     fd.append('url_campaign', url_campaign.value);
+        //     fd.append('url_creator', url_creator.value);
+        //     fd.append('url_content', url_content.value);
+        //     fd.append('shortcode_id', idShort.value);
     
-//             const selectedTags = [];
-//             $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
-//                 selectedTags.push($(this).val());
+        //     const selectedTags = [];
+        //     $('input[name="tags"]input[type="checkbox"]:checked').each(function() {
+        //         selectedTags.push($(this).val());
     
-//             });
+        //     });
     
-//             fd.append('tags', selectedTags.join(','));
+        //     fd.append('tags', selectedTags.join(','));
     
-//             $.ajax({
-//                 type: 'POST',
-//                 url: url_update,
-//                 data: fd,
-//                 enctype: 'multipart/form-data',
-//                 success: function(response){
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: url_update,
+        //         data: fd,
+        //         enctype: 'multipart/form-data',
+        //         success: function(response){
     
-//                     //form fuc disabled
-//                     $('.disabled-func').each(function() {
-//                         $(this).find('input[type=text]').attr('disabled', 'disabled');
-//                     });
+        //             //form fuc disabled
+        //             $('.disabled-func').each(function() {
+        //                 $(this).find('input[type=text]').attr('disabled', 'disabled');
+        //             });
     
-//                     //Overlay
-//                     $('#overlay').addClass('overlay-active');
-//                     var dataImage = jQuery('#overlay').attr('data-image');
-//                     $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
+        //             //Overlay
+        //             $('#overlay').addClass('overlay-active');
+        //             var dataImage = jQuery('#overlay').attr('data-image');
+        //             $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
     
-//                     //Reset fields
-//                     $('#id_url_destination').val('')
-//                     $('#id_url_titel').val('')
-//                     $('#id_url_medium').val('')
-//                     $('#id_url_source').val('')
-//                     $('#id_url_term').val('')
-//                     $('#id_url_titel').val('')
-//                     $('#id_url_campaign').val('')
-//                     $('#id_url_content').val('')
-//                     $('#id_shortcode').val('')
+        //             //Reset fields
+        //             $('#id_url_destination').val('')
+        //             $('#id_url_titel').val('')
+        //             $('#id_url_medium').val('')
+        //             $('#id_url_source').val('')
+        //             $('#id_url_term').val('')
+        //             $('#id_url_titel').val('')
+        //             $('#id_url_campaign').val('')
+        //             $('#id_url_content').val('')
+        //             $('#id_shortcode').val('')
     
-//                     const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
-//                     tagsCheckboxes.each(function(index, checkbox) {
-//                         const tagValue = parseInt($(checkbox).val());
+        //             const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+        //             tagsCheckboxes.each(function(index, checkbox) {
+        //                 const tagValue = parseInt($(checkbox).val());
     
-//                         $(checkbox).prop('checked', '');
-//                     });
+        //                 $(checkbox).prop('checked', '');
+        //             });
     
-//                     // //Alert
-//                     ls_toast(response.success);
+        //             // //Alert
+        //             ls_toast(response.success);
     
-//                     setTimeout(()=>{
-//                         window.location.reload();
-//                         $('#overlay').removeClass('overlay-active');
-//                     }, 2000);
+        //             setTimeout(()=>{
+        //                 window.location.reload();
+        //                 $('#overlay').removeClass('overlay-active');
+        //             }, 2000);
     
-//                 },
-//                 error: function(error){
-//                     console.log(error);
-//                 },
-//                 cache: false,
-//                 contentType: false,
-//                 processData: false,
-//             })
-//         });
+        //         },
+        //         error: function(error){
+        //             console.log(error);
+        //         },
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false,
+        //     })
+        // });
 
 
 
@@ -165,200 +165,200 @@
 
 
 //     /* Einzelansicht felder Befühlung */
-//     $('#shortcode-list').on('click', '.shortcode-class', function() {
+    $('#shortcode-list').on('click', '.shortcode-class', function() {
 
-//         // Shorcode Single Ansicht
-//         var idShortcode = jQuery(this).attr('data-shortcode');
-//         const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/';
-//         $('#archive-btn').attr('data-archive', idShortcode);
-//         $('#overlay-open').addClass("overlay-open"); 
+        // Shorcode Single Ansicht
+        var idShortcode = jQuery(this).attr('data-shortcode');
+        const url_view = url_view_update + '/shortcode/update/' + idShortcode + '/view/';
+        $('#archive-btn').attr('data-archive', idShortcode);
+        $('#overlay-open').addClass("overlay-open"); 
 
-//         $.ajax({
-//             type: 'GET',
-//             url: url_view,
-//             success: function(response){
-//                 const data = response.data
+        $.ajax({
+            type: 'GET',
+            url: url_view,
+            success: function(response){
+                const data = response.data
 
-//                 $('#aside-form').addClass('toggle');
-//                 $('#crate-form-shortcode').addClass('d-none');
-//                 $('#openForm').addClass("disabled"); 
-//                 updateShortcodeUrl.value = data.id;
-//                 url_destination.value = data.url_destination;
-//                 url_titel.value = data.url_titel;
-//                 url_medium.value = data.url_medium;
-//                 url_source.value = data.url_source;
-//                 url_term.value = data.url_term;
-//                 url_content.value = data.url_content;
-//                 url_campaign.value = data.url_campaign;
-//                 idShort.value = data.shortcode;
+                $('#aside-form').addClass('toggle');
+                $('#crate-form-shortcode').addClass('d-none');
+                $('#openForm').addClass("disabled"); 
+                updateShortcodeUrl.value = data.id;
+                url_destination.value = data.url_destination;
+                url_titel.value = data.url_titel;
+                url_medium.value = data.url_medium;
+                url_source.value = data.url_source;
+                url_term.value = data.url_term;
+                url_content.value = data.url_content;
+                url_campaign.value = data.url_campaign;
+                idShort.value = data.shortcode;
 
-//                 $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
+                $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
 
-//                 // Tags-Felder auswählen
-//                 const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+                // Tags-Felder auswählen
+                const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
 
-//                 tagsCheckboxes.each(function(index, checkbox) {
-//                     const tagValue = parseInt($(checkbox).val());
-//                     const tagIsSelected = data.tags.includes(tagValue);
-//                     $(checkbox).prop('checked', tagIsSelected);
-//                 });
+                tagsCheckboxes.each(function(index, checkbox) {
+                    const tagValue = parseInt($(checkbox).val());
+                    const tagIsSelected = data.tags.includes(tagValue);
+                    $(checkbox).prop('checked', tagIsSelected);
+                });
 
-//                 tagsCheckboxes.trigger('change');
+                tagsCheckboxes.trigger('change');
 
-//             },
-//             error: function(error){
-//                 console.log(error + 'erro');
-//             },
-//         });
+            },
+            error: function(error){
+                console.log(error + 'erro');
+            },
+        });
 
 
-//         /* Funktion zum abrufen des Status der Swiches */
-//         function shorcodeSwitchesStatus(elementsID, url, disabledClass){
-//             $.ajax({
-//                 url: url,
-//                 type: 'GET',
-//                 success: function(response) {
+        /* Funktion zum abrufen des Status der Swiches */
+        function shorcodeSwitchesStatus(elementsID, url, disabledClass){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
 
-//                     const data = response.status_switches;
+                    const data = response.status_switches;
 
-//                     if(data){
-//                         $(elementsID).prop('checked', true);
-//                         $(disabledClass).prop('disabled', false);
-//                     }else{
-//                         $(elementsID).prop('checked', false);
-//                         $(disabledClass).prop('disabled', true);
-//                     }
+                    if(data){
+                        $(elementsID).prop('checked', true);
+                        $(disabledClass).prop('disabled', false);
+                    }else{
+                        $(elementsID).prop('checked', false);
+                        $(disabledClass).prop('disabled', true);
+                    }
                     
-//                 },
-//                 error: function(error) {
-//                     console.log(error);
-//                 }
-//             });
-//         }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
 
-//         /* limitation */
-//         var disabledClass = '.disabled-limitation';
-//         var url = `/shortcode/get_limitation_active_status/${idShortcode}/`;
-//         var elementsID = '#id_limitation_active';
-//         shorcodeSwitchesStatus(elementsID, url, disabledClass);
+        /* limitation */
+        var disabledClass = '.disabled-limitation';
+        var url = `/shortcode/get_limitation_active_status/${idShortcode}/`;
+        var elementsID = '#id_limitation_active';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
-//         /* Geo-Targeting */
-//         var disabledClass = '.disabled-geo';
-//         var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
-//         var elementsID = '#id_geo_targeting_on_off';
-//         shorcodeSwitchesStatus(elementsID, url, disabledClass);
+        /* Geo-Targeting */
+        var disabledClass = '.disabled-geo';
+        var url = `/shortcode/get_detaile_geo_targeting/${idShortcode}/`;
+        var elementsID = '#id_geo_targeting_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
-//         /* iOS-Targeting */
-//         var disabledClass = '.disabled-ios'
-//         var url = `/shortcode/get_detaile_ios_targeting/${idShortcode}/`;
-//         var elementsID = '#id_ios_on_off';
-//         shorcodeSwitchesStatus(elementsID, url, disabledClass);
+        /* iOS-Targeting */
+        var disabledClass = '.disabled-ios'
+        var url = `/shortcode/get_detaile_ios_targeting/${idShortcode}/`;
+        var elementsID = '#id_ios_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
-//         /* Android-Targeting */
-//         var disabledClass = '.disabled-android';
-//         var url = `/shortcode/get_deatile_android_targeting/${idShortcode}/`;
-//         var elementsID = '#id_android_on_off';
-//         shorcodeSwitchesStatus(elementsID, url, disabledClass);
-
-
-//         /***************** Start Swiches Update View *****************/
-
-//         /* Funktion Edite Swiches */
-//         $('.checkboxinput').on('change', function() {
-//             var currentStatus = $(this).data('status');
-//             var isChecked = $(this).prop('checked');
-
-//             // function shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit){
-//             //     $.ajax({
-//             //         url: shortUrl,
-//             //         type: 'POST',
-//             //         data: {
-//             //             'csrfmiddlewaretoken': csrftoken,
-//             //             'pk': idShortcode,
-//             //             'current_status': currentStatus
-//             //         },
-//             //         success: function(response) {
-//             //             const data = response.status_switches;
-
-//             //             if(data){
-//             //                 $(elementsShortID).prop('checked', true);
-//             //                 $(disabledClassEdit).prop('disabled', false);
-//             //             }else{
-//             //                 $(elementsShortID).prop('checked', false);
-//             //                 $(disabledClassEdit).prop('disabled', true);
-
-//             //                 var elementsWithClass = $(disabledClassEdit);
-//             //                 elementsWithClass.each(function(index, element) {
-//             //                     var fieldValue = $(element).val();
-//             //                     if (fieldValue) {
-//             //                         $(element).val('');
-//             //                     }
-//             //                 });
-//             //             }
-//             //         },
-//             //         error: function(error) {
-//             //             console.log("Fehler:", error);
-//             //         }
-//             //     });
-//             // }
+        /* Android-Targeting */
+        var disabledClass = '.disabled-android';
+        var url = `/shortcode/get_deatile_android_targeting/${idShortcode}/`;
+        var elementsID = '#id_android_on_off';
+        shorcodeSwitchesStatus(elementsID, url, disabledClass);
 
 
-//             if (isChecked) {
-//                 if('id_limitation_active' == this.id){
-//                     /* limitation */
-//                     // var disabledClassEdit = '.disabled-limitation';
-//                     // elementsShortID = '#id_limitation_active';
-//                     // shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                     //sendLimitationForm();
-//                 }else if('id_geo_targeting_on_off' == this.id){
-//                     /* Geo-Targeting */
-//                     // var disabledClassEdit = '.disabled-geo';
-//                     // var elementsShortID = '#id_geo_targeting_on_off';
-//                     // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }else if('id_android_on_off' == this.id){
-//                     /* Android-Targeting */
-//                     // var disabledClassEdit = '.disabled-android';
-//                     // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
-//                     // var elementsShortID = '#id_android_on_off';
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }else{
-//                     /* iOS-Targeting */
-//                     // var disabledClassEdit = '.disabled-ios'
-//                     // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
-//                     // var elementsShortID = '#id_ios_on_off';
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }
-//             }else{
-//                 if('id_limitation_active' == this.id){
-//                     // /* limitation */
-//                     // var disabledClassEdit = '.disabled-limitation';
-//                     // elementsShortID = '#id_limitation_active';
-//                     // shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }else if('id_geo_targeting_on_off' == this.id){
-//                     /* Geo-Targeting */
-//                     // var disabledClassEdit = '.disabled-geo';
-//                     // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
-//                     // var elementsShortID = '#id_geo_targeting_on_off';
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }else if('id_android_on_off' == this.id){
-//                     /* Android-Targeting */
-//                     // var disabledClassEdit = '.disabled-android';
-//                     // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
-//                     // var elementsShortID = '#id_android_on_off';
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }else{
-//                     /* iOS-Targeting */
-//                     // var disabledClassEdit = '.disabled-ios'
-//                     // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
-//                     // var elementsShortID = '#id_ios_on_off';
-//                     // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
-//                 }
-//             }
-//         });
-//     });
+        /***************** Start Swiches Update View *****************/
+
+        /* Funktion Edite Swiches */
+        $('.checkboxinput').on('change', function() {
+            var currentStatus = $(this).data('status');
+            var isChecked = $(this).prop('checked');
+
+            // function shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit){
+            //     $.ajax({
+            //         url: shortUrl,
+            //         type: 'POST',
+            //         data: {
+            //             'csrfmiddlewaretoken': csrftoken,
+            //             'pk': idShortcode,
+            //             'current_status': currentStatus
+            //         },
+            //         success: function(response) {
+            //             const data = response.status_switches;
+
+            //             if(data){
+            //                 $(elementsShortID).prop('checked', true);
+            //                 $(disabledClassEdit).prop('disabled', false);
+            //             }else{
+            //                 $(elementsShortID).prop('checked', false);
+            //                 $(disabledClassEdit).prop('disabled', true);
+
+            //                 var elementsWithClass = $(disabledClassEdit);
+            //                 elementsWithClass.each(function(index, element) {
+            //                     var fieldValue = $(element).val();
+            //                     if (fieldValue) {
+            //                         $(element).val('');
+            //                     }
+            //                 });
+            //             }
+            //         },
+            //         error: function(error) {
+            //             console.log("Fehler:", error);
+            //         }
+            //     });
+            // }
+
+
+            if (isChecked) {
+                if('id_limitation_active' == this.id){
+                    /* limitation */
+                    // var disabledClassEdit = '.disabled-limitation';
+                    // elementsShortID = '#id_limitation_active';
+                    // shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                    //sendLimitationForm();
+                }else if('id_geo_targeting_on_off' == this.id){
+                    /* Geo-Targeting */
+                    // var disabledClassEdit = '.disabled-geo';
+                    // var elementsShortID = '#id_geo_targeting_on_off';
+                    // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_android_on_off' == this.id){
+                    /* Android-Targeting */
+                    // var disabledClassEdit = '.disabled-android';
+                    // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_android_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else{
+                    /* iOS-Targeting */
+                    // var disabledClassEdit = '.disabled-ios'
+                    // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_ios_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }
+            }else{
+                if('id_limitation_active' == this.id){
+                    // /* limitation */
+                    // var disabledClassEdit = '.disabled-limitation';
+                    // elementsShortID = '#id_limitation_active';
+                    // shortUrl = `/shortcode/toggle_limitation_active_status/${idShortcode}/`;
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_geo_targeting_on_off' == this.id){
+                    /* Geo-Targeting */
+                    // var disabledClassEdit = '.disabled-geo';
+                    // var shortUrl = `/shortcode/toggle_geo_targeting_active_satus/${idShortcode}/`;
+                    // var elementsShortID = '#id_geo_targeting_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else if('id_android_on_off' == this.id){
+                    /* Android-Targeting */
+                    // var disabledClassEdit = '.disabled-android';
+                    // var shortUrl = `/shortcode/toggle_android_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_android_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }else{
+                    /* iOS-Targeting */
+                    // var disabledClassEdit = '.disabled-ios'
+                    // var shortUrl = `/shortcode/toggle_ios_targeting_active_status/${idShortcode}/`;
+                    // var elementsShortID = '#id_ios_on_off';
+                    // shorcodeSwitchesEdit(shortUrl, idShortcode, currentStatus, elementsShortID, disabledClassEdit);
+                }
+            }
+        });
+    });
 
 //     // /* Limitation zum speichern Switsch */
 //     // $('#id_limitation_active').on('change', function(event){
