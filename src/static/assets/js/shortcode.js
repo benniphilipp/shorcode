@@ -192,15 +192,6 @@ $(document).ready(function(){
                 url_campaign.value = data.url_campaign;
                 idShort.value = data.shortcode;
 
-                // const templateGeoJson = data.url_id_template_geo;
-
-                // if(templateGeoJson){
-                //     const templateSelect = $('#id_template_geo');
-                //     templateSelect.empty();
-                //     const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
-                //     templateSelect.append(option);    
-                // }
-
                 $(shortcode_id).html(`<button data-button="short${data.id}" type="button" class="btn btn-secondary btn-copy colorshort${data.id} btn-sm"><i class="fa-solid fa-link"></i> Kopieren</button>`)///data.get_short_url);  
 
                 // Tags-Felder auswählen

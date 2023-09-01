@@ -49,7 +49,7 @@ class ShortcodeClass(models.Model):
     # Geo-Targeting
     geo_targeting_on_off = models.BooleanField(default=False)
     link_geo = models.CharField(max_length=320, blank=True, null=True)
-    template_geo = models.ForeignKey(GeoThemplate, on_delete=models.PROTECT, blank=True, null=True)
+    template_geo = models.ManyToManyField(GeoThemplate, related_name='geothemplate')
     
     # Android-Targeting
     android_on_off = models.BooleanField(default=False)

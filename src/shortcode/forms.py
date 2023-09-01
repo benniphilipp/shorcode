@@ -134,11 +134,10 @@ class LimitationShorcodeForm(forms.ModelForm):
 class GeoTargetingForm(forms.ModelForm):
     
     link_geo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'disabled-geo'}))
+    template_geo = forms.ModelMultipleChoiceField(queryset=GeoThemplate.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'id_template_geo'}), required=False)
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields['template_geo']=forms.ModelChoiceField(required=False, queryset=GeoThemplate.objects.all())
         
         self.helper = FormHelper()
         self.helper.layout = Layout(
@@ -147,7 +146,7 @@ class GeoTargetingForm(forms.ModelForm):
                 css_class='row'
             ),
             Row(
-                Column('template_geo', css_class='form-group col-md-6 my-2'),
+                Column('template_geo', css_class='form-group col-12 my-2'),
                 css_class='row'
             ),
             Row(

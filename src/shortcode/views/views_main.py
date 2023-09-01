@@ -118,10 +118,11 @@ def post_detaile_data_view(request, pk):
     obj = ShortcodeClass.objects.get(pk=pk)
     tags = [tag.id for tag in obj.tags.all()]
     
-    if obj.template_geo is not None:
-        template_geo_id = obj.template_geo.themplate_name
-    else:
-        template_geo_id = None
+    template_geo_id = [geo.id for geo in obj.template_geo.all()]
+    # if obj.template_geo is not None:
+    #     template_geo_id = obj.geothemplate
+    # else:
+    #     template_geo_id = None
     
     data = {
         'id': obj.pk,

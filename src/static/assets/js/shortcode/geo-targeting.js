@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
     const getCookie =(name) => {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -27,28 +28,42 @@ $(document).ready(function(){
         const url_view = '/shortcode/update/' + idShortcode + '/view/';
         const id_link_geo = document.getElementById('id_link_geo');
 
-        $.ajax({
-            type: 'GET',
-            url: url_view,
-            success: function(response){
-                const data = response.data;
+        // $.ajax({
+        //     type: 'GET',
+        //     url: url_view,
+        //     success: function(response){
+        //         const data = response.data;
 
-                const templateGeoJson = data.url_id_template_geo;
+        //         //const templateGeoJson = data.url_id_template_geo;
 
-                if(templateGeoJson){
-                    const templateSelect = $('#id_template_geo');
-                    templateSelect.empty();
-                    const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
-                    templateSelect.append(option);    
-                };
+        //         // if(templateGeoJson){
+        //         //     const templateSelect = $('#id_template_geo');
+        //         //     templateSelect.empty();
+        //         //     const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
+        //         //     templateSelect.append(option);    
+        //         // };
 
-                id_link_geo.value = data.url_id_link_geo;
+        //         // console.log(data.template_geo_id)
 
-            },
-            error: function(error){
-                console.log(error + 'erro');
-            },
-        });
+        //         // Auswahlt Geo
+        //         const geoThemplateCheckboxes = $('input[name="tags"][type="checkbox"]');
+
+        //         geoThemplateCheckboxes.each(function(index, checkbox) {
+        //             const tagValue = parseInt($(checkbox).val());
+        //             const tagIsSelected = data.url_id_template_geo.includes(tagValue);
+        //             $(checkbox).prop('checked', tagIsSelected);
+        //         });
+
+        //         geoThemplateCheckboxes.trigger('change');
+
+
+        //         id_link_geo.value = data.url_id_link_geo;
+
+        //     },
+        //     error: function(error){
+        //         console.log(error + 'erro');
+        //     },
+        // });
 
         const formData = `/shortcode/get_limitation_active_status/${idShortcode}/`;
         const disabledClass = '.disabled-geo';
