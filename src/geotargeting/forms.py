@@ -19,23 +19,23 @@ class GeoThemplateForm(forms.ModelForm):
             ),
             Row(
                 Column('land', css_class='form-group col-12 my-2'),
-                HTML('<ul id="countryList"></ul>'),
+                HTML('<ul id="countryList" class="d-none"></ul>'),
                 HTML('<input type="hidden" id="id_geonameId"/>'),
                 css_class='row'
             ),
             Row(
                 Column('themplate_region', css_class='form-group col-12 my-2'),
-                HTML('<ul id="regionList"></ul>'),
+                HTML('<ul id="regionList" class="d-none"></ul>'),
                 css_class='row'
             ), 
             Hidden('themplate_user', '{{ user.id }}'), 
             HTML('<input class="btn btn-primary mt-3" id="geothemplate-form-view" type="submit" value="Speichern">'),     
-            HTML('<input class="btn btn-primary mt-3 d-none" id="geothemplate-form-update" type="submit" value="Update">')      
+            HTML('<input class="btn btn-primary mt-3 d-none" id="geothemplate-form-update" type="submit" value="Update"/>')      
         )
         
     class Meta:
         model = GeoThemplate
         fields = ['themplate_name', 'land', 'themplate_region', 'themplate_user']
-        widgets = {
-            'themplate_user': HiddenInput(),
-        }
+        # widgets = {
+        #     'themplate_user': HiddenInput(),
+        # }

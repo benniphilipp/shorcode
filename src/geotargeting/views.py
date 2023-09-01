@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
+
 from .forms import GeoThemplateForm
 from .models import GeoThemplate
 
@@ -30,7 +31,7 @@ class GeoThemplateDetailView(View):
             'template_name': geo_template.themplate_name,
             'land': geo_template.land,
             'template_region': geo_template.themplate_region,
-            # Fügen Sie hier weitere Felder hinzu, die Sie benötigen
+            'id': geo_template.id,
         }
         return JsonResponse(data)
 
@@ -45,7 +46,7 @@ def geo_themplate_list_view(request):
 class GeoThemplateListView(FormView):
     template_name = 'index-geo-targeting-view.html'
     form_class = GeoThemplateForm
-    success_url = '/geotargeting/list/'  # Hier deine gewünschte Erfolgs-URL einfügen
+    success_url = '/geotargeting/list/'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,7 +55,8 @@ class GeoThemplateListView(FormView):
     
     def form_valid(self, form):
         form.save()
-        return super().form_valid(form)
+        response_data = {'success': True, 'message': 'Das Formular wurde erfolgreich gesendet.'}
+        return JsonResponse(response_data)
 
 
 # Update View GEO
@@ -62,10 +64,16 @@ class GeoThemplateUpdateView(View):
     def post(self, request, pk):
         geo_template = get_object_or_404(GeoThemplate, pk=pk)
         form = GeoThemplateForm(request.POST, instance=geo_template)
-        
+        print(form)
         if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
+
+            geo_template.themplate_name = form.cleaned_data['themplate_name']
+            geo_template.land = form.cleaned_data['land']
+            geo_template.themplate_region = form.cleaned_data['themplate_region']
+            geo_template.themplate_user = form.cleaned_data['themplate_user']
+
+            geo_template.save()
+            return JsonResponse({'success': True, 'message': 'GEO Vorlage erfolgreich aktualisiert.'})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
 
@@ -75,7 +83,7 @@ class GeoThemplateDeleteView(View):
     def post(self, request, pk):
         geo_template = get_object_or_404(GeoThemplate, pk=pk)
         geo_template.delete()
-        return JsonResponse({'success': True})
+        return JsonResponse({'success': True, 'message': 'GEO Vorlage wurde gelöscht.'})
     
 
 """Ruf alle Länder ab"""
