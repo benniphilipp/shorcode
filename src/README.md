@@ -123,6 +123,6 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Tags nur für User Anzeigen !erledigt
 - Tags nach dem Erstellen laden. !erleding
 
-- Archive keine ansicht für user
-- Archive rückganig machen
-- Löschen
+- Archive keine ansicht für user. !erleding
+- Archive rückganig machen. !erleding
+- Shorcode Löschen. !erleding

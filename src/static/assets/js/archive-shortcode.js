@@ -131,12 +131,15 @@ $(document).ready(function(){
 
     // Unachriviert funktion
     $('#archive-button').hide();
+    $('#delete-button').hide();
 
     $('#archived-shortcode-table').on('change', 'input[type="checkbox"]', function() {
         if ($('input[type="checkbox"]:checked').length > 0) {
             $('#archive-button').show();
+            $('#delete-button').show();
         } else {
             $('#archive-button').hide();
+            $('#delete-button').hide();
         }
     });
 
@@ -166,10 +169,6 @@ $(document).ready(function(){
                     $('#aside-form').removeClass("toggle"); 
 
                     ls_toast('Shortcodes wurden erfolgreich Archiviert.');
-
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
                     
                 }, 1000);
             },
@@ -180,6 +179,50 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
         })
+    });
+
+
+
+    //Shorcode Löschen
+    function deleteSelectedShortcodes() {
+        const selectedShortcodeIds = []; // Array zum Speichern der ausgewählten Shortcode-IDs
+    
+        // Iteriere durch alle Checkboxen und füge die ausgewählten IDs zum Array hinzu
+        $('input[type="checkbox"]:checked').each(function() {
+            const checkboxId = $(this).attr('id'); // ID der Checkbox
+            const shortcodeId = checkboxId.split('-')[1]; // Extrahiere die Shortcode-ID aus der Checkbox-ID
+            selectedShortcodeIds.push(shortcodeId); // Füge die Shortcode-ID zum Array hinzu
+        });
+    
+        if (selectedShortcodeIds.length === 0) {
+            alert('Bitte wählen Sie mindestens einen Shortcode zum Löschen aus.');
+            return;
+        }
+    
+        $.ajax({
+            type: 'POST',
+            url: '/shortcode/delete/', // Die URL zur Lösch-View
+            data: {
+                'shortcode_ids[]': selectedShortcodeIds,
+                'csrfmiddlewaretoken': csrftoken, // CSRF-Token, falls erforderlich
+            },
+            success: function(response) {
+                // Hier kannst du die Erfolgsmeldung aus der JSON-Antwort verarbeiten
+                console.log(response.message);
+                loadArchivedShortcodes();
+                ls_toast(response.message);
+
+            },
+            error: function(error) {
+                console.log(error);
+            },
+        });
+    }
+    
+    // Füge einen Event-Listener hinzu, um das Löschen von Shortcodes auszulösen
+    $('#delete-button').on('click', function(event) {
+        event.preventDefault();
+        deleteSelectedShortcodes();
     });
 
 

@@ -342,7 +342,23 @@ class GetFaviconView(View):
                 return JsonResponse({'error': 'Favicon not found'}, status=404)
         except requests.exceptions.RequestException as e:
             return JsonResponse({'error': str(e)}, status=500)
-   
+
+
+class DeleteShortcodesView(View):
+    def post(self, request):
+        if request.is_ajax():
+            shortcode_ids = request.POST.getlist('shortcode_ids[]')
+
+            try:
+                # Lösche die ausgewählten Shortcodes aus der Datenbank
+                ShortcodeClass.objects.filter(pk__in=shortcode_ids).delete()
+                message = 'Shortcodes wurden erfolgreich gelöscht.'
+            except Exception as e:
+                message = 'Fehler beim Löschen der Shortcodes: ' + str(e)
+
+            return JsonResponse({'message': message})
+        else:
+            return JsonResponse({'error': 'Ungültige Anfrage'})
    
 
 # Export Shortcode

@@ -15,6 +15,7 @@ from shortcode.views.views_main import (
     TagListView,
     edit_tag,
     shortcode_view,
+    DeleteShortcodesView,
     unarchive_selected_shortcodes)
 from shortcode.views.views_targeting import (
     toggle_limitation_active_status, 
@@ -38,6 +39,7 @@ urlpatterns = [
     path('update/<pk>/', update_post, name='dashboard-update'),
     path('update/<pk>/view/', post_detaile_data_view, name='dashboard-update-view'),
     path('archive/', ShortcodeArchiveListView.as_view(), name='archive-view'),
+    path('delete/', DeleteShortcodesView.as_view(), name='delete_shortcodes'),
     path('archive/list/', GetArchivedShortcodesView.as_view(), name='archive-list-view'),
     path('archive/update/', archive_post, name='dashboard-archive'),
     path('unarchive/', unarchive_selected_shortcodes, name='unarchive_selected_shortcodes'),
