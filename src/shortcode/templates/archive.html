@@ -31,7 +31,7 @@
                             <div class="d-flex flex-row align-items-center">
                                 <h3 class="p-1" style="margin-top: 10px;">Links Archiviert</h3>
                                 <div class="p-1 ms-auto">
-                                    <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                                    <button id="archive-button" class="btn btn-primary mt-1" type="button">Entarchivieren</button>
                                     <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button>
                                 </div>
                             </div>
@@ -43,32 +43,25 @@
                 <div class="container-fluid mt-5 px-4">
                     <div class="row">
                         <div class="col-12">
-
+                            <div class="card">
                             <!--Datatable-->
-                            <div class="card p-0 m-0 border-0">
+                            <div id="archived-shortcode-table-container">
                                 <table class="table">
                                     <thead>
-                                    <tr>
-                                        <th>Auswahl</th>
-                                        <th scope="col">Titel</th>
-                                        <th scope="col">Ziel</th>
-                                        <th scope="col">Datum</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for object in current_counters %}
-                                        <tr data-shortcode="{{ object.id }}" class="shortcode-class">
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id=""></td>
-                                                </div>    
-                                                <td>{{ object.url_titel|truncatechars:22 }}</td>
-                                            <td>{{ object.url_destination|truncatechars:22 }}</td>
-                                            <td>{{ object.url_create_date|date:"d.m.Y" }}</td>
+                                        <tr>
+                                            <th>Auswahl</th>
+                                            <th scope="col">Titel</th>
+                                            <th scope="col">Ziel</th>
+                                            <th scope="col">Datum</th>
                                         </tr>
-                                        {% endfor %}    
+                                    </thead>
+                                    <tbody id="archived-shortcode-table">
+                                        <!-- Hier werden die archivierten Shortcodes eingefügt -->
                                     </tbody>
                                 </table>
+                            </div>
+
+
                             </div>
 
                         </div>
@@ -83,5 +76,5 @@
     {% endblock body %}
     
     {% block javasript %}
-    <script src="{% static '/assets/js/archive.js' %}"></script>
+    <script src="{% static '/assets/js/archive-shortcode.js' %}"></script>
     {% endblock %}

@@ -33,7 +33,6 @@ $(document).ready(function(){
         const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
         tagsCheckboxes.each(function(index, checkbox) {
             const tagValue = parseInt($(checkbox).val());
-
             $(checkbox).prop('checked', '');
         });
     }
@@ -164,11 +163,6 @@ $(document).ready(function(){
                 $('.disabled-func').each(function() {
                     $(this).find('input[type=text]').attr('disabled', 'disabled');
                 });
-
-                //Overlay
-                // $('#overlay').addClass('overlay-active');
-                // var dataImage = jQuery('#overlay').attr('data-image');
-                // $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
 
                 //Reset fields
                 $('#id_url_destination').val('')
@@ -447,7 +441,7 @@ $(document).ready(function(){
 
                 }
             
-                setTimeout(function(){$('.alert').alert('close')}, 3000);
+                // setTimeout(function(){$('.alert').alert('close')}, 3000);
 
             },
             error: function(error){
