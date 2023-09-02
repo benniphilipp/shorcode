@@ -15,7 +15,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from .models import CustomUser
 from geotargeting.models import GeoThemplate
-from .forms import RegisterForm, LoginForm, UserUpdateForm, ProfileFormAdresse
+from .forms import RegisterForm, LoginForm, UserUpdateForm, ProfileFormAdresse, LanguageForm
 
 from django.views.generic.detail import DetailView
 from shortcode.models import ShortcodeClass
@@ -23,6 +23,9 @@ from shortcode.models import ShortcodeClass
 from analytics.models import ClickEvent, DailyClick, IPGeolocation
 
 from django.http import JsonResponse
+from django.utils.translation import activate
+
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -251,6 +254,7 @@ class UserProfileView(DetailView):
         api_key = APIKey.objects.get(user=user)
         context['api_key'] = api_key.key
         context['user_adressform'] = ProfileFormAdresse()
+        context['form'] = LanguageForm()
         return context
 
 
@@ -403,3 +407,28 @@ class CustomUserJsonView(BaseDetailView):
             return JsonResponse(user_data)
         except self.model.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
+ 
+ 
+
+ 
+def update_language(request):
+    
+    LANGUAGE_CHOICES = [
+        ('de', _('German')),
+        ('en', _('English')),
+    ]       
+
+    if request.method == 'POST' and request.is_ajax():
+        form = LanguageForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            selected_language = form.cleaned_data['language']
+            activate(selected_language)
+            
+            if user and selected_language in [lang[0] for lang in LANGUAGE_CHOICES]:
+                user.language = selected_language
+                user.save() 
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False})

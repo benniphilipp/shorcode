@@ -9,22 +9,24 @@ from django.forms import ModelForm, Textarea, CharField, HiddenInput, Select, Bo
 
 from .models import CustomUser
 
+from django.utils.translation import gettext_lazy as _
+
 #Regestriren
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True,
-                             widget=forms.TextInput(attrs={'placeholder': 'E-Mail-Adresse',
+                             widget=forms.TextInput(attrs={'placeholder': _('E-Mail-Adresse'),
                                                            'class': 'form-control',
                                                            }))
     password1 = forms.CharField(max_length=50,
                                 required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Passwort',
+                                widget=forms.PasswordInput(attrs={'placeholder': _('Passwort'),
                                                                   'class': 'form-control',
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
                                                                   }))
     password2 = forms.CharField(max_length=50,
                                 required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Passwort bestätigen',
+                                widget=forms.PasswordInput(attrs={'placeholder': _('Passwort bestätigen'),
                                                                   'class': 'form-control',
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
@@ -40,12 +42,12 @@ class RegisterForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=100,
                                 required=True,
-                                widget=forms.TextInput(attrs={'placeholder': 'E-Mail',
+                                widget=forms.TextInput(attrs={'placeholder': _('E-Mail'),
                                                                 'class': 'form-control',
                                                                 }))
     password = forms.CharField(max_length=50,
                                required=True,
-                               widget=forms.PasswordInput(attrs={'placeholder': 'Password',
+                               widget=forms.PasswordInput(attrs={'placeholder': _('Password'),
                                                                  'class': 'form-control',
                                                                  'data-toggle': 'password',
                                                                  'id': 'password',
@@ -85,9 +87,20 @@ class ProfileFormAdresse(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('user_id', '{{ request.user.id }}'),
-            HTML('<input class="btn btn-primary mt-3" type="submit" value="Speichern">')
+            HTML(f'<input class="btn btn-primary mt-3" type="submit" value="{_("Speichern")}">')
         )
 
     class Meta:
         model = CustomUser
         fields = ['address', 'zip_code', 'city', 'first_name', 'last_name'] 
+
+
+# Form Sprache
+class LanguageForm(forms.Form):
+    
+    LANGUAGE_CHOICES = [
+        ('de', 'German'),
+        ('en', 'English'),
+    ]
+
+    language = forms.ChoiceField(choices=LANGUAGE_CHOICES, required=False, label=_('Select Language'), widget=forms.Select(attrs={'class': 'form-control'}))

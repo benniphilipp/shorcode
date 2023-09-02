@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, RegisterView, CustomLoginView, ResetPasswordView, UserProfileView, SaveClickData, update_user_json, CustomUserJsonView
+from .views import home, RegisterView, CustomLoginView, ResetPasswordView, UserProfileView, SaveClickData, update_user_json, CustomUserJsonView, update_language
 from django.contrib.auth import views as auth_views
 from accounts.forms import LoginForm
 
@@ -18,5 +18,5 @@ urlpatterns = [
     path('api/v1/save_click_data/', SaveClickData.as_view(), name='save_click_data'),
     path('<pk>/customer_json_adress/', CustomUserJsonView.as_view(), name='customer_json_adress'),
     path('<pk>/update_json/', update_user_json, name='update-user-json'),
-    
+    path('update_language/', update_language, name='update_language'),
 ]

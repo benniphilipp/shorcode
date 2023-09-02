@@ -13,6 +13,7 @@ import secrets
 import string
 
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 class CustomUserManager(BaseUserManager):
     """
@@ -49,6 +50,13 @@ class CustomUserManager(BaseUserManager):
 
 
 # User Model
+
+LANGUAGE_CHOICES = [
+    ('en', _('English')),
+    ('de', _('German')),
+    # Weitere Sprachen hier hinzufügen
+]
+
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField("email address", unique=True)
@@ -60,6 +68,8 @@ class CustomUser(AbstractUser):
     zip_code = models.CharField(max_length=20, blank=True, null=True)
     city = models.CharField(max_length=20, blank=True, null=True)
     payment_code = models.CharField(max_length=20, blank=True, null=True)
+    
+    language = models.CharField(max_length=2,choices=LANGUAGE_CHOICES, default='en', verbose_name=_('Language'))
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

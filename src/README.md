@@ -57,6 +57,12 @@ python manage.py clearcache
     git commit -m '_text'
     git push origin create
 
+# Überstzung
+- python manage.py makemessages -l de
+- python manage.py compilemessages
+
+    - from django.utils.translation import gettext_lazy as _
+
 # SMPTP
 
 python -m smtpd -n -c DebuggingServer localhost:1025
@@ -127,8 +133,14 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Shorcode Löschen. !erleding
 
 
-- Abrufen von mÖglichkeiten in der URL View
-    limitation
-    GEO Targeting
-    Android Targeting
-    Ios Targeting
+- Abrufen von mÖglichkeiten in der URL View !erldeigt
+    limitation, Android Targeting, Ios Targeting BETA Version GEO Targeting !erldeigt
+
+
+- Überstzung einbauen
+
+- Logo & Favicon austauschen 
+- Analytics Dahboard Anpssen
+- Payment Intigrieren
+- IP Gefärliche IP Sicherung einbauen
+- E-Mail Verdenden
