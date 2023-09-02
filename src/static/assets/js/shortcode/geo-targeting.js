@@ -17,8 +17,8 @@ $(document).ready(function(){
     }
     const csrftoken = getCookie('csrftoken');
     
-    $('#id_template_geo').addClass('form-select')
-    $('#id_template_geo').addClass('disabled-geo')
+    // $('#id_template_geo').addClass('form-select');
+    // $('#id_template_geo').addClass('disabled-geo');
 
     /* Status Swiche Geo Targeting */
     $('#shortcode-list').on('click', '.shortcode-class', function(){
@@ -27,67 +27,65 @@ $(document).ready(function(){
         const url_view = '/shortcode/update/' + idShortcode + '/view/';
         const id_link_geo = document.getElementById('id_link_geo');
 
-        // $.ajax({
-        //     type: 'GET',
-        //     url: url_view,
-        //     success: function(response){
-        //         const data = response.data;
-
-        //         //const templateGeoJson = data.url_id_template_geo;
-
-        //         // if(templateGeoJson){
-        //         //     const templateSelect = $('#id_template_geo');
-        //         //     templateSelect.empty();
-        //         //     const option = $('<option>').text(templateGeoJson).val(templateGeoJson);
-        //         //     templateSelect.append(option);    
-        //         // };
-
-        //         // console.log(data.template_geo_id)
-
-        //         // Auswahlt Geo
-        //         const geoThemplateCheckboxes = $('input[name="tags"][type="checkbox"]');
-
-        //         geoThemplateCheckboxes.each(function(index, checkbox) {
-        //             const tagValue = parseInt($(checkbox).val());
-        //             const tagIsSelected = data.url_id_template_geo.includes(tagValue);
-        //             $(checkbox).prop('checked', tagIsSelected);
-        //         });
-
-        //         geoThemplateCheckboxes.trigger('change');
-
-
-        //         id_link_geo.value = data.url_id_link_geo;
-
-        //     },
-        //     error: function(error){
-        //         console.log(error + 'erro');
-        //     },
-        // });
-
-        const formData = `/shortcode/get_limitation_active_status/${idShortcode}/`;
-        const disabledClass = '.disabled-geo';
-        const elementsID = '#id_geo_targeting_on_off';
-
         $.ajax({
-            url: formData,
             type: 'GET',
-            success: function(response) {
+            url: url_view,
+            success: function(response){
+                const data = response.data;
 
-                const data = response.status_switches;
+                // Auswahlt Geo
+                const geoThemplateCheckboxes = $('input[name="template_geo"][type="checkbox"]');
 
-                if(data){
+                geoThemplateCheckboxes.each(function(index, checkbox) {
+                    const tagValue = parseInt($(checkbox).val());
+                    const tagIsSelected = data.url_id_template_geo.includes(tagValue);
+                    $(checkbox).prop('checked', tagIsSelected);
+                });
+
+                geoThemplateCheckboxes.trigger('change');
+
+
+                id_link_geo.value = data.url_id_link_geo;
+
+                // const formData = `/shortcode/get_limitation_active_status/${idShortcode}/`;
+                const disabledClass = '.disabled-geo';
+                const elementsID = '#id_geo_targeting_on_off';
+        
+                if(data.geo_targeting_on_off){
                     $(elementsID).prop('checked', true);
                     $(disabledClass).prop('disabled', false);
                 }else{
                     $(elementsID).prop('checked', false);
                     $(disabledClass).prop('disabled', true);
                 }
-                
+
+
             },
-            error: function(error) {
-                console.log(error);
-            }
+            error: function(error){
+                console.log(error + 'erro');
+            },
         });
+
+        // $.ajax({
+        //     url: formData,
+        //     type: 'GET',
+        //     success: function(response) {
+
+        //         const data = response.status_switches;
+        //         console.log(data);
+        //         if(data){
+        //             $(elementsID).prop('checked', true);
+        //             $(disabledClass).prop('disabled', false);
+        //         }else{
+        //             $(elementsID).prop('checked', false);
+        //             $(disabledClass).prop('disabled', true);
+        //         }
+                
+        //     },
+        //     error: function(error) {
+        //         console.log(error);
+        //     }
+        // });
 
     });
 

@@ -140,6 +140,7 @@ def post_detaile_data_view(request, pk):
         'url_id_alternative_url': obj.alternative_url,
         'url_id_link_geo': obj.link_geo,
         'url_id_template_geo': template_geo_id,
+        'geo_targeting_on_off': obj.geo_targeting_on_off,
         'url_id_android': obj.android,
         'url_id_ios': obj.ios
     }
