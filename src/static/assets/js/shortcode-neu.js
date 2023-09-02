@@ -368,6 +368,114 @@ $(document).ready(function(){
 
 
 
+    /* Crate functions Shortcode */
+    $("#crate-form-shortcode").on("click", function(event) {
+        event.preventDefault();
+
+        const fd = new FormData();
+        fd.append('csrfmiddlewaretoken', csrf[0].value)
+        fd.append('url_destination', url_destination.value);
+        fd.append('url_titel', url_titel.value);
+        fd.append('url_source', url_source.value);
+        fd.append('url_medium', url_medium.value);
+        fd.append('url_term', url_term.value);
+        fd.append('url_campaign', url_campaign.value);
+        fd.append('url_creator', url_creator.value);
+        fd.append('url_content', url_content.value);
+
+        $.ajax({
+            type: 'POST',
+            url: $("input[name=data]").val(),
+            data: fd,
+            enctype: 'multipart/form-data',
+            success: function(response){
+
+                //Alert
+                if(response.success == 'Dein link wurde erfolgreich erstellt'){
+
+                    // Inputfilelds UTM Parameter
+                    $('.disabled-func').each(function() {
+                        $(this).find('input[type=text]').attr('disabled', 'disabled');
+                    });
+
+                    // //Overlay
+                    $('#overlay').addClass('overlay-active');
+                    var dataImage = jQuery('#overlay').attr('data-image');
+                    $('#overlay').html("<div class=\"overlay-body\"><img src='"+dataImage+"' width=\"60\" height=\"60\"><span>Warten...</span></div>")
+
+                    // Restefields
+                    $('#id_url_destination').val('')
+                    $('#id_url_titel').val('')
+                    $('#id_url_medium').val('')
+                    $('#id_url_source').val('')
+                    $('#id_url_term').val('')
+                    $('#id_url_titel').val('')
+                    $('#id_url_campaign').val('')
+                    $('#id_url_content').val('')
+                    $('#id_shortcode').val('')
+            
+                    const tagsCheckboxes = $('input[name="tags"][type="checkbox"]');
+                    tagsCheckboxes.each(function(index, checkbox) {
+                        const tagValue = parseInt($(checkbox).val());
+            
+                        $(checkbox).prop('checked', '');
+                    });
+                    
+                    // ALert Box
+                    ls_toast(response.success);
+
+                    //Close Sidebar
+                    setTimeout(()=>{
+                        location.reload();
+                        $('#overlay').removeClass('overlay-active');
+                    }, 2000);
+
+                }else{
+
+                    // Error PopUp
+                    if(response.errors.url_destination){
+                        $('#id_url_destination').addClass('is-invalid');
+                        ls_toast(response.errors.url_destination);
+                    }
+
+                    if(response.errors.url_titel){
+                        $('#id_url_titel').addClass('is-invalid');
+                        ls_toast(response.errors.url_titel);
+                    }              
+
+                }
+            
+                setTimeout(function(){$('.alert').alert('close')}, 3000);
+
+            },
+            error: function(error){
+                console.log(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /***************** Allgemein *****************/
 
 

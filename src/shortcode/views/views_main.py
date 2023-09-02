@@ -285,18 +285,20 @@ class GetFaviconView(View):
                     base_url = url.split('/')[2]
                     favicon_url = f'http://{base_url}/{favicon_url}'
                 
-                # Finde das entsprechende ShortcodeClass-Objekt
-                shortcode_instance = ShortcodeClass.objects.get(url_destination=url)
+                # Finde alle entsprechenden ShortcodeClass-Objekte
+                shortcode_instances = ShortcodeClass.objects.filter(url_destination=url)
                 
-                # Speichere die favicon_url im favicon_path-Feld
-                shortcode_instance.favicon_path = favicon_url
-                shortcode_instance.save()
+                # Speichere die favicon_url im favicon_path-Feld für alle Einträge
+                for shortcode_instance in shortcode_instances:
+                    shortcode_instance.favicon_path = favicon_url
+                    shortcode_instance.save()
                 
                 return JsonResponse({'favicon_url': favicon_url})
             else:
                 return JsonResponse({'error': 'Favicon not found'}, status=404)
         except requests.exceptions.RequestException as e:
             return JsonResponse({'error': str(e)}, status=500)
+   
    
 
 # Export Shortcode
