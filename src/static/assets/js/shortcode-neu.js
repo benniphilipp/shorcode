@@ -232,6 +232,8 @@ $(document).ready(function(){
             success: function(response){
                 const data = response.data
 
+                console.log(data)
+
                 $('#aside-form').addClass('toggle');
                 $('#crate-form-shortcode').addClass('d-none');
                 $('#openForm').addClass("disabled"); 

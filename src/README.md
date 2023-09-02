@@ -117,3 +117,12 @@ https://urlhaus.abuse.ch/api/#submit
 
 #  Google Suche
 https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5stBhFKA56I66QGdIKmpFzQw_tkpVo2w:1693472575130&ei=P1fwZPq2B4eFxc8P3tGB8Aw&start=0&sa=N&ved=2ahUKEwi60pv6xIaBAxWHQvEDHd5oAM44ChDy0wN6BAgKEAQ&biw=2216&bih=1125&dpr=2
+
+
+# BUG LISTE 2.09.23
+- Tags nur für User Anzeigen !erledigt
+- Tags nach dem Erstellen laden. !erleding
+
+- Archive keine ansicht für user
+- Archive rückganig machen
+- Löschen

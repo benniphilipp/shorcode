@@ -49,6 +49,8 @@ def filter_and_search_shortcodes(request):
     if query:
         shortcodes = shortcodes.filter(url_creator=request.user, url_titel__icontains=query)
 
+    data = []
+    
     for shortcode in shortcodes:
         try:
             click_event = ClickEvent.objects.get(short_url=shortcode)
@@ -56,16 +58,22 @@ def filter_and_search_shortcodes(request):
         except ClickEvent.DoesNotExist:
             click_count = 0
 
-    data = [{
-        'short_id': shortcode.pk,
-        'url_titel': shortcode.url_titel,
-        'get_short_url': shortcode.get_short_url,
-        'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),
-        'click_count': click_count,
-        'url_destination': shortcode.url_destination,
-        'shortcode': shortcode.shortcode,
-        'favicon_path': shortcode.favicon_path,
-        } for shortcode in shortcodes]
+        # Holen Sie die Tags für diesen Shortcode
+        shortcode_tags = shortcode.tags.all()
+        tag_names = [tag.name for tag in shortcode_tags]
+
+        data.append({
+            'short_id': shortcode.pk,
+            'url_titel': shortcode.url_titel,
+            'get_short_url': shortcode.get_short_url,
+            'url_create_date': shortcode.url_create_date.strftime('%d %b %Y'),
+            'click_count': click_count,
+            'url_destination': shortcode.url_destination,
+            'shortcode': shortcode.shortcode,
+            'favicon_path': shortcode.favicon_path,
+            'tags': tag_names,  # Fügen Sie die Tag-Namen hinzu
+        })
+
     return JsonResponse({'shortcodes': data})
 
 
@@ -74,9 +82,9 @@ class ShortcodeArchiveListView(ListView):
     template_name = "archive.html"
     model = ShortcodeClass
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(request,self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = ShortcodeClassForm()
+        context['form'] = ShortcodeClassForm(request.POST or None, user=request.user)
         context['admin'] = self.request.user.id
         context['useremail'] = self.request.user
         return context
@@ -95,7 +103,7 @@ def post_crate_view(request):
         if form.is_valid():
             form.save()
             cache.delete('json_list_view_cache_key')
-            return JsonResponse({'success': 'Dein link wurde erfolgreich erstellt',}, status=200)
+            return JsonResponse({'success': 'Dein link wurde erfolgreich erstellt.',}, status=200)
         else:
             errors = form.errors
             error_messages = {}
@@ -116,6 +124,12 @@ def post_crate_view(request):
 def post_detaile_data_view(request, pk):
     
     obj = ShortcodeClass.objects.get(pk=pk)
+    
+    
+    # Tags User
+    # user = request.user
+    # user_tags = Tag.objects.filter(user=user)
+    # shortcode_tags = user_tags.filter(shortcodes=obj)
     tags = [tag.id for tag in obj.tags.all()]
     
     template_geo_id = [geo.id for geo in obj.template_geo.all()]
@@ -133,7 +147,7 @@ def post_detaile_data_view(request, pk):
         'url_content': obj.url_content,
         'shortcode': obj.shortcode,
         'get_short_url': obj.get_short_url,
-        'tags': tags,
+        'tags': tags, #list(tag_ids),
         'url_id_count': obj.count,
         'url_id_end_date': obj.start_date,
         'url_id_start_date': obj.end_date,
@@ -202,7 +216,7 @@ def update_post(request, pk):
 # View Shortcode list
 @login_required(login_url="/login/")
 def shortcode_view(request):
-    form = ShortcodeClassForm() 
+    form = ShortcodeClassForm(request.POST or None, user=request.user) 
     tags_form = CreateTagForm()
     limitation_form = LimitationShorcodeForm()
     geo_targeting_form = GeoTargetingForm()

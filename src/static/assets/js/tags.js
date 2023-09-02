@@ -17,6 +17,37 @@ $(document).ready(function(){
     }
     const csrftoken = getCookie('csrftoken');
 
+
+
+
+    /* Alert Box Close */
+    function clearContent() {
+        setTimeout(function() {
+            $('#toast-alert').html('');
+        }, 4000);
+    }
+
+    /* Alert Box */
+    function ls_toast(parmToast){
+        $('#toast-alert').html(`
+            <div class="ls-toast" id="ls-toas">
+                <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
+                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+                    <span><b>Meldung</b></span>
+                    <i class="fa-solid fa-xmark ms-auto"></i>
+                </div>
+                <hr>
+                <div class="ls-toas-body p-2">
+                    ${parmToast}
+                </div>
+            </div>
+        `);
+        clearContent();
+    };
+
+
+
+
     /***************** Tags *****************/
 
 
@@ -24,16 +55,17 @@ $(document).ready(function(){
     $('#filter-search-form').on('change', function(event) {
         event.preventDefault();
 
-        $('#reset-filter-btn').removeClass('d-none')
         var shortcodeList = $('#shortcode-list');
-        var selectedTag = $('#tag-filter').val();
-
+        $('#reset-filter-btn').removeClass('d-none')
+        const selectedTag = $('#tag-filter').val();
         const searchQuery = $('#search-input').val();
+
+        const tagsArray = selectedTag ? [selectedTag] : [];
         $.ajax({
             type: 'GET',
             url: '/shortcode/serach/',  // Passe die URL an
             data: {
-                tags: [selectedTag],
+                tags: tagsArray,
                 q: searchQuery
             },
             success: function(response) {
@@ -43,7 +75,7 @@ $(document).ready(function(){
                 $('#shortcode-list').empty();
 
                 shortcodes.forEach(function(item) {
-                    console.log(item)
+         
                     var shortUrl = item.get_short_url;
                     if (shortUrl.length > 90) {
                         shortUrl = shortUrl.substring(0, 90) + '...';
@@ -87,7 +119,10 @@ $(document).ready(function(){
 
                 // Verarbeite die Tags und aktualisiere den Filter
                 const tagFilter = $('#tag-filter');
-                tagFilter.empty();
+
+                const emptyOption = $('<option>').text('').val('');
+                tagFilter.empty().append(emptyOption);
+
                 tags.forEach(function(tag) {
                     const option = $('<option>').text(tag).val(tag);
                     tagFilter.append(option);
@@ -99,6 +134,7 @@ $(document).ready(function(){
             }
         });
     }
+
     
     // Rufe die Tags beim Laden der Seite auf
     loadTags();
@@ -209,6 +245,8 @@ $(document).ready(function(){
             success: function(response) {
                 // Erfolgsverarbeitung, z.B. Tag aus der Anzeige entfernen
                 $(`#tag-${tagId}`).remove();
+                load_tags_id();
+                ls_toast('Tag erfolgreich gelöscht')
             },
             error: function(error) {
                 console.log(error);
@@ -217,7 +255,7 @@ $(document).ready(function(){
         });
     });
 
-    // AJAX for editing tags
+    // Tags Update
     $('#tag-list-edit').on('click', '.edit-tag-button', function(event) {
         event.preventDefault();
         const tagId = $(this).data('tag-id');
@@ -235,6 +273,15 @@ $(document).ready(function(){
             success: function(response) {
                 // Handle success, e.g., close modal, refresh tag list, etc.
                 load_tags_id();
+                ls_toast('Tag erfolgreich aktualisiert.');
+
+                $('.form-tag-view').css('display', 'block');
+                $('#model-form-tag').removeClass('active');
+                $('#tag-list-edit').css('display', 'none');
+                $('#id_name').val('');
+                $('#tag-edit').html('<span id="tag-edit">Tags Löschen oder Bearbeiten</span>')
+                $('.icon-modal-right').css('display', 'block');
+
             },
             error: function(error) {
                 // Handle error

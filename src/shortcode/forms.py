@@ -16,15 +16,15 @@ class ShortcodeClassForm(forms.ModelForm):
     url_campaign = forms.CharField(label="Campaign", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B spring_sale'}))
     url_term = forms.CharField(label="Term", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
     url_content = forms.CharField(label="Content", required=False, widget=forms.TextInput(attrs={'placeholder': 'z.B etwas'}))
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'id_tags'}), required=False)
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.none(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'id_tags'}), required=False)
     
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        if self.instance.pk:
-            # Wenn es eine Instanz gibt (also ein Bearbeiten stattfindet)
-            self.initial['tags'] = self.instance.tags.all()
-        
+        user = kwargs.pop('user', None) 
+        super(ShortcodeClassForm, self).__init__(*args, **kwargs)
+                
+        if user:
+            self.fields['tags'].queryset = Tag.objects.filter(user=user)
+            
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
