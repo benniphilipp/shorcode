@@ -141,10 +141,13 @@ def post_detaile_data_view(request, pk):
         'url_id_link_geo': obj.link_geo,
         'url_id_template_geo': template_geo_id,
         'geo_targeting_on_off': obj.geo_targeting_on_off,
+        'android_on_off': obj.android_on_off,
         'url_id_android': obj.android,
-        'url_id_ios': obj.ios
+        'url_id_ios': obj.ios,
+        'ios_on_off': obj.ios_on_off
     }
     return JsonResponse({'data':data})
+
 
 
 #Archivieren Shortcode

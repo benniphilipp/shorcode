@@ -18,6 +18,32 @@ $(document).ready(function(){
     }
     const csrftoken = getCookie('csrftoken');
 
+    /* Alert Box Close */
+    function clearContent() {
+        setTimeout(function() {
+            $('#toast-alert').html('');
+        }, 4000);
+    }
+
+    /* Alert Box */
+    function ls_toast(parmToast){
+        $('#toast-alert').html(`
+            <div class="ls-toast" id="ls-toas">
+                <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
+                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+                    <span><b>Meldung</b></span>
+                    <i class="fa-solid fa-xmark ms-auto"></i>
+                </div>
+                <hr>
+                <div class="ls-toas-body p-2">
+                    ${parmToast}
+                </div>
+            </div>
+        `);
+        clearContent();
+    };
+
+
     /* Send Form Android-Targeting */
     $('#android-targeting-form').on('change', function(event){        
         event.preventDefault();
@@ -41,7 +67,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    console.log('Formular wurde erfolgreich aktualisiert.');
+                    ls_toast('Formular wurde erfolgreich aktualisiert.')
                 } else {
                     console.log('Fehler beim Aktualisieren des Formulars:', response);
                 }
@@ -119,6 +145,17 @@ $(document).ready(function(){
                 const data = response.data;
 
                 url_id_android.value = data.url_id_android;
+
+                var disabledClassEdit = '.disabled-android';
+                var elementsShortID = '#id_android_on_off';
+
+                if(data.android_on_off){
+                    $(elementsShortID).prop('checked', true);
+                    $(disabledClassEdit).prop('disabled', false);
+                }else{
+                    $(elementsShortID).prop('checked', false);
+                    $(disabledClassEdit).prop('disabled', true);
+                }
 
             },
             error: function(error){

@@ -17,10 +17,34 @@ $(document).ready(function(){
     }
     const csrftoken = getCookie('csrftoken');
 
+    /* Alert Box Close */
+    function clearContent() {
+        setTimeout(function() {
+            $('#toast-alert').html('');
+        }, 4000);
+    }
+
+    /* Alert Box */
+    function ls_toast(parmToast){
+        $('#toast-alert').html(`
+            <div class="ls-toast" id="ls-toas">
+                <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
+                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+                    <span><b>Meldung</b></span>
+                    <i class="fa-solid fa-xmark ms-auto"></i>
+                </div>
+                <hr>
+                <div class="ls-toas-body p-2">
+                    ${parmToast}
+                </div>
+            </div>
+        `);
+        clearContent();
+    };
+
     /* Send iOS-Targeting Switche */
     $('#id_ios_on_off').on('change', function(event){
         event.preventDefault();
-        console.log('run');
 
         var currentStatus = $(this).data('status');
         var idShortcode = $('#update-shortcode-url').val();
@@ -41,10 +65,10 @@ $(document).ready(function(){
                 const data = response.status_switches;
 
                 if(data){
-                    $('id_ios_on_off').prop('checked', true);
+                    $('#id_ios_on_off').prop('checked', true);
                     $('.disabled-ios').prop('disabled', false);
                 }else{
-                    $('id_ios_on_off').prop('checked', false);
+                    $('#id_ios_on_off').prop('checked', false);
                     $('.disabled-ios').prop('disabled', true);
 
                     var elementsWithClass = $('.disabled-ios');
@@ -70,14 +94,16 @@ $(document).ready(function(){
     $('#ios-targeting-from').on('change', function(event){
         event.preventDefault();
 
-        const idShortcode = $('#update-shortcode-url').val();
-        const formAction = `/shortcode/update_ios_targeting/${idShortcode}/`;
-        const selectedStatus = $('#id_android_on_off').prop('checked');
-        const ios = $('#id_ios').val();
 
+        var currentStatus = $('#id_ios_on_off').prop('checked');
+        var idShortcode = $('#update-shortcode-url').val();
+        const formAction = `/shortcode/update_ios_targeting/${idShortcode}/`;
+
+        const ios = $('#id_ios').val();
+        console.log(currentStatus);
         const fd = new FormData();
         fd.append('ios', ios);
-        fd.append('ios_on_off', selectedStatus);
+        fd.append('ios_on_off', currentStatus);
 
         $.ajax({
             url: formAction,
@@ -89,8 +115,10 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
+                    const data = response.status_switches;
                     //console.log('Formular wurde erfolgreich aktualisiert.');
-                    ls_toast(data.message);
+                    ls_toast('Formular wurde erfolgreich aktualisiert.');
+
                 } else {
                     console.log('Fehler beim Aktualisieren des Formulars:', response);
                 }
@@ -119,6 +147,17 @@ $(document).ready(function(){
                 const data = response.data;
 
                 url_id_ios.value = data.url_id_ios;
+
+                var disabledClassEdit = '.disabled-ios';
+                var elementsShortID = '#id_ios_on_off';
+
+                if(data.android_on_off){
+                    $(elementsShortID).prop('checked', true);
+                    $(disabledClassEdit).prop('disabled', false);
+                }else{
+                    $(elementsShortID).prop('checked', false);
+                    $(disabledClassEdit).prop('disabled', true);
+                }
 
             },
             error: function(error){
