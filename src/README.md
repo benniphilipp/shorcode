@@ -122,7 +122,13 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 # BUG LISTE 2.09.23
 - Tags nur für User Anzeigen !erledigt
 - Tags nach dem Erstellen laden. !erleding
-
 - Archive keine ansicht für user. !erleding
 - Archive rückganig machen. !erleding
 - Shorcode Löschen. !erleding
+
+
+- Abrufen von mÖglichkeiten in der URL View
+    limitation
+    GEO Targeting
+    Android Targeting
+    Ios Targeting

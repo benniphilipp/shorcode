@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 from shortcode.models import ShortcodeClass
 
 from django.db.models import Sum
-# Create your models here.
 
 class ClickEventManager(models.Manager):
     def create_event(self, shortInstance):

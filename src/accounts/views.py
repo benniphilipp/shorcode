@@ -14,6 +14,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.urls import reverse_lazy
 from .models import CustomUser
+from geotargeting.models import GeoThemplate
 from .forms import RegisterForm, LoginForm, UserUpdateForm, ProfileFormAdresse
 
 from django.views.generic.detail import DetailView
@@ -35,6 +36,10 @@ from django.shortcuts import get_object_or_404
 from .models import APIKey
 from .serializers import ClickDataSerializer, DataSerializer
 
+from django.utils import timezone
+from urllib.parse import parse_qs, urlparse
+
+
 '''
 @ToDo
 1. Profile Page fertigstellen
@@ -51,7 +56,6 @@ def home(request):
 
 class URLRedirectView(View):
     
-    #https://ipapi.co/#api
     def get_user_agent_info(self, request):
         user_agent_string = request.META.get('HTTP_USER_AGENT', '')
         
@@ -67,8 +71,7 @@ class URLRedirectView(View):
         }
         
         return user_agent_info
-            
-        
+
     def get(self, request, shortcode=None, *args, **kwargs):
         qs = ShortcodeClass.objects.filter(shortcode__iexact=shortcode)
 
@@ -78,8 +81,10 @@ class URLRedirectView(View):
         obj = qs.first()
         user_agent_info = self.get_user_agent_info(request)
 
+        # Später wieder entfernen oder durch echte IP-Adressen ersetzen
         ip_address = request.META.get('HTTP_X_REAL_IP', '')
-        print(ip_address)
+        # ip_address = '185.58.55.54'  # Beispiel-IP-Adresse
+        # print(ip_address)
         
         # Referrer
         referrer = request.META.get('HTTP_REFERER', None)
@@ -116,26 +121,90 @@ class URLRedirectView(View):
             else:
                 print("IP API request failed with status code:", response.status_code)  # Debug output
                 
-        except requests.exceptions.RequestException:
-                print("IP API request exception:", e) 
-                latitude = 0.0
-                longitude = 0.0
-                city = "Unknown"
-                country_name = "Unknown"
-                region = "Unknown"
-
+                # Erstelle einen Eintrag in der Datenbank mit Dummy-Werten
                 ip_geolocation = IPGeolocation(
                     ip_address=ip_address,
-                    latitude=latitude,
-                    longitude=longitude,
-                    city=city,
-                    country=country_name,
-                    region=region,
+                    latitude=0.0,
+                    longitude=0.0,
+                    city="Unknown",
+                    shortcode=obj,
+                    country="Unknown",
+                    region="Unknown",
                     os=user_agent_info['os'],
                     device=user_agent_info['device'],
                     browser=user_agent_info['browser']
                 )
-                ip_geolocation.save()    
+                ip_geolocation.save()
+                        
+        except requests.exceptions.RequestException as e:
+            print("IP API request exception:", e) 
+            
+            # Erstelle einen Eintrag in der Datenbank mit Dummy-Werten
+            ip_geolocation = IPGeolocation(
+                ip_address=ip_address,
+                latitude=0.0,
+                longitude=0.0,
+                city="Unknown",
+                country="Unknown",
+                shortcode=obj,
+                region="Unknown",
+                os=user_agent_info['os'],
+                device=user_agent_info['device'],
+                browser=user_agent_info['browser']
+            )
+            ip_geolocation.save()
+                        
+        except requests.exceptions.RequestException as e:
+            print("IP API request exception:", e) 
+                
+        # Überprüfe, ob 'limitation_active' aktiv ist und ob 'count' erreicht ist
+        if obj.limitation_active and obj.count <= 0:
+            # Wenn 'limitation_active' aktiv ist und 'count' erreicht ist, leite zur alternativen URL weiter
+            if obj.alternative_url:
+                return HttpResponseRedirect(obj.alternative_url)
+            else:
+                return HttpResponse("Alternative URL not set", status=500)
+        
+        
+        # Überprüfe, ob Geo-Targeting aktiviert ist
+        if obj.geo_targeting_on_off:
+            
+            geo_location = IPGeolocation.objects.filter(ip_address=ip_address).first()
+        
+            if geo_location:
+                
+                # Überprüfe, ob GeoThemplate mit dem Land übereinstimmt
+                matching_templates = obj.template_geo.filter(land=geo_location.country)
+                print(f'GEO {matching_templates}')
+                if matching_templates:
+                    # Weiterleiten, wenn das Land übereinstimmt
+                    return HttpResponseRedirect(obj.url_destination)
+                else:
+                    # Überprüfe, ob GeoThemplate mit Land und Region übereinstimmt
+                    matching_templates_region = obj.template_geo.filter(land=geo_location.country, themplate_region=geo_location.region)
+                    if matching_templates_region:
+                        # Weiterleiten, wenn Land und Region übereinstimmen
+                        return HttpResponseRedirect(obj.url_destination)
+                    else:
+                        # Weiterleiten zur alternativen URL, wenn keine Übereinstimmung gefunden wurde
+                        if obj.alternative_url:
+                            return HttpResponseRedirect(obj.alternative_url)
+                        else:
+                            return HttpResponse("Alternative URL not set", status=500)
+
+        # Überprüfe, ob Android und iOS-Weiterleitung aktiviert ist
+        if obj.android_on_off and user_agent_info['os'] == 'Android':
+            if obj.android:
+                return HttpResponseRedirect(obj.android)
+
+        if obj.ios_on_off and user_agent_info['os'] == 'Mac OS X':
+            if obj.ios:
+                return HttpResponseRedirect(obj.ios)
+    
+        # Reduziere den Zähler 'count' nur, wenn 'count' größer als null ist
+        if obj.count > 0:
+            obj.count -= 1
+            obj.save()
         
         ClickEvent.objects.create_event(obj)
         DailyClick.objects.create(short_url=obj)
@@ -164,8 +233,9 @@ class URLRedirectView(View):
             utm_content = ''
             
         url = gola_url + url_basic + utm_campaign + utm_content + utm_term
-
+        
         return HttpResponseRedirect(url)
+
 
 
 # User Profile Single View
