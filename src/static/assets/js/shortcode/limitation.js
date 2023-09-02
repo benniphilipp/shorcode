@@ -63,6 +63,14 @@ $(document).ready(function(){
                 url_id_count.value = data.url_id_count
                 url_id_alternative_url.value = data.url_id_alternative_url
 
+                if(data.status_switches){
+                    $('#id_limitation_active').prop('checked', true);
+                    $('.disabled-limitation').prop('disabled', false);
+                }else{
+                    $('#id_limitation_active').prop('checked', false);
+                    $('.disabled-limitation').prop('disabled', true);
+                }
+
             },
             error: function(error){
                 console.log(error + 'erro');
@@ -186,6 +194,7 @@ $(document).ready(function(){
     $('.disabled-limitation').on('change', function(event) {
         event.preventDefault();
         sendLimitationForm();
+        console.log('run');
     });
 
 
