@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap4",
     'django_hosts',
+    'ckeditor',
 
     #apps
     'shortcode',
@@ -109,6 +110,19 @@ TEMPLATES = [
         },
     },
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['Link'],
+            ['NumberedList', 'BulletedList'],
+            ['RemoveFormat'],
+            ['Source'],
+        ],
+    },
+}
 
 
 # DATETIME_INPUT_FORMATS = [

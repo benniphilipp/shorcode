@@ -1,0 +1,126 @@
+{% extends "checkout.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/products.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container my-5">
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="50" height="50">
+        </div>
+        <hr>
+    </div>
+
+
+    <div class="row">
+
+        <!--Main-->
+        <div class="col-12 col-md-9">
+
+            <h1>Upgrade your plan</h1>
+
+            <div class="form-check form-switch form-switch-products">
+                <label class="form-check-label">
+                    <span class="before-switch-text">Annually</span>
+                    <input class="form-check-input form-switch-products-input" type="checkbox" id="switch">
+                    <span class="after-switch-text">Monthly</span>
+                </label>
+            </div>
+
+            <!--Producutlist-->
+            <div class="row mt-5" id="product-list"></div>
+
+            <!--Produktform-->
+            <div class="row">
+                <div class="col-12 col-md-12">  
+
+                    <div class="card mt-5">
+                        <div class="card-header coustome-header">
+                            Contact information
+                        </div>
+                        <div class="card-body">
+                             <!-- Adresse -->
+                            <form class="p-2" id="userProfileForm">
+                                {% crispy profile_form %}  
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card mt-5">
+                        <div class="card-header coustome-header">
+                            Payment information
+                        </div>
+                        <div class="card-body">
+                            <!-- Zahlungen -->
+                            <form method="POST" id="payment-form">
+                                {% csrf_token %}
+                                <div id="card-element"></div>
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <button type="submit" class="btn btn-primary mt-3 mb-3">Zahlung abschließen</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card mt-5 mb-5">
+                        <div class="card-header coustome-header">
+                            Bitly terms of service
+                        </div>
+                        <div class="card-body">
+                            By clicking here, I agree to the Bitly Terms of Service, Privacy Policy, Acceptable Use Policy, DMCA Copyright Policy and the Automatic Renewal Terms.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--Sidebar-->
+        <div class="col-12 col-md-3">
+            <div class="card bg-color-gray border-0">
+
+                <div class="card-body">
+                    <div id="product-detaile"></div>
+
+
+                    <!-- Promo Code -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            {{ checkout_form }}
+                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">Button</button>
+                        </div>
+                    </form>
+
+                    <div class="d-flex justify-content-between">
+                        <div id="price"></div>
+                        <div id="monthly_price"></div>
+                        <div class="small">incl. <span id="tax"></span> % MwSt.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock body %}
+
+{% block javasript %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static '/assets/js/products.js' %}"></script>
+    <script>
+        var stripe = Stripe('{{STRIPE_PUBLISHABLE_KEY}}');
+    </script>
+    
+{% endblock %}

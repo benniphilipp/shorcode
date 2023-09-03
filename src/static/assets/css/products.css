@@ -1,0 +1,48 @@
+
+
+/* #f4f6fa */
+
+.form-switch-products {
+    padding-left: 0;
+}
+
+.form-switch-products-input{
+    margin-left: 0 !important;
+}
+
+.before-switch-text {
+    float: left; /* Text vor dem Schalter links ausrichten */
+    margin-right: 10px; /* Abstand zwischen Text und Schalter */
+}
+
+.after-switch-text {
+    float: right; /* Text nach dem Schalter rechts ausrichten */
+    margin-left: 10px; /* Abstand zwischen Text und Schalter */
+}
+
+/* Card Style sidebar */
+.coustome-header{
+    padding: 1.1rem 1.6rem;
+    font-size: 1.1rem;
+    background-color: #edf2ff!important;
+}
+#stage{
+    font-size: 1.95rem;
+}
+
+#price,
+#product-price{
+    font-weight: bold;
+}
+
+.yr{
+    margin-top: -3px;
+    font-weight: 400;
+}
+
+#content{
+    font-size: .875em;
+    line-height: 2rem;
+    margin: 0.2rem 0 0.4rem;
+}
+

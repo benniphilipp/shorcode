@@ -3,7 +3,12 @@ from .models import PromoCode, Product
 
 
 class CheckoutForm(forms.Form):
-    promo_code = forms.CharField(max_length=20, required=False)
+    promo_code = forms.CharField(
+        label="",
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Recipient's username", 'aria-describedby': "button-addon2"}),
+    )
     
     
 class PaymentForm(forms.Form):

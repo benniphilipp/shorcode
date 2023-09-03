@@ -1,13 +1,154 @@
 $(document).ready(function(){
 
 
-    var elements = stripe.elements();
+    // Productslist View
+    $.ajax({
+        url: '/products/',  // Die URL zu Ihrer Produktliste View
+        dataType: 'json',
+        success: function(data) {
+            const productList = $("#product-list");
+            data.forEach(function(product) {
 
-    console.group(stripe);
+                const monthlyPriceSavings = parseFloat(product.monthly_price_savings);
+                const yearlyPriceSavings = parseFloat(product.savings_price);
+
+                    const card = `
+                    <div class="col-12 col-md-4">
+                        <div class="card card-border${product.id} border-element">
+                            <div class="card-body product-list" data-products="${product.id}">
+                                <h5 class="card-title">${product.stage}</h5>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text yearly-price">Price: $${product.price} 
+                                    ${yearlyPriceSavings > 0.00 ? 
+                                        `<span class="badge bg-success">${product.savings_price}</span>`:
+                                        ``
+                                    }
+                                    </p>
+                                    <p class="card-text monthly-price" style="display: none;">Price: $${product.monthly_price} 
+                                    ${monthlyPriceSavings > 0.00 ? 
+                                        `<span class="badge bg-success">${product.monthly_price_savings}</span>` :
+                                        ``
+                                    }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.append(card);
+            });
+
+            const productDetaile = $("#product-detaile");
+            if (data.length > 0) {
+                const firstProduct = data[0];
+
+                const proDetaile = `
+                <h5>Purchase summary</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                <h5 id="stage">${firstProduct.stage}</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span id="product-price" class="yearly-price w-100">${firstProduct.price} €&nbsp;/yr</span></div>
+                    </div>
+                    <span id="product-price" class="monthly-price" style="display:none;">${firstProduct.monthly_price} €</span>
+                </div>
+                <div id="content">${firstProduct.content}</div>
+                <hr>
+                `;
+
+                $('#tax').text(firstProduct.tax);
+                $('#price').html('<span id="product-price" class="yearly-price">' + firstProduct.price + ' € <span class="small yr">/yr</span></span>');
+                $('#monthly_price').html('<span id="product-price" class="monthly-price" style="display:none;">' + firstProduct.monthly_price + ' € <span class="small yr">/yr</span></span>');
+                productDetaile.html(proDetaile);
+            }
+
+        },
+        error: function(error) {
+            console.error('Error fetching product list:', error);
+        }
+    });
+
+   
+
+    // Edite Product auf ListView
+    $('#product-list').on('click', '.product-list', function(){
+        var produktClickID = $(this).attr('data-products');
+
+        var switchStatus = $('#switch').is(':checked');
+        console.log(switchStatus);
+        const productDetaile = $("#product-detaile");
+        $.ajax({
+            url: `/products/${produktClickID}/`,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                const proDetaile = `
+                <h5>Purchase summary</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                <h5 id="stage">${data.stage}</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        ${switchStatus ? `<span id="product-price">${data.monthly_price} €</span>`: 
+                        `<span id="product-price" class="w-100">${data.price} €&nbsp;/yr</span></div>`}
+                        
+                    </div>
+                </div>
+                <div id="content">${data.content}</div>
+                <hr>
+                `;
+
+                $('#tax').text(data.tax);
+                if(switchStatus == false){
+                    $('#price').html('<span id="product-price" class="yearly-price">' + data.price + ' € <span class="small yr">/yr</span></span>');
+                }else{
+                    $('#monthly_price').html('<span id="product-price" class="monthly-price">' + data.monthly_price + ' € <span class="small yr">/yr</span></span>');
+                }
+                
+                productDetaile.html(proDetaile);
+            
+            },
+            error: function() {
+                console.error('Error fetching product details.');
+            }
+        });
+    });
+
+
+
+    // Entferne die Klasse "active-border" von allen Elementen
+    $(document).on('click', '.border-element', function() {
+        $('.border-element').removeClass('border-primary');
+
+        var clickedClass = $(this).attr('class').split(' ').find(cls => cls.startsWith('card-border'));
+        $(this).addClass('border-primary');
+    });
+
+
+    // Switch für Järliche oder Monatiche abrechung
+    function switchPrice() {
+        if ($('#switch').is(':checked')) {
+            $('.yearly-price').hide();
+            $('.monthly-price').show()
+        } else {
+            $('.yearly-price').show();
+            $('.monthly-price').hide();
+        }
+    }
+    
+    $('#switch').change(function() {
+        switchPrice(this);
+    });
+
+
+
+
+
+
+
+    var elements = stripe.elements();
 
     var card = elements.create('card');
     card.mount('#card-element');
-
 
     var form = document.getElementById('payment-form');
 
@@ -47,41 +188,27 @@ $(document).ready(function(){
 
 
 
-        
-
-    
-    
-    
-    
-    
-    
 
 
 
 
+    // Einzelansicht
+    // var productId = 1;  // Ändern Sie dies auf die tatsächliche Produkt-ID
 
-
-
-
-
-
-
-    var productId = 1;  // Ändern Sie dies auf die tatsächliche Produkt-ID
-
-    $.ajax({
-        url: `/products/${productId}/`,
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            $('#product-name').text(data.name);
-            $('#product-price').text('Price: $' + data.price);
-            $('#product-tax').text('Tax: $' + data.tax);
-            $('#product-stage').text('Stage: ' + data.stage);
-        },
-        error: function() {
-            console.error('Error fetching product details.');
-        }
-    });
+    // $.ajax({
+    //     url: `/products/${productId}/`,
+    //     method: 'GET',
+    //     dataType: 'json',
+    //     success: function(data) {
+    //         $('#product-name').text(data.name);
+    //         $('#product-price').text('Price: $' + data.price);
+    //         $('#product-tax').text('Tax: $' + data.tax);
+    //         $('#product-stage').text('Stage: ' + data.stage);
+    //     },
+    //     error: function() {
+    //         console.error('Error fetching product details.');
+    //     }
+    // });
 
 
     var domain = window.location.protocol + '//' + window.location.host;

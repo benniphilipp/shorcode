@@ -147,9 +147,19 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Überszungssetings Ansicht aktuelle sprache anzeigen. !erldeigt
 
 
+- Payment Intigrieren 
+    Stipe einbinden und alle Formular bereistellen. !erldeigt
+    Frontend-Anpassungen
+    Stripe-Zahlungsverarbeitung
+    Erstellen Sie Abonnements
+    Benutzerprofil aktualisieren
+    E-Mail-Benachrichtigungen
+    Verwaltung von Abonnements
+
+
+- Einzelansicht User die ID noch einfühgen das immer der Richtige name kommt.
 - Logo & Favicon austauschen 
 - Analytics Dahboard Anpssen
-- Payment Intigrieren
 - IP Gefärliche IP Sicherung einbauen
 - E-Mail Verdenden
 - QR Code

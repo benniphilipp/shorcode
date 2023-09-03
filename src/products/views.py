@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.detail import DetailView
+from django.views.generic import ListView
+
 from .models import Product
 from accounts.forms import ProfileFormAdresse
 from .forms import CheckoutForm, PaymentForm
@@ -62,8 +64,13 @@ class ProductDetailView(DetailView):
             'id': product.id,
             'name': product.name,
             'price': float(product.price),
+            'monthly_price': float(product.monthly_price),
             'tax': float(product.tax),
             'stage': product.stage,
+            'content': product.content,
+            'monthly_price_savings': product.monthly_price_savings,
+            'savings_price': product.savings_price,
+            'payment_abo': product.payment_abo
         }
         
         context['profile_form'] = ProfileFormAdresse()
@@ -79,3 +86,36 @@ class ProductDetailView(DetailView):
         if self.request.is_ajax():
             return JsonResponse(context['product_json'])
         return super().render_to_response(context, **response_kwargs)
+
+  
+class ProductListView(ListView):
+    model = Product
+    template_name = 'products_list.html'  # Hier können Sie Ihre HTML-Vorlage einstellen
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_form'] = ProfileFormAdresse()
+        context['checkout_form'] = CheckoutForm()
+        # context['payment_form'] = PaymentForm()
+        context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
+        return context
+
+    def render_to_response(self, context):
+        if self.request.is_ajax():
+            products = Product.objects.filter(active=True)
+            data = [
+                {
+                'id': product.id,
+                'name': product.name,
+                'price': float(product.price),
+                'monthly_price': float(product.monthly_price),
+                'tax': float(product.tax),
+                'stage': product.stage,
+                'content': product.content,
+                'monthly_price_savings': product.monthly_price_savings,
+                'savings_price': product.savings_price,
+                }
+                for product in products
+            ]
+            return JsonResponse(data, safe=False)
+        return super().render_to_response(context)
