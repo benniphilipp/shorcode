@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'linkinbio',
     'trackingai',
     'geotargeting',
-    
+    'products',
 ]
 
 
@@ -202,3 +202,6 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025  # Port für den lokalen SMTP-Server
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
+
+STRIPE_PUBLISHABLE_KEY="pk_test_kvxLMnvuKeiFE7Z2i8Lx5DnD007eHlPfx0"
+STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'

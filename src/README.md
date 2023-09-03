@@ -15,6 +15,12 @@ python3 manage.py startapp linkinbio
 # WebClickTracker
 webclicktracker
 
+# products
+python manage.py startapp products
+
+# Campaign
+https://support.bitly.com/hc/en-us/articles/115001195167
+
 # User
     email
     passwort
@@ -138,7 +144,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 
 
 - Überstzung einbauen !erldeigt
-- Überszungssetings Ansicht aktuelle sprache anzeigen.
+- Überszungssetings Ansicht aktuelle sprache anzeigen. !erldeigt
 
 
 - Logo & Favicon austauschen 
@@ -146,3 +152,4 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Payment Intigrieren
 - IP Gefärliche IP Sicherung einbauen
 - E-Mail Verdenden
+- QR Code

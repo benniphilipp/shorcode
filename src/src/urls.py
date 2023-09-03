@@ -27,6 +27,7 @@ urlpatterns += i18n_patterns(
     path('trackingai/', include('trackingai.urls')),
     path('linkinbio/', include('linkinbio.urls')),
     path('geotargeting/', include('geotargeting.urls')),
+    path('products/', include('products.urls')),
     path('', include('accounts.urls')),
 )
 
