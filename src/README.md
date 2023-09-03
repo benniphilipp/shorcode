@@ -137,7 +137,9 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
     limitation, Android Targeting, Ios Targeting BETA Version GEO Targeting !erldeigt
 
 
-- Überstzung einbauen
+- Überstzung einbauen !erldeigt
+- Überszungssetings Ansicht aktuelle sprache anzeigen.
+
 
 - Logo & Favicon austauschen 
 - Analytics Dahboard Anpssen

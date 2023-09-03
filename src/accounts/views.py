@@ -252,9 +252,12 @@ class UserProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         api_key = APIKey.objects.get(user=user)
+        
+        user_language = user.language
+        
         context['api_key'] = api_key.key
         context['user_adressform'] = ProfileFormAdresse()
-        context['form'] = LanguageForm()
+        context['form'] = LanguageForm(initial={'language': user_language})
         return context
 
 

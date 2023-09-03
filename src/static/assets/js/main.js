@@ -79,155 +79,82 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.cookie = `language=${language};path=/`;
     }
 
-    // $("#id_language").change(function() {
-    //     var selectedLanguage = $(this).val();
-    
-    //     $.ajax({
-    //         type: "POST",
-    //         url: `/${selectedLanguage}/update_language/`, //'/undefined/update_language/',//`/${selectedLanguage}/update_language/`, // Die URL der AJAX-Anfrage
-    //         data: {
-    //             language: selectedLanguage
-    //         },
-    //         headers: {
-    //             'X-CSRFToken': csrftoken
-    //         },
-    //         success: function(data) {
-    //             if (data.success) {
-    //                 ls_toast('Die Sprache wurde erfolgreich aktualisiert');
-    //                 // Speichert die ausgewählte Sprache im Cookie
-    //                 var expirationDate = new Date();
-    //                 expirationDate.setDate(expirationDate.getDate() + 30); // Ablaufdatum in 30 Tagen
-    //                 var cookieValue = encodeURIComponent(selectedLanguage) + '; expires=' + expirationDate.toUTCString() + '; path=/';
-    //                 document.cookie = 'language=' + cookieValue;
-    //             } else {
-    //                 // Fehler beim Aktualisieren der Sprache
-    //                 ls_toast('Fehler beim Aktualisieren der Sprache: ' + data.errors);
-    //                 console.log(data.errors);
-    //             }
-    //         },
-    //         error: function(xhr, textStatus, errorThrown) {
-    //             // Handhaben Sie Ajax-Fehler hier
-    //             ls_toast('Ajax-Fehler: ' + textStatus + ' ' + errorThrown);
-    //             console.log(xhr);
-    //         }
-    //     });
-    // });
 
+    // Funktion zum Lesen des Cookie-Werts
+    function getCookieValue(cookieName) {
+        const name = cookieName + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
 
-// Funktion zum Lesen des Cookie-Werts
-function getCookieValue(cookieName) {
-    const name = cookieName + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookieArray = decodedCookie.split(';');
-
-    for (let i = 0; i < cookieArray.length; i++) {
-        let cookie = cookieArray[i];
-        while (cookie.charAt(0) === ' ') {
-            cookie = cookie.substring(1);
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
         }
-        if (cookie.indexOf(name) === 0) {
-            return cookie.substring(name.length, cookie.length);
-        }
+
+        return null; // Cookie wurde nicht gefunden
     }
 
-    return null; // Cookie wurde nicht gefunden
-}
+    // Beispiel: Lesen des "language"-Cookies und Zuweisen des Werts zur Cookie-Variable
+    var selectedLanguageCookie = getCookieValue("language");
 
-// Beispiel: Lesen des "language"-Cookies und Zuweisen des Werts zur Cookie-Variable
-var selectedLanguageCookie = getCookieValue("language");
+    // Verwenden Sie selectedLanguageCookie in Ihrer JavaScript-Logik
+    if (selectedLanguageCookie) {
+        console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
+    } else {
+        console.log("Der Cookie 'language' wurde nicht gefunden.");
+    }
 
-// Verwenden Sie selectedLanguageCookie in Ihrer JavaScript-Logik
-if (selectedLanguageCookie) {
-    console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
-} else {
-    console.log("Der Cookie 'language' wurde nicht gefunden.");
-}
+    function updateLanguage(selectedLanguage) {
+        // Aktualisiert die Sprache in der Datenbank (per AJAX)
+        $.ajax({
+            type: "POST",
+            url: `/${selectedLanguageCookie}/update_language/`,
+            data: {
+                language: selectedLanguage
+            },
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            success: function(data) {
+                if (data.success) {
+                    // Erfolgreiche Aktualisierung der Datenbank
 
-function updateLanguage(selectedLanguage) {
-    // Aktualisiert die Sprache in der Datenbank (per AJAX)
-    $.ajax({
-        type: "POST",
-        url: `/${selectedLanguageCookie}/update_language/`,
-        data: {
-            language: selectedLanguage
-        },
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        success: function(data) {
-            if (data.success) {
-                // Erfolgreiche Aktualisierung der Datenbank
+                    // Speichert die ausgewählte Sprache im Cookie
+                    var expirationDate = new Date();
+                    expirationDate.setDate(expirationDate.getDate() + 30); // Ablaufdatum in 30 Tagen
+                    var cookieValue = encodeURIComponent(selectedLanguage) + '; expires=' + expirationDate.toUTCString() + '; path=/';
+                    document.cookie = 'language=' + cookieValue;
 
-                // Speichert die ausgewählte Sprache im Cookie
-                var expirationDate = new Date();
-                expirationDate.setDate(expirationDate.getDate() + 30); // Ablaufdatum in 30 Tagen
-                var cookieValue = encodeURIComponent(selectedLanguage) + '; expires=' + expirationDate.toUTCString() + '; path=/';
-                document.cookie = 'language=' + cookieValue;
+                    // Aktualisiert die Seite mit der ausgewählten Sprache in der URL
+                    var currentUrl = window.location.href;
+                    var urlParts = currentUrl.split('/');
+                    var baseUrl = urlParts.slice(0, 3).join('/'); // Beispiel: http://localhost:8000
+                    var newUrl = baseUrl + '/' + selectedLanguage + '/' + urlParts.slice(4).join('/');//var newUrl = baseUrl + '/' + selectedLanguage + urlParts.slice(4).join('/');//var newUrl = baseUrl + '/' + selectedLanguageCookie + urlParts.slice(3).join('/');//var newUrl = baseUrl + '/' + selectedLanguage + urlParts.slice(3).join('/'); // Neuer URL mit ausgewählter Sprache
 
-                // Aktualisiert die Seite mit der ausgewählten Sprache in der URL
-                var currentUrl = window.location.href;
-                var urlParts = currentUrl.split('/');
-                var baseUrl = urlParts.slice(0, 3).join('/'); // Beispiel: http://localhost:8000
-                var newUrl = baseUrl + '/' + selectedLanguage + '/' + urlParts.slice(4).join('/');//var newUrl = baseUrl + '/' + selectedLanguage + urlParts.slice(4).join('/');//var newUrl = baseUrl + '/' + selectedLanguageCookie + urlParts.slice(3).join('/');//var newUrl = baseUrl + '/' + selectedLanguage + urlParts.slice(3).join('/'); // Neuer URL mit ausgewählter Sprache
-
-                // Leitet die Seite zur neuen URL um, um den Browser neu zu laden
-                window.location.href = newUrl;
-            } else {
-                // Fehler beim Aktualisieren der Datenbank
-                console.log(data.errors);
+                    // Leitet die Seite zur neuen URL um, um den Browser neu zu laden
+                    window.location.href = newUrl;
+                } else {
+                    // Fehler beim Aktualisieren der Datenbank
+                    console.log(data.errors);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                // Handhaben Sie Ajax-Fehler hier
+                ls_toast('Ajax-Fehler: ' + textStatus + ' ' + errorThrown);
+                console.log(xhr);
             }
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            // Handhaben Sie Ajax-Fehler hier
-            ls_toast('Ajax-Fehler: ' + textStatus + ' ' + errorThrown);
-            console.log(xhr);
-        }
+        });
+    }
+
+    $("#id_language").change(function() {
+        var selectedLanguageDropdown = $(this).val(); // Aus dem Dropdown-Feld ausgewählte Sprache
+        updateLanguage(selectedLanguageDropdown);
     });
-}
-
-$("#id_language").change(function() {
-    var selectedLanguageDropdown = $(this).val(); // Aus dem Dropdown-Feld ausgewählte Sprache
-    updateLanguage(selectedLanguageDropdown);
-});
 
     
-
-
-    
-    
-  
-
-    // function updateLanguageCookie(language) {
-    //     // Aktualisiert das Cookie "language" mit der ausgewählten Sprache
-    //     var expirationDate = new Date();
-    //     expirationDate.setDate(expirationDate.getDate() + 30); // Ablaufdatum in 30 Tagen
-    //     var cookieValue = encodeURIComponent(language) + '; expires=' + expirationDate.toUTCString() + '; path=/';
-    //     document.cookie = 'language=' + cookieValue;
-    // }
-
-    // $("#id_language").on("click", function() {
-    //     var selectedLanguage = $(this).data("language"); // Annahme: data-language enthält die ausgewählte Sprache
-    //     updateLanguageCookie(selectedLanguage);
-    //     // Führe ggf. einen Seitenneustart oder Ajax-Aufruf durch, um die Änderung anzuwenden
-    // });
-
-
-
-    // // Funktion, um die ausgewählte Sprache im Cookie zu speichern
-    // function setLanguageCookie(language) {
-    //     // Speichere die ausgewählte Sprache im Cookie "language"
-    //     document.cookie = `language=${language};path=/`;
-    // }
-
-    // // Beispiel: Wenn der Benutzer auf einen Sprachumschalter klickt
-    // $("#id_language").on("click", function() {
-    //     var selectedLanguage = $(this).data("language"); // Annahme: data-language enthält die ausgewählte Sprache
-    //     setLanguageCookie(selectedLanguage);
-    //     // Führe ggf. einen Seitenneustart oder Ajax-Aufruf durch, um die Änderung anzuwenden
-    // });
-
-
-
-
-
 });
