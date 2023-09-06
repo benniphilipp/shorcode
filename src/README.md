@@ -146,6 +146,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Überstzung einbauen !erldeigt
 - Überszungssetings Ansicht aktuelle sprache anzeigen. !erldeigt
 
+- Startseite ist nicht erreichbar
 
 - Payment Intigrieren 
     Stipe einbinden und alle Formular bereistellen. !erldeigt

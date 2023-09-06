@@ -10,14 +10,6 @@ from accounts.views import URLRedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('shortcode/', include('shortcode.urls')),
-    # path('analytics/', include('analytics.urls')),
-    # path('webclicktracker/', include('webclicktracker.urls')),
-    # path('trackingai/', include('trackingai.urls')),
-    # path('linkinbio/', include('linkinbio.urls')),
-    # path('geotargeting/', include('geotargeting.urls')),
-    # path('', include('accounts.urls')),
-    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]
 
 urlpatterns += i18n_patterns(
@@ -28,6 +20,7 @@ urlpatterns += i18n_patterns(
     path('linkinbio/', include('linkinbio.urls')),
     path('geotargeting/', include('geotargeting.urls')),
     path('products/', include('products.urls')),
+    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
     path('', include('accounts.urls')),
 )
 
