@@ -130,7 +130,6 @@ https://urlhaus.abuse.ch/api/#submit
 #  Google Suche
 https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5stBhFKA56I66QGdIKmpFzQw_tkpVo2w:1693472575130&ei=P1fwZPq2B4eFxc8P3tGB8Aw&start=0&sa=N&ved=2ahUKEwi60pv6xIaBAxWHQvEDHd5oAM44ChDy0wN6BAgKEAQ&biw=2216&bih=1125&dpr=2
 
-
 # BUG LISTE 2.09.23
 - Tags nur für User Anzeigen !erledigt
 - Tags nach dem Erstellen laden. !erleding
@@ -138,15 +137,13 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Archive rückganig machen. !erleding
 - Shorcode Löschen. !erleding
 
-
 - Abrufen von mÖglichkeiten in der URL View !erldeigt
     limitation, Android Targeting, Ios Targeting BETA Version GEO Targeting !erldeigt
-
 
 - Überstzung einbauen !erldeigt
 - Überszungssetings Ansicht aktuelle sprache anzeigen. !erldeigt
 
-- Startseite ist nicht erreichbar
+- Startseite ist nicht erreichbar !erldeigt
 
 - Payment Intigrieren 
     Stipe einbinden und alle Formular bereistellen. !erldeigt
@@ -157,7 +154,6 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
     E-Mail-Benachrichtigungen
     Verwaltung von Abonnements
 
-
 - Einzelansicht User die ID noch einfühgen das immer der Richtige name kommt.
 - Logo & Favicon austauschen 
 - Analytics Dahboard Anpssen
@@ -165,10 +161,12 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - E-Mail Verdenden
 - QR Code
 
+- Externe Doamin Testen wen die Server einstellungen stimmen.
+- Notweiterleitung
 
 # Stripe Webhook
 
 stripe listen --forward-to http://localhost:8000/products/stripe-webhook/
 
-
+stripe login
 https://stripe.com/docs/payments/quickstart

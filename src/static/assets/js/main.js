@@ -101,15 +101,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // Beispiel: Lesen des "language"-Cookies und Zuweisen des Werts zur Cookie-Variable
     var selectedLanguageCookie = getCookieValue("language");
-
+    selectedLanguageCookie = 'de'
     // Verwenden Sie selectedLanguageCookie in Ihrer JavaScript-Logik
-    // if (selectedLanguageCookie) {
-    //     console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
-    // } else {
-    //     console.log("Der Cookie 'language' wurde nicht gefunden.");
-    //     selectedLanguageCookie = 'de'
-    // }
+    if (selectedLanguageCookie) {
+        console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
+    } else {
+        console.log("Der Cookie 'language' wurde nicht gefunden.");
+        
+    }
 
+    
     function updateLanguage(selectedLanguage) {
         // Aktualisiert die Sprache in der Datenbank (per AJAX)
         $.ajax({

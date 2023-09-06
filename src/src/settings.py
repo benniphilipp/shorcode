@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ngrok-free.app', '1442-185-58-55-54.ngrok-free.app']
 
 env = environ.Env(
 
@@ -133,7 +133,7 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+#ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

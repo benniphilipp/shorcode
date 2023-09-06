@@ -3,7 +3,6 @@ from .views import home, RegisterView, CustomLoginView, ResetPasswordView, UserP
 from django.contrib.auth import views as auth_views
 from accounts.forms import LoginForm
 
-
 app_name = 'accounts'
 
 urlpatterns = [

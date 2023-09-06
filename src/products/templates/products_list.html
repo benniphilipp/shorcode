@@ -65,8 +65,8 @@
                           
                             <!-- Zahlungen -->
 
-
-                            <form id="payment-form">
+                            
+                            <form id="payment-form" action="{% url 'products:create_payment_intent' %}" data-product="">
                               <div id="link-authentication-element">
                                 <!--Stripe.js injects the Link Authentication Element-->
                               </div>

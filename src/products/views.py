@@ -32,11 +32,16 @@ def create_payment_intent(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print(data)
+            pk = data.get('pk')
+            
+            try:
+                product = Product.objects.get(pk=pk) 
+                amount_in_cents = int(product.price * 100) 
 
-            price = data.get('price')
-            print(price)
-            amount = price  # Betrag in Cent (z.B. 10,00 USD)
+            except Product.DoesNotExist:
+                print(f"Das Produkt mit dem PK {pk} wurde nicht gefunden.")
+            
+            amount = amount_in_cents # Betrag in Cent (z.B. 10,00 USD)
             currency = 'usd'
             
             intent = stripe.PaymentIntent.create(
@@ -46,59 +51,47 @@ def create_payment_intent(request):
             )
             
             return JsonResponse({'client_secret': intent.client_secret})
-            # return JsonResponse({'client_secret': 'hello'})
+
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=403)
     else:
         return JsonResponse({'error': 'Ungültige Anfrage-Methode.'})
 
-
+# Stripe
 @csrf_exempt
 def stripe_webhook(request):
-    payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    event = None
+    # Erfassen des Payloads und der Signatur aus der Anfrage
+    # payload = request.body
+    # sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+        
+    # try:
+    #     # Versuchen, das Webhook-Ereignis zu erstellen und zu überprüfen
+    #     event = stripe.Webhook.construct_event(
+    #         payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+    #     )
+    # except ValueError as e:
+    #     # Fehlerhafte Nutzlast, ungültiges JSON
+    #     return HttpResponse(status=400)
+    # except stripe.error.SignatureVerificationError as e:
+    #     # Ungültige Signatur, möglicherweise betrügerisch
+    #     return HttpResponse(status=400)
 
-    try:
-        event = stripe.Webhook.construct_event(
-            request.body.decode('utf-8'), sig_header, 'whsec_3c60cb04ed2b5ce97f32f3b468da8ea202a16b4108b7c569a8608d4a14375330'
-        )
-    except ValueError as e:
-        # Ungültiges JSON
-        return HttpResponse(status=400)
-
-    # Verarbeiten Sie das Stripe-Ereignis basierend auf event.type
-    if event.type == 'payment_intent.succeeded':
-        # Hier können Sie Code für erfolgreiche Zahlungen ausführen
-        print('WEBHOOK == payment_intent')
-        pass
-    elif event.type == 'payment_intent.payment_failed':
-        # Hier können Sie Code für fehlgeschlagene Zahlungen ausführen
-        print(event.type)
-        print('WEBHOOK == payment_failed')
-        pass
-
+    # # Wenn das Webhook-Ereignis den Status "payment_intent.succeeded" hat,
+    # # bedeutet dies, dass die Zahlung erfolgreich war
+    # if event.type == 'payment_intent.succeeded':
+    #     payment_intent = event.data.object
+    #     print('succeeded')
+        
+    #     # Hier können Sie den Status der Zahlung und weitere Informationen aktualisieren
+    #     # und beispielsweise den Auftragsstatus auf "bezahlt" setzen
+    # if event.type == 'payment_intent.payment_failed':
+    #     payment_intent = event.data.object
+    #     print('payment_failed')
+    # # Weitere Ereignisse wie 'payment_intent.failed', 'charge.refunded', usw. können ebenfalls verarbeitet werden
+    print('Webhook')
+    # Geben Sie eine erfolgreiche Antwort zurück, um Stripe zu bestätigen
     return HttpResponse(status=200)
 
-
-# def create_payment_intent(request):
-#     if request.method == 'POST':
-#         try:
-#             data = json.loads(request.body)
-#             # Create a PaymentIntent with the order amount and currency
-#             intent = stripe.PaymentIntent.create(
-#                 amount=calculate_order_amount(data['items']),
-#                 currency='eur',
-#                 # In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-#                 automatic_payment_methods={
-#                     'enabled': True,
-#                 },
-#             )
-#             return JsonResponse({'clientSecret': intent['client_secret']})
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=403)
-#     else:
-#         return JsonResponse({'error': 'Ungültige Anfrage-Methode.'}, status=400)
 
 
 class ProductDetailView(DetailView):
@@ -143,21 +136,11 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        amount = 1000
-        currency = 'usd'
-        intent = stripe.PaymentIntent.create(
-            amount=amount,
-            currency=currency,
-            payment_method_types=['card'],
-        )
-        
+                
         context['profile_form'] = ProfileFormAdresse()
         context['checkout_form'] = CheckoutForm()
         context['payment_form'] = PaymentForm()
         context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
-        #'client_secret': intent.client_secret
-        # context['client_secret'] = intent.client_secret
         
         return context
     

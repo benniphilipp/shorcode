@@ -64,7 +64,7 @@ class GeoThemplateUpdateView(View):
     def post(self, request, pk):
         geo_template = get_object_or_404(GeoThemplate, pk=pk)
         form = GeoThemplateForm(request.POST, instance=geo_template)
-        print(form)
+
         if form.is_valid():
 
             geo_template.themplate_name = form.cleaned_data['themplate_name']

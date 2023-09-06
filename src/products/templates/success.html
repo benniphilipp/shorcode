@@ -5,18 +5,20 @@
 {% load i18n %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/products.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+
 
 {% endblock %}
 
 {% block body %}
 
-
-    <h1>Zahlung erfolgreich!</h1>
-    <p>Vielen Dank für Ihre Bestellung. Ihre Zahlung wurde erfolgreich verarbeitet.</p>
-
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Zahlung erfolgreich!</h1>
+            <p>Vielen Dank für Ihre Bestellung. Ihre Zahlung wurde erfolgreich verarbeitet.</p>
+        </div>
+    </div>
+</div>
 
 {% endblock body %}
 

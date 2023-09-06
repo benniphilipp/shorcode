@@ -43,16 +43,6 @@ from django.utils import timezone
 from urllib.parse import parse_qs, urlparse
 
 
-'''
-@ToDo
-1. Profile Page fertigstellen
-    - Logo oder Bild
-    - Notweiterleitung
-    - Externe Doamin Testen wen die Server einstellungen stimmen.
-'''
-
-
-# Create your views here.
 def home(request):
     return render(request, 'index.html')
 
@@ -120,9 +110,9 @@ class URLRedirectView(View):
                     browser=user_agent_info['browser']
                 )
                 ip_geolocation.save()
-                print("IP Geolocation saved successfully!")  # Debug output
+                # print("IP Geolocation saved successfully!")  # Debug output
             else:
-                print("IP API request failed with status code:", response.status_code)  # Debug output
+                # print("IP API request failed with status code:", response.status_code)  # Debug output
                 
                 # Erstelle einen Eintrag in der Datenbank mit Dummy-Werten
                 ip_geolocation = IPGeolocation(
@@ -140,7 +130,7 @@ class URLRedirectView(View):
                 ip_geolocation.save()
                         
         except requests.exceptions.RequestException as e:
-            print("IP API request exception:", e) 
+            # print("IP API request exception:", e) 
             
             # Erstelle einen Eintrag in der Datenbank mit Dummy-Werten
             ip_geolocation = IPGeolocation(
@@ -178,7 +168,7 @@ class URLRedirectView(View):
                 
                 # Überprüfe, ob GeoThemplate mit dem Land übereinstimmt
                 matching_templates = obj.template_geo.filter(land=geo_location.country)
-                print(f'GEO {matching_templates}')
+                # print(f'GEO {matching_templates}')
                 if matching_templates:
                     # Weiterleiten, wenn das Land übereinstimmt
                     return HttpResponseRedirect(obj.url_destination)
@@ -240,7 +230,6 @@ class URLRedirectView(View):
         return HttpResponseRedirect(url)
 
 
-
 # User Profile Single View
 class UserProfileView(DetailView):
     model = CustomUser
@@ -261,6 +250,7 @@ class UserProfileView(DetailView):
         return context
 
 
+# Regestieren
 class RegisterView(View):
     form_class = RegisterForm
     initial = {'key': 'value'}
@@ -289,8 +279,6 @@ class RegisterView(View):
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
     
 
-
-
 # Class based view that extends from the built in login view to add a remember me functionality
 class CustomLoginView(LoginView):
     form_class = LoginForm
@@ -309,7 +297,7 @@ class CustomLoginView(LoginView):
         return super(CustomLoginView, self).form_valid(form)
 
 
-
+# Password
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'accounts/password_reset.html'
     email_template_name = 'accounts/password_reset_email.html'
@@ -367,7 +355,7 @@ class SaveClickData(APIView):
 def update_user_json(request, pk):
     
     obj = CustomUser.objects.get(pk=pk)
-    print(obj)
+    # print(obj)
     if request.is_ajax():
         # Aktualisiere die Benutzerdaten basierend auf den POST-Daten
         new_first_name = request.POST.get('first_name')
@@ -413,7 +401,7 @@ class CustomUserJsonView(BaseDetailView):
  
  
 
- 
+# Sprachumstellung
 def update_language(request):
     
     LANGUAGE_CHOICES = [

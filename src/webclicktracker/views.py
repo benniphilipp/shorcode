@@ -277,7 +277,7 @@ def save_buttons_to_page(website_page, buttons_list):
 
 # holt Breadcrume 
 def find_breadcrumbs(page_url):
-    print(f"Searching breadcrumbs on page: {page_url}")
+    # print(f"Searching breadcrumbs on page: {page_url}")
     page_url = add_default_scheme(page_url)
     breadcrumbs_links = set()  # Hier verwenden wir ein Set
     
@@ -339,14 +339,14 @@ def is_subpage(url):
 # Funktion zum Speichern einer Seite
 def save_page(url, title, website_instance, user):
     page = WebsitePages.objects.create(url=url, title=title, website=website_instance, user=user)
-    print(f'WebsitePages Save: {page}')
+    # print(f'WebsitePages Save: {page}')
     return page
 
 
 # # Funktion zum Speichern von Unterseiten
 def save_subpage(url, title, parent_page):
     subpage = Subpage.objects.create(url=url, title=title, parent_page=parent_page)
-    print(f'Subpage Save: {subpage}')
+    # print(f'Subpage Save: {subpage}')
     return subpage
 
 def get_hierarchy_level(url):
@@ -442,7 +442,7 @@ def save_website_click_recursive(url, user, website_instance, visited_links=None
                         else:
                             linked_websites = linked_websites.first()
                         
-                        print(f'Breadcrumb-Link gespeichert: {breadcrumb_link}')
+                        # print(f'Breadcrumb-Link gespeichert: {breadcrumb_link}')
 
 
 
