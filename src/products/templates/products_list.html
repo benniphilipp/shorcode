@@ -6,6 +6,9 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static '/assets/css/products.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static '/assets/js/products.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -59,13 +62,25 @@
                             Payment information
                         </div>
                         <div class="card-body">
+                          
                             <!-- Zahlungen -->
-                            <form method="POST" id="payment-form">
-                                {% csrf_token %}
-                                <div id="card-element"></div>
-                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <button type="submit" class="btn btn-primary mt-3 mb-3">Zahlung abschließen</button>
+
+
+                            <form id="payment-form">
+                              <div id="link-authentication-element">
+                                <!--Stripe.js injects the Link Authentication Element-->
+                              </div>
+                              <div id="payment-element">
+                                <!--Stripe.js injects the Payment Element-->
+                              </div>
+                              <button id="submit">
+                                <div class="spinner hidden" id="spinner"></div>
+                                <span id="button-text">Pay now</span>
+                              </button>
+                              <div id="payment-message" class="hidden"></div>
                             </form>
+  
+
                         </div>
                     </div>
 
@@ -91,7 +106,7 @@
                     <div id="product-detaile"></div>
 
 
-                    <!-- Promo Code -->
+
                     <form method="post">
                         {% csrf_token %}
                         <div class="input-group mb-3">
@@ -104,7 +119,7 @@
                         <div id="price"></div>
                         <div id="monthly_price"></div>
                         <div class="small">incl. <span id="tax"></span> % MwSt.
-                    </div>
+                    </div> 
                 </div>
 
             </div>
@@ -113,14 +128,11 @@
     </div>
 
 </div>
+<input type="hidden" id="client-secret-input" name="client_secret" value="{{ client_secret }}">
 
 {% endblock body %}
 
 {% block javasript %}
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="{% static '/assets/js/products.js' %}"></script>
-    <script>
-        var stripe = Stripe('{{STRIPE_PUBLISHABLE_KEY}}');
-    </script>
+
     
 {% endblock %}

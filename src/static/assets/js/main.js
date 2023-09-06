@@ -103,11 +103,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var selectedLanguageCookie = getCookieValue("language");
 
     // Verwenden Sie selectedLanguageCookie in Ihrer JavaScript-Logik
-    if (selectedLanguageCookie) {
-        console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
-    } else {
-        console.log("Der Cookie 'language' wurde nicht gefunden.");
-    }
+    // if (selectedLanguageCookie) {
+    //     console.log("Die ausgewählte Sprache aus dem Cookie ist: " + selectedLanguageCookie);
+    // } else {
+    //     console.log("Der Cookie 'language' wurde nicht gefunden.");
+    //     selectedLanguageCookie = 'de'
+    // }
 
     function updateLanguage(selectedLanguage) {
         // Aktualisiert die Sprache in der Datenbank (per AJAX)

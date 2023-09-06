@@ -149,7 +149,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 
 - Payment Intigrieren 
     Stipe einbinden und alle Formular bereistellen. !erldeigt
-    Frontend-Anpassungen
+    Frontend-Anpassungen !erldeigt
     Stripe-Zahlungsverarbeitung
     Erstellen Sie Abonnements
     Benutzerprofil aktualisieren
@@ -163,3 +163,11 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - IP Gefärliche IP Sicherung einbauen
 - E-Mail Verdenden
 - QR Code
+
+
+# Stripe Webhook
+
+stripe listen --forward-to http://localhost:8000/products/stripe-webhook/
+
+
+https://stripe.com/docs/payments/quickstart

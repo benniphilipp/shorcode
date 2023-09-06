@@ -1,6 +1,25 @@
 $(document).ready(function(){
 
 
+    const getCookie =(name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+
+
     // Productslist View
     $.ajax({
         url: '/products/',  // Die URL zu Ihrer Produktliste View
@@ -72,9 +91,8 @@ $(document).ready(function(){
     // Edite Product auf ListView
     $('#product-list').on('click', '.product-list', function(){
         var produktClickID = $(this).attr('data-products');
-
         var switchStatus = $('#switch').is(':checked');
-        console.log(switchStatus);
+
         const productDetaile = $("#product-detaile");
         $.ajax({
             url: `/products/${produktClickID}/`,
@@ -105,6 +123,9 @@ $(document).ready(function(){
                 }
                 
                 productDetaile.html(proDetaile);
+
+                // Ad Porducut
+                $('#id_product').val(produktClickID);
             
             },
             error: function() {
@@ -145,46 +166,262 @@ $(document).ready(function(){
 
 
 
-    var elements = stripe.elements();
+var selectedLanguageCookie = 'de'
 
-    var card = elements.create('card');
-    card.mount('#card-element');
+// This is your test publishable API key.
+const stripe = Stripe("pk_test_kvxLMnvuKeiFE7Z2i8Lx5DnD007eHlPfx0");
 
-    var form = document.getElementById('payment-form');
+// The items the customer wants to buy
+const items = [{ id: "xl-tshirt" }];
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Verhindert das Standardverhalten des Formulars
+let elements;
 
-        // Sammeln Sie die Zahlungsinformationen aus dem Formular
-        var cardNumber = document.getElementById('card_number').value;
-        var expMonth = document.getElementById('exp_month').value;
-        var expYear = document.getElementById('exp_year').value;
-        var cvc = document.getElementById('cvc').value;
+initialize();
+checkStatus();
 
-        // Senden Sie die Zahlungsinformationen an Ihre Django View
-        var csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-        fetch('/checkout/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken,
-            },
-            body: JSON.stringify({
-                card_number: cardNumber,
-                exp_month: expMonth,
-                exp_year: expYear,
-                cvc: cvc,
-            }),
-        }).then(function(response) {
-            if (response.ok) {
-                // Zahlung erfolgreich, zeigen Sie eine Erfolgsmeldung an
-                alert('Zahlung erfolgreich verarbeitet!');
-            } else {
-                // Fehler bei der Zahlung, behandeln Sie ihn hier
-                alert('Fehler bei der Zahlung: ' + response.statusText);
-            }
-        });
-    });
+document
+  .querySelector("#payment-form")
+  .addEventListener("submit", handleSubmit);
+
+let emailAddress = '';
+// Fetches a payment intent and captures the client secret
+async function initialize() {
+  const response = await fetch(`/${selectedLanguageCookie}/products/create-payment-intent/`, {
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json", 
+        'X-CSRFToken': csrftoken
+    },
+    body: JSON.stringify({ price: 1999 }),
+  });
+
+  const responseData = await response.json();
+  const clientSecret = responseData.client_secret;
+
+  const appearance = {
+    theme: 'stripe',
+  };
+  elements = stripe.elements({ appearance, clientSecret });
+
+  const linkAuthenticationElement = elements.create("linkAuthentication");
+  linkAuthenticationElement.mount("#link-authentication-element");
+
+  linkAuthenticationElement.on('change', (event) => {
+    emailAddress = event.value.email;
+  });
+
+  const paymentElementOptions = {
+    layout: "tabs",
+  };
+
+  const paymentElement = elements.create("payment", paymentElementOptions);
+  paymentElement.mount("#payment-element");
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  setLoading(true);
+
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      // Make sure to change this to your payment completion page
+      return_url: "http://127.0.0.1:8000/products/success/",
+      receipt_email: emailAddress,
+    },
+  });
+
+  // This point will only be reached if there is an immediate error when
+  // confirming the payment. Otherwise, your customer will be redirected to
+  // your `return_url`. For some payment methods like iDEAL, your customer will
+  // be redirected to an intermediate site first to authorize the payment, then
+  // redirected to the `return_url`.
+  if (error.type === "card_error" || error.type === "validation_error") {
+    showMessage(error.message);
+  } else {
+    showMessage("An unexpected error occurred.");
+  }
+
+  setLoading(false);
+}
+
+// Fetches the payment intent status after payment submission
+async function checkStatus() {
+
+    // const clientSecret = new URLSearchParams(window.location.search).get(
+    //     "payment_intent_client_secret"
+    // );
+
+    const response = await fetch(`/${selectedLanguageCookie}/products/create-payment-intent/`, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json", 
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({ price: 1999 }),
+      });
+      //const clientSecret = document.querySelector("#client-secret-input").value;
+      const responseData = await response.json();
+      const clientSecret = responseData.client_secret;
+
+    console.log(clientSecret);
+
+    if (!clientSecret) {
+        return;
+    }
+
+  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+  switch (paymentIntent.status) {
+    case "succeeded":
+      showMessage("Payment succeeded!");
+      break;
+    case "processing":
+      showMessage("Your payment is processing.");
+      break;
+    case "requires_payment_method":
+      showMessage("Your payment was not successful, please try again.");
+      break;
+    default:
+      showMessage("Something went wrong.");
+      break;
+  }
+}
+
+// ------- UI helpers -------
+
+function showMessage(messageText) {
+  const messageContainer = document.querySelector("#payment-message");
+
+  messageContainer.classList.remove("hidden");
+  messageContainer.textContent = messageText;
+
+  setTimeout(function () {
+    messageContainer.classList.add("hidden");
+    messageContainer.textContent = "";
+  }, 4000);
+}
+
+// Show a spinner on payment submission
+function setLoading(isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector("#submit").disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    document.querySelector("#submit").disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // var elements = stripe.elements();
+
+    // var card = elements.create('card');
+    // card.mount('#card-element');
+
+    // var form = document.getElementById('payment-form');
+
+    // form.addEventListener('submit', function(event) {
+    //     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
+
+    //     // Sammeln Sie die Zahlungsinformationen aus dem Formular
+    //     var cardNumber = document.getElementById('id_card_number').value;
+    //     var expMonth = document.getElementById('id_exp_month').value;
+    //     var expYear = document.getElementById('id_exp_year').value;
+    //     var cvc = document.getElementById('id_cvc').value;
+
+    //     var product_id = document.getElementById('id_product').value;
+
+    //     // Senden Sie die Zahlungsinformationen an Ihre Django View
+    //     var csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    //     fetch('/products/checkout/', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': csrfToken,
+    //         },
+    //         body: JSON.stringify({
+    //             card_number: cardNumber,
+    //             exp_month: expMonth,
+    //             exp_year: expYear,
+    //             cvc: cvc,
+    //             product_id: product_id
+    //         }),
+    //     }).then(function(response) {
+    //         if (response.ok) {
+    //             // Zahlung erfolgreich, zeigen Sie eine Erfolgsmeldung an
+    //             alert('Zahlung erfolgreich verarbeitet!');
+    //         } else {
+    //             // Fehler bei der Zahlung, behandeln Sie ihn hier
+    //             alert('Fehler bei der Zahlung: ' + response.statusText);
+    //         }
+    //     });
+    // });
+
+
+    // var elements = stripe.elements();
+    // var cardElement = elements.create('card');
+
+    // cardElement.mount('#card-element');
+
+    // var form = document.getElementById('payment-form');
+    // var errorElement = document.getElementById('error-message');
+
+    // form.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+
+    //     stripe.createPaymentMethod({
+    //         type: 'card',
+    //         card: cardElement,
+    //     }).then(function(result) {
+    //         if (result.error) {
+    //             errorElement.textContent = result.error.message;
+    //         } else {
+    //             // Erfolgreiche Zahlungsmethode erhalten, jetzt den Server aufrufen
+    //             fetch('/products/process_payment/', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'X-CSRFToken': '{{ csrf_token }}',
+    //                 },
+    //                 body: JSON.stringify({
+    //                     payment_method_id: result.paymentMethod.id,
+    //                 }),
+    //             }).then(function(response) {
+    //                 return response.json();
+    //             }).then(function(data) {
+    //                 if (data.success) {
+    //                     // Zahlung erfolgreich verarbeitet
+    //                     alert('Zahlung erfolgreich verarbeitet!');
+    //                 } else {
+    //                     // Fehler bei der Zahlungsverarbeitung
+    //                     errorElement.textContent = data.error;
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
 
 
 
@@ -287,7 +524,7 @@ $(document).ready(function(){
                     //$('#id_url').val('');
                 }
             },
-            error: function() {
+            error: function(error) {
                 console.log(error);
                 // alert('Es ist ein Fehler aufgetreten.');
             },

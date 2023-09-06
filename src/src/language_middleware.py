@@ -9,7 +9,7 @@ class LanguageMiddleware:
         selected_language = request.COOKIES.get("language")
 
         # Debug-Ausgabe hinzufügen
-        print(f"LanguageMiddleware is activated. Selected language: {selected_language}")
+        # print(f"LanguageMiddleware is activated. Selected language: {selected_language}")
 
         # Aktiviere die Übersetzung für die ausgewählte Sprache
         if selected_language:

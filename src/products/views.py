@@ -1,7 +1,14 @@
+import json
+from django.urls import reverse
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 
 from .models import Product
 from accounts.forms import ProfileFormAdresse
@@ -12,44 +19,86 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
-stripe.api_key = settings.STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY = settings.STRIPE_SECRET_KEY
+STRIPE_PUBLISHABLE_KEY = settings.STRIPE_PUBLISHABLE_KEY
+stripe.api_key = STRIPE_SECRET_KEY
 
 
-def checkout(request):
+def success(request):
+    return render(request, 'success.html')
+
+
+def create_payment_intent(request):
     if request.method == 'POST':
-        # Stripe-Zahlungsverarbeitung hier durchführen
-        stripe.api_key = 'Ihr_Stripe_Secret_Key'
-
         try:
-            # Stripe-Zahlungsmethode erstellen
-            payment_method = stripe.PaymentMethod.create(
-                type='card',
-                card={
-                    'number': request.POST['card_number'],
-                    'exp_month': request.POST['exp_month'],
-                    'exp_year': request.POST['exp_year'],
-                    'cvc': request.POST['cvc'],
-                },
-            )
+            data = json.loads(request.body)
+            print(data)
 
-            # Stripe-Zahlung durchführen
-            payment_intent = stripe.PaymentIntent.create(
+            price = data.get('price')
+            print(price)
+            amount = price  # Betrag in Cent (z.B. 10,00 USD)
+            currency = 'usd'
+            
+            intent = stripe.PaymentIntent.create(
+                amount=amount,
+                currency=currency,
                 payment_method_types=['card'],
-                amount=1000,  # Betrag in Cent (z. B. 10,00 €)
-                currency='eur',
-                payment_method=payment_method.id,
-                confirm=True,
             )
-
-            # Erfolgreiche Zahlung
-            return JsonResponse({'message': 'Zahlung erfolgreich verarbeitet.'})
-
+            
+            return JsonResponse({'client_secret': intent.client_secret})
+            # return JsonResponse({'client_secret': 'hello'})
         except Exception as e:
-            # Fehler bei der Zahlung
-            return JsonResponse({'error': str(e)})
+            return JsonResponse({'error': str(e)}, status=403)
+    else:
+        return JsonResponse({'error': 'Ungültige Anfrage-Methode.'})
 
-    return JsonResponse({'error': 'Ungültige Anfrage.'})
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            request.body.decode('utf-8'), sig_header, 'whsec_3c60cb04ed2b5ce97f32f3b468da8ea202a16b4108b7c569a8608d4a14375330'
+        )
+    except ValueError as e:
+        # Ungültiges JSON
+        return HttpResponse(status=400)
+
+    # Verarbeiten Sie das Stripe-Ereignis basierend auf event.type
+    if event.type == 'payment_intent.succeeded':
+        # Hier können Sie Code für erfolgreiche Zahlungen ausführen
+        print('WEBHOOK == payment_intent')
+        pass
+    elif event.type == 'payment_intent.payment_failed':
+        # Hier können Sie Code für fehlgeschlagene Zahlungen ausführen
+        print(event.type)
+        print('WEBHOOK == payment_failed')
+        pass
+
+    return HttpResponse(status=200)
+
+
+# def create_payment_intent(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             # Create a PaymentIntent with the order amount and currency
+#             intent = stripe.PaymentIntent.create(
+#                 amount=calculate_order_amount(data['items']),
+#                 currency='eur',
+#                 # In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+#                 automatic_payment_methods={
+#                     'enabled': True,
+#                 },
+#             )
+#             return JsonResponse({'clientSecret': intent['client_secret']})
+#         except Exception as e:
+#             return JsonResponse({'error': str(e)}, status=403)
+#     else:
+#         return JsonResponse({'error': 'Ungültige Anfrage-Methode.'}, status=400)
 
 
 class ProductDetailView(DetailView):
@@ -94,12 +143,24 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        amount = 1000
+        currency = 'usd'
+        intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency=currency,
+            payment_method_types=['card'],
+        )
+        
         context['profile_form'] = ProfileFormAdresse()
         context['checkout_form'] = CheckoutForm()
-        # context['payment_form'] = PaymentForm()
+        context['payment_form'] = PaymentForm()
         context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
+        #'client_secret': intent.client_secret
+        # context['client_secret'] = intent.client_secret
+        
         return context
-
+    
     def render_to_response(self, context):
         if self.request.is_ajax():
             products = Product.objects.filter(active=True)
