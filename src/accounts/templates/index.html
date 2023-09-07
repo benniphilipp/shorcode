@@ -32,191 +32,395 @@
     <title>Stratseite | Datenpunkt</title>
 
 </head>
-    <body class="px-3 px-sm-0">
 
 
-        <div class="container mt-md-5 pt-md-5 py-5">
-            <div class="row">
-                <div class="col-3 col-lg-6">
-                    <a href="/">
-                        <img src="{% static '/images/Logo_white.png' %}" alt="Logo" width="70" height="70">
-                    </a>
+<section class="hero-main">
+    <div class="container p-5">
+        <div class="row d-flex align-items-center justify-content-md-center">
+            <div class="col-12 col-md-6 py-md-5 py-2 d-flex justify-content-end">
+                <div class="px-md-5 px-0">
+                    <small>Erfolg auf Knopfdruck!</small>
+                    <h1 class="mt-3">Verwandeln Sie Verbindungen in Erfolge mit llinkb!</h1>
+                    <p class="mt-3">Erstellen Sie im Handumdrehen Kurzlinks, QR-Codes und Link-in-Bio-Seiten, teilen Sie sie überall und verfolgen Sie Ihre Performance – alles innerhalb der llinkb-Plattform. Starten Sie noch heute, um Ihre Online-Präsenz zu steigern und mehr Erfolg zu erzielen!</p>
+                    <a class="btn btn-primary mt-3">Get Started for Free</a>
                 </div>
-                <div class="col-9 col-lg-6 d-flex justify-content-end align-items-center">
-                    <div>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'shortcode:shortcode_list_view' %}" class="btn btn-primary">Dashboard</a>
-                        {% else %}
-                            <a href="{% url 'accounts:users-register' %}" class="btn btn-primary">Kostenlos registrieren</a>
-                            <a href="{% url 'accounts:login' %}" class="btn btn-outline-success">Einloggen</a>
-                        {% endif %}
+            </div>
+            <div class="col-12 col-md-6 py-md-5 py-2 pt-5 d-flex justify-content-center">
+                <img src="https://placehold.co/600x400" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-one">
+    <div class="container p-5">
+
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="pt-5 pt-md-5 w-75">
+                        <h2 class="text-center">Die komplette Plattform zum Verwalten und Tracken von links.</h2>
                     </div>
                 </div>
             </div>
         </div>
 
-        <section id="intro" class="py-md-5 px-md-5 pb-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <h1 class="h1-intro py-md-3 my-md-3">Links kürzen, neue Perspektiven für deine Verbindung.</h1>
-                        <h3 class="h3-intro py-md-3 my-md-3 pt-5">Kreiere im Handumdrehen kurze und aussagekräftige Verknüpfungen, die sich problemlos teilen lassen.</h3>
-                        {% if user.is_authenticated %}
-
-                        {% else %}
-                            <a class="btn btn-primary mt-5" href="#">Jetzt starten</a>
-                        {% endif %}
-
-                        
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="pb-5 pb-md-5">
+                        <p class="text-center">Alle Produkte, die Sie benötigen, um Markenverbindungen aufzubauen, Links und QR-Codes zu verwalten und mit Zielgruppen überall in Kontakt zu treten, auf einer einzigen, einheitlichen Plattform.</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="hook" class="mt-md-5 py-md-5 mb-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <h3 class="h1-hook">Maximieren Sie Ihren Erfolg.</h3>
-                        <h3 class="h3-hook py-md-5 pt-3">Teilen Sie Links für optimale Ergebnisse und neue Perspektiven auf Ihre Verbindungen. 
-                            Verfolgen Sie den Erfolg jedes Kurz-Links in Echtzeit. Top-Links stehen Ihnen zur Verfügung.</h3>
-                        <img class="img-fluid pt-2" src="{% static '/images/hook_image.jpg' %}" alt="hook">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="media" class="my-md-5 py-md-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-12 pt-3 pb-3">
-                        <h1 class="h1-media">Vereinfachen Sie Ihre Aufgaben mit unserer Unterstützung.</h1>
-                        <h3 class="h3-media pt-md-5">Mit unserer benutzerfreundlichen Oberfläche behältst du immer den Überblick über deine Verbindungen. 
-                            Verfolge Klicks, analysiere Trends und optimiere deine Inhalte, um die bestmöglichen Ergebnisse 
-                            zu erzielen. Egal, ob du deine Online-Präsenz steigern oder deine Marketingstrategie verfeinern möchtest – 
-                            wir bieten dir die Tools, die du benötigst.</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="cta" class="my-md-5 py-md-5 pt-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <h1 class="h1-media">Ihr Weg zu Effizienz und Erfolg – Hand in Hand mit uns!</h1>
-                        <h3 class="h3-media pt-md-5 pt-3">Erleichtern Sie Ihre Aufgaben und steigern Sie Ihren Erfolg mit unserer bewährten Unterstützung. Nutzen Sie die Gelegenheit, 
-                            Ihr Arbeitsleben zu optimieren und gemeinsam mit uns effiziente Lösungen zu finden. Starten Sie jetzt und erleben Sie die Vorteile einer Partnerschaft mit uns!.</h3>
-                            {% if user.is_authenticated %}
-
-                            {% else %}
-                                <a class="btn btn-primary mt-5" href="#">Jetzt starten</a>
-                            {% endif %}
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="container py-3">
-                <div class="row">
-                    <div class="col-12">
-                        <p class="text-center">
-                            <a type="button" data-bs-toggle="modal" data-bs-target="#impressumModal" class="px-3 user-a" href="#">Impressum</a>
-                            <a type="button" data-bs-toggle="modal" data-bs-target="#datenschutzModal" class="px-3 user-a" href="#">Datenschutz</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-
-        <!-- Impressum Modal -->
-        <div class="modal fade" id="impressumModal" tabindex="-1" aria-labelledby="impressumModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="impressumModalLabel">Impressum</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <!-- Hier kommt der Inhalt des Impressums -->
-
-                <p>Verantwortlich für den Inhalt dieser Seiten:</p>
-                <p>Pixel West<br>
-                Benjamin Philipp</p>
-                <p>Lantech Innovationszentrum<br>
-                Bruggfeldstraße 5<br>
-                6500 Landeck<br>
-                Österreich</p>
-                <p>Umsatzsteuer-Identifikationsnummer: ATU72422915</p>
-                <p>Sparkasse Imst<br>
-                IBAN: AT06 2050 2000 0087 0519<br>
-                BIC: SSPIMAT21XXX</p>
-                <p>Mobil: <a href="tel:+436643942852">+436643942852</a></p>
-                <p>Mail: <a href="mailto:support@pixel-west.at">support@pixel-west.at</a><br>
-                Home:&nbsp;<a href="https://www.pixel-west.at/">www.pixel-west.at</a></p>
-                <p>Mitglied der WKO Landeck</p>
-                <p>Bezirkshauptmannschaft Landeck</p>
-                <p>Verbraucher haben die Möglichkeit, Beschwerden&nbsp;&nbsp;&nbsp; an&nbsp;&nbsp;&nbsp; die&nbsp;&nbsp;&nbsp; Online-</p>
-                <p>Streitbeilegungsplattform der EU zu richten: <a href="http://ec.europa.eu/odr">http://ec.europa.eu/odr</a>.</p>
-                <p>Sie können allfällige Beschwerde auch an die oben angegebene E-Mail-Adresse richten.</p>
-                </div>
-            </div>
             </div>
         </div>
         
-        <!-- Datenschutz Modal -->
-        <div class="modal fade" id="datenschutzModal" tabindex="-1" aria-labelledby="datenschutzModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="datenschutzModalLabel">Datenschutz</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <!-- Hier kommt der Inhalt des Datenschutzes -->
-
-
-
-               
-    <h2>HAFTUNGSAUSSCHLUSS:</h2>
-    <p>&nbsp;</p>
-    <h3>Haftung für Inhalte</h3>
-    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
-    <h3>Datenschutz</h3>
-    <p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.</p>
-    <p>Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
-    <p>Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.</p>
-    <h3>Haftung für Links</h3>
-    <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
-    <h3>Urheberrecht</h3>
-    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
-    <h3>Social Media</h3>
-    <p>Auf meinen Seiten sind Plugins des sozialen Netzwerks Facebook,&nbsp;<a href="https://maps.google.com/?q=1601+South+California+Avenue,+Palo+Alto,+CA+94304,+USA&amp;entry=gmail&amp;source=g">1601 South California Avenue, Palo Alto, CA 94304, USA</a>&nbsp;integriert. Die Facebook-Plugins erkennen Sie an dem Facebook-Logo oder dem “Like-Button” (“Gefällt mir”) auf meiner Seite. Eine Übersicht über die Facebook-Plugins finden Sie hier:&nbsp;<a href="http://developers.facebook.com/docs/plugins/" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://developers.facebook.com/docs/plugins/&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNFaBOUNCZhp0c828ZbEdK0UaIfQvQ">http://developers.<wbr>facebook.com/docs/plugins/</a>.<br>
-    Wenn Sie meine Seiten besuchen, wird über das Plugin eine direkte Verbindung zwischen Ihrem Browser und dem Facebook-Server hergestellt. Facebook erhält dadurch die Information, dass Sie mit Ihrer IP-Adresse meine Seite besucht haben. Wenn Sie den Facebook “Like-Button” anklicken während Sie in Ihrem Facebook-Account eingeloggt sind, können Sie die Inhalte meiner Seiten auf Ihrem Facebook-Profil verlinken. Dadurch kann Facebook den Besuch meiner Seiten Ihrem Benutzerkonto zuordnen. Ich weise darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Facebook erhalte. Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von facebook unter&nbsp;<a href="http://de-de.facebook.com/policy.php" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://de-de.facebook.com/policy.php&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNHSV5Y6RfP5caVMNwNvUhChPSwOyg">http://de-de.facebook.<wbr>com/policy.php</a></p>
-    <p>Wenn Sie nicht wünschen, dass Facebook den Besuch meiner Seiten Ihrem Facebook-Nutzerkonto zuordnen kann, loggen Sie sich bitte aus Ihrem Facebook-Benutzerkonto aus.</p>
-    <p>Datenschutzerklärung für die Nutzung von Google Analytics</p>
-    <p>Diese Website benutzt Google Analytics, einen Webanalysedienst der Google Inc. (“Google”). Google Analytics verwendet sog. “Cookies”, Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Im Falle der Aktivierung der IP-Anonymisierung auf dieser Webseite wird Ihre IP-Adresse von Google jedoch innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt.</p>
-    <p>Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Im Auftrag des Betreibers dieser Website wird Google diese Informationen benutzen, um Ihre Nutzung der Website auszuwerten, um Reports über die Websiteaktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen gegenüber dem Websitebetreiber zu erbringen. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.</p>
-    <p>Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; ich weise Sie jedoch darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website voll-umfänglich werden nutzen können. Sie können darüber hinaus die Erfassung der durch das Cookie erzeugten und auf Ihre Nutzung der Website bezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google verhindern, indem sie das unter dem folgenden Link verfügbare Browser-Plugin herunterladen und installieren:&nbsp;<a href="http://tools.google.com/dlpage/gaoptout?hl=de" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://tools.google.com/dlpage/gaoptout?hl{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dde&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNGOTI8j7v6x74uYkRvNmDH1DzV67A">http://tools.<wbr>google.com/dlpage/gaoptout?hl=<wbr>de</a>.</p>
-    <p>Datenschutzerklärung für die Nutzung von Google +1</p>
-    <p><em>Erfassung und Weitergabe von Informationen:</em><br>
-    Mithilfe der Google +1-Schaltfläche können Sie Informationen weltweit veröffentlichen. Über die Google +1-Schaltfläche erhalten Sie und andere Nutzer personalisierte Inhalte von Google und meinen Partnern. Google speichert sowohl die Information, dass Sie für einen Inhalt +1 gegeben haben, als auch Informationen über die Seite, die Sie beim Klicken auf +1 angesehen haben. Ihre +1 können als Hinweise zusammen mit Ihrem Profilnamen und Ihrem Foto in Google-Diensten, wie etwa in Suchergebnissen oder in Ihrem Google-Profil, oder an anderen Stellen auf Websites und Anzeigen im Internet eingeblendet werden.<br>
-    Google zeichnet Informationen über Ihre +1-Aktivitäten auf, um die Google-Dienste für Sie und andere zu verbessern. Um die Google +1-Schaltfläche verwenden zu können, benötigen Sie ein weltweit sichtbares, öffentliches Google-Profil, das zumindest den für das Profil gewählten Namen enthalten muss. Dieser Name wird in allen Google-Diensten verwendet. In manchen Fällen kann dieser Name auch einen anderen Namen ersetzen, den Sie beim Teilen von Inhalten über Ihr Google-Konto verwendet haben. Die Identität Ihres Google-Profils kann Nutzern angezeigt werden, die Ihre E-Mail-Adresse kennen oder über andere identifizierende Informationen von Ihnen verfügen.</p>
-    <p><em>Verwendung der erfassten Informationen:</em><br>
-    Neben den oben erläuterten Verwendungszwecken werden die von Ihnen bereitgestellten Informationen gemäß den geltenden Google-Datenschutzbestimmungen genutzt. Google veröffentlicht möglicherweise zusammengefasste Statistiken über die +1-Aktivitäten der Nutzer bzw. gibt diese an Nutzer und Partner weiter, wie etwa Publisher, Inserenten oder verbundene Websites.</p>
-    <p>Datenschutzerklärung für die Nutzung von Twitter</p>
-    <p>Auf meinen Seiten sind Funktionen des Dienstes Twitter eingebunden. Diese Funktionen werden angeboten durch die Twitter Inc., Twitter, Inc.&nbsp;<a href="https://maps.google.com/?q=1355+Market+St&amp;entry=gmail&amp;source=g">1355 Market St</a>, Suite 900, San Francisco, CA 94103, USA. Durch das Benutzen von Twitter und der Funktion “Re-Tweet” werden die von Ihnen besuchten Webseiten mit Ihrem Twitter-Account verknüpft und anderen Nutzern bekannt gegeben. Dabei werden auch Daten an Twitter übertragen.</p>
-    <p>Ich weise darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Twitter erhalte. Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von Twitter unter&nbsp;<a href="http://twitter.com/privacy" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://twitter.com/privacy&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNEgN6IV3lUtjOfL7i_uPnbnHzGKug">http://twitter.com/<wbr>privacy</a>.</p>
-    <p>Ihre Datenschutzeinstellungen bei Twitter können Sie in den Konto-Einstellungen unter&nbsp;<a href="http://twitter.com/account/settings" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://twitter.com/account/settings&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNGRHU0SJ-3sS4_haR3UxpVEviHv8g">http://twitter.com/<wbr>account/settings</a>&nbsp;ändern.</p>
-    <p>Datenschutzerklärung für die Nutzung von&nbsp;LinkedIn (Recommend-Button)</p>
-    <p>Auf meinen Seiten sind Plugins des sozialen Netzwerks LinkedIn der LinkedIn Corporation,&nbsp;<a href="https://maps.google.com/?q=2029+Stierlin+Court,+Mountain+View,+CA+94043,+USA&amp;entry=gmail&amp;source=g">2029 Stierlin Court, Mountain View, CA 94043, USA</a>&nbsp;(nachfolgend “LinkedIn”). integriert. Die LinkedIn-Plugins erkennen Sie an dem LinkedIn-Logo oder dem “Recommend-Button” (“Empfehlen“) auf meiner Seite. Wenn Sie meine Seiten besuchen, wird über das Plugin eine direkte Verbindung zwischen Ihrem Browser und dem LinkedIn-Server hergestellt. LinkedIn erhält dadurch die Information, dass Sie mit Ihrer IP-Adresse meiner Seite besucht haben. Wenn Sie den LinkedIn „Recommend-Button“ anklicken während Sie in Ihrem LinkedIn-Account eingeloggt sind, können Sie die Inhalte meiner Seiten auf Ihrem LinkedIn-Profil verlinken. Dadurch kann LinkedIn den Besuch meiner Seiten Ihrem Benutzerkonto zuordnen. Ich weisen darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch LinkedIn erhalte.</p>
-    <p>Details zur Datenerhebung (Zweck, Umfang, weitere Verarbeitung, Nutzung) sowie zu Ihren Rechten und Einstellungsmöglichkeiten können Sie den Datenschutzhinweisen von LinkedIn entnehmen. Diese Hinweise hält LinkedIn unter&nbsp;<a href="http://www.linkedin.com/static?key=privacy_policy&amp;trk=hb_ft_priv" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://www.linkedin.com/static?key{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dprivacy_policy{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}26trk{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dhb_ft_priv&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNHONHngXPmWdrpQsQkdrkJ04-OroA">http://www.linkedin.com/<wbr>static?key=privacy_policy&amp;trk=<wbr>hb_ft_priv</a>&nbsp;bereit.</p>
+        <div class="row px-md-5 px-2">
+            <div class="col-12 col-md-4 border-radius">
+                <div class="card h-100 rounded">
+                    <div class="p-5">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-solid fa-link"></i>
+                            <h5>Link Verwaltung</h5>
+                        </div>
+                        <p>Optimieren Sie Ihre Verbindungen zwischen Inhalten und Publikum. Erhöhen Sie die Treffig auf Ihrer Website mit einfacher Linkverwaltung.</p>
+                        <hr>
+                        <ul>
+                            <li>URL-Kürzung im großen Maßstab</li>
+                            <li>URL-Weiterleitungen</li>
+                            <li>Erweiterte Analyse und Nachverfolgung</li>
+                            <li>Einheitliche Verwaltung</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">Starten Sie kostenlos durch</button>
+                    <a class="text-center my-3" href="#">Erfahren Sie mehr</a>
                 </div>
             </div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100 rounded">
+                    <div class="p-5">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <h5>QR-Codes</h5>
+                        </div>
+                        <p>Perfekte QR-Code-Lösungen für Kunden, Unternehmen und Marken. Starten Sie jetzt!</p>
+                        <hr>
+                        <ul>
+                            <li>Anpassbare QR-Codes</li>
+                            <li>QR-Code-Typen und Ziel Optionen</li>
+                            <li>Kontrolle über jedes Verbungserlebniss</li>
+                            <li>Keine Weiteren Analyse Tools</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">Starten Sie kostenlos durch</button>
+                    <a class="text-center my-3" href="#">Erfahren Sie mehr</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100 rounded">
+                    <div class="p-5">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-regular fa-id-badge"></i>
+                            <h5>Link in Bio</h5>
+                        </div>
+                        <p>Erstellen, teilen und verfolgen Sie Ihre Verbindungen mühelos mit llinkb. Steigern Sie Ihre Online-Präsenz.</p>
+                        <hr>
+                        <ul>
+                            <li>Benutzerdefinierte URLs für soziale Medien</li>
+                            <li>Anpassbare Zielseite</li>
+                            <li>Einfach zu verwaltende Links</li>
+                            <li>Link- und Landingpage-Tracking</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">Starten Sie kostenlos durch</button>
+                    <a class="text-center my-3" href="#">Erfahren Sie mehr</a>
+                </div>   
             </div>
         </div>
+
+    </div>
+</section>
+
+<section class="section-tow mt-5">
+    <div class="container-fluit px-3">
+        <div class="bg-cta">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="py-5 my-5 py-md-5 w-75">
+                        <h2 class="text-center">Als Agenturen oder Content Creator musst du dafür sorgen, dass jede Verbindung zählt.</h2>
+                        <p class="text-center">Wir haben alle Anforderungen in einer Software verpackt.</p>
+                        <div class="d-flex justify-content-center">
+                            <a class="text-center btn btn-primary mt-3">Get Started for Free</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-three">
+    <div class="container my-5 p-5">
+        <div class="row px-md-5 px-2">
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/agenturen.webp' %}" class="card-img-top radius-card" alt="">
+                    <div class="card-body">
+                        <h5>Agenturen & E-Commerce</h5>
+                        <p>Keine chaotische Verwaltung mehr von UTM Parametern, schnelle Erstellung und gut organisierte Parametern ohne komplizierte Technik. Einfache Handhabung von Rabattaktionen mit Targeting Möglichkeiten nach Datum oder Klickzahl.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/influencer.webp' %}" class="card-img-top radius-card" alt="...">
+                    <div class="card-body">
+                        <h5>Content Creators und Influencer</h5>
+                        <p>Verwalten Sie eine hohe Anzahl von links, mit einer User Link-Management-Lösung ohne hohen Zeitaufwand. Holle noch mehr aus deiner Link in Bio-Seite raus, mit integrierter automatischer Weiterleitung.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/event-agenturen.webp' %}" class="card-img-top radius-card" alt="...">
+                    <div class="card-body">
+                        <h5>Event Agenturen</h5>
+                        <p>QR-Codes mit eigenem Brand flexibel verwenden und bei Bedarf aktualisieren, ohne Print-Produkte neu zu erstellen. Legen Sie das Ablaufdatum des links fest und leiten Sie auf Alternative link weiter bei Zeitablauf.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="px-3">
+    <section class="section-four my-5 py-5">
+        <div class="container">
+            <div class="bg-cta">
+            <div class="row py-5">
+                <div class="col-12 col-md-6">
+                    <h2 class="px-5">Holen Sie mehr aus den Links heraus, die Sie teilen.</h2>
+                    <div class="row px-5 pt-5">
+                        <div class="col-md-12">
+                            <h5>Linkverfallsdatum festlegen</h5>
+                            <p>Definieren Sie das Ablaufdatum, um zeitlich begrenzte verkürzte Links zu erstellen. Geben Sie die Weiterleitungs-URL an, zu der Besucher nach Ablauf des ursprünglichen Links weitergeleitet werden sollen.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <h5>Gezieltes Geotargeting </h5>
+                            <p>Leiten Sie Benutzer basierend auf ihrem Standort oder Land zur entsprechenden Website weiter. Nutzen Sie geografisch ausgerichtete Links, um Ihrem internationalen Publikum passende Inhalte anzubieten.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <h5>Mobile Weiterleitungen </h5>
+                            <p>Routen Sie mobile Besucher basierend auf ihrem Betriebssystem zur passenden URL. Nutzen Sie diese optimierte Lösung für mobiles Deep-Linking.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <img class="img-fluid" src="{% static 'images/event.webp' %}" alt="">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</div>
+
+
+<section class="faq mt-5 pt-5 mb-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h1 class="text-center">FAQ´s</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center pt-3">
+            <div class="col-12 col-md-12">
+                <div class="accordion mx-5" id="accordionExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Was verbirgt sich hinter einem URL-Kürzer?
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Ein URL-Kürzer, auch als Link-Kürzer bekannt, mag simpel erscheinen, hat jedoch erheblichen Einfluss auf Ihre Marketingbemühungen. Die Funktionsweise eines Link-Kürzers ist recht einfach: Er verwandelt lange URLs in kürzere, leichter lesbare Links. Wenn ein Nutzer auf die verkürzte Version klickt, wird er automatisch zur ursprünglichen URL weitergeleitet. Stellen Sie sich eine kurze URL als prägnanten und gut merkbaren Spitznamen für Ihre ausgedehnte Webadresse vor. Zum Beispiel könnte eine kurze URL wie llinkb.com/CelebrateLinkb eine klare Vorstellung davon vermitteln, wohin der Link führt, bevor man darauf klickt. Für alle, die Online-Inhalte teilen, ist ein URL-Kürzer von entscheidender Bedeutung. Erstellen Sie Ihre eigenen benutzerfreundlichen, kostenfreien, gekürzten Links mit unserem Service oben.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Welche Vorteile bietet eine kurze URL?
+                        </button>
+                      </h2>
+                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Erinnern Sie sich daran, wie schwer es sein kann, sich an eine lange Webadresse zu erinnern, vor allem wenn sie aus vielen Zeichen und Symbolen besteht? Eine kurze URL macht Ihren Link leichter merkbar. Das wiederum erleichtert es den Menschen nicht nur, sich Ihren Link zu merken und ihn mit anderen zu teilen, sondern kann auch den Verkehr auf Ihre Inhalte erheblich steigern. Praktisch betrachtet lässt sich eine kurze URL leichter in Ihre Werbematerialien integrieren, unabhängig davon, ob Sie offline oder online mit Ihren Kunden interagieren möchten. Bitly ist der optimale URL-Shortener für Influencer, kleine Marken und große Unternehmen gleichermaßen. Es bietet eine einfache Möglichkeit, Links zu erstellen, zu verfolgen und zu verwalten.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Was ist ein individueller URL-Kürzer?
+                        </button>
+                      </h2>
+                      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Mit einem individuellen URL-Kürzer, auch als Marken-URL-Kürzer bekannt, können Sie Ihre Links personalisieren. Anstatt bit.ly/2m75BWD könnten Sie beispielsweise eine individuelle Kurz-URL wie yourbrnd.co/2m75BWD verwenden. Das Hinzufügen Ihrer Marke zu Ihren verkürzten Links bietet zahlreiche Vorteile. Marken-URLs fördern das Vertrauen zwischen Ihrem Publikum und Ihrem Unternehmen, erhöhen die Klickrate, ermöglichen Ihrem Publikum, einen Blick auf das Ziel der Verknüpfung zu werfen, und steigern die Markenbekanntheit. Ein URL-Verkürzungsdienst, der individuelle Kurz-URLs ermöglicht, ist unverzichtbar, um die Interaktion Ihres Publikums mit Ihrer Kommunikation zu verbessern. Eine kurze URL ist gut, aber eine individuelle URL ist unschlagbar.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Was ist ein QR-Code?
+                        </button>
+                      </h2>
+                      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            QR steht für Quick Response und ist eine Art von Barcode, der eine breite Palette von Informationen aufnehmen kann. Der auffälligste Unterschied zwischen einem QR-Code und einem herkömmlichen Barcode liegt in ihrem Erscheinungsbild. QR-Codes sind in der Regel quadratisch und bestehen aus kleinen, gleichmäßigen Blöcken, ähnlich wie Tetris-Steine. Im Gegensatz dazu bestehen herkömmliche Barcodes aus vertikalen Balken unterschiedlicher Breite und werden oft von Seriennummern begleitet.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Welche Funktionen hat ein QR-Code?
+                        </button>
+                      </h2>
+                      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Aufgrund seiner Vielseitigkeit kann ein QR-Code für eine breite Palette von Aufgaben programmiert werden. Er kann in zwei Varianten unterteilt werden: dynamisch und statisch. Ein dynamischer QR-Code ist besonders nützlich für Unternehmen oder gemeinnützige Organisationen in ihrer Marketingstrategie, obwohl für seine Verwendung ein Abonnement erforderlich ist, sind die Kosten im Vergleich zu den gebotenen Vorteilen gering. Dynamische QR-Code-Lösungen sind flexibel anpassbar. Sollten Sie also nach dem Drucken der QR-Codes einen Fehler bemerken, können Sie sich einfach im Dashboard anmelden und den Fehler korrigieren, ohne das Erscheinungsbild der bereits gedruckten Codes zu ändern.
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSix">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Was bedeutet 'Link-in-Bio'?
+                          </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            Der Ausdruck 'Link-in-Bio' bezieht sich auf die anklickbare URL, die Sie in Ihrem sozialen Medien Profilbereich platzieren können. Die meisten Social-Media-Plattformen gestatten Ihnen, einen Link in Ihre Biografie einzufügen, um Ihre Follower auf Ihre Website, Produktseite, Inhalte oder eine andere relevante Seite weiterzuleiten.
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center">
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#impressumModal" class="px-3 user-a" href="#">Impressum</a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#datenschutzModal" class="px-3 user-a" href="#">Datenschutz</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Impressum Modal -->
+<div class="modal fade" id="impressumModal" tabindex="-1" aria-labelledby="impressumModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="impressumModalLabel">Impressum</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<!-- Hier kommt der Inhalt des Impressums -->
+
+<p>Verantwortlich für den Inhalt dieser Seiten:</p>
+<p>Pixel West<br>
+Benjamin Philipp</p>
+<p>Lantech Innovationszentrum<br>
+Bruggfeldstraße 5<br>
+6500 Landeck<br>
+Österreich</p>
+<p>Umsatzsteuer-Identifikationsnummer: ATU72422915</p>
+<p>Sparkasse Imst<br>
+IBAN: AT06 2050 2000 0087 0519<br>
+BIC: SSPIMAT21XXX</p>
+<p>Mobil: <a href="tel:+436643942852">+436643942852</a></p>
+<p>Mail: <a href="mailto:support@pixel-west.at">support@pixel-west.at</a><br>
+Home:&nbsp;<a href="https://www.pixel-west.at/">www.pixel-west.at</a></p>
+<p>Mitglied der WKO Landeck</p>
+<p>Bezirkshauptmannschaft Landeck</p>
+<p>Verbraucher haben die Möglichkeit, Beschwerden&nbsp;&nbsp;&nbsp; an&nbsp;&nbsp;&nbsp; die&nbsp;&nbsp;&nbsp; Online-</p>
+<p>Streitbeilegungsplattform der EU zu richten: <a href="http://ec.europa.eu/odr">http://ec.europa.eu/odr</a>.</p>
+<p>Sie können allfällige Beschwerde auch an die oben angegebene E-Mail-Adresse richten.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Datenschutz Modal -->
+<div class="modal fade" id="datenschutzModal" tabindex="-1" aria-labelledby="datenschutzModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="datenschutzModalLabel">Datenschutz</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+<!-- Hier kommt der Inhalt des Datenschutzes -->
+
+
+
+
+<h2>HAFTUNGSAUSSCHLUSS:</h2>
+<p>&nbsp;</p>
+<h3>Haftung für Inhalte</h3>
+<p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+<h3>Datenschutz</h3>
+<p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.</p>
+<p>Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
+<p>Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.</p>
+<h3>Haftung für Links</h3>
+<p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+<h3>Urheberrecht</h3>
+<p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
+<h3>Social Media</h3>
+<p>Auf meinen Seiten sind Plugins des sozialen Netzwerks Facebook,&nbsp;<a href="https://maps.google.com/?q=1601+South+California+Avenue,+Palo+Alto,+CA+94304,+USA&amp;entry=gmail&amp;source=g">1601 South California Avenue, Palo Alto, CA 94304, USA</a>&nbsp;integriert. Die Facebook-Plugins erkennen Sie an dem Facebook-Logo oder dem “Like-Button” (“Gefällt mir”) auf meiner Seite. Eine Übersicht über die Facebook-Plugins finden Sie hier:&nbsp;<a href="http://developers.facebook.com/docs/plugins/" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://developers.facebook.com/docs/plugins/&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNFaBOUNCZhp0c828ZbEdK0UaIfQvQ">http://developers.<wbr>facebook.com/docs/plugins/</a>.<br>
+Wenn Sie meine Seiten besuchen, wird über das Plugin eine direkte Verbindung zwischen Ihrem Browser und dem Facebook-Server hergestellt. Facebook erhält dadurch die Information, dass Sie mit Ihrer IP-Adresse meine Seite besucht haben. Wenn Sie den Facebook “Like-Button” anklicken während Sie in Ihrem Facebook-Account eingeloggt sind, können Sie die Inhalte meiner Seiten auf Ihrem Facebook-Profil verlinken. Dadurch kann Facebook den Besuch meiner Seiten Ihrem Benutzerkonto zuordnen. Ich weise darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Facebook erhalte. Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von facebook unter&nbsp;<a href="http://de-de.facebook.com/policy.php" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://de-de.facebook.com/policy.php&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNHSV5Y6RfP5caVMNwNvUhChPSwOyg">http://de-de.facebook.<wbr>com/policy.php</a></p>
+<p>Wenn Sie nicht wünschen, dass Facebook den Besuch meiner Seiten Ihrem Facebook-Nutzerkonto zuordnen kann, loggen Sie sich bitte aus Ihrem Facebook-Benutzerkonto aus.</p>
+<p>Datenschutzerklärung für die Nutzung von Google Analytics</p>
+<p>Diese Website benutzt Google Analytics, einen Webanalysedienst der Google Inc. (“Google”). Google Analytics verwendet sog. “Cookies”, Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Im Falle der Aktivierung der IP-Anonymisierung auf dieser Webseite wird Ihre IP-Adresse von Google jedoch innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt.</p>
+<p>Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Im Auftrag des Betreibers dieser Website wird Google diese Informationen benutzen, um Ihre Nutzung der Website auszuwerten, um Reports über die Websiteaktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen gegenüber dem Websitebetreiber zu erbringen. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.</p>
+<p>Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; ich weise Sie jedoch darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website voll-umfänglich werden nutzen können. Sie können darüber hinaus die Erfassung der durch das Cookie erzeugten und auf Ihre Nutzung der Website bezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google verhindern, indem sie das unter dem folgenden Link verfügbare Browser-Plugin herunterladen und installieren:&nbsp;<a href="http://tools.google.com/dlpage/gaoptout?hl=de" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://tools.google.com/dlpage/gaoptout?hl{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dde&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNGOTI8j7v6x74uYkRvNmDH1DzV67A">http://tools.<wbr>google.com/dlpage/gaoptout?hl=<wbr>de</a>.</p>
+<p>Datenschutzerklärung für die Nutzung von Google +1</p>
+<p><em>Erfassung und Weitergabe von Informationen:</em><br>
+Mithilfe der Google +1-Schaltfläche können Sie Informationen weltweit veröffentlichen. Über die Google +1-Schaltfläche erhalten Sie und andere Nutzer personalisierte Inhalte von Google und meinen Partnern. Google speichert sowohl die Information, dass Sie für einen Inhalt +1 gegeben haben, als auch Informationen über die Seite, die Sie beim Klicken auf +1 angesehen haben. Ihre +1 können als Hinweise zusammen mit Ihrem Profilnamen und Ihrem Foto in Google-Diensten, wie etwa in Suchergebnissen oder in Ihrem Google-Profil, oder an anderen Stellen auf Websites und Anzeigen im Internet eingeblendet werden.<br>
+Google zeichnet Informationen über Ihre +1-Aktivitäten auf, um die Google-Dienste für Sie und andere zu verbessern. Um die Google +1-Schaltfläche verwenden zu können, benötigen Sie ein weltweit sichtbares, öffentliches Google-Profil, das zumindest den für das Profil gewählten Namen enthalten muss. Dieser Name wird in allen Google-Diensten verwendet. In manchen Fällen kann dieser Name auch einen anderen Namen ersetzen, den Sie beim Teilen von Inhalten über Ihr Google-Konto verwendet haben. Die Identität Ihres Google-Profils kann Nutzern angezeigt werden, die Ihre E-Mail-Adresse kennen oder über andere identifizierende Informationen von Ihnen verfügen.</p>
+<p><em>Verwendung der erfassten Informationen:</em><br>
+Neben den oben erläuterten Verwendungszwecken werden die von Ihnen bereitgestellten Informationen gemäß den geltenden Google-Datenschutzbestimmungen genutzt. Google veröffentlicht möglicherweise zusammengefasste Statistiken über die +1-Aktivitäten der Nutzer bzw. gibt diese an Nutzer und Partner weiter, wie etwa Publisher, Inserenten oder verbundene Websites.</p>
+<p>Datenschutzerklärung für die Nutzung von Twitter</p>
+<p>Auf meinen Seiten sind Funktionen des Dienstes Twitter eingebunden. Diese Funktionen werden angeboten durch die Twitter Inc., Twitter, Inc.&nbsp;<a href="https://maps.google.com/?q=1355+Market+St&amp;entry=gmail&amp;source=g">1355 Market St</a>, Suite 900, San Francisco, CA 94103, USA. Durch das Benutzen von Twitter und der Funktion “Re-Tweet” werden die von Ihnen besuchten Webseiten mit Ihrem Twitter-Account verknüpft und anderen Nutzern bekannt gegeben. Dabei werden auch Daten an Twitter übertragen.</p>
+<p>Ich weise darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Twitter erhalte. Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von Twitter unter&nbsp;<a href="http://twitter.com/privacy" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://twitter.com/privacy&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNEgN6IV3lUtjOfL7i_uPnbnHzGKug">http://twitter.com/<wbr>privacy</a>.</p>
+<p>Ihre Datenschutzeinstellungen bei Twitter können Sie in den Konto-Einstellungen unter&nbsp;<a href="http://twitter.com/account/settings" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://twitter.com/account/settings&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNGRHU0SJ-3sS4_haR3UxpVEviHv8g">http://twitter.com/<wbr>account/settings</a>&nbsp;ändern.</p>
+<p>Datenschutzerklärung für die Nutzung von&nbsp;LinkedIn (Recommend-Button)</p>
+<p>Auf meinen Seiten sind Plugins des sozialen Netzwerks LinkedIn der LinkedIn Corporation,&nbsp;<a href="https://maps.google.com/?q=2029+Stierlin+Court,+Mountain+View,+CA+94043,+USA&amp;entry=gmail&amp;source=g">2029 Stierlin Court, Mountain View, CA 94043, USA</a>&nbsp;(nachfolgend “LinkedIn”). integriert. Die LinkedIn-Plugins erkennen Sie an dem LinkedIn-Logo oder dem “Recommend-Button” (“Empfehlen“) auf meiner Seite. Wenn Sie meine Seiten besuchen, wird über das Plugin eine direkte Verbindung zwischen Ihrem Browser und dem LinkedIn-Server hergestellt. LinkedIn erhält dadurch die Information, dass Sie mit Ihrer IP-Adresse meiner Seite besucht haben. Wenn Sie den LinkedIn „Recommend-Button“ anklicken während Sie in Ihrem LinkedIn-Account eingeloggt sind, können Sie die Inhalte meiner Seiten auf Ihrem LinkedIn-Profil verlinken. Dadurch kann LinkedIn den Besuch meiner Seiten Ihrem Benutzerkonto zuordnen. Ich weisen darauf hin, dass ich als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch LinkedIn erhalte.</p>
+<p>Details zur Datenerhebung (Zweck, Umfang, weitere Verarbeitung, Nutzung) sowie zu Ihren Rechten und Einstellungsmöglichkeiten können Sie den Datenschutzhinweisen von LinkedIn entnehmen. Diese Hinweise hält LinkedIn unter&nbsp;<a href="http://www.linkedin.com/static?key=privacy_policy&amp;trk=hb_ft_priv" target="_blank" rel="noopener noreferrer" data-saferedirecturl="https://www.google.com/url?hl=de&amp;q=http://www.linkedin.com/static?key{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dprivacy_policy{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}26trk{45f4f74ac9273a1771cf5f9313908e8542152c3610d6720eaf93c67b6e5e54c8}3Dhb_ft_priv&amp;source=gmail&amp;ust=1513191776640000&amp;usg=AFQjCNHONHngXPmWdrpQsQkdrkJ04-OroA">http://www.linkedin.com/<wbr>static?key=privacy_policy&amp;trk=<wbr>hb_ft_priv</a>&nbsp;bereit.</p>
+</div>
+</div>
+</div>
+</div>
 
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
         <script src="{% static '/app-assets/js/bootstrap/bootstrap.bundle.js' %}"></script>

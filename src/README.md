@@ -145,6 +145,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 
 - Startseite ist nicht erreichbar !erldeigt
 
+- @https://stripe.com/docs/checkout/quickstart
 - Payment Intigrieren 
     Stipe einbinden und alle Formular bereistellen. !erldeigt
     Frontend-Anpassungen !erldeigt
@@ -164,9 +165,19 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Externe Doamin Testen wen die Server einstellungen stimmen.
 - Notweiterleitung
 
+- first cklick in der Analyse und im Targeting
+
+- Neues Module Pages
+- Neues Module Anwendungen für SEO
+
+
 # Stripe Webhook
 
 stripe listen --forward-to http://localhost:8000/products/stripe-webhook/
 
 stripe login
 https://stripe.com/docs/payments/quickstart
+
+#  Webhook Softwar 
+- https://dashboard.ngrok.com/settings
+
