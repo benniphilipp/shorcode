@@ -170,6 +170,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Neues Module Pages
 - Neues Module Anwendungen für SEO
 
+- Django's Flatpages App !erldeigt
 
 # Stripe Webhook
 

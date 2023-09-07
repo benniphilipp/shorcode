@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+    
     #Party
     'rest_framework',
     'rest_framework.authtoken',
@@ -219,3 +222,6 @@ EMAIL_USE_SSL = False
 
 STRIPE_PUBLISHABLE_KEY="pk_test_kvxLMnvuKeiFE7Z2i8Lx5DnD007eHlPfx0"
 STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'
+
+
+SITE_ID = 4

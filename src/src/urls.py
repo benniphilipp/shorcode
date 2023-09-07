@@ -8,11 +8,15 @@ from django.conf.urls.static import static
 
 from accounts.views import URLRedirectView
 
+from django.contrib.flatpages import views as flatpages_views
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
 urlpatterns += i18n_patterns(
+    path("pages/", include("django.contrib.flatpages.urls")),
     path('shortcode/', include('shortcode.urls')),
     path('analytics/', include('analytics.urls')),
     path('webclicktracker/', include('webclicktracker.urls')),
