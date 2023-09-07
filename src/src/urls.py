@@ -16,6 +16,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    path('content/', include('contentpages.urls')),
     path("pages/", include("django.contrib.flatpages.urls")),
     path('shortcode/', include('shortcode.urls')),
     path('analytics/', include('analytics.urls')),

@@ -21,6 +21,12 @@ python manage.py startapp products
 # Campaign
 https://support.bitly.com/hc/en-us/articles/115001195167
 
+# contentpages
+python manage.py startapp contentpages
+
+# crmpages
+
+
 # User
     email
     passwort

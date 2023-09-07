@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'trackingai',
     'geotargeting',
     'products',
+    'contentpages',
 ]
 
 

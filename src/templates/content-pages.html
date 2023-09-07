@@ -1,0 +1,51 @@
+{% load static %}
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Style CSS Import-->
+    <link rel="stylesheet" type="text/css" href="{% static '/app-assets/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/main.css' %}">
+
+    <!--Favicons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static '/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static '/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static '/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--SEO TAGs-->
+    <title>{{ content_page.title }} | llinkb</title>
+    
+    <meta property="og:title" content="Ihr Titel">
+    
+    <meta name="description" content="Kurze Beschreibung Ihres Inhalts mit Haupt-Keyword">
+    <meta property="og:description" content="Ihre Beschreibung">
+    
+    <meta name="robots" content="index, follow">
+
+</head>
+
+<!--CSS Styles-->
+{% block css %}{% endblock %}
+
+<!--Block Content-->
+<body>
+    {% block body%}{% endblock %}
+
+<!--Javascript-->
+{% block javasript %}{% endblock %}
+
+</body>
+</html>
