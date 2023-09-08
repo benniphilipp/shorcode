@@ -24,12 +24,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--SEO TAGs-->
-    <title>{{ content_page.title }} | llinkb</title>
-    
-    <meta property="og:title" content="Ihr Titel">
-    
-    <meta name="description" content="Kurze Beschreibung Ihres Inhalts mit Haupt-Keyword">
-    <meta property="og:description" content="Ihre Beschreibung">
+    <title>{{ content_page.title }} | llinkb.com</title>
+    <meta property="og:title" content="{{ content_page.title }} | llinkb.com">
+    <meta name="description" content="{{ content_page.og_description }}">
+    <meta property="og:description" content="{{ content_page.og_description }}">
     <meta name="robots" content="index, follow">
 
 </head>
@@ -61,8 +59,8 @@
           <a class="nav-link" href="/products/">Preise</a>
         </li>
       </ul>
-        <button class="btn btn-primary me-2" type="button">Kostenlos registrieren</button>
-        <button class="btn btn-outline-primary" type="button">Einloggen</button>
+        <a class="btn btn-primary me-2" href="{% url 'accounts:users-register' %}">Kostenlos registrieren</a>
+        <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Einloggen</a>
     </div>
 
 

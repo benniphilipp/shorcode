@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 21:47+0200\n"
+"POT-Creation-Date: 2023-09-08 11:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: accounts/models.py:55 accounts/views.py:418 src/settings.py:153
+#: accounts/models.py:55 accounts/views.py:409 src/settings.py:172
 msgid "English"
 msgstr ""
 
-#: accounts/models.py:56 accounts/views.py:417 src/settings.py:152
+#: accounts/models.py:56 accounts/views.py:408 src/settings.py:171
 msgid "German"
 msgstr ""
 
@@ -71,8 +71,13 @@ msgid "Deine E-Mail-Adresse:"
 msgstr ""
 
 #: accounts/templates/userprofile.html:29
-msgid "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht "
-msgstr "By default, passwords are securely hashed and not"
+msgid ""
+"Bei uns werden Passwörter standardmäßig sicher gehasht und nicht "
+"entschlüsselt. Dies ist aus Sicherheitsgründen wichtig, da das Speichern von "
+"Passwörtern im Klartext ein erhebliches Sicherheitsrisiko darstellen würde. "
+"Bitte melde dich ab und beantrage das Zurücksetzen des Passworts. "
+"Anschließend kannst du ein neues Passwort erstellen."
+msgstr ""
 
 #: accounts/templates/userprofile.html:30
 msgid "Abmelden"
@@ -99,3 +104,18 @@ msgstr ""
 #: accounts/templates/userprofile.html:61
 msgid "Adresse"
 msgstr ""
+
+#: contentpages/models.py:11
+msgid "headline"
+msgstr ""
+
+#: contentpages/models.py:12
+msgid "subline"
+msgstr "Subline EN"
+
+#: contentpages/models.py:13
+msgid "text"
+msgstr ""
+
+#~ msgid "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht "
+#~ msgstr "By default, passwords are securely hashed and not"

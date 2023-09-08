@@ -2,7 +2,7 @@ import os
 import environ
 from pathlib import Path
 
-from .language_middleware import LanguageMiddleware
+# from .language_middleware import LanguageMiddleware
 from django.utils.translation import gettext_lazy as _
 
 
@@ -10,7 +10,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ngrok-free.app', '1442-185-58-55-54.ngrok-free.app']
 
 env = environ.Env(
-
     DEBUG=(bool, False)
 )
 
@@ -33,9 +32,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'django.contrib.sites',
     'django.contrib.flatpages',
+    
+    'translations',
     
     #Party
     'rest_framework',
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'corsheaders',
     'crispy_forms',
-    "crispy_bootstrap4",
+    "crispy_bootstrap5",
     'django_hosts',
     'ckeditor',
 
@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'products',
     'contentpages',
 ]
+
+
 
 
 REST_FRAMEWORK = {
@@ -82,7 +84,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'src.language_middleware.LanguageMiddleware',
+    #'modeltranslation.middleware.TranslationMiddleware',
+    #'src.language_middleware.LanguageMiddleware',
 ]
 
 
@@ -166,11 +169,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+gettext = lambda s: s
 LANGUAGES = [
     ('de', _('German')),
     ('en', _('English')),
 ]
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'de'
+# MODELTRANSLATION_LANGUAGES = ('de', 'en')
 
+# MODELTRANSLATION_TRANSLATION_FILES = (
+#     'contentpages.translation',
+# )
+
+MODELTRANSLATION_CUSTOM_FIELDS = ('subline')
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),  # Das Verzeichnis, in dem Übersetzungsdateien gespeichert werden
@@ -226,3 +237,4 @@ STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'
 
 
 SITE_ID = 4
+USE_I18N = True

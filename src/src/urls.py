@@ -25,8 +25,8 @@ urlpatterns += i18n_patterns(
     path('linkinbio/', include('linkinbio.urls')),
     path('geotargeting/', include('geotargeting.urls')),
     path('products/', include('products.urls')),
-    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
     path('', include('accounts.urls')),
+    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 )
 
 if settings.DEBUG:

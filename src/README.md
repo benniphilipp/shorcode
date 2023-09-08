@@ -71,10 +71,12 @@ python manage.py clearcache
 
 # Überstzung
 - python manage.py makemessages -l de
+- python manage.py makemessages -l en
 - python manage.py compilemessages
 
     - from django.utils.translation import gettext_lazy as _
-
+    - {% trans "Welcome" %}<
+    
 # SMPTP
 
 python -m smtpd -n -c DebuggingServer localhost:1025
@@ -175,8 +177,10 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 
 # ToDo´s LISTE 8.09.23
 - Neues Module Pages
-    - Update Anpassungen Header
-    - Update Header Menü erstellen --> https://codingyaar.com/bootstrap-navbar-button-right/
+    - Update Anpassungen Header !erledigt
+    - Update Header Menü erstellen !erledigt --> https://codingyaar.com/bootstrap-navbar-button-right/
+    - Models überstzebar machen
+    - 
     - Hero Pages
     - Marketing Section Pages 
     - Cookie Banner
