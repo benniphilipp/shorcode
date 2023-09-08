@@ -181,7 +181,7 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
     - Update Header Menü erstellen !erledigt --> https://codingyaar.com/bootstrap-navbar-button-right/
     - Models überstzebar machen !erledigt
     - Bug Überstzung seiten !erledigt --> https://pypi.org/project/django-translations/
-    - Hero Pages
+    - Hero Pages !erledigt
     - Marketing Section Pages 
     - Cookie Banner
     - Cookie auf deutsch setzen bei seiten aufruf

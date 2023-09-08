@@ -34,7 +34,6 @@ class ContentPageDetailView(DetailView):
                     'text': marketing_field.text,
                     'image_url': marketing_field.image.url,
                 }
-                print(marketing_translations)
         
         content_page.marketing_translations = marketing_translations
 

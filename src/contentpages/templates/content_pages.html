@@ -6,21 +6,23 @@
 
 {% block body %}
 
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
 <div class="container main-pages">
 
     
     <section class="hero-main">
-        <div class="container p-5">
-            <div class="row d-flex align-items-center justify-content-md-center">
-                <div class="col-12 col-md-6 py-md-5 py-2 d-flex justify-content-end">
+        <div class="container p-md-5 p-3">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-12 col-lg-6 py-md-5 p-3 sm-12 py-2 d-flex justify-content-end">
                     <div class="px-md-5 px-0">
-                        <small>Erfolg auf Knopfdruck!</small>
                         <h1 class="mt-3">{{ content_page.headline }}</h1>
                         <p class="mt-3">{{ content_page.subline }}</p>
                         <a class="btn btn-primary mt-3">Get Started for Free</a>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 py-md-5 py-2 pt-5 d-flex justify-content-center">
+                <div class="col-12 col-lg-6 py-md-5 sm-12 py-2 pt-3 d-flex justify-content-center">
                     <img src="https://placehold.co/600x400" class="img-fluid" alt="">
                 </div>
             </div>
@@ -29,17 +31,17 @@
 
     <section>
         <div class="container">
-            <div class="row">
-
+            <div class="row featurette px-lg-5 px-0">
 
                 {% for marketing_field_id, translations in content_page.marketing_translations.items %}
-                    <div class="marketing-field">
-                        <p>{{ translations.headline }}</p>
-                        <p>{{ translations.subline }}</p>
-                        <div>{{ translations.text }}</div>
-                        <img src="{{ translations.image_url }}" alt="Marketing Image">
-                        <!-- Hier kannst du auf weitere übersetzte Felder zugreifen, z.B. {{ translations.headline }} oder {{ translations.text }} -->
-                    </div>
+                <div class="col-lg-7 p-3 p-lg-5 sm-12 {% if forloop.counter|divisibleby:2 %} order-md-2{% else %} {% endif %}">
+                    <h2 class="featurette-heading fw-normal lh-1">{{ translations.headline }}</h2>
+                    <p class="lead">{{ translations.subline }}</p>
+                    <p>{{ translations.text }}</p>
+                  </div>
+                  <div class="col-lg-5 p-3 p-md-5 sm-12 {% if forloop.counter|divisibleby:2 %} order-md-1{% else %} {% endif %}">
+                      <img class="featurette-image img-fluid mx-auto" src="{{ translations.image_url }}" alt="Marketing Image">
+                  </div>
                 {% endfor %}
 
             </div>
@@ -48,6 +50,20 @@
     
 
 </div>
+
+<footer>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center">
+                    {% for page in flatpages %}
+                    <a href="/pages{{ page.url }}">{{ page.title }}</a>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 {% endblock %}
 
