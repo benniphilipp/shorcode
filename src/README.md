@@ -173,7 +173,15 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 
 - first cklick in der Analyse und im Targeting
 
+# ToDo´s LISTE 8.09.23
 - Neues Module Pages
+    - Update Anpassungen Header
+    - Update Header Menü erstellen --> https://codingyaar.com/bootstrap-navbar-button-right/
+    - Hero Pages
+    - Marketing Section Pages 
+    - Cookie Banner
+    - Cookie auf deutsch setzen bei seiten aufruf
+    
 - Neues Module Anwendungen für SEO
 
 - Django's Flatpages App !erldeigt

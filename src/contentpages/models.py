@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from ckeditor.fields import RichTextField
 
 from django.utils.text import slugify
 
@@ -8,7 +9,7 @@ class MarketingField(models.Model):
     image = models.ImageField(upload_to='marketing_images/')
     headline = models.CharField(max_length=200)
     subline = models.CharField(max_length=200)
-    text = models.TextField()
+    text = RichTextField(null=True, blank=True)
      
 class MarketingFieldInline(admin.TabularInline):
     model = MarketingField
@@ -18,7 +19,6 @@ class ContentPage(models.Model):
     title = models.CharField(max_length=200)
     headline = models.CharField(max_length=200)
     subline = models.CharField(max_length=200)
-    body_text = models.TextField()
     slug = models.SlugField(unique=True)
     og_description = models.CharField(max_length=255, blank=True, null=True)
     

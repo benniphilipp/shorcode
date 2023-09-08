@@ -1,29 +1,20 @@
-<!-- checkout -->
 {% extends "content-pages.html" %}
 {% load static %}
 {% load i18n %}
 
-
-
-{% block css %}
-
-{% endblock %}
-
-
+{% block css %}{% endblock %}
 
 {% block body %}
 
-<div class="container">
-
-    {{ content_page.title }}
+<div class="container main-pages">
+    <div class="row">
+        <div class="col-12">
+            {{ content_page.title }}
+        </div>
+    </div>
 </div>
 
-{% endblock body %}
-
-
-
-
-
-{% block javasript %}
-
 {% endblock %}
+
+
+{% block javasript %}{% endblock %}
