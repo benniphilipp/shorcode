@@ -61,6 +61,30 @@ body{
     font-weight: 400;
 }
 
+/* Footer Menu */
+.footer-menu ul{
+    list-style-type: none;
+}
+
+.flatpages-links a,
+.link-footer a{
+    color: #000;
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.link-footer:hover{
+    color: var(--bs-blue);
+    font-weight: 400;
+}
+
+/* CTA Section Pages */
+.section-page-tow .bg-cta{
+    border-radius: 40px; 
+    background-color: #edf2ff !important;
+}
+
 @media screen and (max-width: 768px) {
     #navbarNav.show{
         margin-top: 50px;

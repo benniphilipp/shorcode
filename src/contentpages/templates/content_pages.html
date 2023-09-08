@@ -1,7 +1,7 @@
 {% extends "content-pages.html" %}
 {% load static %}
 {% load i18n %}
-
+{% load bootstrap5 %}
 {% block css %}{% endblock %}
 
 {% block body %}
@@ -19,7 +19,7 @@
                     <div class="px-md-5 px-0">
                         <h1 class="mt-3">{{ content_page.headline }}</h1>
                         <p class="mt-3">{{ content_page.subline }}</p>
-                        <a class="btn btn-primary mt-3">Get Started for Free</a>
+                        <a class="btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 py-md-5 sm-12 py-2 pt-3 d-flex justify-content-center">
@@ -48,17 +48,56 @@
         </div>
     </section>
     
-
 </div>
+
+<section class="section-page-tow">
+    <div class="container-fluit px-3 mb-5">
+        <div class="bg-cta">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="py-5 my-5 py-md-5 w-75">
+                        <h2 class="text-center">
+                            {% blocktrans %}Als Agenturen oder Content Creator musst du dafür sorgen, dass jede Verbindung zählt.{% endblocktrans %}
+                        </h2>
+                        <p class="text-center">{% blocktrans %}Wir haben alle Anforderungen in einer Software verpackt.{% endblocktrans %}</p>
+                        <div class="d-flex justify-content-center">
+                            <a class="text-center btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <ul class="d-flex flex-row justify-content-center">
+                    <li class="mx-3 link-footer"><a href="/content/links/">{% trans 'Links' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/qr-codes/">{% trans 'QR-Codes' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/products/">{% trans 'Preise' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
 <footer>
     <div class="container py-3">
         <div class="row">
             <div class="col-12">
-                <p class="text-center">
-                    {% for page in flatpages %}
-                    <a href="/pages{{ page.url }}">{{ page.title }}</a>
-                    {% endfor %}
+                <p class="text-center flatpages-links">
+   
+                    <a class="link-footer mx-3" href="/pages/datenschutz/">{% trans 'Datenschutz' %}</a>
+                    <a class="link-footer mx-3" href="/pages/impressum/">{% trans 'Impressum' %}</a>
+       
                 </p>
             </div>
         </div>

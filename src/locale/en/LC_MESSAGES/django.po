@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-08 16:38+0200\n"
+"POT-Creation-Date: 2023-09-08 20:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,21 +105,24 @@ msgstr ""
 msgid "Adresse"
 msgstr ""
 
-#: contentpages/models.py:15
+#: contentpages/models.py:14
 msgid "headline"
 msgstr ""
 
-#: contentpages/models.py:16
+#: contentpages/models.py:15
 msgid "subline"
 msgstr "Subline EN"
 
-#: contentpages/models.py:17
+#: contentpages/models.py:16
 msgid "text"
 msgstr ""
 
-#: contentpages/templates/content_pages.html:10
-msgid "Test Deutsch"
-msgstr "Englisch"
+#: contentpages/templates/content_pages.html:78
+msgid "Links"
+msgstr "Links"
+
+#~ msgid "Test Deutsch"
+#~ msgstr "Englisch"
 
 #~ msgid "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht "
 #~ msgstr "By default, passwords are securely hashed and not"

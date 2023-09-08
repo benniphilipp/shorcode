@@ -1,4 +1,6 @@
 {% load static %}
+{% load static %}
+{% load i18n %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +21,7 @@
 
     <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
     <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -47,20 +49,20 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/content/links/">Links</a>
+          <a class="nav-link" aria-current="page" href="/content/links/">{% trans 'Links' %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/content/qr-codes/">QR-Codes</a>
+          <a class="nav-link" href="/content/qr-codes/">{% trans 'QR-Codes' %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/content/link-in-bio/">Link in Bio</a>
+          <a class="nav-link" href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/products/">Preise</a>
+          <a class="nav-link" href="/products/">{% trans 'Preise' %}</a>
         </li>
       </ul>
-        <a class="btn btn-primary me-2" href="{% url 'accounts:users-register' %}">Kostenlos registrieren</a>
-        <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Einloggen</a>
+        <a class="btn btn-primary me-2" href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a>
+        <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a>
     </div>
 
 
