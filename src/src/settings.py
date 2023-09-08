@@ -238,3 +238,4 @@ STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'
 
 SITE_ID = 4
 USE_I18N = True
+USE_L10N = True

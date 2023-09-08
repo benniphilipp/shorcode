@@ -7,16 +7,17 @@ from django.utils.translation import gettext_lazy as _
 
 from translations.models import Translatable
 
-class MarketingField(models.Model):
+
+class MarketingField(Translatable):
     content_page = models.ForeignKey('ContentPage', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='marketing_images/')
     headline = models.CharField(_("headline"),max_length=200)
     subline = models.CharField(_("subline"), max_length=200)
     text = RichTextField(_("text"), null=True, blank=True)
-    
-class MarketingFieldInline(admin.TabularInline):
-    model = MarketingField
-    extra = 1
+
+    class TranslatableMeta:
+        fields = ['headline', 'subline', 'text']
+        
 
 class ContentPage(Translatable):
     subline = models.CharField(max_length=200)
@@ -34,7 +35,4 @@ class ContentPage(Translatable):
         return self.title
 
     class TranslatableMeta:
-        fields = ['subline']
-
-
-
+        fields = ['subline', 'headline', 'og_description']

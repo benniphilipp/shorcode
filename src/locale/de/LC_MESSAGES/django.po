@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-08 11:32+0200\n"
+"POT-Creation-Date: 2023-09-08 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: accounts/models.py:55 accounts/views.py:409 src/settings.py:172
+#: accounts/models.py:55 accounts/views.py:409 src/settings.py:175
 msgid "English"
 msgstr ""
 
-#: accounts/models.py:56 accounts/views.py:408 src/settings.py:171
+#: accounts/models.py:56 accounts/views.py:408 src/settings.py:174
 msgid "German"
 msgstr ""
 
@@ -105,16 +105,20 @@ msgstr "Kopieren"
 msgid "Adresse"
 msgstr ""
 
-#: contentpages/models.py:11
+#: contentpages/models.py:15
 msgid "headline"
 msgstr ""
 
-#: contentpages/models.py:12
+#: contentpages/models.py:16
 msgid "subline"
 msgstr ""
 
-#: contentpages/models.py:13
+#: contentpages/models.py:17
 msgid "text"
+msgstr ""
+
+#: contentpages/templates/content_pages.html:10
+msgid "Test Deutsch"
 msgstr ""
 
 #~ msgid "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht"

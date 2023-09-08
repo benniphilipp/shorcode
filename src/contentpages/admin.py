@@ -4,12 +4,14 @@ from translations.admin import TranslatableAdmin, TranslationInline
 
 class MarketingFieldInline(admin.TabularInline):
     model = MarketingField
-    extra = 1  # Anzahl der leeren Marketingfelder auf der Bearbeitungsseite
+    extra = 1 
 
 @admin.register(ContentPage)
 class ContentPageAdmin(TranslatableAdmin, admin.ModelAdmin):
     inlines = [TranslationInline, MarketingFieldInline]
 
-admin.site.register(MarketingField)
+@admin.register(MarketingField)
+class MarketingFieldAdmin(TranslatableAdmin, admin.ModelAdmin):
+    inlines = [TranslationInline,]
 
 
