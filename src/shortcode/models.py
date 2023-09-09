@@ -4,7 +4,7 @@ from django.utils import timezone
 from accounts.models import CustomUser
 from geotargeting.models import GeoThemplate
 from django_hosts.resolvers import reverse
-from django.utils import timezone
+
 
 from .utils import create_shortcode
 
@@ -19,7 +19,6 @@ class Tag(models.Model):
         return self.name
 
 
-# Create your models here.
 class ShortcodeClass(models.Model):
     url_destination     = models.CharField(max_length=520, blank=False)
     url_titel           = models.CharField(max_length=125, blank=True)

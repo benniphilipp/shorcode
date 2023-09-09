@@ -1,0 +1,115 @@
+{% extends "basic.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/linkinbio.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div id="overlay-open" class="overlay-popup"></div>
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+        <div class="container-fluid p-0 bg-body">
+
+            <!--Navbar-->
+            {% include "includes/navbar.html" %}
+
+            <!--Main-->
+            <div class="main">
+
+                <div class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex flex-row align-items-center">
+                                <h3 class="p-1" style="margin-top: 10px;">{{link_in_bio_instance.title}}</h3>
+                                <div class="p-1 ms-auto">
+                                    <!-- <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button> -->
+                                    <!-- <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div id="linkinbio-content" class="col-12">
+
+                            <!--Value-->
+   
+                            <div class="card border-0 bg-color-gray linkinbio-radius">
+                                <div class="card-body">
+                                    <ul class="nav nav-pills m-2 nav-justified" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Links</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Customizations</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Performance</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                              <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="card border-0 linkinbio-radius-bottom">
+                                        <div class="card-body">
+                                            links
+                                            Neuen link erstellen 
+                                            Bestehen Shorcode nutzen
+
+                                            start_date
+                                            end_date
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="card border-0 linkinbio-radius-bottom">
+                                        <div class="card-body">
+                                            title
+                                            description
+                                            image
+                                            profile_image
+
+                                            url_social
+
+                                            selected_template
+
+                                            custome_settings?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="card border-0 linkinbio-radius-bottom">
+                                        <div class="card-body">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    {% endblock body %}
+    
+    {% block javasript %}
+    <script src="{% static '/assets/js/linkinbio.js' %}"></script>
+    {% endblock %}

@@ -146,7 +146,40 @@ TqXRm5ikowzmYtZVyCMC
             Analytics
 
         - Design und Funktion
-            Normales Banner zum auswälen welche daten man speichern kann
+            Normales Banner zum auswälen welche daten man speichern kann.
+
+    - @ToDo Link in Bio
+        * Link in Bio Module
+            - user
+            - Image Profile
+            - Image Hinteregund
+            - Titel
+            - Beschreibung
+            - sozialen
+                Facebook
+                Instagram
+                YouTube
+                Vimeo
+                XING
+                LinkedIn
+                Pinterest
+                Twitter
+                Twitch
+                TikTok
+                Reddit
+                Tumblr
+                Snapchat
+        + links
+            - Name link
+            - selection links
+            - Datum wie lange Verfühgbar
+        + Crate neuen link
+            - Datum wie lange Verfügbar
+        + Style
+            color
+            font
+        - Performens Treching analyse
+
 
 # ToDo´s LISTE 10.09.23
 - Stripe Verkaufsseiten 1 Preis und keine Monadliche Zahlung maximal 90 Euro im Jahr.
