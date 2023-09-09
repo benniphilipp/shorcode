@@ -1,8 +1,10 @@
 Django APPs:
 
 # Shortcode
+python3 manage.py startapp shortcode
 
 # Analytics
+python3 manage.py startapp analytics
 
 # Geo-Targeting
 python3 manage.py startapp geotargeting
@@ -13,23 +15,22 @@ python3 manage.py startapp trackingai
 python3 manage.py startapp linkinbio
 
 # WebClickTracker
-webclicktracker
+python3 manage.py startapp webclicktracker
 
 # products
 python manage.py startapp products
 
-# Campaign
-https://support.bitly.com/hc/en-us/articles/115001195167
-
 # contentpages
 python manage.py startapp contentpages
 
-# crmpages
+# Acounts
+python manage.py startapp accounts
 
+# Link in Bio Seite
+    Neues Module
 
-# User
-    email
-    passwort
+# Campaign
+https://support.bitly.com/hc/en-us/articles/115001195167
 
 # Django CMD
 python3 manage.py makemigrations && python3 manage.py migrate
@@ -125,12 +126,13 @@ TqXRm5ikowzmYtZVyCMC
     - Login Prüfen Designe !erleding
     - Überszung Prüfen !erleding
     - Mobile Prüfen !erleding
-    - Cookie für Überszung Prüfen final erleding
+    - Cookie für Überszung Prüfen final !erleding
     - Cookie Banner
-        - Definition der Cookie-Einstellungen
-            Notwendige Cookies
-            Analyse-Cookies
-            Marketing-Cookies
+        - Cookie Banner für normale Seiten Desing erstellt. erleding
+        - Definition der Cookie-Einstellungen erleding
+            Notwendige Cookies erleding
+            Analyse-Cookies erleding
+            Marketing-Cookies erleding
 
         - Cookie Model 
             Speichern nach User das Jeder User sein Cookie einstellung erstellen kann.
@@ -158,15 +160,12 @@ TqXRm5ikowzmYtZVyCMC
         E-Mail-Benachrichtigungen
         Verwaltung von Abonnements
 
-# Link in Bio Seite
-    Neues Module
-
 # QR-Code
     Neues Module
 
 # Bug liste
 - Einzelansicht Profile Eisntellungs seite Formular die ID noch einfühgen das immer der Richtige name kommt.
-- Logo & Favicon austauschen 
+- Logo & Favicon austauschen !erledigt
 - Analytics Dahboard Anpssen
 - IP Gefärliche IP Sicherung einbauen --> https://chat.openai.com/c/f6d2978c-6cb7-44ba-9c1b-918ee67a37b0
 - E-Mail Bestätigung und Passwort zurück stezen.

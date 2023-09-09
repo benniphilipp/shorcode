@@ -1,0 +1,93 @@
+{% load static %}
+{% load i18n %}
+
+<!--Logo-->
+<!--Text-->
+<!--Datenschutz link-->
+
+<!--Alle akzeptieren-->
+
+<!--Individuelle Cookie Einstellungen-->
+<!--Essenziell-->
+<!--Marketing-->
+<!--Statistiken-->
+
+<section id="cookie-symbol">
+    <div class="symbol-box">
+        <div class="symbol-body">
+            <img class="img-fluid" src="{% static '/images/cookie.webp' %}" alt="">
+        </div>
+    </div>
+</section>
+
+<section class="cookie" id="cookie-banner">
+    <div class="container p-4 shadow-lg fixed-bottom bg-white rounded">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="row d-flex align-items-center">
+                    <div class="col-12 col-md-8">
+                        <p>{% trans 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis numquam quae eaque consequatur voluptatum sunt odio voluptates, saepe similique fuga tempore mollitia cum modi dolor tenetur? Rerum deserunt omnis nihil.' %}</p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" id="accept_all" class="btn btn-primary btn-sm mt-3 mt-md-0">{% trans 'Alle akzeptieren' %}</button>
+                            <button id="cookie-settings-open" type="button" class="btn btn-outline-primary btn-sm">{% trans 'Individuelle Einstellungen' %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cookie-settings" class="col-12 col-md-12">
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0 pt-3">
+                            <div class="card-body p-3 m-0 bd-gray-100">
+                                <div class="d-flex justify-content-start">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                    </div>
+                                    <div class="mx-3">
+                                        <h4>{% trans 'Essenziell' %}</h4>
+                                        <p>{% trans 'Essenzielle Cookies ermöglichen grundlegende Funktionen und sind für die einwandfreie Funktion der Website erforderlich.' %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0 pt-3">
+                            <div class="card-body p-3 bd-gray-100 m-0">
+                                <div class="d-flex justify-content-start">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="sta_lli" name="sta_lli" value="sta_lli">
+                                    </div>
+                                    <div class="mx-3">
+                                        <h4>{% trans 'Statistiken' %}</h4>
+                                        <p>{% trans 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.' %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0 pt-3">
+                            <div class="card-body p-3 bd-gray-100 m-0">
+                                <div class="d-flex justify-content-start">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="mar_lli" name="mar_lli" value="mar_lli">
+                                    </div>
+                                    <div class="mx-3">
+                                        <h4>{% trans 'Marketing' %}</h4>
+                                        <p>{% trans 'Marketing Cookies werden von Drittanbietern oder Publishern verwendet, um personalisierte Werbung anzuzeigen. Sie tun dies, indem sie Besucher über Websites hinweg verfolgen.' %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 pt-3">
+                        <button type="button" id="cookie-save" class="btn btn-primary">{% trans 'Speichern' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
