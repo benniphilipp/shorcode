@@ -43,6 +43,10 @@ from django.utils import timezone
 from urllib.parse import parse_qs, urlparse
 
 
+from django.http import HttpResponse
+from django.utils import translation
+from django.conf import settings
+
 def home(request):
     return render(request, 'index.html')
 
@@ -423,3 +427,5 @@ def update_language(request):
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False})
+
+

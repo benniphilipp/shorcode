@@ -122,10 +122,10 @@ TqXRm5ikowzmYtZVyCMC
     - Menus auf Home seite einbinden !erleding
     - Bilder Verkleinern auf Home !erleding
     - Texte anpssen auf der Startseite !erleding
-    - Login Prüfen Designe erleding
-    - Überszung Prüfen
-    - Mobile Prüfen
-    - Cookie für Überszung Prüfen final
+    - Login Prüfen Designe !erleding
+    - Überszung Prüfen !erleding
+    - Mobile Prüfen !erleding
+    - Cookie für Überszung Prüfen final erleding
     - Cookie Banner
         - Definition der Cookie-Einstellungen
             Notwendige Cookies
