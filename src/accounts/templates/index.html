@@ -11,13 +11,13 @@
 
 <!--CSS Styles-->
 {% block css %}
-    <link rel="stylesheet" href="{% static '/assets/css/home.css' %}" type="text/css">
+  
 {% endblock %}
 
 <body>
 {% block body %}
 
-<section class="hero-main">
+<section class="hero-main main-pages">
     <div class="container p-5">
         <div class="row d-flex align-items-center justify-content-md-center">
             <div class="col-12 col-md-6 py-md-5 py-2 d-flex justify-content-end">
@@ -201,7 +201,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-                    <img class="img-fluid" src="{% static 'images/event.webp' %}" alt="">
+                    <img class="img-fluid" src="{% static 'images/geo-targeting.webp' %}" alt="">
                 </div>
             </div>
         </div>
@@ -305,15 +305,33 @@
 </section>
 
 
+<section class="footer-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <ul class="d-flex flex-row justify-content-center">
+                    <li class="mx-3 link-footer"><a href="/content/links/">{% trans 'Links' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/qr-codes/">{% trans 'QR-Codes' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/products/">{% trans 'Preise' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <footer>
     <div class="container py-3">
         <div class="row">
             <div class="col-12">
-                <p class="text-center">
-                    {% for page in flatpages %}
-                    <a href="/pages{{ page.url }}">{{ page.title }}</a>
-                    {% endfor %}
+                <p class="text-center flatpages-links">
+   
+                    <a class="link-footer mx-3" href="/pages/datenschutz/">{% trans 'Datenschutz' %}</a>
+                    <a class="link-footer mx-3" href="/pages/impressum/">{% trans 'Impressum' %}</a>
+       
                 </p>
             </div>
         </div>
