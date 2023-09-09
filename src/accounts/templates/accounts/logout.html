@@ -1,4 +1,4 @@
-{% extends "basic.html" %}
+{% extends "content-pages.html" %}
 {% load static %}
 {% load i18n %}
 
@@ -8,14 +8,14 @@
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-md-5">
 
-            <div class="card">
+            <div class="card border-0">
                 <div class="card-body">
-                <h5 class="card-title text-center">Sie wurden ausgeloggt</h5>
-                <p class="card-text text-center">
-                    Vielen Dank für Ihre Zeit.
+                <h5 class="card-title text-center">{% trans 'Sie wurden ausgeloggt' %}</h5>
+                <p class="{% trans 'card-text text-center' %}">
+                    {% trans 'Vielen Dank für Ihre Zeit.' %}
                 </p>
                     <div class="col text-center">
-                        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Melden Sie sich erneut an</a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-primary">{% trans 'Melden Sie sich erneut an' %}</a>
                     </div>
                 </div>
             </div>        

@@ -121,8 +121,8 @@ TqXRm5ikowzmYtZVyCMC
     - Home Page und Pages HTML, css zusammen fühgen !erleding
     - Menus auf Home seite einbinden !erleding
     - Bilder Verkleinern auf Home !erleding
-    - Texte anpssen auf der Startseite
-    - Login Prüfen Designe
+    - Texte anpssen auf der Startseite !erleding
+    - Login Prüfen Designe erleding
     - Überszung Prüfen
     - Mobile Prüfen
     - Cookie für Überszung Prüfen final

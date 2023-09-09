@@ -1,4 +1,4 @@
-{% extends "basic.html" %}
+{% extends "content-pages.html" %}
 {% load static %}
 {% load i18n %}
 
@@ -19,7 +19,7 @@
             <div class="col-12 col-md-5">
                 <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
                     <div class="card-header">
-                      <h3 class="font-weight-light my-1 text-center">Login</h3>
+                      <h3 class="font-weight-light my-1 text-center">{% trans 'Login' %}</h3>
                     </div>
                     {% if form.errors %}
                         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -39,7 +39,7 @@
                             <div class="form-row">
                                 <div class="col-md-10 offset-md-1 mt-3">
                                     <div class="form-group">
-                                        <label class="small mb-1">E-Mail-Adresse</label>
+                                        <label class="small mb-1">{% trans 'E-Mail-Adresse' %}</label>
                                         {{ form.username }}
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                             <div class="form-row">
                                 <div class="col-md-10 offset-md-1 mt-3">
                                     <div class="form-group">
-                                      <label class="small mb-1">Passwort</label>
+                                      <label class="small mb-1">{% trans 'Passwort' %}</label>
                                       {{ form.password }}
                                     </div>
                                 </div>
@@ -57,14 +57,14 @@
                                     <div class="form-group">
                                         <!-- Add a Remember me functionality -->
                                         {{ form.remember_me }}
-                                        <label> Angemeldet bleiben</label>
+                                        <label> {% trans 'Angemeldet bleiben' %}</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-10 offset-md-1">
                                     <div class="form-group mt-0 mb-1 mt-3">
-                                      <button name="login" class="col-md-12 btn btn-primary" id="login">Login</button>
+                                      <button name="login" class="col-md-12 btn btn-primary" id="login">{% trans 'Login' %}</button>
                                     </div>
                                 </div>
                             </div>
