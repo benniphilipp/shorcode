@@ -13,12 +13,6 @@
     background-color: #ffffff9e;
 }
 
-.overlay-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
 /*Overlay Open*/
 .overlay-open{
@@ -35,28 +29,26 @@
 }
 
 /* Form */
-.crate-form{
-    display: none;
+#aside-form {
+    width: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-left: 0;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
     height: 100vh;
     z-index: 10000;
-    right: 0;
-    top: 0;
-    bottom: 0;
     background-color: #fff;
-    margin-left: -690px;
-    position: absolute;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
-
 #aside-form.toggle {
-    right: 0;
-    top: 0;
-    bottom: 0;
+    visibility: visible;
+    opacity: 1;
     width: 690px;
-    margin-left: 0;
-    display: block;
-    position: fixed;
-    transition:all 5s;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 #aside-form .card{
@@ -65,10 +57,12 @@
 
 /* FORM */
 #aside-form label{
-    opacity: .5;
+    opacity: 1;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0.5rem;
+    font-size: 14;
+    color: #0c3ebb;
 }
 
 #aside-form label span{
@@ -168,3 +162,97 @@
 #reset-filter-btn i{
     font-size: 1.4rem;
 }
+
+
+/* Tag form */
+.tag-overlay{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 99999;
+    background-color: rgb(158 195 220 / 60%);
+}
+
+.tag-overlay.active{
+    display: flex;
+}
+
+.tag-overlay-body{
+    padding: 30px;
+    min-width: 400px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.tag-overlay-body label{
+    margin-bottom: 10px;
+}
+
+.tag-overlay-body i{
+    cursor: pointer;
+    font-size: 23px;
+}
+
+#tag-list-edit{
+    display: none;
+}
+
+#tag-edit{
+    cursor: pointer;
+    color: #0c3ebb;
+    padding-right: 8px;
+    display: inline-block;
+}
+
+#your_form_id .custom-checkbox{
+    display: inline-block;
+    padding-left: 10px;
+}
+
+.icon-modal-left,
+.icon-modal-right{
+    font-size: 20px !important;
+    margin-top: -1px;
+}
+.icon-modal-left{
+    color: #0c3ebb;
+    display: none;
+}
+.icon-modal-right{
+    color: #0c3ebb;
+    display: block;
+}
+
+.model-box:hover > .icon-modal-left,
+#tag-edit:hover,
+#tag-edit:hover + .icon-modal-left,
+#tag-edit:hover + .icon-modal-right{
+    color: #6c757d;
+}
+
+.btn-copy{
+    color: #0c3ebb;
+}
+
+#shortcode_id .fa-link{
+    font-size: 12px;
+}
+
+#shortcode_id:hover > button > i{
+    color: #0d6efd;
+}
+
+.nav-link.disabled {
+    color: var(--bs-nav-link-disabled-color);
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
+
+
+

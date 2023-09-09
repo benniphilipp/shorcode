@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 class ContentPageDetailView(DetailView):
     model = ContentPage
-    template_name = 'content_pages.html'
+    template_name = 'pages.html'
     context_object_name = 'content_page'
     slug_url_kwarg = 'slug'
     

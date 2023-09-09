@@ -1,41 +1,21 @@
 
+{% extends "content-pages.html" %}
+
 {% load static %}
 {% load i18n %}
 
 {% load flatpages %}
 {% get_flatpages as flatpages %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Startseite | Datenpunkt</title>
-
-    <!--Style CSS Import-->
-    <link rel="stylesheet" type="text/css" href="{% static '/app-assets/css/bootstrap/bootstrap.min.css' %}">
-
-    <!--Favicons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static '/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/favicon/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static '/favicon/site.webmanifest' %}">
-    <link rel="mask-icon" href="{% static '/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
 
 
-    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
-    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+<!--CSS Styles-->
+{% block css %}
     <link rel="stylesheet" href="{% static '/assets/css/home.css' %}" type="text/css">
+{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stratseite | Datenpunkt</title>
-
-</head>
-
+<body>
+{% block body %}
 
 <section class="hero-main">
     <div class="container p-5">
@@ -339,11 +319,13 @@
         </div>
     </div>
 </footer>
+{% endblock %}
 
+{% block javasript %}
 
+<script defer src="{% static '/assets/js/cookie.js' %}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script src="{% static '/app-assets/js/bootstrap/bootstrap.bundle.js' %}"></script>
+{% endblock %}
 
     </body>
 </html>

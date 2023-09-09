@@ -144,36 +144,11 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
 - Archive keine ansicht für user. !erleding
 - Archive rückganig machen. !erleding
 - Shorcode Löschen. !erleding
-
 - Abrufen von mÖglichkeiten in der URL View !erldeigt
     limitation, Android Targeting, Ios Targeting BETA Version GEO Targeting !erldeigt
-
 - Überstzung einbauen !erldeigt
 - Überszungssetings Ansicht aktuelle sprache anzeigen. !erldeigt
-
 - Startseite ist nicht erreichbar !erldeigt
-
-- @https://stripe.com/docs/checkout/quickstart
-- Payment Intigrieren 
-    Stipe einbinden und alle Formular bereistellen. !erldeigt
-    Frontend-Anpassungen !erldeigt
-    Stripe-Zahlungsverarbeitung
-    Erstellen Sie Abonnements
-    Benutzerprofil aktualisieren
-    E-Mail-Benachrichtigungen
-    Verwaltung von Abonnements
-
-- Einzelansicht User die ID noch einfühgen das immer der Richtige name kommt.
-- Logo & Favicon austauschen 
-- Analytics Dahboard Anpssen
-- IP Gefärliche IP Sicherung einbauen
-- E-Mail Verdenden
-- QR Code
-
-- Externe Doamin Testen wen die Server einstellungen stimmen.
-- Notweiterleitung
-
-- first cklick in der Analyse und im Targeting
 
 # ToDo´s LISTE 8.09.23
 - Neues Module Pages
@@ -182,13 +157,67 @@ https://www.google.com/search?q=kurzlinks+erstellen&sca_esv=561558033&sxsrf=AB5s
     - Models überstzebar machen !erledigt
     - Bug Überstzung seiten !erledigt --> https://pypi.org/project/django-translations/
     - Hero Pages !erledigt
-    - Marketing Section Pages 
-    - Cookie Banner
-    - Cookie auf deutsch setzen bei seiten aufruf
-    
-- Neues Module Anwendungen für SEO
+    - Marketing Section Pages !erledigt
+    - Django's Flatpages App !erldeigt
 
-- Django's Flatpages App !erldeigt
+    # ToDo´s LISTE 9.09.23
+    - Home Page und Pages HTML, css zusammen fühgen
+    - Menus auf Home seite einbinden
+    - Bilder Verkleinern auf Home
+    - Texte anpssen auf der Startseite
+    - Überszung Prüfen
+    - Mobile Prüfen
+    - Cookie für Überszung Prüfen final
+    - Cookie Banner
+        - Definition der Cookie-Einstellungen
+            Notwendige Cookies
+            Analyse-Cookies
+            Marketing-Cookies
+
+        - Cookie Model 
+            Speichern nach User das Jeder User sein Cookie einstellung erstellen kann.
+
+        -  Cookie-Präferenzen speichern
+            Banner Cookie-Typen sie akzeptieren oder ablehnen möchten
+
+        - Abrufen von JavaScript-Dateien serverseitig oder normal
+            Facebook Script
+            Google Tag Manger
+            Analytics
+
+        - Design und Funktion
+            Normales Banner zum auswälen welche daten man speichern kann
+
+# ToDo´s LISTE 10.09.23
+- Stripe Verkaufsseiten 1 Preis und keine Monadliche Zahlung maximal 90 Euro im Jahr.
+    - @https://stripe.com/docs/checkout/quickstart
+    - Payment Intigrieren 
+        Stipe einbinden und alle Formular bereistellen. !erldeigt
+        Frontend-Anpassungen !erldeigt
+        Stripe-Zahlungsverarbeitung
+        Erstellen Sie Abonnements
+        Benutzerprofil aktualisieren
+        E-Mail-Benachrichtigungen
+        Verwaltung von Abonnements
+
+# Link in Bio Seite
+    Neues Module
+
+# QR-Code
+    Neues Module
+
+# Bug liste
+- Einzelansicht Profile Eisntellungs seite Formular die ID noch einfühgen das immer der Richtige name kommt.
+- Logo & Favicon austauschen 
+- Analytics Dahboard Anpssen
+- IP Gefärliche IP Sicherung einbauen --> https://chat.openai.com/c/f6d2978c-6cb7-44ba-9c1b-918ee67a37b0
+- E-Mail Bestätigung und Passwort zurück stezen.
+- Externe Doamin Testen wen die Server einstellungen stimmen.
+- Notweiterleitung unter Profile Einstellungen
+- first cklick in der Analyse und im Targeting
+
+- Anwendungen text seiten neues Module für SEO ready
+
 
 # Stripe Webhook
 

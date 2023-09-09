@@ -1,9 +1,10 @@
 {% load static %}
-
+{% load flatpages %}
+{% get_flatpages as flatpages %}
 
 <html>
 
-{% include "includes/header-content-pages-html" %}
+{% include "includes/header-content-pages.html" %}
 
     <!--CSS Styles-->
     {% block css %}{% endblock %}
@@ -14,9 +15,10 @@
 
     
     <!--Javascript Import-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% include "includes/footer-content-pages.html" %}
+    
     <script defer src="{% static '/assets/js/main.js' %}"></script>
+
     <!--Javascript-->
     {% block javasript %}{% endblock %}
 

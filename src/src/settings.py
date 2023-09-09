@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    
+
     'translations',
     
     #Party
@@ -84,8 +84,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    #'modeltranslation.middleware.TranslationMiddleware',
-    #'src.language_middleware.LanguageMiddleware',
 ]
 
 
