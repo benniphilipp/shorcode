@@ -54,3 +54,24 @@
 #linkinbio-content .linkinbio-radius-bottom{
     border-radius: 0 0 10px 10px;
 }
+
+/*Custome image Uplaod */
+.custom-file-upload {
+    font-size: 400;
+    font-size: 1rem;
+    display: inline-block;
+    background-color: #343a40;
+    color: white;
+    padding: .375rem .75rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+    background-color: #5d6369;
+}
+
+#imageUpload {
+    display: none;
+}

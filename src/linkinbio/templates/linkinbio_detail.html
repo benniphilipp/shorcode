@@ -5,6 +5,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/classic.min.css">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/linkinbio.css' %}">
 {% endblock %}
@@ -43,15 +44,14 @@
                         <div id="linkinbio-content" class="col-8">
 
                             <!--Value-->
-   
                             <div class="card border-0 bg-color-gray linkinbio-radius">
                                 <div class="card-body">
                                     <ul class="nav nav-pills m-2 nav-justified" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Links</button>
+                                          <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Links</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Customizations</button>
+                                          <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Customizations</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                           <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Performance</button>
@@ -60,101 +60,24 @@
                                 </div>
                             </div>
 
-
-                              <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="card border-0 linkinbio-radius-bottom">
-                                        <div class="card-body p-5">
-                                            <button type="button" class="btn btn-primary mb-5">Add a link</button>
-                                            <!-- Neu erstellen -->
-                                            
-                                            <div class="card border-primary">
-                                                <div class="card-body p-3">
-                                                    <!-- <form action=""> -->
-
-                                                    <div class="d-flex flex-row align-items-center">
-                                                        <input class="form-check-input p-2 m-2" type="checkbox" id="createShorcode" value="option1" checked>
-                                                        <label class="form-check-label" for="createShorcode">Create a new Llinkb link</label>
-                                                    
-                                                        <input class="form-check-input p-2 m-2" type="checkbox" id="createSearch" value="option1">
-                                                        <label class="form-check-label" for="createSearch">Select an existing Llinkb link</label>
-                                                    </div>
-
-
-                                                    <!-- Formular 1 (Erstellen) -->
-                                                    <form style="display: block;" action="{% url 'linkinbio:create_shortcode' %}" method="POST" id="form-create-shorcode">
-                                                        <div class="mb-3">
-                                                            <input type="text" class="form-control mt-3 mb-3" id="cratedhortcode" placeholder="Button label">
-                                                            <input type="text" class="form-control mt-3 mb-3" id="link-url" placeholder="Create a new Llinkb link">
-                                                            <input type="hidden" id="linkInBioPageID" value="{{link_in_bio_instance.id}}">
-                                                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
-                                                        </div>
-                                                    </form>
-
-                                                    <!-- Formular 2 (Auswählen) -->
-                                                    <form id="form-create-link" style="display: none;" action="{% url 'linkinbio:create_link' %}" method="POST">
-                                                        <div class="mb-3">
-                                                            <input type="text" class="form-control mt-3 mb-3" id="button_label" placeholder="Button label">
-                                                            <input type="text" class="form-control mt-3 mb-3" id="selectShortcode" placeholder="Select an existing Llinkb link">
-                                                            <ul id="search-results"></ul>
-                                                            <input type="hidden" id="linkinbio_page_id" value="{{link_in_bio_instance.id}}">
-                                                            <input type="hidden" id="shortcode_id" value="">
-                                                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-
-                                            <div id="card-container"></div>
-                                            <input type="hidden" id="valueUrlSort" value="{% url 'linkinbio:update_links_order' %}">
-
-
-                                        <!-- 
-                                            links
-                                            Neuen link erstellen 
-                                            Bestehen Shorcode nutzen
-
-                                            start_date
-                                            end_date
-
-                                            Aktivieren deaktivern
-                                            Löschen 
-                                            Bearbeiten
-
-                                            Sortiren -->
-                                        </div>
-                                    </div>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <!--links.html-->
+                                    {% include "includes/links.html" %}
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="card border-0 linkinbio-radius-bottom">
-                                        <div class="card-body">
-                                            title
-                                            description
-                                            image
-                                            profile_image
-
-                                            url_social
-
-                                            selected_template
-
-                                            custome_settings?
-                                        </div>
-                                    </div>
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <!--customizations.html-->
+                                    {% include "includes/customizations.html" %}
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                    <div class="card border-0 linkinbio-radius-bottom">
-                                        <div class="card-body">
-                                            ...
-                                        </div>
-                                    </div>
+                                    <!--performance.html-->
+                                    {% include "includes/performance.html" %}
                                 </div>
-                              </div>
-
+                            </div>
 
                         </div>
                         <div class="col-4">
-                            handy
+                            {% include "mobile/style-one.html" %}
                         </div>
                     </div>
                 </div>
@@ -167,6 +90,7 @@
     {% endblock body %}
     
     {% block javasript %}
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{% static '/assets/js/linkinbio.js' %}"></script>
     {% endblock %}

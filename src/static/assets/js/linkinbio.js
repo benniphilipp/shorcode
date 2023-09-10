@@ -19,7 +19,197 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const csrftoken = getCookie('csrftoken');
 
 
+    // Handler für linkinbio sozial media list
+    var linkInBioId = $('#linkinbio_page_id_custome').val();
 
+    $.ajax({
+        url: '/de/linkinbio/social_media_profiles/' + linkInBioId,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Hier kannst du die Daten verarbeiten, z.B. in deine HTML-Seite einfügen
+            var socialMediaProfiles = data.social_media_profiles;
+            console.log(socialMediaProfiles);
+    
+            socialMediaProfiles.forEach(function(profile) {
+                // Verarbeite jedes Profil (profile.platform und profile.url) hier
+                var newElement = `
+                    <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select platform-select" id="socialSelectFieldId" name="platform">
+                                        <!-- Optionen werden hier dynamisch hinzugefügt -->
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control url_social" placeholder="Url" value="${profile.url}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#elementContainer').append(newElement);
+    
+                // Das <select> im aktuellen Element auswählen und mit Optionen befüllen
+                var currentElement = $('#elementContainer').children().last(); // Das zuletzt hinzugefügte Element
+                var currentSelect = currentElement.find('.platform-select'); // Das <select> im aktuellen Element
+    
+                // Funktion zum Befüllen eines <select> mit Plattformoptionen
+                function fillPlatformSelect(select, platformId) {
+                    $.each(data.platforms, function(index, platform) {
+                        var option = $('<option>', {
+                            value: platform.id,
+                            text: platform.name
+                        });
+                        if (platform.id === profile.platform) {
+                            option.attr('selected', 'selected');
+                        }
+                        select.append(option);
+                    });
+                }
+    
+                fillPlatformSelect(currentSelect, profile.platform);
+            });
+    
+            // Hier fügen wir die verbleibenden Plattformen aus dem zweiten AJAX-Aufruf hinzu
+            $.ajax({
+                url: '/linkinbio/get_social_media_platforms/', // Passe die URL an deine Route an
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var socialMediaPlatforms = data.platforms;
+    
+                    // Hier kannst du die Plattformen in deinen <select>-Elementen verwenden
+                    // Füge die Optionen zu den <select>-Elementen hinzu
+                    socialMediaPlatforms.forEach(function(platform) {
+                        $('.platform-select').append($('<option>', {
+                            value: platform.id,
+                            text: platform.name
+                        }));
+                    });
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Fehler beim Abrufen der Plattformen:', errorThrown);
+                }
+            });
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.error('Fehler beim Abrufen der Daten:', errorThrown);
+        }
+    });
+
+
+
+    // Handler für den Button-Klick zum Speichern der URL
+    var urlSocialForm = $('#urlSocial').val();
+    $(document.body).on('change', '.url_social', function() {
+        var url_social = $(this).val();  // Wert aus dem Input-Feld holen
+        var link_in_bio_id = $('#linkinbio_page_id_custome').val();  // Annahme: Die LinkInBio-Seite hat eine ID
+        var social_media_platform = $('#socialSlectFeldId').val();
+        console.log(social_media_platform)
+        // Ajax-Anfrage zum Speichern der URL
+        $.ajax({
+            url: urlSocialForm,  // Ersetze durch die richtige URL zur View
+            type: 'POST',
+            data: {
+                url_social: url_social,
+                link_in_bio_id: link_in_bio_id,
+                social_media_platform: social_media_platform
+            },
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            success: function(data) {
+                if (data.success) {
+                    console.log('URL erfolgreich gespeichert.');
+                    // Hier kannst du weitere Aktionen ausführen, z.B. die Seite aktualisieren
+                } else {
+                    console.error('Fehler beim Speichern der URL:', data.message);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Fehler beim Speichern der URL:', errorThrown);
+            }
+        });
+    });
+
+
+    // Handler für den Button-Klick
+    $('#addElementButton').click(function() {
+        // Erstelle ein neues Element mit dem gewünschten HTML
+        var newElement = `
+            <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select platform-select" id="socialSlectFeldId" name="platform">
+                                <!-- Optionen werden hier dynamisch hinzugefügt -->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" class="form-control url_social" placeholder="Url">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Füge das neue Element zum Container hinzu
+        $('#elementContainer').append(newElement);
+
+        // Hole die Plattformen und fülle das gerade hinzugefügte <select> mit Optionen
+        $.ajax({
+            url: '/linkinbio/get_social_media_platforms/', // Ersetze durch die richtige API-URL
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Finde das <select> im neuen Element
+                var select = $('#elementContainer').find('.platform-select').last();
+                $.each(data.platforms, function(index, platform) {
+                    select.append($('<option>', {
+                        value: platform.id,
+                        text: platform.name
+                    }));
+                });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Fehler:', errorThrown);
+            }
+        });
+    });
+
+
+
+
+    const colorInputs = document.querySelectorAll('.color-picker');
+
+    colorInputs.forEach((colorInput) => {
+        const pickr = Pickr.create({
+            el: colorInput,
+            theme: 'classic',
+            default: '#000000',
+            padding: 8,
+            components: {
+                preview: true,
+                opacity: true,
+                hue: true,
+                interaction: {
+                    input: true,
+                    save: true,
+                },
+            },
+        });
+    
+        pickr.on('save', (color) => {
+            // Hier kannst du die ausgewählte Farbe verwenden, z.B. speichern oder anzeigen
+            console.log(`Ausgewählte Farbe: ${color.toHEXA().toString()}`);
+        });
+    });
 
 
 
@@ -70,19 +260,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     var urlForm = $('#valueUrlSort').val();
-    console.log(urlForm);
+
     $("#card-container").sortable({
         axis: 'y',  // Nur vertikales Sortieren erlauben
         update: function(event, ui) {
             // Hier kannst du Code ausführen, um die aktualisierte Reihenfolge zu speichern
-
-            // var sortedLinks = $(this).sortable("toArray");
-
             var sortedLinks = $(this).find('.sortable-item').map(function() {
                 return $(this).attr('data-id');
             }).get();
-
-            console.log(sortedLinks)
 
             // Führe hier eine Ajax-Anfrage aus, um die Reihenfolge auf dem Server zu speichern
             $.ajax({

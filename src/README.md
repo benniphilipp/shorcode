@@ -153,11 +153,7 @@ TqXRm5ikowzmYtZVyCMC
             - user
             - Links erstellen und verbinden erledigt
             - Link liste anzeigen und sortieren erledigt
-            - Image Profile
-            - Image Hinteregund
-            - Titel
-            - Beschreibung
-            - sozialen
+            - sozialen Crate und View erledigt
                 Facebook
                 Instagram
                 YouTube
@@ -171,6 +167,12 @@ TqXRm5ikowzmYtZVyCMC
                 Reddit
                 Tumblr
                 Snapchat
+            - sozialen löschen
+            - Image Profile
+            - Image Hinteregund
+            - Titel
+            - Beschreibung
+
         + links
             - Name link
             - selection links

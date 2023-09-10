@@ -29,10 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-    console.log('SPRACHE');
-
     var languageDropdown = document.querySelector("#language-switcher select");
     var currentUrl = window.location.pathname;
 

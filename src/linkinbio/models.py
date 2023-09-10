@@ -13,9 +13,10 @@ class CustomSettings(models.Model):
 class SocialMediaPlatform(models.Model):
     name = models.CharField(max_length=255)
     icon_svg = models.CharField(max_length=255)
-
+    
     def __str__(self):
         return self.name
+
 
 class LinkInBio(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -26,15 +27,23 @@ class LinkInBio(models.Model):
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     links = models.ManyToManyField(ShortcodeClass, blank=True)
-    social_media_platforms = models.ManyToManyField('SocialMediaPlatform', blank=True)
-    url_social = models.URLField(null=True, blank=True)
+    social_media_platforms = models.ManyToManyField('UrlSocialProfiles', blank=True)
     custome_settings = models.ForeignKey(CustomSettings, on_delete=models.CASCADE, null=True, blank=True)
     selected_template = models.TextField(null=True, blank=True)
     
     def __str__(self):
         return self.title
     
+class UrlSocialProfiles(models.Model):
+    url_social = models.URLField(null=True, blank=True)
+    link_in_bio = models.ForeignKey(LinkInBio, on_delete=models.CASCADE)
+    social_media_platform = models.ForeignKey(SocialMediaPlatform, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.url_social
 
+
+    
 class LinkInBioLink(models.Model):
     link_in_bio = models.ForeignKey(LinkInBio, on_delete=models.CASCADE)
     shortcode = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE)

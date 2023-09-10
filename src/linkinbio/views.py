@@ -11,8 +11,80 @@ from django.views import View
 from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from shortcode.models import ShortcodeClass
-from .models import LinkInBio, LinkInBioLink
+from .models import LinkInBio, LinkInBioLink, CustomSettings, SocialMediaPlatform, UrlSocialProfiles
 from .forms import LinkInBioDashboardForm
+
+
+class SocialMediaProfilesView(View):
+    def get(self, request, link_in_bio_id):
+        # Hier den Code zum Abrufen der sozialen Medienprofile schreiben, die zur angegebenen LinkInBio-Seite gehören
+
+        try:
+            link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
+            social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
+
+            data = [{'platform': profile.social_media_platform.name, 'url': profile.url_social, 'id': profile.pk} for profile in social_media_profiles]
+
+            return JsonResponse({'social_media_profiles': data})
+
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+
+
+# Save Url Social Profiles
+class SaveUrlSocialView(View):
+    def post(self, request):
+        try:
+            url_social = request.POST.get('url_social')
+            link_in_bio_id = request.POST.get('link_in_bio_id')
+            social_media_platform = request.POST.get('social_media_platform')
+
+            platform_instance = SocialMediaPlatform.objects.get(id=social_media_platform)
+            # Prüfen, ob ein LinkInBio-Eintrag mit der angegebenen ID existiert
+            link_in_bio = LinkInBio.objects.get(id=link_in_bio_id)
+
+            # URL in das Modell speichern
+            url_social_profile = UrlSocialProfiles(url_social=url_social, link_in_bio=link_in_bio, social_media_platform=platform_instance)
+            url_social_profile.save()
+
+            response_data = {'success': True, 'message': 'URL erfolgreich gespeichert.'}
+            return JsonResponse(response_data)
+
+        except LinkInBio.DoesNotExist:
+            response_data = {'success': False, 'message': 'LinkInBio-Seite nicht gefunden.'}
+            return JsonResponse(response_data, status=404)
+
+
+# Social MediaP latform
+def get_social_media_platforms(request):
+    platforms = SocialMediaPlatform.objects.all()
+    data = [{'id': platform.id, 'name': platform.name} for platform in platforms]
+    return JsonResponse({'platforms': data})
+
+
+# Color und elemente Speichern oder Updaten
+class SaveColorAndElementView(View):
+    def post(self, request):
+        try:
+            # JSON-Daten aus dem POST-Anfragebody abrufen
+            data = json.loads(request.body)
+
+            # Farbe und Element aus den JSON-Daten extrahieren
+            selected_color = data.get('selectedColor', '')
+            element_id = data.get('elementId', '')
+
+            # Überprüfen, ob das Element bereits existiert
+            custom_settings, created = CustomSettings.objects.get_or_create(element_id=element_id)
+
+            # Farbe in das JSON-Format speichern und aktualisieren
+            custom_settings.settings_json['selected_color'] = selected_color
+            custom_settings.save()
+
+            response_data = {'success': True, 'message': 'Farbe und Element erfolgreich gespeichert.'}
+            return JsonResponse(response_data)
+        except json.JSONDecodeError:
+            response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
+            return JsonResponse(response_data, status=400)
 
 
 # Ajax-Anfrage zum Speichern der Reihenfolge

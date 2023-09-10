@@ -1,0 +1,92 @@
+<div class="card border-0 linkinbio-radius-bottom">
+    <div class="card-body p-5">
+
+        <div class="card border-0">
+            <div class="card-body p-0">
+    
+                <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Titel">
+                <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Beschreibung">
+    
+                <label for="imageUpload" class="custom-file-upload mb-4">
+                    <span>Profile Image</span>
+                </label>
+                <input type="file" id="imageUpload" accept="image/*" style="display:none;">
+    
+            </div>
+        </div>
+    
+        <div class="card border-0">
+            <div class="card-body p-0">
+    
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex flex-row">
+                            <input type="color" id="colorPicker1" class="color-picker">
+                            <label for="colorPicker" class="mx-2">Title color</label>
+                        </div>
+                        <div class="d-flex flex-row mt-3">
+                            <input type="color" id="colorPicker2" class="color-picker">
+                            <label for="colorPicker" class="mx-2">Description color</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-row">
+                            <input type="color" id="colorPicker4" class="color-picker">
+                            <label for="colorPicker" class="mx-2">Button color</label>
+                        </div>
+                        <div class="d-flex flex-row mt-3">
+                            <input type="color" id="colorPicker4" class="color-picker">
+                            <label for="colorPicker" class="mx-2">Button text color</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="imageUpload" class="custom-file-upload">
+                            <span>Top Image</span>
+                        </label>
+                        <input type="file" id="topUpload" accept="image/*" style="display:none;">
+                    </div>
+                </div>
+    
+    
+            </div>
+        </div>
+
+        <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
+        <input type="hidden" id="linkinbio_page_id_custome" value="{{link_in_bio_instance.id}}">
+        <div id="elementContainer">
+            <!-- Hier werden die Elemente hinzugefügt -->
+        </div>
+        <!-- <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select">
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Url">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <button type="button" id="addElementButton" class="btn btn-outline-primary mt-4">Primary</button>
+
+    </div>
+</div>
+
+<!-- title
+description
+image
+profile_image
+
+url_social
+
+selected_template
+
+custome_settings? -->
