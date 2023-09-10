@@ -36,6 +36,8 @@ class ShortcodeClass(models.Model):
     updated_at          = models.DateTimeField(default=timezone.now)
     tags                = models.ManyToManyField(Tag, related_name='shortcodes')
     
+    #Button LinkInBio
+    button_label        = models.CharField(max_length=520, blank=True, null=True) 
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     
     # Begrenzung von URLs

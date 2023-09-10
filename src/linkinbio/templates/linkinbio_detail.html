@@ -39,7 +39,7 @@
 
                 <div class="container-fluid mt-5 px-4">
                     <div class="row">
-                        <div id="linkinbio-content" class="col-12">
+                        <div id="linkinbio-content" class="col-8">
 
                             <!--Value-->
    
@@ -54,7 +54,7 @@
                                         </li>
                                         <li class="nav-item" role="presentation">
                                           <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Performance</button>
-                                        </li>
+                                        </li> 
                                     </ul>
                                 </div>
                             </div>
@@ -63,13 +63,62 @@
                               <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <div class="card border-0 linkinbio-radius-bottom">
-                                        <div class="card-body">
+                                        <div class="card-body p-5">
+                                            <button type="button" class="btn btn-primary mb-5">Add a link</button>
+                                            <!-- Neu erstellen -->
+                                            
+                                            <div class="card border-primary">
+                                                <div class="card-body p-3">
+                                                    <!-- <form action=""> -->
+
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <input class="form-check-input p-2 m-2" type="checkbox" id="createShorcode" value="option1" checked>
+                                                        <label class="form-check-label" for="createShorcode">Create a new Llinkb link</label>
+                                                    
+                                                        <input class="form-check-input p-2 m-2" type="checkbox" id="createSearch" value="option1">
+                                                        <label class="form-check-label" for="createSearch">Select an existing Llinkb link</label>
+                                                    </div>
+
+
+                                                    <!-- Formular 1 (Erstellen) -->
+                                                    <form style="display: block;" action="{% url 'linkinbio:create_shortcode' %}" method="POST" id="form-create-shorcode">
+                                                        <div class="mb-3">
+                                                            <input type="text" class="form-control mt-3 mb-3" id="cratedhortcode" placeholder="Button label">
+                                                            <input type="text" class="form-control mt-3 mb-3" id="link-url" placeholder="Create a new Llinkb link">
+                                                            <input type="hidden" id="linkInBioPageID" value="{{link_in_bio_instance.id}}">
+                                                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                                                        </div>
+                                                    </form>
+
+                                                    <!-- Formular 2 (Auswählen) -->
+                                                    <form id="form-create-link" style="display: none;" action="{% url 'linkinbio:create_link' %}" method="POST">
+                                                        <div class="mb-3">
+                                                            <input type="text" class="form-control mt-3 mb-3" id="button_label" placeholder="Button label">
+                                                            <input type="text" class="form-control mt-3 mb-3" id="selectShortcode" placeholder="Select an existing Llinkb link">
+                                                            <ul id="search-results"></ul>
+                                                            <input type="hidden" id="linkinbio_page_id" value="{{link_in_bio_instance.id}}">
+                                                            <input type="hidden" id="shortcode_id" value="">
+                                                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+
+
+                                        <!-- 
                                             links
                                             Neuen link erstellen 
                                             Bestehen Shorcode nutzen
 
                                             start_date
                                             end_date
+
+                                            Aktivieren deaktivern
+                                            Löschen 
+                                            Bearbeiten
+
+                                            Sortiren -->
                                         </div>
                                     </div>
                                 </div>

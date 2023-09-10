@@ -149,7 +149,7 @@ TqXRm5ikowzmYtZVyCMC
             Normales Banner zum auswälen welche daten man speichern kann.
 
     - @ToDo Link in Bio
-        * Link in Bio Module
+        * Link in Bio Module erleding
             - user
             - Image Profile
             - Image Hinteregund
@@ -179,6 +179,11 @@ TqXRm5ikowzmYtZVyCMC
             color
             font
         - Performens Treching analyse
+        - Clicks nach Buttton Label
+        - Clicks Country 
+        - Clicks City
+        - Clicks Referrer
+        - clicks Device
 
 
 # ToDo´s LISTE 10.09.23
@@ -199,6 +204,7 @@ TqXRm5ikowzmYtZVyCMC
 # Bug liste
 - Einzelansicht Profile Eisntellungs seite Formular die ID noch einfühgen das immer der Richtige name kommt.
 - Logo & Favicon austauschen !erledigt
+- User Type zum Model hinzufühgen
 - Analytics Dahboard Anpssen
 - IP Gefärliche IP Sicherung einbauen --> https://chat.openai.com/c/f6d2978c-6cb7-44ba-9c1b-918ee67a37b0
 - E-Mail Bestätigung und Passwort zurück stezen.
@@ -207,7 +213,7 @@ TqXRm5ikowzmYtZVyCMC
 - first cklick in der Analyse und im Targeting
 
 - Anwendungen text seiten neues Module für SEO ready
-
+- Link speeren
 
 # Stripe Webhook
 
@@ -232,7 +238,7 @@ device
 browser
 
 # Facebook
-https://developers.facebook.com/docs/meta-pixel/reference#standard-events
+flo#.
 
 # Sontiges
 https://www.chartjs.org/docs/latest/charts/bar.html
