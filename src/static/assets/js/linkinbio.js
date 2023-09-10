@@ -19,6 +19,102 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const csrftoken = getCookie('csrftoken');
 
 
+
+
+
+
+
+    /* LinkListe für LinkInBio Deatile View */
+    var linkinbioId = $('#linkinbio_page_id').val();
+
+    $.ajax({
+        url: '/linkinbio/links/' + linkinbioId + '/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+    
+            // Leeren Sie zuerst den Container, um sicherzustellen, dass keine alten Daten übrig bleiben
+            $('#card-container').empty();
+    
+            for (var i = 0; i < data.links.length; i++) {
+                var link = data.links[i];
+            
+                // Erstellen Sie eine Card-Div mit den Daten aus dem JSON
+                var card = $('<div class="card mt-3 sortable-item">');
+                var cardBody = $('<div class="card-body p-3">');
+                var title = $('<h5>').text(link.button_label);
+                var linkElement = $('<a>').attr('href', link.url_destination).text(link.url_titel);
+            
+                // Fügen Sie die erstellten Elemente zur Card hinzu
+                cardBody.append(title);
+                cardBody.append(linkElement);
+                card.append(cardBody);
+            
+                // Fügen Sie die Card zum Container hinzu
+                $('#card-container').append(card);
+            
+                // Hinzufügen des data-id-Attributs zur Card
+                card.attr('data-id', link.order);
+            
+                // Hinzufügen eines Event Listeners für die Card
+                card.on('dragstart', function(event) {
+                    event.originalEvent.dataTransfer.setData('text/plain', $(this).attr('data-id'));
+                });
+            }
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.error('Fehler:', errorThrown);
+        }
+    });
+
+
+
+    var urlForm = $('#valueUrlSort').val();
+    console.log(urlForm);
+    $("#card-container").sortable({
+        axis: 'y',  // Nur vertikales Sortieren erlauben
+        update: function(event, ui) {
+            // Hier kannst du Code ausführen, um die aktualisierte Reihenfolge zu speichern
+
+            // var sortedLinks = $(this).sortable("toArray");
+
+            var sortedLinks = $(this).find('.sortable-item').map(function() {
+                return $(this).attr('data-id');
+            }).get();
+
+            console.log(sortedLinks)
+
+            // Führe hier eine Ajax-Anfrage aus, um die Reihenfolge auf dem Server zu speichern
+            $.ajax({
+                url: urlForm,
+                type: 'POST',
+                data: { sorted_links: sortedLinks },  // Gebe die sortierte Reihenfolge weiter
+                headers: {
+                    'X-CSRFToken': csrftoken 
+                },
+                success: function(data) {
+                    console.log('Reihenfolge erfolgreich gespeichert.');
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Fehler beim Speichern der Reihenfolge:', errorThrown);
+                }
+            });
+        }
+    });
+
+    // Deaktiviere die Standardtextauswahl für die Cards, um Konflikte mit Sortierungen zu vermeiden
+    $("#card-container").disableSelection();
+
+
+
+
+
+
+
+
+
+
+
     /* Create Link LinkInBio */
     $('#form-create-link').on('submit', function(event){
         event.preventDefault(); 

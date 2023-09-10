@@ -151,6 +151,8 @@ TqXRm5ikowzmYtZVyCMC
     - @ToDo Link in Bio
         * Link in Bio Module erleding
             - user
+            - Links erstellen und verbinden erledigt
+            - Link liste anzeigen und sortieren erledigt
             - Image Profile
             - Image Hinteregund
             - Titel

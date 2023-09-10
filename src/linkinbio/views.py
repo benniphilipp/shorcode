@@ -1,6 +1,8 @@
 import json
 import requests
 from bs4 import BeautifulSoup
+from django.db import models
+from django.db import transaction
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -9,12 +11,62 @@ from django.views import View
 from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from shortcode.models import ShortcodeClass
-from .models import LinkInBio
+from .models import LinkInBio, LinkInBioLink
 from .forms import LinkInBioDashboardForm
+
+
+# Ajax-Anfrage zum Speichern der Reihenfolge
+class UpdateLinksOrderView(View):
+    def post(self, request):
+        try:
+            sorted_links = request.POST.getlist('sorted_links[]')
+            print(sorted_links)
+            # Hier musst du die Datenbank entsprechend aktualisieren, um die Reihenfolge zu speichern
+            for index, link_id in enumerate(sorted_links):
+                link = LinkInBioLink.objects.get(id=link_id)
+                link.order = index + 1  # Ordne die Reihenfolge neu
+                link.save()
+
+            response_data = {'success': True, 'message': 'Reihenfolge erfolgreich gespeichert.'}
+            return JsonResponse(response_data)
+        except Exception as e:
+            response_data = {'success': False, 'message': str(e)}
+            return JsonResponse(response_data, status=400)
+
+
+
+
+# Link liste Datile LinkInBio
+class LinkInBioLinksListView(View):
+    def get(self, request, linkinbio_id):
+        try:
+            # Holen Sie sich die LinkInBio-Seite anhand ihrer ID
+            linkinbio = LinkInBio.objects.get(id=linkinbio_id)
+
+            # Holen Sie sich alle Links in der gewünschten Reihenfolge
+            links = LinkInBioLink.objects.filter(link_in_bio=linkinbio).order_by('order')
+
+            # Erstellen Sie eine Liste von Links im JSON-Format
+            links_data = [
+                {
+                    'id': link.id,
+                    'button_label': link.shortcode.button_label,
+                    'url_destination': link.shortcode.url_destination,
+                    'order': link.order,
+                    'url_titel': link.shortcode.url_titel
+                }
+                for link in links
+            ]
+
+            return JsonResponse({'links': links_data})
+
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio-Seite nicht gefunden'}, status=404)
 
 
 # Sorcode Save LinkInBio
 class CreateLinkView(View):
+    @transaction.atomic
     def post(self, request):
         try:
             data = json.loads(request.body)
@@ -23,21 +75,25 @@ class CreateLinkView(View):
             button_label = data.get('button_label')
 
             # Holen Sie das ShortcodeClass-Objekt und die LinkInBio-Seite
-            shortcode = ShortcodeClass.objects.get(id=shortcode_id)
-            linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
-            
+            try:
+                shortcode = ShortcodeClass.objects.get(id=shortcode_id)
+                linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
+            except (ShortcodeClass.DoesNotExist, LinkInBio.DoesNotExist):
+                response_data = {'success': False, 'message': 'Ungültige Shortcode- oder LinkInBio-Seite.'}
+                return JsonResponse(response_data, status=400)
+
             shortcode.button_label = button_label
             shortcode.save()
 
             # Überprüfen Sie, ob das ShortcodeClass-Objekt und die LinkInBio-Seite gültig sind
-            if shortcode and linkinbio_page:
-                linkinbio_page.links.add(shortcode)
+            linkinbio_page.links.add(shortcode)
 
-                response_data = {'success': True, 'message': 'Shortcode mit LinkInBio verknüpft.'}
-                return JsonResponse(response_data)
-            else:
-                response_data = {'success': False, 'message': 'Ungültige Shortcode- oder LinkInBio-Seite.'}
-                return JsonResponse(response_data, status=400)
+            current_order = LinkInBioLink.objects.filter(link_in_bio=linkinbio_page_id).aggregate(max_order=models.Max('order'))['max_order'] or 0
+            new_order = current_order + 1
+            LinkInBioLink.objects.create(link_in_bio=linkinbio_page, shortcode=shortcode, order=new_order)
+
+            response_data = {'success': True, 'message': 'Shortcode mit LinkInBio verknüpft.'}
+            return JsonResponse(response_data)
 
         except json.JSONDecodeError:
             response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
@@ -84,7 +140,13 @@ class CreateShortcodeView(View):
 
             selected_linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
             selected_linkinbio_page.links.add(shortcode)
-
+        
+            # Dies stelle anpssen
+            current_order = LinkInBioLink.objects.filter(link_in_bio=selected_linkinbio_page).aggregate(max_order=models.Max('order'))['max_order'] or 0
+            new_order = current_order + 1
+            
+            LinkInBioLink.objects.create(link_in_bio=selected_linkinbio_page, shortcode=shortcode, order=new_order)
+            
             response_data = {'success': True, 'message': 'Shortcode erstellt und zur LinkInBio hinzugefügt.'}
             return JsonResponse(response_data)
 

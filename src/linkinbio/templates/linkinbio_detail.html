@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block css %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/linkinbio.css' %}">
 {% endblock %}
@@ -105,6 +106,9 @@
                                                 </div>
                                             </div>
 
+                                            <div id="card-container"></div>
+                                            <input type="hidden" id="valueUrlSort" value="{% url 'linkinbio:update_links_order' %}">
+
 
                                         <!-- 
                                             links
@@ -149,6 +153,9 @@
 
 
                         </div>
+                        <div class="col-4">
+                            handy
+                        </div>
                     </div>
                 </div>
 
@@ -160,5 +167,6 @@
     {% endblock body %}
     
     {% block javasript %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{% static '/assets/js/linkinbio.js' %}"></script>
     {% endblock %}
