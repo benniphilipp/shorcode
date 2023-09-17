@@ -107,11 +107,11 @@
     flex-wrap: wrap;
 }
 
-.card-body{
+#shortcode-list .card-body{
     padding: 0 1rem 0.5rem;
 }
 
-.card-body a{
+#shortcode-list .card-body a{
     font-size: 14px;
     line-height: 1.6;
     color: #0c3ebb;
@@ -120,7 +120,7 @@
     text-decoration: none;
 }
 
-.card-body a.text-muted{
+#shortcode-list .card-body a.text-muted{
     font-weight: 300;
     color: #000 !important;
 }

@@ -218,7 +218,7 @@ class CreateShortcodeView(View):
             new_order = current_order + 1
             
             LinkInBioLink.objects.create(link_in_bio=selected_linkinbio_page, shortcode=shortcode, order=new_order)
-            
+            print('gesichert')
             response_data = {'success': True, 'message': 'Shortcode erstellt und zur LinkInBio hinzugefügt.'}
             return JsonResponse(response_data)
 

@@ -1,9 +1,28 @@
+
+
+<style>
+    /* Ein Stilblock, der später mit den dynamischen Regeln aktualisiert wird */
+    #header .avatar img{
+        height: 100px;
+        width: 100%;
+        border-radius: 100px;
+    }
+
+</style>
+
+
+<div id="heading">Dies ist ein Testelement.</div>
+<div id="link">Dies ist ein Testelement.</div>
+<div id="button">Dies ist ein Testelement.</div>
+
 <div class="launchpad-web">
     <div class="content">
-        content
 
-        <div class="header">
-            header
+
+        <div id="header">
+            <div class="avatar">
+                <img class="img-fluid mx-auto d-block" src="https://placehold.co/600x400" alt="header">
+            </div>
         </div>
 
         <div class="links">
@@ -16,3 +35,49 @@
         
     </div>
 </div>
+
+
+
+<style>
+    /* Ein Stilblock, der später mit den dynamischen Regeln aktualisiert wird */
+    /*#myElement { */
+    /*    background-color: red;*/
+    /*    color: white;*/
+    /*    font-size: 16px;*/
+    /*    padding: 10px;*/
+    /*    border-radius: 5px;*/
+    /*}*/
+</style>
+
+<script>
+    // Ein JSON-Objekt mit Stiloptionen
+    var styleOptions = {
+        "button": {
+          "backgroundColor": "#007BFF",
+          "color": "#FFFFFF",
+          "fontSize": "16px"
+        },
+        "link": {
+          "color": "#FF5733",
+          "textDecoration": "none"
+        },
+        "heading": {
+          "fontSize": "24px",
+          "fontWeight": "bold"
+        }
+      };
+
+    // Funktion zum Anwenden der Stiloptionen auf das Element
+     function applyStylesToElement(elementId, styles) {
+         var element = document.getElementById(elementId);
+         if (element) {
+             for (var property in styles) {
+                 element.style[property] = styles[property];
+             }
+         }
+     }
+    //Anwenden der Stiloptionen auf das Element
+     applyStylesToElement('button', styleOptions.button);
+     applyStylesToElement('link', styleOptions.link);
+     applyStylesToElement('heading', styleOptions.heading);
+</script>

@@ -19,87 +19,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const csrftoken = getCookie('csrftoken');
 
 
-    // Handler für linkinbio sozial media list
-    var linkInBioId = $('#linkinbio_page_id_custome').val();
-
-    $.ajax({
-        url: '/de/linkinbio/social_media_profiles/' + linkInBioId,
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            // Hier kannst du die Daten verarbeiten, z.B. in deine HTML-Seite einfügen
-            var socialMediaProfiles = data.social_media_profiles;
-            console.log(socialMediaProfiles);
+    // List View social media
+    const linkInBioId = $('#linkinbio_page_id_custome').val();
+    var linkInBioIdelement = document.getElementById(linkInBioId);
+    if(linkInBioIdelement){
+        $.ajax({
+            url: '/linkinbio/social_media_profiles/' + linkInBioId,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
     
-            socialMediaProfiles.forEach(function(profile) {
-                // Verarbeite jedes Profil (profile.platform und profile.url) hier
-                var newElement = `
-                    <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+                var socialMediaProfiles = data.social_media_profiles;
+                socialMediaProfiles.forEach(function(profile) {
+    
+                    var newElement = `
+                        <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
                         <div class="card-body p-0">
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-select platform-select" id="socialSelectFieldId" name="platform">
+                                <div class="d-flex flex-row align-items-center">
+                                    <i class="fa-solid fa-grip-vertical mx-2"></i>
+                                    <select class="form-select platform-select" id="socialSelectFieldId" name="platform" disabled>
                                         <!-- Optionen werden hier dynamisch hinzugefügt -->
+                                        <option value="1">${profile.platform}</option>
                                     </select>
+                                </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <input type="text" class="form-control url_social" placeholder="Url" value="${profile.url}">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <input type="text" class="form-control url_social" placeholder="Url" value="${profile.url}">
+                                            <i class="fa-regular fa-circle-xmark mx-2"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                `;
-                $('#elementContainer').append(newElement);
+                    `;
+                    $('#elementContainer').append(newElement);
+                });
     
-                // Das <select> im aktuellen Element auswählen und mit Optionen befüllen
-                var currentElement = $('#elementContainer').children().last(); // Das zuletzt hinzugefügte Element
-                var currentSelect = currentElement.find('.platform-select'); // Das <select> im aktuellen Element
-    
-                // Funktion zum Befüllen eines <select> mit Plattformoptionen
-                function fillPlatformSelect(select, platformId) {
-                    $.each(data.platforms, function(index, platform) {
-                        var option = $('<option>', {
-                            value: platform.id,
-                            text: platform.name
-                        });
-                        if (platform.id === profile.platform) {
-                            option.attr('selected', 'selected');
-                        }
-                        select.append(option);
-                    });
-                }
-    
-                fillPlatformSelect(currentSelect, profile.platform);
-            });
-    
-            // Hier fügen wir die verbleibenden Plattformen aus dem zweiten AJAX-Aufruf hinzu
-            $.ajax({
-                url: '/linkinbio/get_social_media_platforms/', // Passe die URL an deine Route an
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    var socialMediaPlatforms = data.platforms;
-    
-                    // Hier kannst du die Plattformen in deinen <select>-Elementen verwenden
-                    // Füge die Optionen zu den <select>-Elementen hinzu
-                    socialMediaPlatforms.forEach(function(platform) {
-                        $('.platform-select').append($('<option>', {
-                            value: platform.id,
-                            text: platform.name
-                        }));
-                    });
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.error('Fehler beim Abrufen der Plattformen:', errorThrown);
-                }
-            });
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            console.error('Fehler beim Abrufen der Daten:', errorThrown);
-        }
-    });
+            }
+        });
+    }
 
 
 
@@ -217,45 +180,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
     /* LinkListe für LinkInBio Deatile View */
     var linkinbioId = $('#linkinbio_page_id').val();
 
-    $.ajax({
-        url: '/linkinbio/links/' + linkinbioId + '/',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-    
-            // Leeren Sie zuerst den Container, um sicherzustellen, dass keine alten Daten übrig bleiben
-            $('#card-container').empty();
-    
-            for (var i = 0; i < data.links.length; i++) {
-                var link = data.links[i];
-            
-                // Erstellen Sie eine Card-Div mit den Daten aus dem JSON
-                var card = $('<div class="card mt-3 sortable-item">');
-                var cardBody = $('<div class="card-body p-3">');
-                var title = $('<h5>').text(link.button_label);
-                var linkElement = $('<a>').attr('href', link.url_destination).text(link.url_titel);
-            
-                // Fügen Sie die erstellten Elemente zur Card hinzu
-                cardBody.append(title);
-                cardBody.append(linkElement);
-                card.append(cardBody);
-            
-                // Fügen Sie die Card zum Container hinzu
-                $('#card-container').append(card);
-            
-                // Hinzufügen des data-id-Attributs zur Card
-                card.attr('data-id', link.order);
-            
-                // Hinzufügen eines Event Listeners für die Card
-                card.on('dragstart', function(event) {
-                    event.originalEvent.dataTransfer.setData('text/plain', $(this).attr('data-id'));
-                });
+    if(linkinbioId){
+        $.ajax({
+            url: '/linkinbio/links/' + linkinbioId + '/',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+        
+                // Leeren Sie zuerst den Container, um sicherzustellen, dass keine alten Daten übrig bleiben
+                $('#card-container').empty();
+        
+                for (var i = 0; i < data.links.length; i++) {
+                    var link = data.links[i];
+                
+                    // Erstellen Sie eine Card-Div mit den Daten aus dem JSON
+                    var card = $('<div class="card mt-3 sortable-item">');
+                    var cardBody = $('<div class="card-body p-3">');
+                    var title = $('<h5>').text(link.button_label);
+                    var linkElement = $('<a>').attr('href', link.url_destination).text(link.url_titel);
+                
+                    // Fügen Sie die erstellten Elemente zur Card hinzu
+                    cardBody.append(title);
+                    cardBody.append(linkElement);
+                    card.append(cardBody);
+                
+                    // Fügen Sie die Card zum Container hinzu
+                    $('#card-container').append(card);
+                
+                    // Hinzufügen des data-id-Attributs zur Card
+                    card.attr('data-id', link.order);
+                
+                    // Hinzufügen eines Event Listeners für die Card
+                    card.on('dragstart', function(event) {
+                        event.originalEvent.dataTransfer.setData('text/plain', $(this).attr('data-id'));
+                    });
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Fehler:', errorThrown);
             }
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            console.error('Fehler:', errorThrown);
-        }
-    });
+        });
+    }
+
 
 
 
@@ -352,11 +318,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             'link_url': linkUrl,
             'linkinbio_page': linkinbio_page
         };
+        console.log(formData)
     
         // Senden Sie die Formulardaten an die View
         $.ajax({
             type: 'POST',
-            url: $(this).attr('action'), // Verwenden Sie die action aus dem Formular
+            url: $(this).attr('action'),
             data: JSON.stringify(formData),
             contentType: 'application/json',
             headers: {
@@ -365,9 +332,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             success: function(data) {
                 console.log(data);
                 if (data.success) {
-                    alert(data.message); // Zeigen Sie eine Erfolgsmeldung an oder führen Sie andere Aktionen aus
+                    alert(data.message);
                 } else {
-                    alert('Fehler: ' + data.message); // Zeigen Sie eine Fehlermeldung an
+                    alert('Fehler: ' + data.message);
                 }
             },
             error: function(xhr, textStatus, errorThrown) {
@@ -433,6 +400,45 @@ window.addEventListener('DOMContentLoaded', (event) => {
         searchResults.empty();
     });
 
+    // Checkbox Image
+    $('#customeImage').on('change', function(){
+        if ($(this).is(':checked')) {
+            console.log(this);
+            $('#fieldsImage').show();
+            $('#fieldsColor').hide();
+            $('#customeColor').prop('checked', false);
+        }
+    });
+
+    // Checkbox Color
+    $('#customeColor').on('change', function(){
+        if ($(this).is(':checked')) {
+            console.log(this);
+            $('#fieldsColor').show();
+            $('#fieldsImage').hide();
+            $('#customeImage').prop('checked', false);
+        }
+    });
+
+    // Varbverlauf
+    var startColorInput = $('#start-color');
+    var endColorInput = $('#end-color');
+    var createGradientButton = $('#create-gradient');
+    var selectedGradientPreview = $('#selected-gradient-preview');
+
+    createGradientButton.on('change', function() {
+        var startColor = startColorInput.val();
+        var endColor = endColorInput.val();
+
+        var gradient = `linear-gradient(to right, ${startColor}, ${endColor})`;
+        selectedGradientPreview.css('background', gradient);
+    });
+
+    // Initialen Farbverlauf anzeigen
+    var initialGradient = `linear-gradient(to right, ${startColorInput.val()}, ${endColorInput.val()})`;
+    selectedGradientPreview.css('background', initialGradient);
+
+
 
     // Überwachen Sie Änderungen in den Checkboxen
     $('#createShorcode').on('change', function() {
@@ -447,7 +453,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     $('#createSearch').on('change', function() {
         if ($(this).is(':checked')) {
-            // Wenn "Select an existing Llinkb link" ausgewählt ist, aktivieren Sie das zugehörige Formular
             $('#form-create-shorcode').hide();
             $('#form-create-link').show();
             // Deaktivieren Sie das andere Formular
@@ -456,9 +461,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
 
-    /***************** Open Sidebar *****************/
-    $("#openForm").on('click', function() {  //use a class, since your ID gets mangled
-        console.log('run open');
+
+    $("#openForm").on('click', function() {
         $('#aside-form').addClass("toggle"); 
         $('#overlay-open').addClass("overlay-open"); 
 
@@ -475,15 +479,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
 
-    /***************** Close Sidebar *****************/
-    $("#closeForm").click(function() {  //use a class, since your ID gets mangled
+    $("#closeForm").click(function() { 
         $('#aside-form').removeClass("toggle");
         $('#overlay-open').removeClass("overlay-open");  
-
-        $('#geothemplate-form').removeClass("d-none"); 
-        $('#geothemplate-form-delete').addClass("d-none"); 
-
-        $('#geothemplate-form')[0].reset();
     });
 
 

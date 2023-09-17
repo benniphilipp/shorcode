@@ -76,7 +76,7 @@ python manage.py clearcache
 - python manage.py compilemessages
 
     - from django.utils.translation import gettext_lazy as _
-    - {% trans "Welcome" %}<
+    - {% trans "Welcome" %}
     
 # SMPTP
 
@@ -177,11 +177,14 @@ TqXRm5ikowzmYtZVyCMC
             - Name link
             - selection links
             - Datum wie lange Verfühgbar
+
         + Crate neuen link
             - Datum wie lange Verfügbar
+
         + Style
             color
             font
+        - LinkInBio mit Shorcode Vergnüpfen
         - Performens Treching analyse
         - Clicks nach Buttton Label
         - Clicks Country 
@@ -201,6 +204,9 @@ TqXRm5ikowzmYtZVyCMC
         Benutzerprofil aktualisieren
         E-Mail-Benachrichtigungen
         Verwaltung von Abonnements
+
+# Google Sheets
+- https://pypi.org/project/django-gsheets/
 
 # QR-Code
     Neues Module
@@ -248,6 +254,7 @@ flo#.
 https://www.chartjs.org/docs/latest/charts/bar.html
 https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript
 https://stackoverflow.com/questions/3514784/how-to-detect-a-mobile-device-using-jquery
+https://www.bl.ink/blog/how-blink-uses-short-links
 
 # Bilder Suche
 https://www.freepik.com/author/vectorjuice
