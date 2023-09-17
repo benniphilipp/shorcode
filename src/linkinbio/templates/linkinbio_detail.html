@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/classic.min.css">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static '/assets/css/linkinbio.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/linkinbio.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -89,8 +90,14 @@
     
     {% endblock body %}
     
+    <!--Javascript-->
     {% block javasript %}
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="{% static '/assets/js/linkinbio.js' %}"></script>
+
+    <script src="{% static '/js/linkinbio.js' %}"></script>
+    
+    <script src="{% static '/js/functions/customizations.js' %}"></script>
+    <script src="{% static '/js/functions/performance.js' %}"></script>
+    <script src="{% static '/js/functions/links.js' %}"></script>
     {% endblock %}

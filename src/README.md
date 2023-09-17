@@ -79,7 +79,6 @@ python manage.py clearcache
     - {% trans "Welcome" %}
     
 # SMPTP
-
 python -m smtpd -n -c DebuggingServer localhost:1025
 
 # Test Nutzer
@@ -95,6 +94,9 @@ pw@web.de
 
 benniph86@gmail.com
 TqXRm5ikowzmYtZVyCMC
+
+# Coding Guidelines
+
 
 # BUG LISTE 2.09.23
 - Tags nur für User Anzeigen !erledigt

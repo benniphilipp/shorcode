@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'analytics',
     'webclicktracker',
     'linkinbio',
-    'trackingai',
     'geotargeting',
     'products',
     'contentpages',
@@ -197,10 +196,19 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "linkinbio" / "static",
+]
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+#     BASE_DIR / 'posts' / 'static',
+#     # BASE_DIR / 'profiles' / 'static',
+# ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -232,7 +240,6 @@ EMAIL_USE_SSL = False
 
 STRIPE_PUBLISHABLE_KEY="pk_test_kvxLMnvuKeiFE7Z2i8Lx5DnD007eHlPfx0"
 STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'
-
 
 SITE_ID = 4
 USE_I18N = True
