@@ -179,3 +179,56 @@ input[type="color"] {
     cursor: auto;
 }
 
+#linkinbio .badge{
+    color: #014d19;
+    cursor: default;
+    background-color: #e9fbee !important;
+}
+
+#linkinbio .fa-regular,
+#linkinbio .fa-solid{
+    font-size: .9rem;
+    cursor: default;
+}
+
+#linkinbio small{
+    font-size: .8rem;
+    font-weight: 300;
+    cursor: default;
+}
+
+#linkinbio .dropdown-menu a{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#linkinbio .dropdown-menu a:hover,
+#linkinbio .dropdown-item:focus, .dropdown-item:hover{
+    background-color: unset !important;   
+}
+
+img.loader-image{
+    width: 50px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+/* #linkinbio-links */
+#linkinbio-links .linkinbio-icon{
+    font-size: .9rem;
+    cursor: default;
+}
+
+#linkinbio-links a.linkinbio{
+    font-size: .8rem;
+    font-weight: 300;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#linkinbio-links .textsmall{
+    font-size: 1rem;
+    font-weight: 300;
+    cursor: default;
+}

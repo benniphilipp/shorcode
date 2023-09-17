@@ -30,6 +30,8 @@ class LinkInBio(models.Model):
     social_media_platforms = models.ManyToManyField('UrlSocialProfiles', blank=True)
     custome_settings = models.ForeignKey(CustomSettings, on_delete=models.CASCADE, null=True, blank=True)
     selected_template = models.TextField(null=True, blank=True)
+    is_aktiv = models.BooleanField(default=True)
+    crate_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.title
@@ -51,3 +53,4 @@ class LinkInBioLink(models.Model):
 
     class Meta:
         unique_together = ('link_in_bio', 'shortcode')
+        
