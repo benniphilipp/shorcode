@@ -1,6 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     // Hier finden sie alle functionen LinkInBio **Links** 
-    // console.log('JS Links');
 
     const getCookie =(name) => {
         let cookieValue = null;
@@ -18,6 +17,127 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return cookieValue;
     }
     const csrftoken = getCookie('csrftoken');
+
+    // form anzeigen
+    $('#createOpenCloseForm').on('click', function(){
+        $('#createlinkinbio').toggleClass('d-none');
+    });
+
+
+
+    // Update Form View
+    $('#card-container').on('click', '.linkinbio-editcard', function(){
+        var linkInBioId = $(this).data('linkinbio-editcard');
+        //console.log(linkInBioId);
+
+        $('#linkInBioCardAddForm'+linkInBioId).removeClass('d-none');
+        $('#linkInBioCardForm'+linkInBioId).addClass('d-none');
+
+    });
+
+    function insertFormLinkInBio(linkFormId){
+
+        $.ajax({
+            url: '/linkinbio/link_detaile/' + linkFormId + '/',
+            type: 'GET',
+            dataType: 'json',
+            headers: {
+                'X-CSRFToken': csrftoken 
+            },
+            success: function(data) {
+                // Hier kannst du die JSON-Daten verwenden und im Modal anzeigen
+                var updateUrl = $('#updateUrl').val().replace('0', data.id);
+
+
+                var htmlForm = `
+                <div id="createlinkinbio" class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+        
+                    <div class="d-flex flex-row align-items-center mb-3">
+                        <input class="form-check-input p-2 m-2" type="checkbox" id="createShorcodeUpdate" value="option1" checked>
+                        <label class="form-check-label" for="createShorcodeUpdate">Update Llinkb link</label>
+                    
+                        <input class="form-check-input p-2 m-2" type="checkbox" id="createSearchUpdate" value="option1">
+                        <label class="form-check-label" for="createSearchUpdate">Create new Llinkb link</label>
+                    </div>
+        
+                    <form style="display: block;" action="${updateUrl}" id="form-create-shorcode-update">
+                        <div class="mb-3">
+                            <label for="labelUpdate" class="form-label">Button Label</label>
+                            <input type="text" class="form-control mb-1" id="labelUpdate" value="${data.button_label}">
+                            <label for="urlDestinationUpdate" class="form-label">Url</label>
+                            <input type="text" class="form-control mb-3" id="urlDestinationUpdate" value="${data.url_destination}">
+                            <input type="hidden" id="linkInBioPageId" value="${data.id}">
+                            <input type="hidden" id="shortcodeId" value="${data.shortcode_id}">
+                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                        </div>
+                    </form>
+        
+                    <form id="form-create-link-update" style="display: none;" action="" method="POST">
+                        <div class="mb-3">
+                            <label for="cratedhortcode" class="form-label">Button Label</label>
+                            <input type="text" class="form-control mb-1" id="button_label" placeholder="Button label">
+                            <label for="cratedhortcode" class="form-label">Url</label>
+                            <input type="text" class="form-control mb-3" id="selectShortcode" placeholder="Create new link">
+                            <input type="hidden" id="linkinbio_page_id" value="">
+                            <input type="hidden" id="shortcode_id" value="">
+                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                        </div>
+                    </form>
+        
+                    </div>
+                </div>
+                `;
+                $('.linkinbio-form-place'+linkFormId).html(htmlForm);
+            },
+            error: function() {
+                console.log('Fehler beim Abrufen der Daten');
+            }
+        });
+    };
+
+    // Auslöser für Update Formular Link
+    $('#card-container').on('click', '.form-place', function(){
+        var linkFormId = $(this).data('form-place');
+        // console.log(linkFormId);
+        insertFormLinkInBio(linkFormId);
+    });
+
+    
+    $('#card-container').on('submit', '#form-create-shorcode-update', function(event){
+        event.preventDefault();
+    
+        var button_label = $('#labelUpdate').val();
+        var url_destination = $('#urlDestinationUpdate').val();
+        var shortcode_id = $('#shortcodeId').val();
+        var urlLinkinBio = $(this).attr('action');
+        console.log(urlLinkinBio)
+
+        var newData = {
+            'shortcode_id': shortcode_id,
+            'url_destination': url_destination,
+            'button_label': button_label,
+        };
+        console.log(newData)
+        
+        $.ajax({
+            url: urlLinkinBio,
+            type: 'POST',
+            data: JSON.stringify(newData),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken 
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log('Fehler bei der AJAX-Anfrage: ' + error.statusText);
+            }
+        });
+    
+    });
+
 
 
     // Sortieren Links in linkinbio
@@ -104,7 +224,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             'link_url': linkUrl,
             'linkinbio_page': linkinbio_page
         };
-        console.log(formData)
     
         // Senden Sie die Formulardaten an die View
         $.ajax({
@@ -130,7 +249,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    /* Autocoplite Shorcdcode */
+    /* Autocomplete Shorcdcode */
     var shortcodeInput = $('#selectShortcode');
     var searchResults = $('#search-results');
 
@@ -206,6 +325,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+
+    /** Update form Prüfen in den Carten Create a new Llinkb link */
+    $('#card-container').on('change', '#createShorcodeUpdate', function() {
+        if ($(this).is(':checked')) {
+            $('#form-create-shorcode-update').show();
+            $('#form-create-link-update').hide();
+            $('#createSearchUpdate').prop('checked', false);
+        }
+    });
+
+    $('#card-container').on('change', '#createSearchUpdate', function() {
+        if ($(this).is(':checked')) {
+            $('#form-create-shorcode-update').hide();
+            $('#form-create-link-update').show();
+            $('#createShorcodeUpdate').prop('checked', false);
+        }
+    });
+
+
     /* LinkListe für LinkInBio Deatile View */
     var linkinbioId = $('#linkinbio_page_id').val();
     if(linkinbioId){
@@ -214,7 +352,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             type: 'GET',
             dataType: 'json',
             success: function(data) {
-        
+                // console.log(data);
                 // Leeren Sie zuerst den Container, um sicherzustellen, dass keine alten Daten übrig bleiben
                 $('#card-container').empty();
                 $('.loader-image').removeClass('d-none')
@@ -224,26 +362,52 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         var link = data.links[i];
                     
                         var card = `
-                        <div class="card border-0 shadow-sm mb-3">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h5 class="mb-0">${link.button_label}</h5>
-                                    <button type="button" class="btn btn-primary btn-sm linkinbio-editcard" data-linkinbio-editcard="${link.id}"><i class="fa-solid fa-pen linkinbio-icon"></i></button>
-                                </div>
-                                <div class="d-flex mt-3">
-                                    <a class="linkinbio" href="${link.url_destination}" target="_blank">${link.url_destination}</a>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-chart-line linkinbio-icon"></i>
-                                        <small class="mx-2 textsmall">1</small>
+                        <div class="card border-0 shadow-sm mb-3 sortable-grabel">
+                        <div class="card-body">
+                            <div class="row" id="linkInBioCardForm${link.id}">
+                                <div class="col-1">
+                                    <div class="d-flex mb-3 linkin-bio-hover align-items-center h-100">
+                                        <i class="fa-solid fa-grip-vertical"></i>
                                     </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input linkinbio-switch" data-linkinbio-switch="${link.id}" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                </div>
+                                <div class="col-11">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">${link.button_label}</h5>
+                                        <button type="button" class="btn btn-primary btn-sm linkinbio-editcard" data-linkinbio-editcard="${link.id}"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                    <div class="d-flex mt-3">
+                                        <a class="linkinbio" href="${link.url_destination}" target="_blank">${link.url_destination}</a>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-solid fa-chart-line linkinbio-icon"></i>
+                                            <small class="mx-2 textsmall">1</small>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input linkinbio-switch" data-linkinbio-switch="${link.id}" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row d-none" id="linkInBioCardAddForm${link.id}">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        
+                                        <div class="bg-linkinbio-edit-field d-flex justify-content-start align-items-baseline rounded">
+                                            <a class="btn btn-light form-place" data-form-place="${link.id}" href="#">Replace link</a>
+                                        </div>
+        
+                                        <!--Neuer Link Form-->
+                                        <div class="linkinbio-form-place${link.id}"></div>
+                                        <!-- /. Neuer Link Form-->
+        
+                                        <button type="submit" id="cancel" class="btn btn-secondary btn-sm mt-3">Abbrechen</button>
+                                    </div>
+                                </div>
+                            </div>
+        
                         </div>
+                    </div>
                         `;
 
                         $('#card-container').append(card);

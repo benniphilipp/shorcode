@@ -232,3 +232,24 @@ img.loader-image{
     font-weight: 300;
     cursor: default;
 }
+
+#linkinbio-links .linkin-bio-hover:hover{
+    color: #edf2ff;
+    transition: color 0.5s ease;
+}
+
+#linkinbio-links .sortable-grabel{
+    cursor:grab;
+}
+
+#linkinbio-links .bg-linkinbio-edit-field{
+    background-color: #edf2ff;
+    padding: .9rem;
+    margin-top: .9rem;
+}
+
+#linkinbio-links .bg-linkinbio-edit-field a{
+    line-height: 1rem;
+    text-decoration: none;
+    cursor:pointer;
+}

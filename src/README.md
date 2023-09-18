@@ -68,7 +68,7 @@ python manage.py clearcache
     - Push
     git add .
     git commit -m '_text'
-    git push origin create
+    git push origin linkinbio
 
 # Überstzung
 - python manage.py makemessages -l de

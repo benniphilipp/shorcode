@@ -3,6 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 from django.db import models
 from django.db import transaction
+from django.shortcuts import get_object_or_404
+
+from django.views.decorators.http import require_POST
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -55,7 +58,7 @@ class SaveUrlSocialView(View):
             return JsonResponse(response_data, status=404)
 
 
-# Social MediaP latform
+# Social Media Platform
 def get_social_media_platforms(request):
     platforms = SocialMediaPlatform.objects.all()
     data = [{'id': platform.id, 'name': platform.name} for platform in platforms]
@@ -118,14 +121,16 @@ class LinkInBioLinksListView(View):
             # Holen Sie sich alle Links in der gewünschten Reihenfolge
             links = LinkInBioLink.objects.filter(link_in_bio=linkinbio).order_by('order')
 
-            # Erstellen Sie eine Liste von Links im JSON-Format
             links_data = [
                 {
                     'id': link.id,
                     'button_label': link.shortcode.button_label,
                     'url_destination': link.shortcode.url_destination,
+                    'shortcode_url': link.shortcode.shortcode,
                     'order': link.order,
-                    'url_titel': link.shortcode.url_titel
+                    'url_titel': link.shortcode.url_titel,
+                    'link_in_bio_page': link.link_in_bio.id,
+                    'shortcode_id': link.shortcode.id,
                 }
                 for link in links
             ]
@@ -136,7 +141,10 @@ class LinkInBioLinksListView(View):
             return JsonResponse({'error': 'LinkInBio-Seite nicht gefunden'}, status=404)
 
 
-# Sorcode Save LinkInBio
+'''
+@Create Link
+Die vorhandene Shortcode wird ausgewählt und mit dem LinkInBio verknüpft.
+'''
 class CreateLinkView(View):
     @transaction.atomic
     def post(self, request):
@@ -172,7 +180,10 @@ class CreateLinkView(View):
             return JsonResponse(response_data, status=400)
 
 
-#Crate Shorcode
+''''
+@Crate Shorcode
+Ein neuer Shortcode wird erstellt und mit der LinkInBio über die Seite 'LinkInBioLink' verbunden.
+'''
 class CreateShortcodeView(View):
     def post(self, request):
         try:
@@ -233,16 +244,13 @@ class CreateShortcodeView(View):
 class ShortcodeClassListView(View):
     def get(self, request):
         search_term = request.GET.get('search_term', '')
-        # Holen Sie alle ShortcodeClass-Objekte, die dem angemeldeten Benutzer gehören
         current_user = request.user
         shortcode_objects = ShortcodeClass.objects.filter(url_creator=current_user, url_titel__icontains=search_term)
 
-        # Erstellen Sie eine Liste mit den gewünschten Daten
         shortcode_data = [
             {
                 'id': shortcode.id,
                 'url_titel': shortcode.url_titel,
-                # Fügen Sie hier alle Felder hinzu, die Sie im JSON-Format benötigen
             }
             for shortcode in shortcode_objects
         ]
@@ -302,3 +310,56 @@ class LinkInBioDetailView(LoginRequiredMixin, View):
         }
 
         return render(request, 'linkinbio_detail.html', context)
+
+# LinkInBio Links Detaile Json View
+class LinksDetaileJsonView(View):
+    def get(self, request, pk):
+        try:
+            link_in_bio_link = LinkInBioLink.objects.get(id=pk)
+            data = {
+                    'id': link_in_bio_link.id,
+                    'url_destination': link_in_bio_link.shortcode.url_destination,
+                    'shortcode_url': link_in_bio_link.shortcode.shortcode,
+                    'button_label': link_in_bio_link.shortcode.button_label,
+                    'shortcode_id': link_in_bio_link.shortcode.id,
+            }
+            return JsonResponse(data)
+        except LinkInBioLink.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBioLink not found'}, status=404)
+        
+'''
+Update bestehner Shorcode link und Label für LinkInBio Seite.
+'''
+
+class UpdateShortcodeLinkInBioView(View):
+    def post(self, request, pk):
+        try:
+            data = json.loads(request.body)
+            shortcode_id = data.get('shortcode_id')
+            url_destination_new = data.get('url_destination')
+            button_label = data.get('button_label')
+            print(shortcode_id)
+            print(url_destination_new)
+            print(button_label)
+            print(pk)
+            
+            try:
+                shortcode = ShortcodeClass.objects.get(id=shortcode_id)
+                linkinbio_link = LinkInBioLink.objects.filter(shortcode=shortcode).first()
+
+                if not linkinbio_link:
+                    response_data = {'success': False, 'message': 'Der Shortcode gehört nicht zur LinkInBio-Seite.'}
+                    return JsonResponse(response_data, status=400)
+            except ShortcodeClass.DoesNotExist:
+                response_data = {'success': False, 'message': 'Ungültiger Shortcode.'}
+                return JsonResponse(response_data, status=400)
+
+            shortcode.url_destination = url_destination_new
+            shortcode.button_label = button_label
+            shortcode.save()
+
+            response_data = {'success': True, 'message': 'Shortcode erfolgreich aktualisiert.'}
+            return JsonResponse(response_data)
+        except json.JSONDecodeError:
+            response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
+            return JsonResponse(response_data, status=400)

@@ -4,5 +4,13 @@ from .models import LinkInBio, CustomSettings, SocialMediaPlatform, LinkInBioLin
 admin.site.register(LinkInBio)
 admin.site.register(CustomSettings)
 admin.site.register(SocialMediaPlatform)
-admin.site.register(LinkInBioLink)
+
 admin.site.register(UrlSocialProfiles)
+
+
+@admin.register(LinkInBioLink)
+class LinkInBioLinkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'link_in_bio', 'shortcode', 'button_label')
+
+    def button_label(self, obj):
+        return obj.shortcode.button_label

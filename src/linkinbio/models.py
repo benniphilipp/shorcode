@@ -53,4 +53,3 @@ class LinkInBioLink(models.Model):
 
     class Meta:
         unique_together = ('link_in_bio', 'shortcode')
-        
