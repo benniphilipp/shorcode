@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-
+    'compressor',
+    'compressor_toolkit',
     'translations',
     
     #Party
@@ -59,9 +60,6 @@ INSTALLED_APPS = [
     'contentpages',
 ]
 
-
-
-
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': [
 #         'rest_framework.authentication.TokenAuthentication',
@@ -85,7 +83,6 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
 ]
 
-
 # MIDDLEWARE_CLASSES = (
 #     'corsheaders.middleware.CorsMiddleware',
 #     'django.middleware.common.CommonMiddleware',
@@ -95,7 +92,6 @@ MIDDLEWARE = [
 #     'http://localhost:3000',
 #     'http://127.0.0.1:8000'
 # ]
-
 
 ROOT_URLCONF = 'src.urls'
 
@@ -128,7 +124,6 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-
 # DATETIME_INPUT_FORMATS = [
 #     '%d.%m.%Y %H:%M',  # Füge hier das gewünschte Format hinzu
 # ]
@@ -136,10 +131,6 @@ CKEDITOR_CONFIGS = {
 WSGI_APPLICATION = 'src.wsgi.application'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
-
-#ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     'default': {
@@ -196,24 +187,6 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    BASE_DIR / "linkinbio" / "static",
-]
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',
-#     BASE_DIR / 'posts' / 'static',
-#     # BASE_DIR / 'profiles' / 'static',
-# ]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-
 DEFAULT_HOST = 'www'
 DEFAULT_REDIRECT_URL = "http://www.127.0.0.1:8000"
 PARENT_HOST = "127.0.0.1:8000"
@@ -244,3 +217,42 @@ STRIPE_SECRET_KEY = 'sk_test_8jUKcqcX0kSvJXgrRmQUVGdk00BMWYxnWX'
 SITE_ID = 4
 USE_I18N = True
 USE_L10N = True
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder'
+)
+STATIC_FINDERS= STATICFILES_FINDERS
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter',
+    'compressor.filters.template.TemplateFilter',
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
+COMPRESS_PRECOMPILERS = (
+    ('module', 'compressor_toolkit.precompilers.ES6Compiler'),
+    ('text/x-scss', 'compressor_toolkit.precompilers.SCSSCompiler'),
+    ('OUTPUT_DIR', 'static/dist/'),
+)
+COMPRESS_ENABLED = True
