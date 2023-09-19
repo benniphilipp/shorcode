@@ -44,9 +44,13 @@ python manage.py createsuperuser
 
 python3 manage.py startapp APP_NAME
 
+python manage.py compress
+
 # Pip
 pip freeze > requirements.txt
 pip install -r requirements.txt
+
+pip3 uninstall 
 
 # Server
 sudo reboot

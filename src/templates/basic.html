@@ -1,5 +1,5 @@
 {% load static %}
-{% load compress %}
+
 
 <html lang="de" data-lt-installed="true">
 {% include "includes/header.html" %}
@@ -17,10 +17,6 @@
 <!--Javascript-->
 {% block javasript %}{% endblock %}
 
-
-{% compress js %}
-<script src="{% static 'assets/js/test-neu.js' %}" type="text/javascript"></script>
-{% endcompress %}
 
 </body>
 </html>

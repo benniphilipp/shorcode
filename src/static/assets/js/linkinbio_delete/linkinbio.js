@@ -1,8 +1,3 @@
-import greet from './models/links';
-const message = greet('Alice');
-console.log(message);
-
-
 window.addEventListener('DOMContentLoaded', (event) => {
 
 

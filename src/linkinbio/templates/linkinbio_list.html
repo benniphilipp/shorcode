@@ -1,6 +1,6 @@
 {% extends "basic.html" %}
 {% load static %}
-{% load compress %}
+
 
 {% load crispy_forms_tags %}
 
@@ -111,5 +111,8 @@
     {% block javasript %}
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- <script src="{% static '/assets/js/linkinbio.js' %}"></script> -->
+
+            <script src="{% static '/js/linkinbio.js' %}"></script>
+
+
     {% endblock %}
