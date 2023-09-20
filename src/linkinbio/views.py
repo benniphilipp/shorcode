@@ -149,10 +149,9 @@ class CreateLinkView(View):
     @transaction.atomic
     def post(self, request):
         try:
-            data = json.loads(request.body)
-            shortcode_id = data.get('shortcode_id')
-            linkinbio_page_id = data.get('linkinbio_page_id')
-            button_label = data.get('button_label')
+            shortcode_id = request.POST.get('shortcode_id')
+            linkinbio_page_id = request.POST.get('linkinbio_page_id')
+            button_label = request.POST.get('button_label')
 
             # Holen Sie das ShortcodeClass-Objekt und die LinkInBio-Seite
             try:
@@ -187,10 +186,10 @@ Ein neuer Shortcode wird erstellt und mit der LinkInBio über die Seite 'LinkInB
 class CreateShortcodeView(View):
     def post(self, request):
         try:
-            data = json.loads(request.body)
-            button_label = data.get('button_label', '')
-            link_url = data.get('link_url', '')
-            linkinbio_page_id = data.get('linkinbio_page')
+            # data = json.loads(request.body)
+            button_label = request.POST.get('button_label', '')
+            link_url = request.POST.get('link_url', '')
+            linkinbio_page_id = request.POST.get('linkinbio_page')
 
             current_user = request.user
 
@@ -198,7 +197,6 @@ class CreateShortcodeView(View):
             response = requests.get(link_url)
 
             favicon_path = None
-
 
             if response.status_code == 200:
                 # Extrahieren Sie das Favicon aus dem HTML der Website
@@ -229,7 +227,7 @@ class CreateShortcodeView(View):
             new_order = current_order + 1
             
             LinkInBioLink.objects.create(link_in_bio=selected_linkinbio_page, shortcode=shortcode, order=new_order)
-            print('gesichert')
+
             response_data = {'success': True, 'message': 'Shortcode erstellt und zur LinkInBio hinzugefügt.'}
             return JsonResponse(response_data)
 
@@ -245,7 +243,20 @@ class ShortcodeClassListView(View):
     def get(self, request):
         search_term = request.GET.get('search_term', '')
         current_user = request.user
-        shortcode_objects = ShortcodeClass.objects.filter(url_creator=current_user, url_titel__icontains=search_term)
+        link_in_bio_page_id = request.GET.get('link_in_bio_page_id')
+
+        # Filtern Sie die Shortcodes nach dem aktuellen Benutzer und dem Suchbegriff
+        shortcode_objects = ShortcodeClass.objects.filter(
+            url_creator=current_user,
+            url_titel__icontains=search_term
+        )
+
+        # Falls eine Link-in-Bio-Seiten-ID übergeben wurde, filtern Sie die Shortcodes weiter
+        if link_in_bio_page_id:
+            # Filtern Sie die Shortcodes basierend auf der übergebenen Link-in-Bio-Seiten-ID
+            shortcode_objects = shortcode_objects.exclude(
+                linkinbiolink__link_in_bio_id=link_in_bio_page_id
+            )
 
         shortcode_data = [
             {

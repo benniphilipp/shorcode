@@ -1,73 +1,55 @@
-import greet from './models/links';
-const message = greet('Alice');
-console.log(message);
+
 
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
 
-    const getCookie =(name) => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
 
 
     // List View social media
-    const linkInBioId = $('#linkinbio_page_id_custome').val();
-    var linkInBioIdelement = document.getElementById(linkInBioId);
-    if(linkInBioIdelement){
-        $.ajax({
-            url: '/linkinbio/social_media_profiles/' + linkInBioId,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
+    // const linkInBioId = $('#linkinbio_page_id_custome').val();
+    // var linkInBioIdelement = document.getElementById(linkInBioId);
+    // if(linkInBioIdelement){
+    //     $.ajax({
+    //         url: '/linkinbio/social_media_profiles/' + linkInBioId,
+    //         type: 'GET',
+    //         dataType: 'json',
+    //         success: function(data) {
     
-                var socialMediaProfiles = data.social_media_profiles;
-                socialMediaProfiles.forEach(function(profile) {
+    //             var socialMediaProfiles = data.social_media_profiles;
+    //             socialMediaProfiles.forEach(function(profile) {
     
-                    var newElement = `
-                        <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
-                        <div class="card-body p-0">
-                            <div class="row">
-                                <div class="col">
-                                <div class="d-flex flex-row align-items-center">
-                                    <i class="fa-solid fa-grip-vertical mx-2"></i>
-                                    <select class="form-select platform-select" id="socialSelectFieldId" name="platform" disabled>
-                                        <!-- Optionen werden hier dynamisch hinzugefügt -->
-                                        <option value="1">${profile.platform}</option>
-                                    </select>
-                                </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <div class="d-flex flex-row align-items-center">
-                                            <input type="text" class="form-control url_social" placeholder="Url" value="${profile.url}">
-                                            <i class="fa-regular fa-circle-xmark mx-2"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                    $('#elementContainer').append(newElement);
-                });
+    //                 var newElement = `
+    //                     <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+    //                     <div class="card-body p-0">
+    //                         <div class="row">
+    //                             <div class="col">
+    //                             <div class="d-flex flex-row align-items-center">
+    //                                 <i class="fa-solid fa-grip-vertical mx-2"></i>
+    //                                 <select class="form-select platform-select" id="socialSelectFieldId" name="platform" disabled>
+    //                                     <!-- Optionen werden hier dynamisch hinzugefügt -->
+    //                                     <option value="1">${profile.platform}</option>
+    //                                 </select>
+    //                             </div>
+    //                             </div>
+    //                             <div class="col">
+    //                                 <div class="form-group">
+    //                                     <div class="d-flex flex-row align-items-center">
+    //                                         <input type="text" class="form-control url_social" placeholder="Url" value="${profile.url}">
+    //                                         <i class="fa-regular fa-circle-xmark mx-2"></i>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 `;
+    //                 $('#elementContainer').append(newElement);
+    //             });
     
-            }
-        });
-    };
+    //         }
+    //     });
+    // };
 
 
 
@@ -242,26 +224,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-    $("#openForm").on('click', function() {
-        $('#aside-form').addClass("toggle"); 
-        $('#overlay-open').addClass("overlay-open"); 
+    // $("#openForm").on('click', function() {
+    //     $('#aside-form').addClass("toggle"); 
+    //     $('#overlay-open').addClass("overlay-open"); 
 
-        $('#id_template_name').css({
-            'border-color': '#dc3545',
-        });
+    //     $('#id_template_name').css({
+    //         'border-color': '#dc3545',
+    //     });
 
-        $('#id_template_name').on('change', function() {
-            $('#id_template_name').css({
-                'border-color': '',
-            });
-        });
+    //     $('#id_template_name').on('change', function() {
+    //         $('#id_template_name').css({
+    //             'border-color': '',
+    //         });
+    //     });
 
-    });
+    // });
 
-    $("#closeForm").click(function() { 
-        $('#aside-form').removeClass("toggle");
-        $('#overlay-open').removeClass("overlay-open");  
-    });
+    // $("#closeForm").click(function() { 
+    //     $('#aside-form').removeClass("toggle");
+    //     $('#overlay-open').removeClass("overlay-open");  
+    // });
 
 
 });

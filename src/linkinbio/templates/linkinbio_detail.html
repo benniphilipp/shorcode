@@ -1,4 +1,5 @@
 {% extends "basic.html" %}
+{% load i18n %}
 {% load static %}
 
 {% load crispy_forms_tags %}
@@ -87,7 +88,7 @@
         </div>
     </div>
 
-    
+    <input type="hidden" id="LinkInBioLinksListView" value="{% url 'linkinbio:linkinbio_links_list' link_in_bio_instance.id %}">
     {% endblock body %}
     
     <!--Javascript-->
@@ -96,12 +97,20 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
- 
-        <script src="{% static '/js/linkinbio.js' %}"></script>
+    <!-- <script src="{% static '/js/functions/customizations.js' %}"></script>
+    <script src="{% static '/js/functions/performance.js' %}"></script>
+    <script src="{% static '/js/functions/links.js' %}"></script> -->
 
-        <script src="{% static '/js/functions/customizations.js' %}"></script>
-        <script src="{% static '/js/functions/performance.js' %}"></script>
-        <script src="{% static '/js/functions/links.js' %}"></script>
- 
+
+    <script>
+        const translations = {
+            'Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
+            'Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
+        };
+    </script>
+
+    
+    <script type="module" src="{% static '/js/linkInBio.bundle.js' %}" defer></script>
+
 
     {% endblock %}

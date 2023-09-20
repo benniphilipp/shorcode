@@ -5,6 +5,7 @@ module.exports = {
     entry: {
       vendor: './assets/js/vendor.js',
       main: './assets/js/main.js',
+      linkInBio: './assets/js/linkinbio/linkinbio.js',
       styles: './assets/css/main.scss',
       //customStyles: './assets/css/custom.scss',
     },

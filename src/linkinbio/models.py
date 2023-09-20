@@ -50,6 +50,7 @@ class LinkInBioLink(models.Model):
     link_in_bio = models.ForeignKey(LinkInBio, on_delete=models.CASCADE)
     shortcode = models.ForeignKey(ShortcodeClass, on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=0)
-
+    is_aktiv = models.BooleanField(default=True)
+    
     class Meta:
         unique_together = ('link_in_bio', 'shortcode')

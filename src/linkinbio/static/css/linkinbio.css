@@ -253,3 +253,9 @@ img.loader-image{
     text-decoration: none;
     cursor:pointer;
 }
+
+.url-chacke-feedback{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+}
