@@ -45,6 +45,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         <label class="form-check-label" for="createSearchUpdate">Create new Llinkb link</label>
                     </div>
         
+                    <!--Url Shortcode Update-->
                     <form style="display: block;" action="${updateUrl}" id="form-create-shorcode-update">
                         <div class="mb-3">
                             <label for="labelUpdate" class="form-label">Button Label</label>
@@ -57,6 +58,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         </div>
                     </form>
         
+                    <!--Crate Shortcode-->
                     <form id="form-create-link-update" style="display: none;" action="" method="POST">
                         <div class="mb-3">
                             <label for="cratedhortcode" class="form-label">Button Label</label>
@@ -80,12 +82,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         });
     };
 
+
     // Auslöser für Update Formular Link
-    $('#card-container').on('click', '.form-place', function(){
-        var linkFormId = $(this).data('form-place');
-        // console.log(linkFormId);
-        insertFormLinkInBio(linkFormId);
-    });
+    // $('#card-container').on('click', '.form-place', function(){
+    //     var linkFormId = $(this).data('form-place');
+    //     // console.log(linkFormId);
+    //     insertFormLinkInBio(linkFormId);
+    // });
 
     
     $('#card-container').on('submit', '#form-create-shorcode-update', function(event){
@@ -96,6 +99,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         var shortcode_id = $('#shortcodeId').val();
         var urlLinkinBio = $(this).attr('action');
         console.log(urlLinkinBio)
+
 
         var newData = {
             'shortcode_id': shortcode_id,
@@ -311,21 +315,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     /** Update form Prüfen in den Carten Create a new Llinkb link */
-    $('#card-container').on('change', '#createShorcodeUpdate', function() {
-        if ($(this).is(':checked')) {
-            $('#form-create-shorcode-update').show();
-            $('#form-create-link-update').hide();
-            $('#createSearchUpdate').prop('checked', false);
-        }
-    });
+    // $('#card-container').on('change', '#createShorcodeUpdate', function() {
+    //     if ($(this).is(':checked')) {
+    //         $('#form-create-shorcode-update').show();
+    //         $('#form-create-link-update').hide();
+    //         $('#createSearchUpdate').prop('checked', false);
+    //     }
+    // });
 
-    $('#card-container').on('change', '#createSearchUpdate', function() {
-        if ($(this).is(':checked')) {
-            $('#form-create-shorcode-update').hide();
-            $('#form-create-link-update').show();
-            $('#createShorcodeUpdate').prop('checked', false);
-        }
-    });
+    // $('#card-container').on('change', '#createSearchUpdate', function() {
+    //     if ($(this).is(':checked')) {
+    //         $('#form-create-shorcode-update').hide();
+    //         $('#form-create-link-update').show();
+    //         $('#createShorcodeUpdate').prop('checked', false);
+    //     }
+    // });
 
 
     /* LinkListe für LinkInBio Deatile View */

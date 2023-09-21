@@ -30,5 +30,5 @@ urlpatterns = [
     path('update_shorcode_linkinbio/<int:pk>/', UpdateShortcodeLinkInBioView.as_view(), name='update_shortcode_linkinbio'),
     path('detail/<int:pk>/', LinkInBioDetailView.as_view(), name='linkinbio_detail'),
     path('links/<int:linkinbio_id>/', LinkInBioLinksListView.as_view(), name='linkinbio_links_list'),
-    path('link_detaile/<int:pk>/', LinksDetaileJsonView.as_view(), name='link_in_bio_link_modal'),
+    path('link_detaile/<pk>/', LinksDetaileJsonView.as_view(), name='link_in_bio_link'),
 ]

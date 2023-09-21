@@ -1,11 +1,14 @@
+// import createFormLinks from './updateFormLinks';
+
 class linkListe{
+
     constructor(){
         this.LinkInBioLinksListView = document.querySelector('#LinkInBioLinksListView');
         this.cardContainer = document.querySelector('#card-container');
         this.loaderImage = document.querySelector('.loader-image');
+        
         this.linklistview();
     }
-
 
     events(){}
 
@@ -41,13 +44,17 @@ class linkListe{
                     <div class="row d-none" id="linkInBioCardAddForm${link.id}">
                         <div class="col-12">
                             <div class="mb-3">
+                                <label for="cratedhortcode" class="form-label">Button Label</label>
+                                <input type="text" class="form-control mb-3" id="button_label" placeholder="Button label">
                                 <div class="bg-linkinbio-edit-field d-flex justify-content-start align-items-baseline rounded">
-                                    <a class="btn btn-light form-place" data-form-place="${link.id}" href="#">Replace link</a>
+                                    <a class="btn btn-light form-place" data-form-place="${link.id}" href="javascript:void(0);">Replace link</a>
                                 </div>
+
                                 <!--Neuer Link Form-->
                                 <div class="linkinbio-form-place${link.id}"></div>
                                 <!-- /. Neuer Link Form-->
-                                <button type="submit" id="cancel" class="btn btn-secondary btn-sm mt-3">Abbrechen</button>
+                                
+                                <button type="submit" id="cancel${link.id}" class="btn btn-secondary btn-sm mt-3 cencleButton">Abbrechen</button>
                             </div>
                         </div>
                     </div>
@@ -58,31 +65,35 @@ class linkListe{
 
     // ListViewLinks
     linklistview(){
-        $.ajax({
-            url: this.LinkInBioLinksListView.value,
-            type: 'GET',
-            dataType: 'json',
-            success: (data) => {
+        if(this.LinkInBioLinksListView){
+            $.ajax({
+                url: this.LinkInBioLinksListView.value,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+    
+                // empty list
+                $(this.cardContainer).empty();
+                this.loaderImage.classList.remove('d-none');
+    
+                    // Date
+                    setTimeout(() => {
+                        for (var i = 0; i < data.links.length; i++) {
+                            var link = data.links[i];
+                            var card = this.renderCard(link);
+                            $(this.cardContainer).append($(card));
+                            // this.createformlinks.insiteFormular(); 
+                        }
+                        $(this.loaderImage.classList.add('d-none'));
+                    }, 1000);
+    
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                console.error('Fehler:', errorThrown);
+                }
+            });
+        }
 
-            // empty list
-            $(this.cardContainer).empty();
-            this.loaderImage.classList.remove('d-none');
-
-                // Date
-                setTimeout(() => {
-                    for (var i = 0; i < data.links.length; i++) {
-                        var link = data.links[i];
-                        var card = this.renderCard(link);
-                        $(this.cardContainer).append($(card));
-                    }
-                    $(this.loaderImage.classList.add('d-none'));
-                }, 1000);
-
-            },
-            error: (xhr, textStatus, errorThrown) => {
-            console.error('Fehler:', errorThrown);
-            }
-        });
     }
 
 }

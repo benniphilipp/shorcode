@@ -3,13 +3,14 @@ import { openForm, closeForm } from './module/sidebarSwitcher';
 
 const csrftoken = getCookie('csrftoken');
 
-// Class Javascript
+// Linkinbio Links Javascript
 import linkListe from './module/linkListe';
 import crateFormLink from './module/crateFormLink';
+import createFormLinks from './module/updateFormLinks';
 
 const linklist = new linkListe();
 const crateformlink = new crateFormLink();
-
+const createformlinks = new createFormLinks();
 
 
 // Sidebar Open & Close
