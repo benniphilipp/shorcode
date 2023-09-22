@@ -1,4 +1,3 @@
-// import createFormLinks from './updateFormLinks';
 
 class linkListe{
 
@@ -42,35 +41,11 @@ class linkListe{
                         </div>
                     </div>
                 </div>
-                <div class="row d-none" id="linkInBioCardAddForm${link.id}">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <div id="createlinkinbio" class="card shadow-sm border-0 mb-3">
-                                <div class="card-body">
-
-                                <!--Form Shortcode Update-->
-                                <form action="$" id="form-create-shorcode-update">
-                                    <div class="mb-3">
-                                        <label for="cratedhortcode" class="form-label">Button Label</label>
-                                        <input type="text" class="form-control mb-3" id="buttonLabel${link.id}" placeholder="Button label">
-                                        <label for="urlDestinationUpdate" class="form-label">Url</label>
-                                        <input type="text" class="form-control mb-3" id="urlDestinationUpdate${link.id}" value="$">
-                                        <!--<input type="hidden" id="linkInBioPageId" value="$">
-                                        <input type="hidden" id="shortcodeId" value="$">-->
-                                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                    </div>
-                                </form>
-                    
-                                </div>
-                            </div>                    
-                            <button type="submit" id="cancel${link.id}" class="btn btn-secondary btn-sm mt-3 cencleButton">Abbrechen</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         `;
     }
+
 
     // ListViewLinks
     linklistview(){
@@ -83,16 +58,15 @@ class linkListe{
               dataType: 'json',
               success: (data) => {
                 // empty list
-                console.log(data);
                 $(this.cardContainer).empty();
                 this.loaderImage.classList.remove('d-none');
-      
+
                 setTimeout(() => {
                   for (var i = 0; i < data.links.length; i++) {
                     var link = data.links[i];
                     var card = this.renderCard(link);
                     $(this.cardContainer).append($(card));
-                    // this.createformlinks.insiteFormular();
+
                   }
                   $(this.loaderImage.classList.add('d-none'));
                 }, 1000);

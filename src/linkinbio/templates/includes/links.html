@@ -42,12 +42,40 @@
             </div>
         </div>
 
+        <div id="card-container-form">
+            <div class="row d-none" id="linkInBioCardAddForm">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div id="createlinkinbio" class="card shadow-sm border-0 mb-3">
+                            <div class="card-body">
+    
+                            <!--Form Shortcode Update-->
+                            <form id="form-create-shorcode-update">
+                                <div class="mb-3">
+                                    <label for="buttonLabelLabel" class="form-label">Button Label</label>
+                                    <input type="text" class="form-control mb-3" id="buttonLabel" placeholder="Button label">
+                                    <label for="urlDestinationUpdateLabel" class="form-label">Url</label>
+                                    <input type="text" class="form-control mb-3 inputSearchform" id="urlDestinationUpdate">
+                                    <ul id="search-results"></ul>
+                                    <input type="hidden" id="shortcodeId" value="">
+                                    <button type="submit" class="btn btn-primary btn-sm updateformlink">Update</button>
+                                    <button type="submit" id="cancel" class="btn btn-secondary btn-sm cencleButton">Abbrechen</button>
+                                </div>
+                            </form>
+                
+                            </div>
+                        </div>                    
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="col-12">
         <img class="loader-image mx-auto d-block d-none" src="{% static '/gif/load-38_256.gif' %}">
         <!--Value Links-->
-
         <div id="card-container"></div>
         <input type="hidden" id="updateUrl" value="{% url 'linkinbio:update_shortcode_linkinbio' 0 %}">
         <input type="hidden" id="viewUrlLinks" value="{% url 'linkinbio:link_in_bio_link' 0 %}">

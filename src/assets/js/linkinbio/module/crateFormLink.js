@@ -231,7 +231,6 @@ class crateFormLink{
             });
 
         }
-
     }
 
     // Url Regulärer Ausdrück
