@@ -25,22 +25,22 @@ $(document).ready(function(){
         }, 1000);
     }
 
-    function ls_toast(parmToast){
-        $('#toast-alert').html(`
-            <div class="ls-toast" id="ls-toas">
-                <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
-                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
-                    <span><b>Meldung</b></span>
-                    <i class="fa-solid fa-xmark ms-auto"></i>
-                </div>
-                <hr>
-                <div class="ls-toas-body p-2">
-                    ${parmToast}
-                </div>
-            </div>
-        `);
-        clearContent();
-    };
+    // function ls_toast(parmToast){
+    //     $('#toast-alert').html(`
+    //         <div class="ls-toast" id="ls-toas">
+    //             <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
+    //                 <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+    //                 <span><b>Meldung</b></span>
+    //                 <i class="fa-solid fa-xmark ms-auto"></i>
+    //             </div>
+    //             <hr>
+    //             <div class="ls-toas-body p-2">
+    //                 ${parmToast}
+    //             </div>
+    //         </div>
+    //     `);
+    //     clearContent();
+    // };
 
     /* Limitation View */ 
     function limitationView(){
@@ -111,7 +111,7 @@ $(document).ready(function(){
             success: function(response) {
                 const data = response.status_switches;
 
-                ls_toast(data.message);
+                // ls_toast(data.message);
 
                 if(data){
                     $('#id_limitation_active').prop('checked', true);
@@ -143,7 +143,7 @@ $(document).ready(function(){
     /* Funktion Update Send limitation */
     function sendLimitationForm() {
         var idShortcode = $('#update-shortcode-url').val();
-        var formAction = `/shortcode/update_limitation_targeting/${idShortcode}/`;
+        var formAction = `/de/shortcode/update_limitation_targeting/${idShortcode}/`;
     
         var id_start_date = $('#id_start_date').val();
         var id_end_date = $('#id_end_date').val();
@@ -174,10 +174,10 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    ls_toast(response.message);
+                    // ls_toast(response.message);
                     // console.log('Formular wurde erfolgreich aktualisiert.');
                 } else {
-                    ls_toast(response.message);
+                    // ls_toast(response.message);
                     console.log('Fehler beim Aktualisieren des Formulars:', response);
                 }
             },

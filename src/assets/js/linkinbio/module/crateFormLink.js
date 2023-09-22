@@ -27,55 +27,45 @@ class crateFormLink{
     event(){
         const formCreateShorcode = document.querySelector('#form-create-shorcode'); 
         const createOpenCloseForm = document.querySelector('#createOpenCloseForm');
-        const createSearch = document.querySelector('#createSearch')
+        const createSearch = document.querySelector('#createSearch');
+        const formCreateLinkSelect = document.querySelector('#form-create-link-select');
+        const linkUrlSubmit = document.querySelector('#linkUrlSubmit');
+        const shortcodeInput = document.querySelector('#selectShortcode');
+        const buttonLabelInput = document.querySelector('#buttonLabelSelcetSubmit');
+        const selectShortcodeInput = document.querySelector('#selectShortcode');
         if(createOpenCloseForm){
             this.createOpenCloseForm.addEventListener('click', this.opencrateform.bind(this));
         }
-
         if(formCreateShorcode){
             document.querySelector('#createShorcode').addEventListener('change', this.handleShorcodeUpdateChange.bind(this));
         }
-        
         if(createSearch){
             document.querySelector('#createSearch').addEventListener('change', this.handleSearchUpdateChange.bind(this));
         }
-
-        const formCreateLinkSelect = document.querySelector('#form-create-link-select');
         if(formCreateLinkSelect){
             this.formCreateLinkSelect.addEventListener('submit', this.cratelinkInBioSelectSubmit.bind(this));
         }
-
         if(formCreateShorcode){
             this.formCreateShorcode.addEventListener('submit', this.createLinkInBioSubmit.bind(this));   
         }
-
-        const linkUrlSubmit = document.querySelector('#linkUrlSubmit');
         if(linkUrlSubmit){
             this.linkUrlSubmit.addEventListener('keyup', this.eventHandlerUrlChecke.bind(this));
         }
-
-        const shortcodeInput = document.querySelector('#selectShortcode');
         if(shortcodeInput){
             this.shortcodeInput.addEventListener('keyup', this.AutocompleteShorcdcode.bind(this));
         }
-
-        const buttonLabelInput = document.querySelector('#buttonLabelSelcetSubmit');
         if(buttonLabelInput){
             this.buttonLabelInput.addEventListener('input', this.checkInputs.bind(this));
         }
-
-        const selectShortcodeInput = document.querySelector('#selectShortcode');
         if(selectShortcodeInput){
             this.selectShortcodeInput.addEventListener('input', this.checkInputs.bind(this));
         }
-    
     }
 
     // Cratelink in bio Submit form
     createLinkInBioSubmit(event){
         event.preventDefault();
         const self = this;
-
         const buttonLabelInput = document.querySelector('#buttonLabelSubmit');
         const linkUrlInput = document.querySelector('#linkUrlSubmit');
         const linkInBioPageIDInput = document.querySelector('#linkInBioPageID');

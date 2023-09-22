@@ -20,8 +20,6 @@ from .forms import LinkInBioDashboardForm
 
 class SocialMediaProfilesView(View):
     def get(self, request, link_in_bio_id):
-        # Hier den Code zum Abrufen der sozialen Medienprofile schreiben, die zur angegebenen LinkInBio-Seite gehören
-
         try:
             link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
             social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
@@ -109,8 +107,6 @@ class UpdateLinksOrderView(View):
             return JsonResponse(response_data, status=400)
 
 
-
-
 # Link liste Datile LinkInBio
 class LinkInBioLinksListView(View):
     def get(self, request, linkinbio_id):
@@ -121,8 +117,7 @@ class LinkInBioLinksListView(View):
             # Holen Sie sich alle Links in der gewünschten Reihenfolge
             links = LinkInBioLink.objects.filter(link_in_bio=linkinbio).order_by('order')
 
-            links_data = [
-                {
+            links_data = [{
                     'id': link.id,
                     'button_label': link.shortcode.button_label,
                     'url_destination': link.shortcode.url_destination,
@@ -236,8 +231,6 @@ class CreateShortcodeView(View):
             return JsonResponse(response_data, status=400)
 
 
-
-
 #Autocomplete
 class ShortcodeClassListView(View):
     def get(self, request):
@@ -341,7 +334,6 @@ class LinksDetaileJsonView(View):
 '''
 Update bestehner Shorcode link und Label für LinkInBio Seite.
 '''
-
 class UpdateShortcodeLinkInBioView(View):
     def post(self, request, pk):
         try:
