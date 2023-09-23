@@ -1,18 +1,18 @@
 import { getCookie } from './module/getCookie';
 import { openForm, closeForm } from './module/sidebarSwitcher';
 
-
 const csrftoken = getCookie('csrftoken');
 
-// Linkinbio Links Javascript
-import linkListe from './module/linkListe';
-import crateFormLink from './module/crateFormLink';
+// Linkinbiolink Links Javascript
+import crateFormLink from './module/linkCrate';
 import createFormLinks from './module/updateFormLinks';
 import linkDelete from './module/linkDelete';
 
 const crateformlink = new crateFormLink();
 const createformlinks = new createFormLinks();
 const linkdelete = new linkDelete();
+
+// LinkInBio Page
 
 
 // Sidebar Open & Close

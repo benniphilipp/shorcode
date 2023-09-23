@@ -1,9 +1,11 @@
 import json
 import requests
+from django.urls import reverse
 from bs4 import BeautifulSoup
 from django.db import models
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.http import HttpRequest
 
 from django.views.decorators.http import require_POST
 
@@ -258,19 +260,19 @@ class ShortcodeClassListView(View):
 
 # ListView LinkInBio
 class LinkInBioListView(LoginRequiredMixin, View):
-
     def get(self, request):
 
         link_in_bio_objects = LinkInBio.objects.filter(user=request.user)
         link_in_bio_form = LinkInBioDashboardForm()
+        
         context = {
+            'link_in_bio_form': link_in_bio_form,
             'link_in_bio_objects': link_in_bio_objects,
-            'link_in_bio_form': link_in_bio_form
         }
 
         return render(request, 'linkinbio_list.html', context)
     
-    def post(self, request):
+    def post(self, request: HttpRequest):
         link_in_bio_form = LinkInBioDashboardForm(request.POST)
 
         if link_in_bio_form.is_valid():
@@ -278,8 +280,18 @@ class LinkInBioListView(LoginRequiredMixin, View):
             link_in_bio_instance = link_in_bio_form.save(commit=False)
             link_in_bio_instance.user = request.user
             link_in_bio_instance.save()
+            
+            detail_url = reverse('linkinbio:detail_page', args=[link_in_bio_instance.pk])
+            full_detail_url = request.build_absolute_uri(detail_url)
+            
+            shortcode_instance = ShortcodeClass(
+                url_creator=request.user,
+                url_titel=link_in_bio_instance.title,
+                url_destination=full_detail_url,
+                linkinbiopage=link_in_bio_instance.pk
+            )
+            shortcode_instance.save()
 
-            # Hier anpassen, um zur Detailansicht der gerade erstellten Instanz zu gelangen
             return redirect('linkinbio:linkinbio_detail', pk=link_in_bio_instance.pk)
 
         link_in_bio_objects = LinkInBio.objects.filter(user=request.user)
@@ -290,6 +302,7 @@ class LinkInBioListView(LoginRequiredMixin, View):
         }
 
         return render(request, 'linkinbio_list.html', context)
+
 
 # Deatile View
 class LinkInBioDetailView(LoginRequiredMixin, View):
@@ -379,3 +392,17 @@ class LinkinbiolinkDeleteView(View):
             return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
+
+# LinkinBio Page   
+class LinkInBioDeatilePage(View):
+    def get(self, request, pk):
+        try:
+            linkinbio = LinkInBio.objects.get(id=pk)
+        except LinkInBio.DoesNotExist:
+            raise Http404
+        
+        context = {
+            'linkinbio_page': linkinbio
+        }
+        
+        return render(request, 'linkinbio_page.html', context)

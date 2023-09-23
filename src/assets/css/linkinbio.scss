@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(158, 195, 220);
+    background-color: rgba(158, 195, 220, 0.309);
     opacity: 0; /* Starten Sie mit einer geringen Opazität */
     pointer-events: none; /* Deaktivieren Sie das Overlay, damit es nicht klickbar ist */
     transition: opacity 0.5s ease-in-out; /* Hier fügen Sie die Übergangseigenschaft hinzu */

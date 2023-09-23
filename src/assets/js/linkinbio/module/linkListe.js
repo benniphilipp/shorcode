@@ -4,9 +4,12 @@ class linkListe{
 
     constructor(){
         this.LinkInBioLinksListView = document.querySelector('#LinkInBioLinksListView');
-        this.cardContainer = document.querySelector('#card-container');
-        this.loaderImage = document.querySelector('.loader-image');
-        this.urlForm = document.querySelector('#valueUrlSort').value;
+
+        if(this.LinkInBioLinksListView){
+            this.cardContainer = document.querySelector('#card-container');
+            this.loaderImage = document.querySelector('.loader-image');
+            this.urlForm = document.querySelector('#valueUrlSort').value;
+        }
 
         this.isListViewRendered = false;
         this.csrftoken = getCookie('csrftoken');

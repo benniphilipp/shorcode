@@ -40,6 +40,9 @@ class ShortcodeClass(models.Model):
     button_label        = models.CharField(max_length=520, blank=True, null=True) 
     shortcode           = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     
+    # LinkInBio Page
+    linkinbiopage        = models.ForeignKey('linkinbio.LinkInBio',on_delete=models.CASCADE)
+    
     # Begrenzung von URLs
     limitation_active = models.BooleanField(default=False)
     count = models.IntegerField(default=0)

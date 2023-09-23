@@ -14,7 +14,8 @@ from .views import (
         LinksDetaileJsonView,
         UpdateShortcodeLinkInBioView,
         updateSwichtLinkinbioAtive,
-        LinkinbiolinkDeleteView
+        LinkinbiolinkDeleteView,
+        LinkInBioDeatilePage
     )
 
 
@@ -35,4 +36,5 @@ urlpatterns = [
     path('link_detaile/<pk>/', LinksDetaileJsonView.as_view(), name='link_in_bio_link'),
     path('swicht_update/<pk>/', updateSwichtLinkinbioAtive.as_view(), name='swicht_update'),
     path('delete_link/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='delete_link'),
+    path('m/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='detail_page'),
 ]

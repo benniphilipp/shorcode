@@ -26,7 +26,7 @@ class LinkInBio(models.Model):
     image = models.ImageField(upload_to='link_bio_images/', null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
-    links = models.ManyToManyField(ShortcodeClass, blank=True)
+    # links = models.ManyToManyField(ShortcodeClass, blank=True)
     social_media_platforms = models.ManyToManyField('UrlSocialProfiles', blank=True)
     custome_settings = models.ForeignKey(CustomSettings, on_delete=models.CASCADE, null=True, blank=True)
     selected_template = models.TextField(null=True, blank=True)
