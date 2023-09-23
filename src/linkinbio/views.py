@@ -126,6 +126,7 @@ class LinkInBioLinksListView(View):
                     'url_titel': link.shortcode.url_titel,
                     'link_in_bio_page': link.link_in_bio.id,
                     'shortcode_id': link.shortcode.id,
+                    'is_aktiv': link.is_aktiv,
                 }
                 for link in links
             ]
@@ -135,6 +136,24 @@ class LinkInBioLinksListView(View):
         except LinkInBio.DoesNotExist:
             return JsonResponse({'error': 'LinkInBio-Seite nicht gefunden'}, status=404)
 
+
+class updateSwichtLinkinbioAtive(View):
+    def post(self, pk):
+        try:
+
+            linkinbio = LinkInBioLink.objects.get(id=pk)
+
+            linkinbio.is_aktiv = not linkinbio.is_aktiv
+
+            linkinbio.save()
+
+            response_data = {'success': True, 'message': 'Schalter erfolgreich aktualisiert.'}
+            return JsonResponse(response_data)
+            
+            
+        except json.JSONDecodeError:
+            response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
+            return JsonResponse(response_data, status=400)
 
 '''
 @Create Link
@@ -148,7 +167,6 @@ class CreateLinkView(View):
             linkinbio_page_id = request.POST.get('linkinbio_page_id')
             button_label = request.POST.get('button_label')
 
-            # Holen Sie das ShortcodeClass-Objekt und die LinkInBio-Seite
             try:
                 shortcode = ShortcodeClass.objects.get(id=shortcode_id)
                 linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
@@ -159,7 +177,7 @@ class CreateLinkView(View):
             shortcode.button_label = button_label
             shortcode.save()
 
-            # Überprüfen Sie, ob das ShortcodeClass-Objekt und die LinkInBio-Seite gültig sind
+
             linkinbio_page.links.add(shortcode)
 
             current_order = LinkInBioLink.objects.filter(link_in_bio=linkinbio_page_id).aggregate(max_order=models.Max('order'))['max_order'] or 0
@@ -326,6 +344,7 @@ class LinksDetaileJsonView(View):
                     'shortcode_url': link_in_bio_link.shortcode.shortcode,
                     'button_label': link_in_bio_link.shortcode.button_label,
                     'shortcode_id': link_in_bio_link.shortcode.id,
+                    'is_aktiv': link_in_bio_link.is_aktiv,
             }
             return JsonResponse(data)
         except LinkInBioLink.DoesNotExist:
@@ -339,20 +358,24 @@ class UpdateShortcodeLinkInBioView(View):
         if request.method == 'POST':
             shortcode_id = request.POST.get('shortcode_id')
             button_label = request.POST.get('button_label')
-            link_page_id = request.POST.get('link_page_id')
-            print(shortcode_id)
+            url_destination_new = request.POST.get('url_destination')
+            
             if shortcode_id:
                 try:
                     shortcode = ShortcodeClass.objects.get(pk=shortcode_id)
                     shortcode.button_label = button_label
                     shortcode.save()
                     
+                    bio_page = LinkInBioLink.objects.get(pk=pk)
+                    bio_page.shortcode = shortcode
+                    bio_page.save()
+                    
                     response_data = {'success': True, 'message': 'Shortcode gefunden und aktualisiert.'}
                 except ShortcodeClass.DoesNotExist:
                     response_data = {'success': False, 'message': 'Shortcode nicht gefunden.'}
                 
             else:
-                url_destination_new = request.POST.get('url_destination')
+                
                 shortcode = ShortcodeClass.objects.create(
                     url_destination=url_destination_new,
                     button_label=button_label,
@@ -367,62 +390,3 @@ class UpdateShortcodeLinkInBioView(View):
         # Fügen Sie hier den Code für den Fall hinzu, dass die Anfrage nicht POST ist
         response_data = {'success': False, 'message': 'Ungültige Anfrage.'}
         return JsonResponse(response_data, status=400)
-
-
-    
-    
-    
-    
-    
-    # def post(self, request, pk):
-    #     if request.method == 'POST':
-    #         shortcode_id = request.POST.get('shortcode_id')
-
-    #         if shortcode_id:
-    #             try:
-    #                 shortcode = ShortcodeClass.objects.get(pk=shortcode_id)
-    #             except ShortcodeClass.DoesNotExist:
-    #                 response_data = {'success': False, 'message': 'Gibt es schon!'}
-    #                 return JsonResponse(response_data, status=400)
-                
-    #         else:
-    #             url_destination_new = request.POST.get('url_destination')
-    #             button_label = request.POST.get('button_label')
-    #             response_data = {'success': False, 'message': 'Muss erstellet werden!'}
-    #             return JsonResponse(response_data, status=400)
-                # shortcode = ShortcodeClass.objects.create(url_destination=url_destination_new, button_label=button_label)
-    
-    
-    
-    
-    # def post(self, request, pk):
-        # try:
-
-        #     url_destination_new = request.POST.get('url_destination')
-        #     button_label = request.POST.get('button_label')
-
-        #     print(url_destination_new)
-        #     print(button_label)
-        #     print(pk)
-            
-        #     try:
-        #         shortcode = ShortcodeClass.objects.get(url_destination=url_destination_new)
-        #         linkinbio_link = LinkInBioLink.objects.filter(shortcode=shortcode).first()
-
-        #         if not linkinbio_link:
-        #             response_data = {'success': False, 'message': 'Der Shortcode gehört nicht zur LinkInBio-Seite.'}
-        #             return JsonResponse(response_data, status=400)
-        #     except ShortcodeClass.DoesNotExist:
-        #         response_data = {'success': False, 'message': 'Ungültiger Shortcode.'}
-        #         return JsonResponse(response_data, status=400)
-
-        #     shortcode.url_destination = url_destination_new
-        #     shortcode.button_label = button_label
-        #     shortcode.save()
-
-        #     response_data = {'success': True, 'message': 'Shortcode erfolgreich aktualisiert.'}
-        #     return JsonResponse(response_data)
-        # except json.JSONDecodeError:
-        #     response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
-        #     return JsonResponse(response_data, status=400)
-        

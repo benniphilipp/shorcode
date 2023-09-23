@@ -56,10 +56,11 @@
                                     <input type="text" class="form-control mb-3" id="buttonLabel" placeholder="Button label">
                                     <label for="urlDestinationUpdateLabel" class="form-label">Url</label>
                                     <input type="text" class="form-control mb-3 inputSearchform" id="urlDestinationUpdate">
-                                    <ul id="search-results"></ul>
+                                    <ul id="search-results-update"></ul>
                                     <input type="hidden" id="shortcodeId" value="">
+                                    <input type="hidden" id="linkInBioPageIdValue" value="">
                                     <button type="submit" class="btn btn-primary btn-sm updateformlink">Update</button>
-                                    <button type="submit" id="cancel" class="btn btn-secondary btn-sm cencleButton">Abbrechen</button>
+                                    <!-- <button type="submit" id="cancel" class="btn btn-secondary btn-sm cencleButton">Abbrechen</button> -->
                                 </div>
                             </form>
                 
@@ -81,6 +82,7 @@
         <input type="hidden" id="viewUrlLinks" value="{% url 'linkinbio:link_in_bio_link' 0 %}">
         <input type="hidden" id="valueUrlSort" value="{% url 'linkinbio:update_links_order' %}">
         <input type="hidden" id="valueUrlShotcodeAutocomplete" value="{% url 'linkinbio:shortcode_class_list' %}">
+
     </div>
     
 </div>

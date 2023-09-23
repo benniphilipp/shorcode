@@ -13,6 +13,7 @@ class linkListe{
     events(){}
 
     renderCard(link) {
+        const switchId = `flexSwitchCheck${link.is_aktiv ? 'Active' : 'Inactive'}`;
         return `
         <div class="card border-0 shadow-sm mb-3 sortable-grabel">
             <div class="card-body">
@@ -36,7 +37,7 @@ class linkListe{
                                 <small class="mx-2 textsmall">1</small>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input linkinbio-switch" data-linkinbio-switch="${link.id}" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                <input class="form-check-input linkinbio-switch" data-linkinbio-switch="${link.id}" type="checkbox" role="switch" id="${switchId}" ${link.is_aktiv ? 'checked' : ''}>
                             </div>
                         </div>
                     </div>
@@ -60,7 +61,7 @@ class linkListe{
                 // empty list
                 $(this.cardContainer).empty();
                 this.loaderImage.classList.remove('d-none');
-
+                console.log(data);
                 setTimeout(() => {
                   for (var i = 0; i < data.links.length; i++) {
                     var link = data.links[i];
