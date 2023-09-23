@@ -54,7 +54,7 @@
                                                     <div class="d-flex flex-column">
                                                         <h5>{{ link_in_bio.title }}</h5>
               
-                                                        <small class="mt-1"><i class="fa-solid fa-link li-icon"></i> {{ shortcode_instance.shortcode }}</small>
+                                                        <small class="mt-1"><i class="fa-solid fa-link li-icon"></i> {{ aktuelle_url }}m/{{ link_in_bio.id }}/</small>
                                                   
                                                     </div>
                                                     <div class="d-flex align-self-start align-items-end mt-3">
@@ -80,7 +80,8 @@
                                                                         <i class="fa-solid fa-ellipsis li-icon"></i>
                                                                     </a>
                                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                                      <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                                      <li><a class="dropdown-item update-linkinbio-page" data-linkinbio-page-id="{{ link_in_bio.id }}" href="javascript:void(0);">Bearbeiten</a></li>
+                                                                      <li><a class="dropdown-item" href="javascript:void(0);">Delete</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -105,17 +106,14 @@
     </div>
 
 
-        <!-- Form -->
-        {% include "includes/form_linkinbio.html" %}
+    <!-- Form -->
+    {% include "includes/form_linkinbio.html" %}
         
+    <!--LinkinbioDetaileJsonView-->
+    <input type="hidden" id="linkinbioJson" value="{% url 'linkinbio:linkinbio_json' 0 %}">
+    <!--UpdateFormLinkInBioSingel-->
+    <input type="hidden" id="linkinbioUpdateJson" value="{% url 'linkinbio:linkinbio_update_json' 0 %}">
 
-
-
-
-
-
-
-    
     {% endblock body %}
     
     <!--Javascript-->

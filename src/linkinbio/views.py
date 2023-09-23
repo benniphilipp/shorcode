@@ -264,10 +264,12 @@ class LinkInBioListView(LoginRequiredMixin, View):
 
         link_in_bio_objects = LinkInBio.objects.filter(user=request.user)
         link_in_bio_form = LinkInBioDashboardForm()
+        aktuelle_url = request.build_absolute_uri()
         
         context = {
             'link_in_bio_form': link_in_bio_form,
             'link_in_bio_objects': link_in_bio_objects,
+            'aktuelle_url': aktuelle_url
         }
 
         return render(request, 'linkinbio_list.html', context)
@@ -304,7 +306,7 @@ class LinkInBioListView(LoginRequiredMixin, View):
         return render(request, 'linkinbio_list.html', context)
 
 
-# Deatile View
+# Deatile View für Page
 class LinkInBioDetailView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
@@ -320,6 +322,7 @@ class LinkInBioDetailView(LoginRequiredMixin, View):
         }
 
         return render(request, 'linkinbio_detail.html', context)
+    
 
 # LinkInBio Links Detaile Json View
 class LinksDetaileJsonView(View):
@@ -393,6 +396,7 @@ class LinkinbiolinkDeleteView(View):
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
 
+
 # LinkinBio Page   
 class LinkInBioDeatilePage(View):
     def get(self, request, pk):
@@ -406,3 +410,49 @@ class LinkInBioDeatilePage(View):
         }
         
         return render(request, 'linkinbio_page.html', context)
+
+
+# UpdateView LinkInBio Singel
+class LinkinbioDetaileJsonView(View):
+    def get(self, request, pk):
+        try:
+            link_in_bio_link = LinkInBio.objects.get(id=pk)
+            data = {
+                    'id': link_in_bio_link.id,
+                    'id_description': link_in_bio_link.description,
+                    'id_title': link_in_bio_link.title,
+            }
+            return JsonResponse(data)
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBioLink not found'}, status=404)
+
+      
+# UpdateForm LinkInBio Singel
+class UpdateFormLinkInBioSingel(View):
+    def post(self, request, pk):
+        
+        if request.method == 'POST':
+            new_id_title = request.POST.get('id_title')
+            new_id_description = request.POST.get('id_description')
+        
+            link_in_bio = LinkInBio.objects.get(id=pk)
+            link_in_bio.title = new_id_title
+            link_in_bio.description = new_id_description
+            
+            link_in_bio.save()
+            
+            response_data = {'success': True, 'message': 'LinkInBio aktualisiert.'}
+            return JsonResponse(response_data)
+       
+ 
+# Deltete Linkinbio
+class LinkinbiolinkDeleteView(View):
+    def post(self, request, pk):
+        try:
+            bio = LinkInBio.objects.get(pk=pk)
+            bio.delete()
+            return JsonResponse({'message': 'Datensatz erfolgreich gelöscht'})
+        except LinkInBioLink.DoesNotExist:
+            return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)

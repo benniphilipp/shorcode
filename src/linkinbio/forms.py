@@ -23,7 +23,8 @@ class LinkInBioDashboardForm(forms.ModelForm):
                 css_class='row'
             ),
             Hidden('user', '{{ admin }}'),
-            HTML('<input id="" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
+            HTML('<input id="saveBtn" class="btn btn-primary mt-3" type="submit" value="Speichern">'),
+            HTML('<input id="updateBtnJson" class="btn btn-primary mt-3 d-none" value="Ändern">'),
         )
         
     class Meta:

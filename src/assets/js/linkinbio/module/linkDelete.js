@@ -76,7 +76,7 @@ class linkDelete{
         const self = this;
 
         const button = event.target.closest('.btn-trash');
-        console.log(button)
+        
         if (button.classList.contains('btn-trash')) {
             const ulrTrash = button.getAttribute('data-url-trash');
             // button.setAttribute('data-linkinbio-editcard');   

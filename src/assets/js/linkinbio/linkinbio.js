@@ -13,7 +13,9 @@ const createformlinks = new createFormLinks();
 const linkdelete = new linkDelete();
 
 // LinkInBio Page
+import linkPageView from './module/linkPageView';
 
+const linkpage = new linkPageView();
 
 // Sidebar Open & Close
 const openFormButton = document.querySelector("#openForm");
