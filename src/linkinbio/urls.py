@@ -13,7 +13,8 @@ from .views import (
         SocialMediaProfilesView,
         LinksDetaileJsonView,
         UpdateShortcodeLinkInBioView,
-        updateSwichtLinkinbioAtive
+        updateSwichtLinkinbioAtive,
+        LinkinbiolinkDeleteView
     )
 
 
@@ -32,5 +33,6 @@ urlpatterns = [
     path('detail/<int:pk>/', LinkInBioDetailView.as_view(), name='linkinbio_detail'),
     path('links/<int:linkinbio_id>/', LinkInBioLinksListView.as_view(), name='linkinbio_links_list'),
     path('link_detaile/<pk>/', LinksDetaileJsonView.as_view(), name='link_in_bio_link'),
-    #path('swicht_update/<pk>/', updateSwichtLinkinbioAtive.as_view(), name='swicht_update'),
+    path('swicht_update/<pk>/', updateSwichtLinkinbioAtive.as_view(), name='swicht_update'),
+    path('delete_link/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='delete_link'),
 ]

@@ -7,7 +7,7 @@ module.exports = {
       main: './assets/js/main.js',
       linkInBio: './assets/js/linkinbio/linkinbio.js',
       styles: './assets/css/main.scss',
-      //customStyles: './assets/css/custom.scss',
+      customLinkinbio: './assets/css/linkinbio.scss',
     },
     output: {
       filename: '[name].bundle.js',

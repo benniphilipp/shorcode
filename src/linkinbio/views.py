@@ -63,41 +63,15 @@ def get_social_media_platforms(request):
     return JsonResponse({'platforms': data})
 
 
-# Color und elemente Speichern oder Updaten
-class SaveColorAndElementView(View):
-    def post(self, request):
-        try:
-            # JSON-Daten aus dem POST-Anfragebody abrufen
-            data = json.loads(request.body)
-
-            # Farbe und Element aus den JSON-Daten extrahieren
-            selected_color = data.get('selectedColor', '')
-            element_id = data.get('elementId', '')
-
-            # Überprüfen, ob das Element bereits existiert
-            custom_settings, created = CustomSettings.objects.get_or_create(element_id=element_id)
-
-            # Farbe in das JSON-Format speichern und aktualisieren
-            custom_settings.settings_json['selected_color'] = selected_color
-            custom_settings.save()
-
-            response_data = {'success': True, 'message': 'Farbe und Element erfolgreich gespeichert.'}
-            return JsonResponse(response_data)
-        except json.JSONDecodeError:
-            response_data = {'success': False, 'message': 'Ungültiges JSON-Format.'}
-            return JsonResponse(response_data, status=400)
-
-
 # Ajax-Anfrage zum Speichern der Reihenfolge
 class UpdateLinksOrderView(View):
     def post(self, request):
         try:
             sorted_links = request.POST.getlist('sorted_links[]')
-            print(sorted_links)
-            # Hier musst du die Datenbank entsprechend aktualisieren, um die Reihenfolge zu speichern
+
             for index, link_id in enumerate(sorted_links):
                 link = LinkInBioLink.objects.get(id=link_id)
-                link.order = index + 1  # Ordne die Reihenfolge neu
+                link.order = index + 1
                 link.save()
 
             response_data = {'success': True, 'message': 'Reihenfolge erfolgreich gespeichert.'}
@@ -137,8 +111,9 @@ class LinkInBioLinksListView(View):
             return JsonResponse({'error': 'LinkInBio-Seite nicht gefunden'}, status=404)
 
 
+
 class updateSwichtLinkinbioAtive(View):
-    def post(self, pk):
+    def post(self, request, pk):
         try:
 
             linkinbio = LinkInBioLink.objects.get(id=pk)
@@ -147,7 +122,7 @@ class updateSwichtLinkinbioAtive(View):
 
             linkinbio.save()
 
-            response_data = {'success': True, 'message': 'Schalter erfolgreich aktualisiert.'}
+            response_data = {'success': True, 'message': 'Link erfolgreich aktualisiert.'}
             return JsonResponse(response_data)
             
             
@@ -390,3 +365,17 @@ class UpdateShortcodeLinkInBioView(View):
         # Fügen Sie hier den Code für den Fall hinzu, dass die Anfrage nicht POST ist
         response_data = {'success': False, 'message': 'Ungültige Anfrage.'}
         return JsonResponse(response_data, status=400)
+
+
+
+# Löschen Linkinlink
+class LinkinbiolinkDeleteView(View):
+    def post(self, request, pk):
+        try:
+            link = LinkInBioLink.objects.get(pk=pk)
+            link.delete()
+            return JsonResponse({'message': 'Datensatz erfolgreich gelöscht'})
+        except LinkInBioLink.DoesNotExist:
+            return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=500)

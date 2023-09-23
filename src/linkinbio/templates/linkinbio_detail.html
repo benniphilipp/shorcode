@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/classic.min.css">
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
 
-<link rel="stylesheet" type="text/css" href="{% static '/css/linkinbio.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/customLinkinbio.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -79,7 +79,7 @@
 
                         </div>
                         <div class="col-4">
-                            <!-- {% include "mobile/style-one.html" %} -->
+                            <!-- Ansicht Desing Linkin Bio Page -->
                         </div>
                     </div>
                 </div>
@@ -90,6 +90,23 @@
 
     <input type="hidden" id="LinkInBioLinksListView" value="{% url 'linkinbio:linkinbio_links_list' link_in_bio_instance.id %}">
     
+    <!--Modal delete-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <div id="idContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-close">Close</button>
+                <button type="button" class="btn btn-danger btn-trash">Löschen</button>
+            </div>
+            </div>
+        </div>
+    </div>
 
     {% endblock body %}
     
@@ -97,13 +114,14 @@
     {% block javasript %}
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+  
     <script>
         const translations = {
             'Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
             'Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
             'Dein link wurde gespeicher.': '{% trans "Dein link wurde gespeicher." %}'
         };
+        
     </script>
 
     

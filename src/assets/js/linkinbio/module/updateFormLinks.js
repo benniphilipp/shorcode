@@ -26,7 +26,7 @@ class createFormLinks {
         }
     
         if (linkinbioEditcardContainer) {
-            linkinbioEditcardContainer.addEventListener('click', this.handleUpdateSwicht.bind(this))
+            linkinbioEditcardContainer.addEventListener('click', this.handleUpdateSwicht.bind(this));
             linkinbioEditcardContainer.addEventListener('click', this.handleEditcardClick.bind(this));
         }
     }
@@ -87,7 +87,8 @@ class createFormLinks {
                 'X-CSRFToken': this.csrftoken
             },
             success: (data) => {
-              console.log(data)
+            //   console.log(data.message)
+              lsToast(data.message);
             },
             error: (xhr, textStatus, errorThrown) => {
               console.error('Fehler:', errorThrown);
@@ -267,7 +268,6 @@ class createFormLinks {
                             shortcodeItem.text(item.url_titel);
                             shortcodeItem.attr('data-id', item.id);
                             $(searchResultsDiv).append(shortcodeItem);
-                            console.log(searchResultsDiv);
                         });
     
                         // Click add Value hiddenfields
