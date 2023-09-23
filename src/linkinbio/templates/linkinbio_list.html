@@ -81,7 +81,7 @@
                                                                     </a>
                                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                                       <li><a class="dropdown-item update-linkinbio-page" data-linkinbio-page-id="{{ link_in_bio.id }}" href="javascript:void(0);">Bearbeiten</a></li>
-                                                                      <li><a class="dropdown-item" href="javascript:void(0);">Delete</a></li>
+                                                                      <li><a class="dropdown-item delete-linkinbio-page" data-linkinbio-page-delete-id="{{ link_in_bio.id }}" data-linkinbio-page-titel="{{ link_in_bio.title }}" href="javascript:void(0);">Delete</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -105,6 +105,25 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalDelete" tabindex="-1" aria-labelledby="exampleModalDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalDeleteLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="idContent"></div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger btn-delete">Löschen</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
 
     <!-- Form -->
     {% include "includes/form_linkinbio.html" %}
@@ -113,6 +132,8 @@
     <input type="hidden" id="linkinbioJson" value="{% url 'linkinbio:linkinbio_json' 0 %}">
     <!--UpdateFormLinkInBioSingel-->
     <input type="hidden" id="linkinbioUpdateJson" value="{% url 'linkinbio:linkinbio_update_json' 0 %}">
+    <!--LinkinbiolinkDeleteView-->
+    <input type="hidden" id="linkinbioDeleteJson" value="{% url 'linkinbio:linkinbio_delete_json' 0 %}">
 
     {% endblock body %}
     

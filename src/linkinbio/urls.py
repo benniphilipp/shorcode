@@ -17,7 +17,8 @@ from .views import (
         LinkinbiolinkDeleteView,
         LinkInBioDeatilePage,
         LinkinbioDetaileJsonView,
-        UpdateFormLinkInBioSingel
+        UpdateFormLinkInBioSingel,
+        LinkinbiolinkDeleteView
     )
 
 
@@ -41,5 +42,5 @@ urlpatterns = [
     path('m/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='detail_page'),
     path('linkinbio_jeson/<int:pk>/', LinkinbioDetaileJsonView.as_view(), name='linkinbio_json'),
     path('linkinbio_update_json/<int:pk>/', UpdateFormLinkInBioSingel.as_view(), name='linkinbio_update_json'),
-    
+    path('linkinbio_delete_json/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='linkinbio_delete_json'),
 ]

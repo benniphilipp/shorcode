@@ -55,6 +55,7 @@ class linkDelete{
             saveChangesButton.setAttribute('data-linkinbio-editcard', linkinbioEditcard);   
         }
     }
+    
 
     handlerCloseModal(){
         const exampleModalLabel = document.querySelector('#exampleModalLabel');
