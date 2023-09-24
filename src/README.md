@@ -219,7 +219,14 @@ TqXRm5ikowzmYtZVyCMC
     git commit -m '_text'
     git push origin linkinbio
 
-    Crate Script
+    Crate Script adjustment
+    - Add Image
+    - Fonts * adjustmentFonts.js 
+    - Color Button * adjustmentColor.js
+    - Add Social media and Remove Social media * adjustmentSocial.js
+    - Crate and titel, description * adjustmentTexDesc.js
+    - adjustment remove Image * adjustmentRemoImg.js
+
     Uplaod Image
     Remove Image
 

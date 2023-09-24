@@ -1,33 +1,34 @@
-<style>
-    /* Stil für das Farbauswahlfeld */
-.color-picker {
-    margin: 20px;
-}
 
-/* Stil für den ausgewählten Farbverlauf */
-.selected-gradient {
-    margin: 20px;
-}
 
-#selected-gradient-preview {
-    width: 200px;
-    height: 50px;
-    border: 1px solid #ccc;
-}
-
-</style>
-
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-sm-3">
-                <img src="https://placehold.co/600x400">
-                <button type="button" class="btn btn-outline-primary">Add Image</button>
-                <button type="button" class="btn btn-outline-danger">Remove Image</button>
+                <div class="profile-img">
+                    <img src="https://placehold.co/600x400">
+                </div>
+            </div>
+            <div class="col-sm-9 d-flex align-items-center">
+                <button type="button" id="openMoadlImage" class="btn btn-outline-primary">Add Image</button>
+                <button type="button" class="btn btn-outline-danger mx-3">Remove Image</button>
             </div>
         </div>         
        
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <input type="text" class="form-control" id="formGroupTitelInput" placeholder="Titel" aria-describedby="formGroupTitelInputHelp">
+                        <div id="formGroupTitelInputHelp" class="form-text mb-4">
+                            Text 0/32
+                        </div>
+                        <input type="text" class="form-control" id="formdescriptionInput" placeholder="Beschreibung" aria-describedby="formdescriptionInputHelp">
+                        <div id="formdescriptionInputHelp" class="form-text">
+                            Text 0/84
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Titel">
-        <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Beschreibung">
 
     
         <div id="elementContainer">
@@ -71,6 +72,4 @@
                 <!--Shadowe-->
  
 
-        <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
-        <input type="hidden" id="linkinbio_page_id_custome" value="{{link_in_bio_instance.id}}">
 

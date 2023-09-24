@@ -153,3 +153,30 @@ img.loader-image{
     margin-top: 0.25rem;
     font-size: .875em;
 }
+
+
+/* Image adjustment */
+.profile-img{
+    display: flex;
+    max-width: 100%;
+    width: 140px;
+    height: 140px;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cropper-container {
+    max-height: 220px;
+    margin: 0 auto;
+}

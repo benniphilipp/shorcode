@@ -456,3 +456,19 @@ class LinkinbiolinkDeleteView(View):
             return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=500)
+
+
+# Image Profile Adjustment
+class ImageSaveAdjustmentView(View):
+    def post(self, request, pk, *args, **kwargs):
+        try:
+            image_data = request.FILES['image']
+            linkinbiopage = LinkInBio.objects.get(pk=pk)
+
+            # Speichere das Bild in der Link-in-Bio-Seite
+            linkinbiopage.image = image_data
+            linkinbiopage.save()
+            
+            return JsonResponse({'message': 'Bild erfolgreich gespeichert'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)

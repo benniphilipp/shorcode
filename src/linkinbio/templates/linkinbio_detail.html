@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
 
 <link rel="stylesheet" type="text/css" href="{% static '/css/customLinkinbio.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
 {% endblock %}
 
 {% block body %}
@@ -109,10 +110,69 @@
         </div>
     </div>
 
+    <!--Image Modal-->
+    <div class="modal fade" id="exampleModalImage" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabelImage" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabelImage">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div id="cropper-container">
+                    <img id="cropper-image" src="" alt="Bild zum Zuschneiden">
+                </div>
+         
+                <div class="mb-3 mt-3">
+                    <label for="formFile" class="form-label"></label>
+                    <input class="form-control" type="file" id="image-input">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="crop-button">Speichern</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!--Modal Delte Image-->
+    <div class="modal fade" id="exampleModalImageDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabelImageDelete" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabelImageDelete">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Image löschen?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+              <button type="button" class="btn btn-danger">Löschen</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!--URLs-->
+    <!--Image Profile Adjustment-->
+    <input type="hidden" id="ImageProfileAdjustment" value="{% url 'linkinbio:adjustment_profile_image_json' link_in_bio_instance.id %}">
+
+    <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
+
+    <!---->
+    <input type="hidden" id="linkinbio_page_id_custome" value="{{link_in_bio_instance.id}}">
+
     {% endblock body %}
     
     <!--Javascript-->
     {% block javasript %}
+    <!--Cropping-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
