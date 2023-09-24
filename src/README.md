@@ -220,13 +220,14 @@ TqXRm5ikowzmYtZVyCMC
     git push origin linkinbio
 
     Crate Script adjustment
-    - Add Image
-    - Remove Image
-    - Image View
+    - Add Image !erledingt
+    - Remove Image !erledingt
+    - Image View !erledingt
+    - Crate and titel, description * adjustmentTexDesc.js
     - Fonts * adjustmentFonts.js 
     - Color Button * adjustmentColor.js
     - Add Social media and Remove Social media * adjustmentSocial.js
-    - Crate and titel, description * adjustmentTexDesc.js
+    
     - adjustment remove Image * adjustmentRemoImg.js
 
     Uplaod Image

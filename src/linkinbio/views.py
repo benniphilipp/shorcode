@@ -458,7 +458,7 @@ class LinkinbiolinkDeleteView(View):
             return JsonResponse({'message': str(e)}, status=500)
 
 
-# Image Profile Adjustment
+# Crate Image Profile Adjustment
 class ImageSaveAdjustmentView(View):
     def post(self, request, pk, *args, **kwargs):
         try:
@@ -485,6 +485,45 @@ class ProfileImageDetailView(LoginRequiredMixin, View):
                 data = [{'profile_image': profileimage.profile_image.url}]
             else:
                 data = [{'profile_image': None}]
+            
+            return JsonResponse(data, safe=False)  # Anpassung hier: data direkt zurückgeben und safe=False setzen
+            
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+       
+ 
+# Ceate Texte Adjustment
+class TexteCreateAdjustmentView(View):
+    def post(self, request, pk, *args, **kwargs):
+        try:
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            
+            linkinbiopage = LinkInBio.objects.get(pk=pk)
+
+            # Speichere das Bild in der Link-in-Bio-Seite
+            linkinbiopage.title = title
+            linkinbiopage.description = description
+            linkinbiopage.save()
+            
+            return JsonResponse({'message': 'Text erfolgreich gespeichert'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+        
+
+# Text View Adjustment
+class TexteDeatileAdjustmentView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        try:
+            text = get_object_or_404(LinkInBio, pk=pk, user=request.user)
+
+            if text.title:
+                data = [{
+                    'title': text.title,
+                    'description': text.description
+                    }]
+            else:
+                data = [{'title': None}]
             
             return JsonResponse(data, safe=False)  # Anpassung hier: data direkt zurückgeben und safe=False setzen
             
