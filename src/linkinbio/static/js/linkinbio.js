@@ -3,9 +3,6 @@
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-
-
-
     // List View social media
     // const linkInBioId = $('#linkinbio_page_id_custome').val();
     // var linkInBioIdelement = document.getElementById(linkInBioId);

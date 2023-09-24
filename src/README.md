@@ -254,9 +254,6 @@ os
 device
 browser
 
-# Facebook
-flo#.
-
 # Sontiges
 https://www.chartjs.org/docs/latest/charts/bar.html
 https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript

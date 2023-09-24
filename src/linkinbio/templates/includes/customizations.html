@@ -17,32 +17,18 @@
 
 </style>
 
-<div class="card border-0 linkinbio-radius-bottom">
-    <div class="card-body p-5">
-
-        <div class="card border-0">
-            <div class="card-body p-0">
-    
-                <div class="row mb-4" id="fieldsImageProfile">
-                    <div class="col">
-                        <div class="col">
-                            <label for="imageUpload" class="custom-file-upload">
-                                <div class="no-image">
-                                    <i class="fa-solid fa-pencil d-none"></i>
-                                    <i class="fa-solid fa-file-image"></i>
-                                </div>
-                                <input type="file" id="imageUpload" accept="image/*" style="display:none;">
-                            </label>
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Titel">
-                <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Beschreibung">
-    
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="https://placehold.co/600x400">
+                <button type="button" class="btn btn-outline-primary">Add Image</button>
+                <button type="button" class="btn btn-outline-danger">Remove Image</button>
             </div>
-        </div>
+        </div>         
+       
+
+        <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Titel">
+        <input type="text" class="form-control mb-4" id="formGroupExampleInput" placeholder="Beschreibung">
+
     
         <div id="elementContainer">
             <!--URLs social-->
@@ -50,70 +36,9 @@
 
         <button type="button" id="addElementButton" class="btn btn-outline-primary mt-4">Connect another profile</button>
 
+        <!--Custome Color Select-->
 
-        <hr style="margin:2rem 0;">
-
-        <h6 class="px-2">Layout styles</h6>
-
-        <!--Custome Color-->
-        <div class="d-flex mb-4 mt-4" id="customeButtonCheck">
-            <div class="d-flex flex-column mx-2">
-                <label class="form-check-label" for="customeImage" >
-                    <input class="form-check-input" type="radio" value="" id="customeImage" checked>
-                    <span>
-                        <i class="fa-regular fa-image"></i>
-                    </span>
-                    Custom Image
-                </label>
-            </div>
-            <div class="d-flex flex-column mx-2">
-                <label class="form-check-label" for="customeColor">
-                    <input class="form-check-input" type="radio" value="" id="customeColor">
-                    <span>
-                        <i class="fa-solid fa-palette"></i>
-                    </span>
-                    Custom colors
-                </label>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body py-4">
-
-                <div class="row" id="fieldsColor" style="display: none;">
-                    <div class="col">
-
-                        <label for="colorPicker">Hintergrund farbe</label>
-                        <input type="color" id="fieldsColorBg" class="color-picker">
-
-
-                        <div class="color-inputs mt-4" id="create-gradient">
-                            <input type="color" id="start-color" value="#3498db">
-                            <input type="color" id="end-color" value="#e74c3c">
-                            <!-- <button id="create-gradient">Farbverlauf erstellen</button> -->
-                        </div>
-                        <div id="selected-gradient-preview"></div>
-
-                    </div>
-                </div>
-
-                <div class="row" id="fieldsImage">
-                    <div class="col">
-                        <div class="col">
-                            <label for="topUpload" class="custom-file-upload">
-                                <div class="no-image">
-                                    <i class="fa-solid fa-pencil d-none"></i>
-                                    <i class="fa-solid fa-file-image"></i>
-                                </div>
-                                <input type="file" id="topUpload" accept="image/*" style="display:none;">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <hr style="margin:2rem 0;">
-
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="">
                             <label for="colorPicker">Title color</label>
@@ -134,76 +59,18 @@
                             <input type="color" id="colorPicker4" class="color-picker">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
-                <hr style="margin:2rem 0;">
 
                 <!--Normal-->
-                <div class="row">
-                    <div class="col">
-                        Buttonts
-                        <div class="link_bio_custome_round_btn"></div>
-                    </div>
-                    <div class="col">
-                        Buttonts
-                        <div class="link_bio_custome_round_less_btn"></div>
-                    </div>
-                    <div class="col">
-                        Buttonts
-                        <div class="ink_bio_custome_rectang_btn"></div>
-                    </div>
-                </div>
 
                 <!--outline-->
-                <div class="row">
-                    <div class="col">
-                        Buttonts
-                        <div class="link_bio_custome_outline_round_btn"></div>
-                    </div>
-                    <div class="col">
-                        Buttonts
-                        <div class="link_bio_custome_outline_round_less_btn"></div>
-                    </div>
-                    <div class="col">
-                        Buttonts
-                        <div class="ink_bio_custome_outline_rectang_btn"></div>
-                    </div>
-                </div>
+
 
                 <!--Shadowe-->
-                <div class="row">
-                    <div class="col">
-                        Shadowe
-                        <div class="shadow-option_neutral"></div>
-                    </div>
-                    <div class="col">
-                        Shadowe
-                        <div class="shadow-option_light"></div>
-                    </div>
-                    <div class="col">
-                        Shadowe
-                        <div class="shadow-option_heavy"></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+ 
 
         <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
         <input type="hidden" id="linkinbio_page_id_custome" value="{{link_in_bio_instance.id}}">
 
-    </div>
-</div>
-
-
-<!-- title
-description
-image
-profile_image
-
-url_social
-
-selected_template
-
-custome_settings? -->
