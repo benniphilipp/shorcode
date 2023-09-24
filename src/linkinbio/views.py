@@ -466,9 +466,27 @@ class ImageSaveAdjustmentView(View):
             linkinbiopage = LinkInBio.objects.get(pk=pk)
 
             # Speichere das Bild in der Link-in-Bio-Seite
-            linkinbiopage.image = image_data
+            linkinbiopage.profile_image = image_data
             linkinbiopage.save()
             
             return JsonResponse({'message': 'Bild erfolgreich gespeichert'})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
+
+# Detaile Profile Image
+class ProfileImageDetailView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        try:
+            profileimage = get_object_or_404(LinkInBio, pk=pk, user=request.user)
+            print(profileimage.profile_image.url)
+
+            if profileimage.profile_image.url:
+                data = [{'profile_image': profileimage.profile_image.url}]
+            else:
+                data = [{'profile_image': None}]
+            
+            return JsonResponse(data, safe=False)  # Anpassung hier: data direkt zurückgeben und safe=False setzen
+            
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio not found'}, status=404)

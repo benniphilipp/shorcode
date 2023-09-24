@@ -23,6 +23,7 @@ const linkpagedelete = new linkPageDelete();
 // Customizations
 import adjustmentAddImg from './module/adjustmentAddImg'; // Add Image
 import adjustmentRemoImg from './module/adjustmentRemoImg'; // adjustment remove Image * adjustmentRemoImg.js
+import adjustmentViewImg from './module/adjustmentViewImg'; // adjustmentViewImg.js
 import adjustmentTexDesc from './module/adjustmentTexDesc'; // Crate and titel, description * adjustmentTexDesc.js
 import adjustmentSocial from './module/adjustmentSocial'; // Add Social media and Remove Social media * adjustmentSocial.js
 import adjustmentColor from './module/adjustmentColor'; // Color Button * adjustmentColor.js
@@ -30,6 +31,7 @@ import adjustmentFonts from './module/adjustmentFonts'; // Fonts * adjustmentFon
 
 const adjustmentaddimg = new adjustmentAddImg();
 const adjustmentremoimg = new adjustmentRemoImg();
+const adjustmentviewimg = new adjustmentViewImg();
 const adjustmenttexdesc = new adjustmentTexDesc();
 const adjustmentsocial = new adjustmentSocial();
 const adjustmentcolor = new adjustmentColor();

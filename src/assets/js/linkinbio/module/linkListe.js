@@ -91,7 +91,8 @@ class linkListe{
                 console.error('Fehler:', errorThrown);
               }
             });
-          }
+
+        }
     }
 
 

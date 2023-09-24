@@ -19,7 +19,8 @@ from .views import (
         LinkinbioDetaileJsonView,
         UpdateFormLinkInBioSingel,
         LinkinbiolinkDeleteView,
-        ImageSaveAdjustmentView
+        ImageSaveAdjustmentView,
+        ProfileImageDetailView
     )
 
 
@@ -45,4 +46,5 @@ urlpatterns = [
     path('linkinbio_update_json/<int:pk>/', UpdateFormLinkInBioSingel.as_view(), name='linkinbio_update_json'),
     path('linkinbio_delete_json/<int:pk>/', LinkinbiolinkDeleteView.as_view(), name='linkinbio_delete_json'),
     path('adjustment_profile_image_json/<int:pk>/', ImageSaveAdjustmentView.as_view(), name='adjustment_profile_image_json'),
+    path('adjustment_dataile_profile_image_json/<int:pk>/', ProfileImageDetailView.as_view(), name='adjustment_dataile_profile_image_json'),
 ]

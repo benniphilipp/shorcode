@@ -221,6 +221,8 @@ TqXRm5ikowzmYtZVyCMC
 
     Crate Script adjustment
     - Add Image
+    - Remove Image
+    - Image View
     - Fonts * adjustmentFonts.js 
     - Color Button * adjustmentColor.js
     - Add Social media and Remove Social media * adjustmentSocial.js

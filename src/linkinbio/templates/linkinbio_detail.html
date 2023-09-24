@@ -160,6 +160,8 @@
     <!--URLs-->
     <!--Image Profile Adjustment-->
     <input type="hidden" id="ImageProfileAdjustment" value="{% url 'linkinbio:adjustment_profile_image_json' link_in_bio_instance.id %}">
+    <!--Deatile View Profile Image-->
+    <input type="hidden" id="ProfileImageDetailView" value="{% url 'linkinbio:adjustment_dataile_profile_image_json' link_in_bio_instance.id %}">
 
     <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
 
