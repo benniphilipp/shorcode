@@ -212,6 +212,29 @@ TqXRm5ikowzmYtZVyCMC
         E-Mail-Benachrichtigungen
         Verwaltung von Abonnements
 
+# ToDos Liste
+
+    - Push
+    git add .
+    git commit -m '_text'
+    git push origin linkinbio
+
+    Crate Script
+    Uplaod Image
+    Remove Image
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Google Sheets
 - https://pypi.org/project/django-gsheets/
 

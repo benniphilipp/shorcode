@@ -16,7 +16,67 @@
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _module_getCookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module/getCookie */ \"./assets/js/linkinbio/module/getCookie.js\");\n/* harmony import */ var _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./module/sidebarSwitcher */ \"./assets/js/linkinbio/module/sidebarSwitcher.js\");\n/* harmony import */ var _module_linkCrate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./module/linkCrate */ \"./assets/js/linkinbio/module/linkCrate.js\");\n/* harmony import */ var _module_updateFormLinks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./module/updateFormLinks */ \"./assets/js/linkinbio/module/updateFormLinks.js\");\n/* harmony import */ var _module_linkDelete__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./module/linkDelete */ \"./assets/js/linkinbio/module/linkDelete.js\");\n/* harmony import */ var _module_linkPageUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./module/linkPageUpdate */ \"./assets/js/linkinbio/module/linkPageUpdate.js\");\n/* harmony import */ var _module_linkPageDelete__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./module/linkPageDelete */ \"./assets/js/linkinbio/module/linkPageDelete.js\");\n\n\n\nconst csrftoken = (0,_module_getCookie__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken');\n\n// Linkinbiolink Links Javascript\n\n\n\n\nconst crateformlink = new _module_linkCrate__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\nconst createformlinks = new _module_updateFormLinks__WEBPACK_IMPORTED_MODULE_3__[\"default\"]();\nconst linkdelete = new _module_linkDelete__WEBPACK_IMPORTED_MODULE_4__[\"default\"]();\n\n// LinkInBio Page\n\n\n\nconst linkpageupdate = new _module_linkPageUpdate__WEBPACK_IMPORTED_MODULE_5__[\"default\"]();\nconst linkpagedelete = new _module_linkPageDelete__WEBPACK_IMPORTED_MODULE_6__[\"default\"]();\n\n// Sidebar Open & Close\nconst openFormButton = document.querySelector(\"#openForm\");\nconst closeFormButton = document.querySelector(\"#closeForm\");\n\nif (openFormButton) {\n    openFormButton.addEventListener('click', _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__.openForm);\n}\n\nif (closeFormButton) {\n    closeFormButton.addEventListener('click', _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__.closeForm);\n}\n\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/linkinbio.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _module_getCookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module/getCookie */ \"./assets/js/linkinbio/module/getCookie.js\");\n/* harmony import */ var _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./module/sidebarSwitcher */ \"./assets/js/linkinbio/module/sidebarSwitcher.js\");\n/* harmony import */ var _module_linkCrate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./module/linkCrate */ \"./assets/js/linkinbio/module/linkCrate.js\");\n/* harmony import */ var _module_updateFormLinks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./module/updateFormLinks */ \"./assets/js/linkinbio/module/updateFormLinks.js\");\n/* harmony import */ var _module_linkDelete__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./module/linkDelete */ \"./assets/js/linkinbio/module/linkDelete.js\");\n/* harmony import */ var _module_linkPageUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./module/linkPageUpdate */ \"./assets/js/linkinbio/module/linkPageUpdate.js\");\n/* harmony import */ var _module_linkPageDelete__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./module/linkPageDelete */ \"./assets/js/linkinbio/module/linkPageDelete.js\");\n/* harmony import */ var _module_adjustmentAddImg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./module/adjustmentAddImg */ \"./assets/js/linkinbio/module/adjustmentAddImg.js\");\n/* harmony import */ var _module_adjustmentRemoImg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./module/adjustmentRemoImg */ \"./assets/js/linkinbio/module/adjustmentRemoImg.js\");\n/* harmony import */ var _module_adjustmentTexDesc__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./module/adjustmentTexDesc */ \"./assets/js/linkinbio/module/adjustmentTexDesc.js\");\n/* harmony import */ var _module_adjustmentSocial__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./module/adjustmentSocial */ \"./assets/js/linkinbio/module/adjustmentSocial.js\");\n/* harmony import */ var _module_adjustmentColor__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./module/adjustmentColor */ \"./assets/js/linkinbio/module/adjustmentColor.js\");\n/* harmony import */ var _module_adjustmentFonts__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./module/adjustmentFonts */ \"./assets/js/linkinbio/module/adjustmentFonts.js\");\n\n\n\nconst csrftoken = (0,_module_getCookie__WEBPACK_IMPORTED_MODULE_0__.getCookie)('csrftoken');\n\n// Linkinbiolink Links Javascript\n\n\n\n\nconst crateformlink = new _module_linkCrate__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\nconst createformlinks = new _module_updateFormLinks__WEBPACK_IMPORTED_MODULE_3__[\"default\"]();\nconst linkdelete = new _module_linkDelete__WEBPACK_IMPORTED_MODULE_4__[\"default\"]();\n\n// LinkInBio Page\n\n\n\nconst linkpageupdate = new _module_linkPageUpdate__WEBPACK_IMPORTED_MODULE_5__[\"default\"]();\nconst linkpagedelete = new _module_linkPageDelete__WEBPACK_IMPORTED_MODULE_6__[\"default\"]();\n\n\n// Customizations\n // Add Image\n // adjustment remove Image * adjustmentRemoImg.js\n // Crate and titel, description * adjustmentTexDesc.js\n // Add Social media and Remove Social media * adjustmentSocial.js\n // Color Button * adjustmentColor.js\n // Fonts * adjustmentFonts.js \n\nconst adjustmentaddimg = new _module_adjustmentAddImg__WEBPACK_IMPORTED_MODULE_7__[\"default\"]();\nconst adjustmentremoimg = new _module_adjustmentRemoImg__WEBPACK_IMPORTED_MODULE_8__[\"default\"]();\nconst adjustmenttexdesc = new _module_adjustmentTexDesc__WEBPACK_IMPORTED_MODULE_9__[\"default\"]();\nconst adjustmentsocial = new _module_adjustmentSocial__WEBPACK_IMPORTED_MODULE_10__[\"default\"]();\nconst adjustmentcolor = new _module_adjustmentColor__WEBPACK_IMPORTED_MODULE_11__[\"default\"]();\nconst adjustmentfonts = new _module_adjustmentFonts__WEBPACK_IMPORTED_MODULE_12__[\"default\"]();\n\n// Sidebar Open & Close\nconst openFormButton = document.querySelector(\"#openForm\");\nconst closeFormButton = document.querySelector(\"#closeForm\");\n\nif (openFormButton) {\n    openFormButton.addEventListener('click', _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__.openForm);\n}\n\nif (closeFormButton) {\n    closeFormButton.addEventListener('click', _module_sidebarSwitcher__WEBPACK_IMPORTED_MODULE_1__.closeForm);\n}\n\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/linkinbio.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentAddImg.js":
+/*!********************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentAddImg.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentAddImg{\n\n    constructor(){\n\n    }\n\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentAddImg);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentAddImg.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentColor.js":
+/*!*******************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentColor.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentColor{\n\n    constructor(){}\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentColor);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentColor.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentFonts.js":
+/*!*******************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentFonts.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentFonts{\n    constructor(){\n\n    }\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentFonts);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentFonts.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentRemoImg.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentRemoImg.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentRemoImg {\n\n    constructor(){\n\n    }\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentRemoImg);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentRemoImg.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentSocial.js":
+/*!********************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentSocial.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentSocial{\n\n    constructor(){}\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentSocial);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentSocial.js?");
+
+/***/ }),
+
+/***/ "./assets/js/linkinbio/module/adjustmentTexDesc.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/linkinbio/module/adjustmentTexDesc.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass adjustmentTexDesc{\n\n    constructor(){}\n\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (adjustmentTexDesc);\n\n//# sourceURL=webpack://src/./assets/js/linkinbio/module/adjustmentTexDesc.js?");
 
 /***/ }),
 
