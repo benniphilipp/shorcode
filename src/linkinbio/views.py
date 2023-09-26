@@ -20,6 +20,29 @@ from .models import LinkInBio, LinkInBioLink, CustomSettings, SocialMediaPlatfor
 from .forms import LinkInBioDashboardForm
 
 
+
+class UrlSocialProfilesViewList(View):
+    def get(self, request, pk):
+        try:
+            link_in_bio = LinkInBio.objects.get(id=pk)
+            social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
+            
+            # Eine Liste erstellen, um alle Sozialen Medien-Links und deren Status zu speichern
+            social_media_data = []
+            
+            for profile in social_media_profiles:
+                social_media_data.append({
+                    'platform': profile.social_media_platform.name,
+                    'url': profile.url_social,
+                    'id': profile.pk
+                })
+            
+            return JsonResponse({'social_media': social_media_data})
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+
+
+
 class SocialMediaProfilesView(View):
     def get(self, request, link_in_bio_id):
         try:            

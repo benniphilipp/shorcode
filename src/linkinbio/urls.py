@@ -22,7 +22,8 @@ from .views import (
         ImageSaveAdjustmentView,
         ProfileImageDetailView,
         TexteCreateAdjustmentView,
-        TexteDeatileAdjustmentView
+        TexteDeatileAdjustmentView,
+        UrlSocialProfilesViewList
     )
 
 
@@ -51,4 +52,5 @@ urlpatterns = [
     path('adjustment_dataile_profile_image_json/<int:pk>/', ProfileImageDetailView.as_view(), name='adjustment_dataile_profile_image_json'),
     path('adjustment_create_text_json/<int:pk>/', TexteCreateAdjustmentView.as_view(), name='adjustment_create_text_json'),
     path('adjustment_detaile_text_json/<int:pk>/', TexteDeatileAdjustmentView.as_view(), name='adjustment_detaile_text_json'),
+    path('url_social_profiles_view_list/<int:pk>/', UrlSocialProfilesViewList.as_view(), name='url_social_profiles_view_list'),
 ]

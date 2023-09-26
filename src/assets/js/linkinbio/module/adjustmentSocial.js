@@ -2,9 +2,10 @@
 Speichern und TODOs:
 
 Mitteilung das gespeichert ist
-Auswahl alle Icons nur 1 Mal View anpassen
+Auswahl alle Icons nur 1 Mal View anpassen erledig!
 Sortierung auf und Up
-Daten Ansicht Mobile und Desktop 
+Daten Ansicht Bearbeitung erledig!
+Sozial Profile Update
 Löschen der Links
 
 */
@@ -14,6 +15,8 @@ import { getCookie } from './getCookie';
 class adjustmentSocial {
 
     constructor() {
+
+        this.sozialprofilelist();
 
         this.csrftoken = getCookie('csrftoken');
 
@@ -204,8 +207,67 @@ class adjustmentSocial {
                 console.error('Fehler:', errorThrown);
             }
         });
-
     }
+
+    // View list urls
+    sozialprofilelist() {
+        const urlData = document.querySelector('#UrlSocialProfilesViewList');
+        const elementContainer = document.querySelector('#elementContainer');
+    
+        $.ajax({
+            url: urlData.value,
+            type: 'GET',
+            dataType: 'json',
+            success: (data) => {
+                console.log(data);
+    
+                // Löschung aller vorhandenen Elemente im Container
+                elementContainer.innerHTML = '';
+    
+                // Durchlaufe die Daten und erstelle Elemente für alle Profile
+                data.social_media.forEach((profile) => {
+                    const newElement = this.UpdateelementSocial(profile.platform, profile.url, profile.id, profile.selected);
+                    elementContainer.insertAdjacentHTML('beforeend', newElement);
+                });
+            },
+            error: (xhr, textStatus, errorThrown) => {
+                console.error('Fehler:', errorThrown);
+            }
+        });
+    }
+    
+    // Element list view urls
+    UpdateelementSocial(platform, url, id, selected) {
+        const selectFieldId = `socialSelectFieldId${id}`;
+        const selectedAttribute = selected ? 'selected' : '';
+        return `
+        <div class="card border-0 mt-4 p-3 shadow-sm">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-sm-1 d-flex justify-content-start align-items-center">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
+                    <div class="col-sm-5">
+                        <select class="form-select update-platform-select" id="${selectFieldId}">
+                            <option value="${platform}" data-platform="${platform}" ${selectedAttribute}>${platform}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control url_social" id="urlSocial${id}" value="${url}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+    }
+    
+    
+    
+    
+    
+
 
 }
 
