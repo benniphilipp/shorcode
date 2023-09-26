@@ -5,8 +5,6 @@ class adjustmentTexDesc{
 
     constructor(){
 
-
-
         this.csrftoken = getCookie('csrftoken');
 
         // Titel
@@ -76,7 +74,6 @@ class adjustmentTexDesc{
             dataType: 'json',
             success: (data) => {
 
-                console.log(data[0]);
                 this.titelPageValue.textContent = data[0].title;
                 this.inputFieldTitel.value = data[0].title;
                 this.inputFieldDescription.value = data[0].description;

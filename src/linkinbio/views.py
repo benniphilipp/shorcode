@@ -22,7 +22,7 @@ from .forms import LinkInBioDashboardForm
 
 class SocialMediaProfilesView(View):
     def get(self, request, link_in_bio_id):
-        try:
+        try:            
             link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
             social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
 
@@ -34,6 +34,7 @@ class SocialMediaProfilesView(View):
             return JsonResponse({'error': 'LinkInBio not found'}, status=404)
 
 
+
 # Save Url Social Profiles
 class SaveUrlSocialView(View):
     def post(self, request):
@@ -42,7 +43,7 @@ class SaveUrlSocialView(View):
             link_in_bio_id = request.POST.get('link_in_bio_id')
             social_media_platform = request.POST.get('social_media_platform')
 
-            platform_instance = SocialMediaPlatform.objects.get(id=social_media_platform)
+            platform_instance = SocialMediaPlatform.objects.get(name=social_media_platform)
             # Prüfen, ob ein LinkInBio-Eintrag mit der angegebenen ID existiert
             link_in_bio = LinkInBio.objects.get(id=link_in_bio_id)
 
@@ -58,11 +59,16 @@ class SaveUrlSocialView(View):
             return JsonResponse(response_data, status=404)
 
 
-# Social Media Platform
+# Social Media Platform Auswahl mit exclude
 def get_social_media_platforms(request):
-    platforms = SocialMediaPlatform.objects.all()
-    data = [{'id': platform.id, 'name': platform.name} for platform in platforms]
-    return JsonResponse({'platforms': data})
+    link_in_bio_page_id = request.GET.get('link_in_bio_page_id')
+
+    # Erhalte eine Liste der Plattformen, die nicht mit der LinkInBio-Seite verknüpft sind
+    platforms = SocialMediaPlatform.objects.exclude(urlsocialprofiles__link_in_bio_id=link_in_bio_page_id).values('id', 'name')
+
+    data = {'platforms': list(platforms)}
+    return JsonResponse(data)
+
 
 
 # Ajax-Anfrage zum Speichern der Reihenfolge

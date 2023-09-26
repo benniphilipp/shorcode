@@ -1,7 +1,17 @@
 
+/*
+Speichern und TODOs:
 
+Mitteilung das gespeichert ist
+Auswahl alle Icons nur 1 Mal View anpassen
+Sortierung auf und Up
+Daten Ansicht Mobile und Desktop 
+Löschen der Links
+
+*/
 
 window.addEventListener('DOMContentLoaded', (event) => {
+
 
     // List View social media
     // const linkInBioId = $('#linkinbio_page_id_custome').val();
@@ -86,50 +96,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     // Handler für den Button-Klick
-    $('#addElementButton').click(function() {
-        // Erstelle ein neues Element mit dem gewünschten HTML
-        var newElement = `
-        <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
-            <div class="card-body p-0">
-                <div class="row">
-                    <div class="col">
-                        <select class="form-select platform-select" id="socialSlectFeldId" name="platform">
-                            <!-- Optionen werden hier dynamisch hinzugefügt -->
-                        </select>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <input type="text" class="form-control url_social" placeholder="Url">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `;
+    // $('#addElementButton').click(function() {
+    //     // Erstelle ein neues Element mit dem gewünschten HTML
+    //     var newElement = `
+    //     <div class="card border-0 mt-4 p-3" style="background-color: rgb(248,249,250);">
+    //         <div class="card-body p-0">
+    //             <div class="row">
+    //                 <div class="col">
+    //                     <select class="form-select platform-select" id="socialSlectFeldId" name="platform">
+    //                         <!-- Optionen werden hier dynamisch hinzugefügt -->
+    //                     </select>
+    //                 </div>
+    //                 <div class="col">
+    //                     <div class="form-group">
+    //                         <input type="text" class="form-control url_social" placeholder="Url">
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>
+    //     `;
 
-        // Füge das neue Element zum Container hinzu
-        $('#elementContainer').append(newElement);
+    //     // Füge das neue Element zum Container hinzu
+    //     $('#elementContainer').append(newElement);
 
-        // Hole die Plattformen und fülle das gerade hinzugefügte <select> mit Optionen
-        $.ajax({
-            url: '/linkinbio/get_social_media_platforms/', // Ersetze durch die richtige API-URL
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                // Finde das <select> im neuen Element
-                var select = $('#elementContainer').find('.platform-select').last();
-                $.each(data.platforms, function(index, platform) {
-                    select.append($('<option>', {
-                        value: platform.id,
-                        text: platform.name
-                    }));
-                });
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.error('Fehler:', errorThrown);
-            }
-        });
-    });
+    //     // Hole die Plattformen und fülle das gerade hinzugefügte <select> mit Optionen
+    //     $.ajax({
+    //         url: '/linkinbio/get_social_media_platforms/', // Ersetze durch die richtige API-URL
+    //         type: 'GET',
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             // Finde das <select> im neuen Element
+    //             var select = $('#elementContainer').find('.platform-select').last();
+    //             $.each(data.platforms, function(index, platform) {
+    //                 select.append($('<option>', {
+    //                     value: platform.id,
+    //                     text: platform.name
+    //                 }));
+    //             });
+    //         },
+    //         error: function(xhr, textStatus, errorThrown) {
+    //             console.error('Fehler:', errorThrown);
+    //         }
+    //     });
+    // });
 
 
 
