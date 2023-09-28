@@ -62,37 +62,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     // Handler für den Button-Klick zum Speichern der URL
-    var urlSocialForm = $('#urlSocial').val();
-    $(document.body).on('change', '.url_social', function() {
-        var url_social = $(this).val();  // Wert aus dem Input-Feld holen
-        var link_in_bio_id = $('#linkinbio_page_id_custome').val();  // Annahme: Die LinkInBio-Seite hat eine ID
-        var social_media_platform = $('#socialSlectFeldId').val();
-        console.log(social_media_platform)
-        // Ajax-Anfrage zum Speichern der URL
-        $.ajax({
-            url: urlSocialForm,  // Ersetze durch die richtige URL zur View
-            type: 'POST',
-            data: {
-                url_social: url_social,
-                link_in_bio_id: link_in_bio_id,
-                social_media_platform: social_media_platform
-            },
-            headers: {
-                'X-CSRFToken': csrftoken
-            },
-            success: function(data) {
-                if (data.success) {
-                    console.log('URL erfolgreich gespeichert.');
-                    // Hier kannst du weitere Aktionen ausführen, z.B. die Seite aktualisieren
-                } else {
-                    console.error('Fehler beim Speichern der URL:', data.message);
-                }
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.error('Fehler beim Speichern der URL:', errorThrown);
-            }
-        });
-    });
+    // var urlSocialForm = $('#urlSocial').val();
+    // $(document.body).on('change', '.url_social', function() {
+    //     var url_social = $(this).val();  // Wert aus dem Input-Feld holen
+    //     var link_in_bio_id = $('#linkinbio_page_id_custome').val();  // Annahme: Die LinkInBio-Seite hat eine ID
+    //     var social_media_platform = $('#socialSlectFeldId').val();
+    //     console.log(social_media_platform)
+    //     // Ajax-Anfrage zum Speichern der URL
+    //     $.ajax({
+    //         url: urlSocialForm,  // Ersetze durch die richtige URL zur View
+    //         type: 'POST',
+    //         data: {
+    //             url_social: url_social,
+    //             link_in_bio_id: link_in_bio_id,
+    //             social_media_platform: social_media_platform
+    //         },
+    //         headers: {
+    //             'X-CSRFToken': csrftoken
+    //         },
+    //         success: function(data) {
+    //             if (data.success) {
+    //                 console.log('URL erfolgreich gespeichert.');
+    //                 // Hier kannst du weitere Aktionen ausführen, z.B. die Seite aktualisieren
+    //             } else {
+    //                 console.error('Fehler beim Speichern der URL:', data.message);
+    //             }
+    //         },
+    //         error: function(xhr, textStatus, errorThrown) {
+    //             console.error('Fehler beim Speichern der URL:', errorThrown);
+    //         }
+    //     });
+    // });
 
 
     // Handler für den Button-Klick

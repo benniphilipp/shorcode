@@ -10,7 +10,7 @@ from .views import (
         UpdateLinksOrderView,
         get_social_media_platforms,
         SaveUrlSocialView,
-        SocialMediaProfilesView,
+        #SocialMediaProfilesView,
         LinksDetaileJsonView,
         UpdateShortcodeLinkInBioView,
         updateSwichtLinkinbioAtive,
@@ -23,7 +23,10 @@ from .views import (
         ProfileImageDetailView,
         TexteCreateAdjustmentView,
         TexteDeatileAdjustmentView,
-        UrlSocialProfilesViewList
+        UrlSocialProfilesViewList,
+        UrlSocialProfilesUpdateView,
+        UrlSocialProfilesDeleteView,
+        LinkInBioViewEditScreen
     )
 
 
@@ -37,7 +40,7 @@ urlpatterns = [
     path('update_links_order/', UpdateLinksOrderView.as_view(), name='update_links_order'),
     path('get_social_media_platforms/', get_social_media_platforms, name='get_social_media_platforms'),
     path('save_social_profiles/', SaveUrlSocialView.as_view(), name='save_url_social'),
-    path('social_media_profiles/<int:link_in_bio_id>/', SocialMediaProfilesView.as_view(), name='social_media_profiles'),
+    #path('social_media_profiles/<int:link_in_bio_id>/', SocialMediaProfilesView.as_view(), name='social_media_profiles'),
     path('update_shorcode_linkinbio/<int:pk>/', UpdateShortcodeLinkInBioView.as_view(), name='update_shortcode_linkinbio'),
     path('detail/<int:pk>/', LinkInBioDetailView.as_view(), name='linkinbio_detail'),
     path('links/<int:linkinbio_id>/', LinkInBioLinksListView.as_view(), name='linkinbio_links_list'),
@@ -53,4 +56,7 @@ urlpatterns = [
     path('adjustment_create_text_json/<int:pk>/', TexteCreateAdjustmentView.as_view(), name='adjustment_create_text_json'),
     path('adjustment_detaile_text_json/<int:pk>/', TexteDeatileAdjustmentView.as_view(), name='adjustment_detaile_text_json'),
     path('url_social_profiles_view_list/<int:pk>/', UrlSocialProfilesViewList.as_view(), name='url_social_profiles_view_list'),
+    path('url_social_profiles_view_update/<int:pk>/', UrlSocialProfilesUpdateView.as_view(), name='url_social_profiles_view_update'),
+    path('url_social_profiles_view_delete/', UrlSocialProfilesDeleteView.as_view(), name='url_social_profiles_view_delete'),
+    path('linkinbio_edit_screen/<int:pk>/', LinkInBioViewEditScreen.as_view(), name='linkinbio_edit_screen'),
 ]

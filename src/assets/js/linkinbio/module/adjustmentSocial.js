@@ -1,21 +1,23 @@
 /*
 Speichern und TODOs:
 
-Mitteilung das gespeichert ist
+Mitteilung das gespeichert ist erledig!
 Auswahl alle Icons nur 1 Mal View anpassen erledig!
 Sortierung auf und Up
 Daten Ansicht Bearbeitung erledig!
-Sozial Profile Update
-Löschen der Links
-
+Sozial Profile Update erledig!
+Löschen der Links mit anzeige erledig!
+Keine Neuen Inputfelder wen alle ausgefühlt sind!
 */
 
 import { getCookie } from './getCookie';
+import { clearContent, lsToast } from './lsToast';
 
 class adjustmentSocial {
 
     constructor() {
 
+        this.linkinbioEditScrenn();
         this.sozialprofilelist();
 
         this.csrftoken = getCookie('csrftoken');
@@ -31,6 +33,14 @@ class adjustmentSocial {
         if (elementContainer) {
             elementContainer.addEventListener('change', this.handleSelectChange.bind(this));
             elementContainer.addEventListener('input', this.handleInput.bind(this));
+            elementContainer.addEventListener('click', this.handleButtonUpdate.bind(this));
+            elementContainer.addEventListener('click', this.handleButtonDelete.bind(this));
+        }
+
+        // modalButtonDelete
+        const deleteButton = document.getElementById('urlsDelete');
+        if(deleteButton){
+            deleteButton.addEventListener('click', this.modalButtonDelete.bind(this));
         }
 
         this.uniqueIdCounter = 0;
@@ -68,8 +78,12 @@ class adjustmentSocial {
                 console.log(`Die URL für ${this.selectedPlatform} ist gültig`);
                 // Daten speichern
                 this.saveData(this.selectedPlatform, enteredURL); 
+                inputField.style.borderColor = '';
             } else {
                 console.log(`Die URL für ${this.selectedPlatform} ist ungültig`);
+
+                inputField.style.borderColor = '#dc3545';
+                
             }
         }
 
@@ -79,34 +93,35 @@ class adjustmentSocial {
     // Methode zum Speichern der Daten
     saveData(selectedPlatform, enteredURL) {
         if (selectedPlatform && enteredURL) {
-        // Überprüfen, ob sowohl Plattform als auch URL vorhanden sind
 
-        var link_in_bio_id = $('#linkinbio_page_id_custome').val();
-        const urlSocialForm = $('#urlSocial').val();
+            var link_in_bio_id = $('#linkinbio_page_id_custome').val();
+            const urlSocialForm = $('#urlSocial').val();
 
-        $.ajax({
-            url: urlSocialForm,  // Ersetze durch die richtige URL zur View
-            type: 'POST',
-            data: {
-                url_social: enteredURL,
-                link_in_bio_id: link_in_bio_id,
-                social_media_platform: selectedPlatform
-            },
-            headers: {
-                'X-CSRFToken': this.csrftoken,
-            },
-            success: function(data) {
-                if (data.success) {
-                    console.log('URL erfolgreich gespeichert.');
-                    // Hier kannst du weitere Aktionen ausführen, z.B. die Seite aktualisieren
-                } else {
-                    console.error('Fehler beim Speichern der URL:', data.message);
+            $.ajax({
+                url: urlSocialForm,
+                type: 'POST',
+                data: {
+                    url_social: enteredURL,
+                    link_in_bio_id: link_in_bio_id,
+                    social_media_platform: selectedPlatform
+                },
+                headers: {
+                    'X-CSRFToken': this.csrftoken,
+                },
+                success: (data) => {
+                    if (data.success) {
+
+                        lsToast(translations['URL erfolgreich gespeichert.']);                      
+                        this.sozialprofilelist();
+
+                    } else {
+                        console.error('Fehler beim Speichern der URL:', data.message);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Fehler beim Speichern der URL:', errorThrown);
                 }
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.error('Fehler beim Speichern der URL:', errorThrown);
-            }
-        });
+            });
 
         }
     }
@@ -119,11 +134,33 @@ class adjustmentSocial {
                 return this.isFacebookURL(url);
             case 'Instagram':
                 return this.isInstagramURL(url);
-            // Fügen Sie weitere Plattformen hinzu, wenn benötigt
+            case 'YouTube':
+                return this.isYoutubeURL(url);
+            case 'Vimeo':
+                return this.isVimeoURL(url);
+            case 'Twitter':
+                return this.isTwitterURL(url);
+            case 'Twitch':
+                return this.isTwitchURL(url);
+            case 'TikTok':
+                return this.istTikTokURL(url);
+            case 'Reddit':
+                return this.istRedditURL(url);
+            case 'Tumblr':
+                return this.istTumblrURL(url);
+            case 'Snapchat':
+                return this.isSnapchatUrl(url);
+            case 'Discord':
+                return this.isDiscordUrl(url);
+            case 'LinkedIn':
+                return this.isLinkedInUrl(url);
+            case 'Xing':
+                return this.isXingUrl(url);
             default:
                 return false;
         }
     }
+
 
     // Validierungsfunktion für Facebook
     isFacebookURL(url) {
@@ -136,6 +173,73 @@ class adjustmentSocial {
         const instagramRegex = /^(https?:\/\/)?(www\.)?instagram\.com\/.*/i;
         return instagramRegex.test(url);
     }
+
+    // Validierungsfunktion für Yourtube
+    isYoutubeURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Vimeo
+    isVimeoURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?vimeo\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Twitter
+    isTwitterURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?twitter\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Twitch
+    isTwitchURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?twitch\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Twitch
+    istTikTokURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?tiktok\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Reddit
+    istRedditURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?reddit\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Tumblr
+    istTumblrURL(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?tumblr\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Snapchat
+    isSnapchatUrl(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?snapchat\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für Snapchat
+    isDiscordUrl(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?discord\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für LinkedIn
+    isLinkedInUrl(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?linkedin\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
+    // Validierungsfunktion für XING
+    isXingUrl(url) {
+        const instagramRegex = /^(https?:\/\/)?(www\.)?xing\.com\/.*/i;
+        return instagramRegex.test(url);
+    }
+
 
     elementSocial(uniqueId) {
 
@@ -183,6 +287,7 @@ class adjustmentSocial {
                 'X-CSRFToken': this.csrftoken,
             },
             success: function (data) {
+
                 // Finde das <select> im neuen Element
                 var select = $('#elementContainer').find('.platform-select').last();
                 $.each(data.platforms, function (index, platform) {
@@ -198,7 +303,7 @@ class adjustmentSocial {
 
                 select.prepend($('<option>', {
                     value: '',
-                    text: 'Bitte wählen Sie eine Plattform'
+                    text: 'Plattform wählen'
                 }));
                 select.val('');
 
@@ -219,8 +324,7 @@ class adjustmentSocial {
             type: 'GET',
             dataType: 'json',
             success: (data) => {
-                console.log(data);
-    
+                
                 // Löschung aller vorhandenen Elemente im Container
                 elementContainer.innerHTML = '';
     
@@ -244,18 +348,22 @@ class adjustmentSocial {
         <div class="card border-0 mt-4 p-3 shadow-sm">
             <div class="card-body p-0">
                 <div class="row">
-                    <div class="col-sm-1 d-flex justify-content-start align-items-center">
+                    <div class="col-1 d-flex justify-content-center align-items-center p-0">
                         <i class="fa-solid fa-grip-vertical"></i>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-3">
                         <select class="form-select update-platform-select" id="${selectFieldId}">
                             <option value="${platform}" data-platform="${platform}" ${selectedAttribute}>${platform}</option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-6 p-0">
                         <div class="form-group">
                             <input type="text" class="form-control url_social" id="urlSocial${id}" value="${url}">
                         </div>
+                    </div>
+                    <div class="col-2 d-flex justify-content-center align-items-center p-0">
+                        <button class="btn btn-primary btn-sm mx-1 sozial-update" data-url-update="${id}"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn btn-danger btn-sm sozial-delete" data-url-delete="${id}"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -264,9 +372,156 @@ class adjustmentSocial {
     }
     
     
+
+    handleButtonUpdate(event){
+        const sozialUpdate = event.target.closest('.sozial-update');
+        if(sozialUpdate){
+            const updateId = sozialUpdate.getAttribute('data-url-update');
+            const urlSocialValue = document.querySelector('#urlSocial'+ updateId).value;
+            this.sozialprofilurlsupdate(updateId, urlSocialValue)
+        }
+    }
+
+
+    sozialprofilurlsupdate(updateId, urlSocialValue){
+
+        const urlData = document.querySelector('#UrlSocialProfilesUpdateView');
+  
+        const formData = new FormData();
+        formData.append('url_social_id', updateId);
+        formData.append('url_social', urlSocialValue);
+
+        $.ajax({
+            type: 'POST',
+            url: urlData.value,
+            data: formData,
+            contentType: 'application/json',
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRFToken': this.csrftoken, 
+            },
+            success: (data) => {
+
+                lsToast(data.message);
+                this.sozialprofilelist();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Fehler bei der Ajax-Anfrage:', errorThrown);
+            }
+        });
+
+    }
+
+
     
-    
-    
+    // Delete Button
+    handleButtonDelete(event){
+        const sozialDelete = event.target.closest('.sozial-delete');
+        if(sozialDelete){
+            const updateId = sozialDelete.getAttribute('data-url-delete');
+            this.openModalDeleteUrl(updateId)
+        }
+    }
+
+
+
+    // Open Modal Delete URL
+    openModalDeleteUrl(updateId){
+        const deleteButton = document.getElementById('urlsDelete');
+        deleteButton.setAttribute('data-custom-attribute', updateId);
+        $('#exampleUrls').modal('show');
+    }
+
+
+
+    // Delete Modal Button
+    modalButtonDelete(){
+        const urlsDelete = document.querySelector('#urlsDelete');
+        if(urlsDelete){
+            const delteId = urlsDelete.getAttribute('data-custom-attribute');
+            this.sozialprofilurlsdelete(delteId)
+        }
+    }
+
+
+
+    // Delete function
+    sozialprofilurlsdelete(updateId){
+     
+        const dataUrl = document.querySelector('#UrlSocialProfilesDeleteView');
+
+        $.ajax({
+            url: dataUrl.value,
+            type: 'POST',
+            data: {
+                url_social_id: updateId,
+            },
+            headers: {
+                'X-CSRFToken': this.csrftoken,
+            },
+            success: (data) => {
+
+                $('#exampleUrls').modal('hide');
+                lsToast(data.social_media_delete);
+                this.sozialprofilelist();
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Fehler beim Speichern der URL:', errorThrown);
+            }
+        });
+    }
+
+
+    // Edite Screnn
+    linkinbioEditScrenn(){
+
+        const urlData = document.querySelector('#LinkInBioViewEditScreen');
+
+        $.ajax({
+            url: urlData.value,
+            type: 'GET',
+            dataType: 'json',
+            success: (data) => {
+
+                $('#descriptionPageValue').text(data.description);
+                $('#titelpageValue').text(data.title);
+
+                // Rendern der URL-Social-Profile
+                const urlSocialProfilesContainer = $('#urlSocialProfilesContainer');
+                urlSocialProfilesContainer.empty();
+                //${profile.icon}
+                data.links.url_social_profiles.forEach((profile) => {
+                    console.log(profile.icon);
+                    const profileElement = `
+                    <li>
+                        <a href="${profile.url_social}">
+                            <i class="fa-brands ${profile.icon}"></i>
+                        </a>
+                    </li>
+                    `;
+                    urlSocialProfilesContainer.append(profileElement);
+                });
+
+                // Rendern der Link-in-Bio-Links
+                const linkInBioLinksContainer = $('#linkInBioLinksContainer');
+                linkInBioLinksContainer.empty();
+                
+                data.links.link_in_bio_links.forEach((link) => {
+                    const linkElement = `
+                        <a class="link-page-btn link-btn-color" href="http://127.0.0.1:8000/${link.lang}/${link.url}">${link.link_text}/</a>
+                    `;
+                    linkInBioLinksContainer.append(linkElement);
+                });
+
+            },
+            error: (xhr, textStatus, errorThrown) => {
+              console.error('Fehler:', errorThrown);
+            }
+          });
+
+    }
+
 
 
 }

@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 from geotargeting.models import GeoThemplate
 from django_hosts.resolvers import reverse
 
-
 from .utils import create_shortcode
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)

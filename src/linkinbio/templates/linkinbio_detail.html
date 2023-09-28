@@ -157,6 +157,25 @@
         </div>
     </div>
 
+    <!--Modal Delete Urls-->
+    <div class="modal fade" id="exampleUrls" tabindex="-1" aria-labelledby="exampleUrlsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleUrlsLabel">Social Media</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h6>Social Media Löschen, unwiederuflich löschen.</h6>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="urlsDelete">Löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!--URLs-->
     <!--Image Profile Adjustment-->
     <input type="hidden" id="ImageProfileAdjustment" value="{% url 'linkinbio:adjustment_profile_image_json' link_in_bio_instance.id %}">
@@ -170,6 +189,13 @@
     <input type="hidden" id="getSocialMdiaPlatforms" value="{% url 'linkinbio:get_social_media_platforms' %}">
     <!--UrlSocialProfilesViewList-->
     <input type="hidden" id="UrlSocialProfilesViewList" value="{% url 'linkinbio:url_social_profiles_view_list' link_in_bio_instance.id %}">
+    <!--UrlSocialProfilesUpdateView-->
+    <input type="hidden" id="UrlSocialProfilesUpdateView" value="{% url 'linkinbio:url_social_profiles_view_update' link_in_bio_instance.id %}">
+    <!--UrlSocialProfilesDeleteView-->
+    <input type="hidden" id="UrlSocialProfilesDeleteView" value="{% url 'linkinbio:url_social_profiles_view_delete' %}">
+    <!--LinkInBioViewEditScreen-->
+    <input type="hidden" id="LinkInBioViewEditScreen" value="{% url 'linkinbio:linkinbio_edit_screen' link_in_bio_instance.id %}">
+
 
     <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
 
@@ -190,7 +216,8 @@
         const translations = {
             'Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
             'Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
-            'Dein link wurde gespeicher.': '{% trans "Dein link wurde gespeicher." %}'
+            'Dein link wurde gespeicher.': '{% trans "Dein link wurde gespeicher." %}',
+            'URL erfolgreich gespeichert.': '{% trans "URL erfolgreich gespeichert." %}'
         };
         
     </script>

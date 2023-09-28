@@ -19,8 +19,92 @@ from shortcode.models import ShortcodeClass
 from .models import LinkInBio, LinkInBioLink, CustomSettings, SocialMediaPlatform, UrlSocialProfiles
 from .forms import LinkInBioDashboardForm
 
+#
+def get_language_from_url(request):
+    # Holen Sie sich die vollständige URL mit Sprachparameter
+    full_url = request.get_full_path()
+    
+    url_segments = full_url.split('/')
+    
+    language = url_segments[1]
+
+    
+    return language
 
 
+# View Edit Screen
+class LinkInBioViewEditScreen(View):
+    def get(self, request, pk):
+            try:
+                linkinbio = LinkInBio.objects.get(pk=pk)
+                
+                # Alle UrlSocialProfiles für diese LinkInBio-Seite abrufen
+                url_social_profiles = UrlSocialProfiles.objects.filter(link_in_bio=linkinbio)
+                
+                # Alle LinkInBioLink-Einträge für diese LinkInBio-Seite abrufen
+                link_in_bio_links = LinkInBioLink.objects.filter(link_in_bio=linkinbio)
+                sprache = get_language_from_url(request)
+                
+                # Daten für die Antwort erstellen
+                data = {
+                    'url_social_profiles': [
+                        {
+                            'platform': profile.social_media_platform.name,
+                            'icon': profile.social_media_platform.icon_svg,
+                            'url_social': profile.url_social
+                        }
+                        for profile in url_social_profiles
+                    ],
+                    'link_in_bio_links': [
+                        {
+                            'lang': sprache,
+                            'link_text': link.shortcode.button_label,
+                            'url': link.shortcode.shortcode
+                        }
+                        for link in link_in_bio_links
+                    ],
+                    'title': linkinbio.title,
+                    'description': linkinbio.description
+                }
+                
+                return JsonResponse({'links': data})
+            except LinkInBio.DoesNotExist:
+                return JsonResponse({'error': 'LinkInBio nicht gefunden.'}, status=404)
+            
+
+# Delete Social Media
+class UrlSocialProfilesDeleteView(View):
+    def post(self, request):
+        try:
+            url_social_id = request.POST.get('url_social_id')  # ID des zu löschenden URL-Social-Profils
+            
+            # Versuchen Sie, das zu löschende URL-Social-Profil zu finden und zu löschen
+            url_social_profile = UrlSocialProfiles.objects.get(id=url_social_id)
+            url_social_profile.delete()
+            
+            return JsonResponse({'social_media_delete': 'URL erfolgreich gelöscht.'})
+        except UrlSocialProfiles.DoesNotExist:
+            return JsonResponse({'error': 'UrlSocialProfiles nicht gefunden.'}, status=404)
+
+
+# Update Url Social Media
+class UrlSocialProfilesUpdateView(View):
+    def post(self, request, pk):
+        try:
+            url_social_id = request.POST.get('url_social_id')
+            new_url = request.POST.get('url_social') 
+
+            url_social_profile = UrlSocialProfiles.objects.get(id=url_social_id)
+            
+            url_social_profile.url_social = new_url
+            url_social_profile.save()
+            
+            return JsonResponse({'message': 'URL erfolgreich aktualisiert.'})
+        except UrlSocialProfiles.DoesNotExist:
+            return JsonResponse({'error': 'UrlSocialProfiles nicht gefunden.'}, status=404)
+        
+
+# Select View Sozial Media
 class UrlSocialProfilesViewList(View):
     def get(self, request, pk):
         try:
@@ -37,24 +121,24 @@ class UrlSocialProfilesViewList(View):
                     'id': profile.pk
                 })
             
-            return JsonResponse({'social_media': social_media_data})
+            return JsonResponse({'social_media': social_media_data, 'message': 'Erfolgreich gespeichert.'})
         except LinkInBio.DoesNotExist:
             return JsonResponse({'error': 'LinkInBio not found'}, status=404)
 
 
+# Wir vielleicht nicht mehr gebraucht!
+# class SocialMediaProfilesView(View):
+#     def get(self, request, link_in_bio_id):
+#         try:            
+#             link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
+#             social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
 
-class SocialMediaProfilesView(View):
-    def get(self, request, link_in_bio_id):
-        try:            
-            link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
-            social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
+#             data = [{'platform': profile.social_media_platform.name, 'url': profile.url_social, 'id': profile.pk} for profile in social_media_profiles]
 
-            data = [{'platform': profile.social_media_platform.name, 'url': profile.url_social, 'id': profile.pk} for profile in social_media_profiles]
+#             return JsonResponse({'social_media_profiles': data})
 
-            return JsonResponse({'social_media_profiles': data})
-
-        except LinkInBio.DoesNotExist:
-            return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+#         except LinkInBio.DoesNotExist:
+#             return JsonResponse({'error': 'LinkInBio not found'}, status=404)
 
 
 
@@ -91,7 +175,6 @@ def get_social_media_platforms(request):
 
     data = {'platforms': list(platforms)}
     return JsonResponse(data)
-
 
 
 # Ajax-Anfrage zum Speichern der Reihenfolge
