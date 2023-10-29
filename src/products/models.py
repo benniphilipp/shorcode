@@ -27,10 +27,12 @@ class Product(models.Model):
     stage = models.CharField(max_length=10, choices=PRODUCT_STAGES, default='Growth')
     promo_code = models.ForeignKey(PromoCode, null=True, blank=True, on_delete=models.SET_NULL)
     active = models.BooleanField(default=True)
-    content = RichTextField(null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
     monthly_price_savings = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     savings_price = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     payment_abo = models.BooleanField(default=True)
+    price_id = models.CharField(max_length=100, default='price_1O6ZIkFJc5Umrifwi3hxGJ74', blank=True)
+    button_id = models.CharField(max_length=100, default='checkout-button', blank=True)
     
     def __str__(self):
         return self.name

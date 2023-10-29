@@ -54,7 +54,6 @@ class CustomUserManager(BaseUserManager):
 LANGUAGE_CHOICES = [
     ('en', _('English')),
     ('de', _('German')),
-    # Weitere Sprachen hier hinzufügen
 ]
 
 class CustomUser(AbstractUser):

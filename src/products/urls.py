@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import ProductDetailView, ProductListView, create_payment_intent, success, stripe_webhook
+from .views import ProductListView, cancel, success, create_checkout_session, create_checkout_session_subscription
 app_name = 'products'
 
 urlpatterns = [
     path('', ProductListView.as_view(), name='product_list'),
-    path('<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
-    path('create-payment-intent/', create_payment_intent, name='create_payment_intent'),
     path('success/', success, name='success-page'),
-    path('stripe-webhook/', stripe_webhook, name='stripe_webhook'),
+    path('cancel/', cancel, name='cancel-page'),
+    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),
+    path('create-checkout-session-subscription/', create_checkout_session_subscription, name='create_checkout_session_subscription')
 ]

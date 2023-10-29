@@ -7,134 +7,137 @@
 {% load i18n %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/products.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="{% static '/assets/js/products.js' %}"></script>
+
+    <!--
+        @ToDo Später löschen
+        static '/assets/css/products.css'
+        static '/assets/js/products.js
+    -->
 {% endblock %}
 
 {% block body %}
 
-<div class="container my-5">
+
+<div class="container">
 
     <div class="row">
-        <div class="col-12 mb-4">
-            <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="50" height="50">
+        <div class="col-12 p-3">
+            <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="50" height="50" />
         </div>
-        <hr>
     </div>
 
-
     <div class="row">
+        <h1 class="text-center my-5">Preis</h1>
+    </div>
 
-        <!--Main-->
-        <div class="col-12 col-md-9">
-
-            <h1>Upgrade your plan</h1>
-
-            <div class="form-check form-switch form-switch-products">
-                <label class="form-check-label">
-                    <span class="before-switch-text">Annually</span>
-                    <input class="form-check-input form-switch-products-input" type="checkbox" id="switch">
-                    <span class="after-switch-text">Monthly</span>
-                </label>
-            </div>
-
-            <!--Producutlist-->
-            <div class="row mt-5" id="product-list"></div>
-
-            <!--Produktform-->
-            <div class="row">
-                <div class="col-12 col-md-12">  
-
-                    <div class="card mt-5">
-                        <div class="card-header coustome-header">
-                            Contact information
-                        </div>
-                        <div class="card-body">
-                             <!-- Adresse -->
-                            <form class="p-2" id="userProfileForm">
-                                {% crispy profile_form %}  
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="card mt-5">
-                        <div class="card-header coustome-header">
-                            Payment information
-                        </div>
-                        <div class="card-body">
-                          
-                            <!-- Zahlungen -->
-
-                            
-                            <form id="payment-form" action="{% url 'products:create_payment_intent' %}" data-product="">
-                              <div id="link-authentication-element">
-                                <!--Stripe.js injects the Link Authentication Element-->
-                              </div>
-                              <div id="payment-element">
-                                <!--Stripe.js injects the Payment Element-->
-                              </div>
-                              <button id="submit">
-                                <div class="spinner hidden" id="spinner"></div>
-                                <span id="button-text">Pay now</span>
-                              </button>
-                              <div id="payment-message" class="hidden"></div>
-                            </form>
-  
-
-                        </div>
-                    </div>
-
-                    <div class="card mt-5 mb-5">
-                        <div class="card-header coustome-header">
-                            Bitly terms of service
-                        </div>
-                        <div class="card-body">
-                            By clicking here, I agree to the Bitly Terms of Service, Privacy Policy, Acceptable Use Policy, DMCA Copyright Policy and the Automatic Renewal Terms.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <!--Sidebar-->
-        <div class="col-12 col-md-3">
-            <div class="card bg-color-gray border-0">
-
+    <div class="row d-flex justify-content-center">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-12 mb-4 product">
+            <div class="card card1 h-100">
                 <div class="card-body">
-                    <div id="product-detaile"></div>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <small class='text-muted'>{{ product.stage }}</small>
+                    <br><br>
+                    <span class="h2">${{ product.price }}</span> {% if product.payment_abo %}/month{% else %} /Jahr {% endif %}
+                    <br><br>
+                    {{ product.content }}
 
-
-
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            {{ checkout_form }}
-                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">Button</button>
-                        </div>
-                    </form>
-
-                    <div class="d-flex justify-content-between">
-                        <div id="price"></div>
-                        <div id="monthly_price"></div>
-                        <div class="small">incl. <span id="tax"></span> % MwSt.
-                    </div> 
+                    {% if user.is_authenticated %}
+                    <div class="d-grid my-3">
+                        <button type="button" id="{{ product.button_id }}" class="btn btn-lg btn-primary btn-block" data-product="{{ product.id }}">Select</button>
+                    </div>
+                    {% else %}
+                    <div class="d-grid my-3">
+                        <a class="btn btn-outline-dark btn-block" href="{% url 'accounts:users-register' %}">Get Started</a>
+                    </div>
+                    {% endif %}
                 </div>
-
             </div>
         </div>
-
+        {% endfor %}
     </div>
 
 </div>
-<input type="hidden" id="client-secret-input" name="client_secret" value="{{ client_secret }}">
+
+{% if user.is_authenticated %}
+<script type="text/javascript">
+var firstProduct = document.querySelector('.product');
+if (firstProduct) {
+    firstProduct.style.display = 'none';
+}
+</script>
+{% endif %}
 
 {% endblock body %}
 
 {% block javasript %}
 
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("{{ publishable_key }}");
+    
+    var checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', function() {
+
+        var productId = checkoutButton.getAttribute('data-product');
+        fetch("{% url 'products:create_checkout_session' %}?product_id=" + productId, {
+            method: 'POST',
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+        if (result.error) {
+        alert(result.error.message);
+        }
+        })
+        .catch(function(error) {
+        console.error('Error:', error);
+        });
+    });
+
+    var checkoutButtonSubscription = document.getElementById('checkout-button-subscription');
+    checkoutButtonSubscription.addEventListener('click', function() {
+
+        var productId = checkoutButtonSubscription.getAttribute('data-product');
+        fetch("{% url 'products:create_checkout_session_subscription' %}?product_id=" + productId, {
+            method: 'POST',
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(session) {
+        return stripe.redirectToCheckout({
+            sessionId: session.id,
+            display_items: [
+                {
+                    custom: {
+                        description: 'E-Mail',
+                        amount: 0,
+                    },
+                    quantity: 1,
+                    currency: 'eur',
+                },
+            ],
+        });
+        })
+        .then(function(result) {
+        if (result.error) {
+        alert(result.error.message);
+        }
+        })
+        .catch(function(error) {
+        console.error('Error:', error);
+        });
+    });
+});
+</script>
     
 {% endblock %}
