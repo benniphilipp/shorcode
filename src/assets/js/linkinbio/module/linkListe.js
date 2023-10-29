@@ -19,9 +19,7 @@ class linkListe{
         this.linklistview();
     }
 
-    events(){
-
-    }
+    events(){}
 
     renderCard(link) {
         const switchId = `flexSwitchCheck${link.is_aktiv ? 'Active' : 'Inactive'}`;
@@ -67,31 +65,31 @@ class linkListe{
     linklistview(){
         if (this.LinkInBioLinksListView && !this.isListViewRendered) {
             this.isListViewRendered = true;
-      
-            $.ajax({
-              url: this.LinkInBioLinksListView.value,
-              type: 'GET',
-              dataType: 'json',
-              success: (data) => {
-                // empty list
-                $(this.cardContainer).empty();
-                this.loaderImage.classList.remove('d-none');
 
-                setTimeout(() => {
-                  for (var i = 0; i < data.links.length; i++) {
-                    var link = data.links[i];
-                    var card = this.renderCard(link);
-                    $(this.cardContainer).append($(card));
+            $(this.cardContainer).empty();
+            this.loaderImage.classList.remove('d-none');
 
-                  }
-                  $(this.loaderImage.classList.add('d-none'));
-                }, 1000);
-              },
-              error: (xhr, textStatus, errorThrown) => {
-                console.error('Fehler:', errorThrown);
-              }
-            });
+            setTimeout(() => {
+                $.ajax({
+                url: this.LinkInBioLinksListView.value,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    // empty list              
+                    for (var i = 0; i < data.links.length; i++) {
+                        var link = data.links[i];
+                        var card = this.renderCard(link);
+                        $(this.cardContainer).append($(card));
 
+                    }
+                    $(this.loaderImage.classList.add('d-none'));
+           
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    console.error('Fehler:', errorThrown);
+                }
+                });
+            }, 1000);
         }
     }
 
@@ -133,3 +131,4 @@ class linkListe{
 }
 
 export default linkListe
+

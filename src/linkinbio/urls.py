@@ -26,7 +26,10 @@ from .views import (
         UrlSocialProfilesViewList,
         UrlSocialProfilesUpdateView,
         UrlSocialProfilesDeleteView,
-        LinkInBioViewEditScreen
+        LinkInBioViewEditScreen,
+        CustomSettingsView,
+        CustomSettingsUpdateView,
+        SocialMediaProfilesOrderSaveView
     )
 
 
@@ -40,7 +43,7 @@ urlpatterns = [
     path('update_links_order/', UpdateLinksOrderView.as_view(), name='update_links_order'),
     path('get_social_media_platforms/', get_social_media_platforms, name='get_social_media_platforms'),
     path('save_social_profiles/', SaveUrlSocialView.as_view(), name='save_url_social'),
-    #path('social_media_profiles/<int:link_in_bio_id>/', SocialMediaProfilesView.as_view(), name='social_media_profiles'),
+    path('social_media_profiles_order_save/', SocialMediaProfilesOrderSaveView.as_view(), name='social_media_profiles_order_save'),
     path('update_shorcode_linkinbio/<int:pk>/', UpdateShortcodeLinkInBioView.as_view(), name='update_shortcode_linkinbio'),
     path('detail/<int:pk>/', LinkInBioDetailView.as_view(), name='linkinbio_detail'),
     path('links/<int:linkinbio_id>/', LinkInBioLinksListView.as_view(), name='linkinbio_links_list'),
@@ -59,4 +62,6 @@ urlpatterns = [
     path('url_social_profiles_view_update/<int:pk>/', UrlSocialProfilesUpdateView.as_view(), name='url_social_profiles_view_update'),
     path('url_social_profiles_view_delete/', UrlSocialProfilesDeleteView.as_view(), name='url_social_profiles_view_delete'),
     path('linkinbio_edit_screen/<int:pk>/', LinkInBioViewEditScreen.as_view(), name='linkinbio_edit_screen'),
+    path('custom_settings_view/<int:pk>/', CustomSettingsView.as_view(), name='custom_settings_view'), 
+    path('custom_settings_update_view/<int:pk>/', CustomSettingsUpdateView.as_view(), name='custom_settings_update_view'), 
 ]

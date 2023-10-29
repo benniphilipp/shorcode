@@ -1,13 +1,5 @@
 /*
-Speichern und TODOs:
-
-Mitteilung das gespeichert ist erledig!
-Auswahl alle Icons nur 1 Mal View anpassen erledig!
-Sortierung auf und Up
-Daten Ansicht Bearbeitung erledig!
-Sozial Profile Update erledig!
-Löschen der Links mit anzeige erledig!
-Keine Neuen Inputfelder wen alle ausgefühlt sind!
+TODOs:
 */
 
 import { getCookie } from './getCookie';
@@ -19,7 +11,8 @@ class adjustmentSocial {
 
         this.linkinbioEditScrenn();
         this.sozialprofilelist();
-
+        this.SortableUlrSocial();
+        this.socialplattformEmpty();
         this.csrftoken = getCookie('csrftoken');
 
         this.addElementButton = document.querySelector('#addElementButton');
@@ -57,8 +50,8 @@ class adjustmentSocial {
             const uniqueId = select.id.replace('socialSelectFieldId', '');
     
             // Jetzt kannst du mit den ausgewählten Informationen arbeiten
-            console.log('Ausgewählte Plattform:', selectedPlatform);
-            console.log('UniqueId:', uniqueId);
+            // console.log('Ausgewählte Plattform:', selectedPlatform);
+            // console.log('UniqueId:', uniqueId);
     
             const relatedUrlInput = document.getElementById(`urlSocial${uniqueId}`);
             // relatedUrlInput.classList.add(selectedPlatform);
@@ -75,12 +68,12 @@ class adjustmentSocial {
             // Validieren Sie die eingegebene URL für die ausgewählte Plattform
 
             if (this.validateURL(this.selectedPlatform, enteredURL)) {
-                console.log(`Die URL für ${this.selectedPlatform} ist gültig`);
+                // console.log(`Die URL für ${this.selectedPlatform} ist gültig`);
                 // Daten speichern
                 this.saveData(this.selectedPlatform, enteredURL); 
                 inputField.style.borderColor = '';
             } else {
-                console.log(`Die URL für ${this.selectedPlatform} ist ungültig`);
+                // console.log(`Die URL für ${this.selectedPlatform} ist ungültig`);
 
                 inputField.style.borderColor = '#dc3545';
                 
@@ -270,7 +263,6 @@ class adjustmentSocial {
         const elementContainer = document.querySelector('#elementContainer');
         const UrlDataView = document.querySelector('#getSocialMdiaPlatforms');
 
-
         const newElement = this.elementSocial(this.uniqueIdCounter);
         $(elementContainer).append($(newElement));
 
@@ -286,8 +278,8 @@ class adjustmentSocial {
             headers: {
                 'X-CSRFToken': this.csrftoken,
             },
-            success: function (data) {
-
+            success: (data) => {
+                const self = this;
                 // Finde das <select> im neuen Element
                 var select = $('#elementContainer').find('.platform-select').last();
                 $.each(data.platforms, function (index, platform) {
@@ -296,7 +288,6 @@ class adjustmentSocial {
                         text: platform.name,
                         'data-platform': platform.name
                     });
-
                     option.addClass('platform');
                     select.append(option);
                 });
@@ -306,6 +297,8 @@ class adjustmentSocial {
                     text: 'Plattform wählen'
                 }));
                 select.val('');
+                console.log('Update');
+                self.socialplattformEmpty();
 
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -318,34 +311,38 @@ class adjustmentSocial {
     sozialprofilelist() {
         const urlData = document.querySelector('#UrlSocialProfilesViewList');
         const elementContainer = document.querySelector('#elementContainer');
-    
-        $.ajax({
-            url: urlData.value,
-            type: 'GET',
-            dataType: 'json',
-            success: (data) => {
-                
-                // Löschung aller vorhandenen Elemente im Container
-                elementContainer.innerHTML = '';
-    
-                // Durchlaufe die Daten und erstelle Elemente für alle Profile
-                data.social_media.forEach((profile) => {
-                    const newElement = this.UpdateelementSocial(profile.platform, profile.url, profile.id, profile.selected);
-                    elementContainer.insertAdjacentHTML('beforeend', newElement);
-                });
-            },
-            error: (xhr, textStatus, errorThrown) => {
-                console.error('Fehler:', errorThrown);
-            }
-        });
+
+        if(urlData){
+            $.ajax({
+                url: urlData.value,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    
+                    // Löschung aller vorhandenen Elemente im Container
+                    elementContainer.innerHTML = '';
+                    
+                    // Durchlaufe die Daten und erstelle Elemente für alle Profile
+                    data.social_media.forEach((profile) => {
+
+                        const newElement = this.UpdateelementSocial(profile.platform, profile.url, profile.id, profile.selected, profile.order);
+                        elementContainer.insertAdjacentHTML('beforeend', newElement);
+                    });
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    console.error('Fehler:', errorThrown);
+                }
+            });
+        }
+
     }
     
     // Element list view urls
-    UpdateelementSocial(platform, url, id, selected) {
+    UpdateelementSocial(platform, url, id, selected, order) {
         const selectFieldId = `socialSelectFieldId${id}`;
         const selectedAttribute = selected ? 'selected' : '';
         return `
-        <div class="card border-0 mt-4 p-3 shadow-sm">
+        <div class="card border-0 mt-4 p-3 shadow-sm sortable-item" data-id="${id}">
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-1 d-flex justify-content-center align-items-center p-0">
@@ -371,6 +368,7 @@ class adjustmentSocial {
         `;
     }
     
+
     
 
     handleButtonUpdate(event){
@@ -450,7 +448,7 @@ class adjustmentSocial {
     sozialprofilurlsdelete(updateId){
      
         const dataUrl = document.querySelector('#UrlSocialProfilesDeleteView');
-
+        
         $.ajax({
             url: dataUrl.value,
             type: 'POST',
@@ -465,6 +463,7 @@ class adjustmentSocial {
                 $('#exampleUrls').modal('hide');
                 lsToast(data.social_media_delete);
                 this.sozialprofilelist();
+                this.socialplattformEmpty();
             },
             error: function(xhr, textStatus, errorThrown) {
                 console.error('Fehler beim Speichern der URL:', errorThrown);
@@ -478,50 +477,134 @@ class adjustmentSocial {
 
         const urlData = document.querySelector('#LinkInBioViewEditScreen');
 
-        $.ajax({
-            url: urlData.value,
-            type: 'GET',
-            dataType: 'json',
-            success: (data) => {
+        if(urlData){
+            $.ajax({
+                url: urlData.value,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+    
+                    $('#descriptionPageValue').text(data.description);
+                    $('#titelpageValue').text(data.title);
+    
+                    // Rendern der URL-Social-Profile
+                    const urlSocialProfilesContainer = $('#urlSocialProfilesContainer');
+                    urlSocialProfilesContainer.empty();
+    
+                    data.links.url_social_profiles.forEach((profile) => {
+    
+                        const profileElement = `
+                        <li>
+                            <a href="${profile.url_social}">
+                                <i class="fa-brands ${profile.icon}"></i>
+                            </a>
+                        </li>
+                        `;
+                        urlSocialProfilesContainer.append(profileElement);
+                    });
+    
+                    // Rendern der Link-in-Bio-Links
+                    const linkInBioLinksContainer = $('#linkInBioLinksContainer');
+                    linkInBioLinksContainer.empty();
+                    
+                    data.links.link_in_bio_links.forEach((link) => {
+                        const linkElement = `
+                            <a class="link-page-btn link-btn-color d-none" href="http://127.0.0.1:8000/${link.lang}/${link.url}">${link.link_text}</a>
+                        `;
+                        linkInBioLinksContainer.append(linkElement);
+                    });
 
-                $('#descriptionPageValue').text(data.description);
-                $('#titelpageValue').text(data.title);
+                    setTimeout(() => {
+                        linkInBioLinksContainer.removeClass('d-none');
+                    }, 500);
 
-                // Rendern der URL-Social-Profile
-                const urlSocialProfilesContainer = $('#urlSocialProfilesContainer');
-                urlSocialProfilesContainer.empty();
-                //${profile.icon}
-                data.links.url_social_profiles.forEach((profile) => {
-                    console.log(profile.icon);
-                    const profileElement = `
-                    <li>
-                        <a href="${profile.url_social}">
-                            <i class="fa-brands ${profile.icon}"></i>
-                        </a>
-                    </li>
-                    `;
-                    urlSocialProfilesContainer.append(profileElement);
-                });
+                    const linkPageDisplay = document.querySelectorAll('.link-page-btn');
 
-                // Rendern der Link-in-Bio-Links
-                const linkInBioLinksContainer = $('#linkInBioLinksContainer');
-                linkInBioLinksContainer.empty();
-                
-                data.links.link_in_bio_links.forEach((link) => {
-                    const linkElement = `
-                        <a class="link-page-btn link-btn-color" href="http://127.0.0.1:8000/${link.lang}/${link.url}">${link.link_text}/</a>
-                    `;
-                    linkInBioLinksContainer.append(linkElement);
-                });
+                    linkInBioLinksContainer.removeClass('d-none');
+                    linkPageDisplay.forEach(function(linkPageElement){
+                        setTimeout(() => {
+                            linkPageElement.classList.remove('d-none');
+                        }, 1500);
+                    })
 
-            },
-            error: (xhr, textStatus, errorThrown) => {
-              console.error('Fehler:', errorThrown);
-            }
-          });
+    
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                  console.error('Fehler:', errorThrown);
+                }
+              });
+        }
+
 
     }
 
+    // Sortable 
+    SortableUlrSocial(){
+        const self = this;
+        const sortableList = document.getElementById('elementContainer');
+
+        $(sortableList).sortable({
+            axis: "y", // Falls du nur vertikal sortieren möchtest
+            update: function(event, ui) {
+                const sortedItems = $(this).find('.sortable-item').map(function() {
+                    return $(this).attr('data-id');
+                  }).get();
+                  console.log("Aktualisierte Reihenfolge:", sortedItems);
+                  self.sorttabelSaveUrlSocial(sortedItems)
+            }
+          });
+          $(sortableList).disableSelection();
+    }
+
+    sorttabelSaveUrlSocial(sortedLinks){
+        const dataFrom = document.querySelector('#SocialMediaProfilesOrderSaveView').value;
+        console.log(dataFrom);
+        console.log(sortedLinks);
+        $.ajax({
+            url: dataFrom,
+            type: 'POST',
+            data: { sorted_links: sortedLinks },
+            headers: {
+                'X-CSRFToken': this.csrftoken,
+            },
+            success: function (data) {
+                console.log('Reihenfolge erfolgreich gespeichert.'+ data.sorted_links);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Fehler beim Speichern der Reihenfolge:', errorThrown);
+            },
+        });    
+    }
+
+    socialplattformEmpty(){
+        const dataUrl = document.querySelector('#getSocialMdiaPlatforms').value;
+        const link_in_bio_id = $('#linkinbio_page_id_custome').val();
+        $.ajax({
+            url: dataUrl, // Hier setzt du deine Django-URL ein
+            type: 'GET',
+            data: {
+                link_in_bio_page_id: link_in_bio_id,
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Daten erfolgreich abgerufen
+                if (data.platforms.length === 0) {
+                    const addElementButton = document.querySelector('#addElementButton');
+                    addElementButton.style.display = 'none';
+                } else {
+                    const addElementButton = document.querySelector('#addElementButton');
+                    addElementButton.style.display = 'block';
+                }
+
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // Fehler beim Abrufen der Daten
+                console.error('Fehler:', errorThrown);
+            }
+        });
+    }
+    
 
 
 }

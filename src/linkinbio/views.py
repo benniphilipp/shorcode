@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from django.urls import reverse
 from bs4 import BeautifulSoup
@@ -109,7 +110,7 @@ class UrlSocialProfilesViewList(View):
     def get(self, request, pk):
         try:
             link_in_bio = LinkInBio.objects.get(id=pk)
-            social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
+            social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio).order_by('order')
             
             # Eine Liste erstellen, um alle Sozialen Medien-Links und deren Status zu speichern
             social_media_data = []
@@ -118,7 +119,8 @@ class UrlSocialProfilesViewList(View):
                 social_media_data.append({
                     'platform': profile.social_media_platform.name,
                     'url': profile.url_social,
-                    'id': profile.pk
+                    'id': profile.pk,
+                    'order': profile.order
                 })
             
             return JsonResponse({'social_media': social_media_data, 'message': 'Erfolgreich gespeichert.'})
@@ -127,18 +129,19 @@ class UrlSocialProfilesViewList(View):
 
 
 # Wir vielleicht nicht mehr gebraucht!
-# class SocialMediaProfilesView(View):
-#     def get(self, request, link_in_bio_id):
-#         try:            
-#             link_in_bio = LinkInBio.objects.get(pk=link_in_bio_id)
-#             social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=link_in_bio)
+class SocialMediaProfilesOrderSaveView(View):
+    def post(self, request):
+        try:            
+            sorted_links = request.POST.getlist('sorted_links[]')
 
-#             data = [{'platform': profile.social_media_platform.name, 'url': profile.url_social, 'id': profile.pk} for profile in social_media_profiles]
+            for index, link_id in enumerate(sorted_links):
+                link = UrlSocialProfiles.objects.get(id=link_id)
+                link.order = index + 1
+                link.save()
+            return JsonResponse({'social_media_profiles': sorted_links})
 
-#             return JsonResponse({'social_media_profiles': data})
-
-#         except LinkInBio.DoesNotExist:
-#             return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'error': 'LinkInBio not found'}, status=404)
 
 
 
@@ -292,7 +295,11 @@ class CreateShortcodeView(View):
             button_label = request.POST.get('button_label', '')
             link_url = request.POST.get('link_url', '')
             linkinbio_page_id = request.POST.get('linkinbio_page')
-
+            
+            print(button_label)
+            print(link_url)
+            print(linkinbio_page_id)
+            
             current_user = request.user
 
             # Senden Sie eine Anfrage an die Website
@@ -312,17 +319,20 @@ class CreateShortcodeView(View):
                         base_url = link_url.split('/')[2]
                         favicon_path = f'http://{base_url}/{favicon_path}'
 
+            selected_linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
             # Erstellen Sie den Shortcode, unabhängig davon, ob ein Favicon gefunden wurde
-            shortcode = ShortcodeClass.objects.create(
-                url_creator=current_user,
-                url_titel=button_label,
-                url_destination=link_url,
-                favicon_path=favicon_path,
-                button_label=button_label
-            )
+            try:
+                shortcode = ShortcodeClass.objects.create(
+                    url_creator=current_user,
+                    url_titel=button_label,
+                    url_destination=link_url,
+                    button_label=button_label,
+                    linkinbiopage=selected_linkinbio_page
+                )
+            except Exception as e:
+                print(f"Fehler beim Erstellen der ShortcodeClass-Instanz: {e}")
 
             selected_linkinbio_page = LinkInBio.objects.get(id=linkinbio_page_id)
-            selected_linkinbio_page.links.add(shortcode)
         
             # Dies stelle anpssen
             current_order = LinkInBioLink.objects.filter(link_in_bio=selected_linkinbio_page).aggregate(max_order=models.Max('order'))['max_order'] or 0
@@ -402,9 +412,28 @@ class LinkInBioListView(LoginRequiredMixin, View):
                 url_creator=request.user,
                 url_titel=link_in_bio_instance.title,
                 url_destination=full_detail_url,
-                linkinbiopage=link_in_bio_instance.pk
+                linkinbiopage=link_in_bio_instance
             )
             shortcode_instance.save()
+            
+            
+            # Pfad zur JSON-Datei
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            x = BASE_DIR + '/Users/benjaminphilipp/Documents/GitHub/shortcode/src/linkinbio/templates/json/default_styles.json' 
+            print(f'pfad: {x}')
+            
+            json_file_path = '/Users/benjaminphilipp/Documents/GitHub/shortcode/src/linkinbio/templates/json/default_styles.json'
+
+            
+            
+            # JSON-Datei einlesen
+            with open(json_file_path, 'r') as json_file:
+                json_data = json.load(json_file)
+
+            # Erstellen Sie ein CustomSettings-Objekt und speichern Sie die JSON-Daten
+            custom_settings = CustomSettings(link_in_bio=link_in_bio_instance, settings_json=json_data)
+            custom_settings.save()
+            
 
             return redirect('linkinbio:linkinbio_detail', pk=link_in_bio_instance.pk)
 
@@ -501,7 +530,13 @@ class LinkinbiolinkDeleteView(View):
     def post(self, request, pk):
         try:
             link = LinkInBioLink.objects.get(pk=pk)
+            shortcode = link.shortcode
             link.delete()
+            
+            if not LinkInBioLink.objects.filter(shortcode=shortcode).exists():
+                # Lösche den Shortcode, da er nicht mehr verwendet wird
+                shortcode.delete()
+                
             return JsonResponse({'message': 'Datensatz erfolgreich gelöscht'})
         except LinkInBioLink.DoesNotExist:
             return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
@@ -557,18 +592,6 @@ class UpdateFormLinkInBioSingel(View):
             return JsonResponse(response_data)
        
  
-# Deltete Linkinbio
-class LinkinbiolinkDeleteView(View):
-    def post(self, request, pk):
-        try:
-            bio = LinkInBio.objects.get(pk=pk)
-            bio.delete()
-            return JsonResponse({'message': 'Datensatz erfolgreich gelöscht'})
-        except LinkInBioLink.DoesNotExist:
-            return JsonResponse({'message': 'Datensatz nicht gefunden'}, status=404)
-        except Exception as e:
-            return JsonResponse({'message': str(e)}, status=500)
-
 
 # Crate Image Profile Adjustment
 class ImageSaveAdjustmentView(View):
@@ -641,3 +664,36 @@ class TexteDeatileAdjustmentView(LoginRequiredMixin, View):
             
         except LinkInBio.DoesNotExist:
             return JsonResponse({'error': 'LinkInBio not found'}, status=404)
+
+
+class CustomSettingsView(View):
+    def get(self, request, pk):        
+        link_in_bio_instance = LinkInBio.objects.get(id=pk)
+        try:
+            custom_settings = CustomSettings.objects.get(link_in_bio=link_in_bio_instance)
+            settings_json_data = custom_settings.settings_json
+            return JsonResponse(settings_json_data)
+
+        except CustomSettings.DoesNotExist:
+            # Behandeln Sie den Fall, wenn keine CustomSettings gefunden wurden
+            return JsonResponse({'message': 'Keine Einstellungen gefunden'})
+        
+
+
+class CustomSettingsUpdateView(View):
+    def post(self, request, pk, *args, **kwargs):
+        try:
+            class_name = request.POST.get('class_name')
+            state = request.POST.get('state')
+            property_name = request.POST.get('property_name')
+            property_value = request.POST.get('property_value')
+
+            custom_settings = CustomSettings.objects.get(link_in_bio=pk)
+            settings_json_data = custom_settings.settings_json
+            settings_json_data[class_name][state][property_name] = property_value
+            custom_settings.settings_json = settings_json_data
+            custom_settings.save()
+
+            return JsonResponse({'message': 'Erfolgreich aktualisiert'})
+        except LinkInBio.DoesNotExist:
+            return JsonResponse({'message': 'Ungültige Anfrage'})

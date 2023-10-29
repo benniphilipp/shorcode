@@ -1,9 +1,12 @@
 import { getCookie } from './getCookie';
 import linkListe from './linkListe';
+import adjustmentSocial from './adjustmentSocial';
+import adjustmentColor from './adjustmentColor';
 import { clearContent, lsToast } from './lsToast';
 
 class linkDelete{
     constructor(){
+        this.linkList = new linkListe();
         this.csrftoken = getCookie('csrftoken');
         this.event();
     }
@@ -73,15 +76,18 @@ class linkDelete{
 
     deleteLinkInBio(event){
         event.preventDefault();
-        this.linkList = new linkListe();
         const self = this;
+
+        this.linkList = new linkListe();
+        this.adjustmentSocial = new adjustmentSocial();
+        this.adjustmentColor = new adjustmentColor();
 
         const button = event.target.closest('.btn-trash');
         
         if (button.classList.contains('btn-trash')) {
             const ulrTrash = button.getAttribute('data-url-trash');
-            // button.setAttribute('data-linkinbio-editcard');   
 
+            console.log(ulrTrash)
             $.ajax({
                 url: ulrTrash,
                 type: 'POST',
@@ -89,13 +95,20 @@ class linkDelete{
                 headers: {
                     'X-CSRFToken': this.csrftoken, 
                 },
-                success: function (data) {
+                success: (data) => {
                     console.log('Antwort von Server:', data);
+
+                    const exampleModalLabel = document.querySelector('#exampleModalLabel');
+                    exampleModalLabel.textContent = '';
+                    const contentItem = document.querySelector('#idContent');
+                    contentItem.textContent = '';
+
                     $('#exampleModal').modal('hide');
 
                     // Link liste neue laden
                     self.linkList.linklistview();
-
+                    self.adjustmentSocial.linkinbioEditScrenn();
+                    self.adjustmentColor.customeSetitngsAjax();
                     lsToast(data.message);
 
                 },

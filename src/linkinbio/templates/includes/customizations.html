@@ -36,41 +36,144 @@
 
         </div>
 
-        <button type="button" id="addElementButton" class="btn btn-outline-primary mt-4 mb-5">Connect another profile</button>
+        <button type="button" id="addElementButton" class="btn btn-outline-primary mt-4 mb-3">Connect another profile</button>
 
-        <!--Custome Color Select-->
+        <div class="row mb-5 mt-2">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
 
-                <!-- <div class="row">
-                    <div class="col">
-                        <div class="">
-                            <label for="colorPicker">Title color</label>
-                            <input type="color" id="colorPicker1" class="color-picker">
+                        <div class="card border-0">
+                            <div class="card-body">
+                                <span>Fraben</span>
+
+                                <div class="wrapper-color mt-2">
+                                    <div class="color-group">
+                                        <label class="label" id="colorTextLabel" for="">Title color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorTextTitel" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorTextTitelInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="color-group">
+                                        <label class="label" id="colorTextLabel" for="">Beschreibung color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorDescriptionTitel" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorDescriptionTitelInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wrapper-color mt-2">
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Button color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorButton" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorButtonInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Button Text color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorButtonText" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorButtonTextInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Button Hover color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorButtonHover" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorButtonHoverInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Button Hover Text</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorButtonHoverText" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorButtonHoverTextInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wrapper-color mt-3">
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Icon color</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorIcon" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorIconInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="color-group">
+                                        <label class="label" id="colorButtonLabel" for="">Icon color Hover</label>
+                                        <div class="wrapper">
+                                            <div class="color-input-wrapper">
+                                                <input type="color" id="colorIconHover" name="colorPicker" class="color-input">
+                                                <input type="text" id="colorIconHoverInput" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="mt-3">
-                            <label for="colorPicker">Description color</label>
-                            <input type="color" id="colorPicker2" class="color-picker">
+
+
+                        <!-- <div class="card border-0">
+                            <div class="card-body">
+                                <span>Button Form</span>
+                                <div class="wrapper-select mt-3">
+        
+                                    <div class="neutral-primary ll-button" style="border-radius: 2.3rem;">
+                                        <input class="form-check-input" type="checkbox" value="2.3rem" id="flexCheckChecked" checked>
+                                    </div>
+        
+                                    <div class="neutral-primary ll-button" style="border-radius: 0.8rem;">
+                                        <input class="form-check-input" type="checkbox" value="0.8rem" id="flexCheckChecked" checked>
+                                    </div>
+        
+                                    <div class="neutral-primary ll-button" style="border-radius: 0rem;">
+                                        <input class="form-check-input" type="checkbox" value="0rem" id="flexCheckChecked" checked>
+                                    </div>
+        
+                                </div>
+        
+                            </div>
                         </div>
+
+                        <div class="card border-0">
+                            <div class="card-body">
+                                <span>Schatten</span>
+                                <div class="wrapper-shadow mt-3">
+                                    <div class="shadow-box shadow-sm">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                    </div>
+                                    <div class="shadow-box shadow">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                    </div>
+                                    <div class="shadow-box shadow-lg">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
                     </div>
-                    <div class="col">
-                        <div class="">
-                            <label for="colorPicker">Button color</label>
-                            <input type="color" id="colorPicker4" class="color-picker">
-                        </div>
-                        <div class="mt-3">
-                            <label for="colorPicker">Button text color</label>
-                            <input type="color" id="colorPicker4" class="color-picker">
-                        </div>
-                    </div>
-                </div> -->
-
-
-
-                <!--Normal-->
-
-                <!--outline-->
-
-
-                <!--Shadowe-->
- 
+                </div>
+            </div>
+        </div>
 
 

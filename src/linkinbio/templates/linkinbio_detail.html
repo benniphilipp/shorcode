@@ -11,6 +11,7 @@
 
 <link rel="stylesheet" type="text/css" href="{% static '/css/customLinkinbio.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+
 {% endblock %}
 
 {% block body %}
@@ -79,8 +80,9 @@
                             </div>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-4 sidebar-mobile">
                             <!-- Ansicht Desing Linkin Bio Page -->
+                            <img class="loader-image-mobile mx-auto d-block d-none" src="/static/gif/load-38_256.gif">
                             {% include "linkinbiopage/style-one.html" %}
                         </div>
                     </div>
@@ -195,6 +197,13 @@
     <input type="hidden" id="UrlSocialProfilesDeleteView" value="{% url 'linkinbio:url_social_profiles_view_delete' %}">
     <!--LinkInBioViewEditScreen-->
     <input type="hidden" id="LinkInBioViewEditScreen" value="{% url 'linkinbio:linkinbio_edit_screen' link_in_bio_instance.id %}">
+    <!--CustomSettingsView-->
+    <input type="hidden" id="CustomSettingsView" value="{% url 'linkinbio:custom_settings_view' link_in_bio_instance.id %}">
+    <!--CustomSettingsUpdateView-->
+    <input type="hidden" id="CustomSettingsUpdateView" value="{% url 'linkinbio:custom_settings_update_view' link_in_bio_instance.id %}">
+    
+    <!--Order Save -->
+    <input type="hidden" id="SocialMediaProfilesOrderSaveView" value="{% url 'linkinbio:social_media_profiles_order_save' %}">
 
 
     <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">

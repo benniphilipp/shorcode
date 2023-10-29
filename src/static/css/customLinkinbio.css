@@ -160,3 +160,105 @@ img.loader-image {
   max-height: 220px;
   margin: 0 auto; }
 
+/* Sidebar */
+.sidebar-mobile {
+  position: fixed;
+  top: 150px;
+  max-width: 386px;
+  right: 50px; }
+
+.loader-image-mobile {
+  max-width: 50px; }
+
+/* Color */
+.wrapper-color {
+  display: flex;
+  gap: 20px; }
+
+.color-group {
+  flex-basis: content; }
+  .color-group .label {
+    height: 2rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 2rem; }
+  .color-group .wrapper {
+    width: 100%; }
+  .color-group .color-input {
+    height: 2rem;
+    padding: 0;
+    border-style: unset;
+    block-size: 2rem;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    padding: 0;
+    border-color: transparent;
+    background-color: inherit;
+    cursor: pointer; }
+  .color-group input[type="text"] {
+    text-transform: uppercase;
+    font-family: inherit;
+    font-size: inherit;
+    color: #526281;
+    height: 100%;
+    width: 100%;
+    max-width: 6rem;
+    line-height: 1.4rem;
+    padding-left: 1rem;
+    border: none;
+    border: 0.1rem solid #dbe0eb;
+    border-radius: 0rem; }
+  .color-group .color-input-wrapper {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; }
+
+/* Wrapper Button */
+.wrapper-select {
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  justify-content: space-around; }
+
+.neutral-primary {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  justify-content: center;
+  letter-spacing: 0;
+  min-height: 3rem;
+  outline: none;
+  text-align: center;
+  padding: 0 1.6rem;
+  width: 12rem;
+  background-color: #edf2ff; }
+
+.ll-button {
+  width: 21rem;
+  height: 3rem; }
+
+.form-check-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none; }
+
+/* Shodow */
+.wrapper-shadow {
+  display: flex;
+  gap: 10px; }
+
+.shadow-box {
+  height: 50px;
+  width: 70px;
+  border-radius: 0.5478rem;
+  display: inline-block;
+  background-color: #edf2ff; }
+

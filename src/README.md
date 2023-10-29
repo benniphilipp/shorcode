@@ -103,7 +103,7 @@ TqXRm5ikowzmYtZVyCMC
 # Coding Guidelines
 
 
-# BUG LISTE 2.09.23
+# BUG LISTE
 - Tags nur für User Anzeigen !erledigt
 - Tags nach dem Erstellen laden. !erleding
 - Archive keine ansicht für user. !erleding
@@ -117,7 +117,7 @@ TqXRm5ikowzmYtZVyCMC
 - Formular Shorcoe auf ES6 Umschreiben
 - LinkInBio List für Fehler in Javascript
 - Menü Shorcode
-- Automasticher Tags bei link in bio Seote und in Shorcode Extra Makieren
+- Automasticher Tags bei link in bio Seite und in Shorcode Extra Makieren
 
 # ToDos Liste
 - 
@@ -131,9 +131,10 @@ TqXRm5ikowzmYtZVyCMC
     - Remove Image !erledingt
     - Image View !erledingt
     - Crate and titel, description !erledingt
-    - Add Social media and Remove Social media * adjustmentSocial.js @24.09.23
+    - Add Social media and Remove Social media * adjustmentSocial.js --> !erledingt
     - Fonts * adjustmentFonts.js 
     - Color Button * adjustmentColor.js
+
 
 
 - Stripe Verkaufsseiten 1 Preis und keine Monadliche Zahlung maximal 90 Euro im Jahr.
@@ -156,7 +157,7 @@ TqXRm5ikowzmYtZVyCMC
     - Hero Pages !erledigt
     - Marketing Section Pages !erledigt
     - Django's Flatpages App !erldeigt
-
+    
     - Home Page und Pages HTML, css zusammen fühgen !erleding
     - Menus auf Home seite einbinden !erleding
     - Bilder Verkleinern auf Home !erleding
@@ -196,7 +197,7 @@ TqXRm5ikowzmYtZVyCMC
                 Instagram
                 YouTube
                 Vimeo
-                XING
+                Xing
                 LinkedIn
                 Pinterest
                 Twitter

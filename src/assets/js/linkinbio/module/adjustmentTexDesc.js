@@ -47,7 +47,7 @@ class adjustmentTexDesc{
 
         // Save Text and Description
         this.textSaveBtn = document.querySelector('#textSaveBtn');
-        if(textSaveBtn){
+        if(this.textSaveBtn){
             textSaveBtn.addEventListener('click', () => {
                 this.saveTextDescription();
             });

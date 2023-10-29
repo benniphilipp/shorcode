@@ -1,5 +1,8 @@
 import { getCookie } from './getCookie';
 import linkListe from './linkListe';
+import adjustmentSocial from './adjustmentSocial';
+import adjustmentColor from './adjustmentColor';
+
 import { clearContent, lsToast } from './lsToast';
 
 class crateFormLink{
@@ -18,7 +21,6 @@ class crateFormLink{
         this.buttonLabelInput = document.querySelector('#buttonLabelSelcetSubmit');
         this.selectShortcodeInput = document.querySelector('#selectShortcode');
 
-        this.linkList = new linkListe();
 
         this.csrftoken = getCookie('csrftoken');
         this.event();
@@ -80,6 +82,10 @@ class crateFormLink{
         formData.append('link_url', linkUrlValue);
         formData.append('linkinbio_page', linkInBioPageIDValue);
 
+        this.linkList = new linkListe();
+        this.adjustmentSocial = new adjustmentSocial();
+        this.adjustmentColor = new adjustmentColor();
+        
         $.ajax({
             type: 'POST',
             url: actionAttribute,
@@ -89,7 +95,7 @@ class crateFormLink{
             headers: {
                 'X-CSRFToken': this.csrftoken 
             },
-            success: function (data) {
+            success: (data) => {
 
                 buttonLabelInput.value = '';
                 linkUrlInput.value = '';
@@ -102,6 +108,9 @@ class crateFormLink{
                
                 // Link liste neue laden
                 self.linkList.linklistview();
+                self.adjustmentSocial.linkinbioEditScrenn();
+                self.adjustmentColor.customeSetitngsAjax();
+
             },
             error: function (xhr, status, error) {
                 console.error('Fehler:', status, error);
