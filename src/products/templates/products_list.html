@@ -114,19 +114,7 @@ if (firstProduct) {
         return response.json();
         })
         .then(function(session) {
-        return stripe.redirectToCheckout({
-            sessionId: session.id,
-            display_items: [
-                {
-                    custom: {
-                        description: 'E-Mail',
-                        amount: 0,
-                    },
-                    quantity: 1,
-                    currency: 'eur',
-                },
-            ],
-        });
+            return stripe.redirectToCheckout({ sessionId: session.id });
         })
         .then(function(result) {
         if (result.error) {

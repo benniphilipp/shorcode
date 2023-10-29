@@ -133,7 +133,7 @@ TqXRm5ikowzmYtZVyCMC
     - Crate and titel, description !erledingt
     - Add Social media and Remove Social media * adjustmentSocial.js --> !erledingt
     - Fonts * adjustmentFonts.js 
-    - Color Button * adjustmentColor.js
+    - Color Button * adjustmentColor.js !erldeigt
 
 
 
@@ -142,10 +142,10 @@ TqXRm5ikowzmYtZVyCMC
     - Payment Intigrieren 
         Stipe einbinden und alle Formular bereistellen. !erldeigt
         Frontend-Anpassungen !erldeigt
-        Stripe-Zahlungsverarbeitung
-        Erstellen Sie Abonnements
-        Benutzerprofil aktualisieren
-        E-Mail-Benachrichtigungen
+        Stripe-Zahlungsverarbeitung !erldeigt
+        Erstellen Sie Abonnements !erldeigt
+        Benutzerprofil aktualisieren !erldeigt
+        E-Mail-Benachrichtigungen 
         Verwaltung von Abonnements
 
 

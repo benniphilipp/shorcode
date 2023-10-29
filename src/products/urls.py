@@ -7,5 +7,8 @@ urlpatterns = [
     path('success/', success, name='success-page'),
     path('cancel/', cancel, name='cancel-page'),
     path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),
-    path('create-checkout-session-subscription/', create_checkout_session_subscription, name='create_checkout_session_subscription')
+    path('create-checkout-session-subscription/', create_checkout_session_subscription, name='create_checkout_session_subscription'),
+    # path('stripe-webhook/', stripe_webhook, name='stripe_webhook'),
 ]
+
+# stripe listen --forward-to http://127.0.0.1:8000/stripe-webhook/

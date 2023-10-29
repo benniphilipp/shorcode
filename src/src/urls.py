@@ -11,8 +11,11 @@ from accounts.views import URLRedirectView
 from django.contrib.flatpages import views as flatpages_views
 from django.views.i18n import set_language as django_set_language
 
+from products.views import stripe_webhook
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('stripe-webhook/', stripe_webhook, name='stripe_webhook'),
 ]
 
 urlpatterns += i18n_patterns(
