@@ -1,0 +1,23 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<aside id="aside-form" class="crate-form p-3">
+
+    <div class="card p-2 border-0">
+        <div class="card-header bg-white border-0">
+            <button id="closeForm" type="button" class="btn btn-secondary btn-sm">Schließen</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card p-2">
+                <form method="post">
+                    {% crispy link_in_bio_form %}  
+                    <input type="hidden" id="linkinbioUpdateId">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</aside>

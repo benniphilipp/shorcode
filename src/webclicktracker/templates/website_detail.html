@@ -1,0 +1,77 @@
+{% extends "basic.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/jquery.orgchart.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/webclicktracker.css' %}">
+
+{% endblock %}
+
+{% block body %}
+
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+        <div class="container-fluid p-0 bg-body">
+
+            <!--Navbar-->
+            {% include "includes/navbar.html" %}
+
+            <!--Main-->
+            <div class="main">
+                <div class="container-fluid mt-3 pt-3 px-4">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="d-flex flex-row align-items-center">
+                                <h3 class="p-1" style="margin-top: 10px;">Website Trecker</h3>
+                                <div class="p-1 ms-auto">
+                                    <button id="removeDuplicatesBtn" class="btn btn-secondary p-2 mt-1" type="button">Doppelte Seiten entfernen</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="col-12 col-lg-12">
+                            <form id="input-form" class="row" method="POST">
+                                {% csrf_token %}
+                                <div class="col-10">
+                                    <input type="text" id="url-input" class="form-control" name="url" value="{{ website.url }}"  disabled>
+                                </div>
+                                <div class="col-2">
+                                    <button id="submit-button" class="btn btn-primary" type="submit">Speichern</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg">
+                            <div id="clickDataList"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+{% endblock %}
+
+{% block javasript %}
+
+
+<script>
+var website_image = "{% static '/images/hook_image.jpg' %}";
+</script>
+
+<script defer src="{% static '/assets/js/toast-alert.js' %}"></script>
+<script defer src="{% static '/assets/js/jquery.orgchart.js' %}"></script>
+<script defer src="{% static '/assets/js/webclicktracker.js' %}"></script>
+
+{% endblock %}

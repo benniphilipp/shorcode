@@ -1,0 +1,26 @@
+{% load static %}
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+<html>
+
+{% include "includes/header-content-pages.html" %}
+
+    <!--CSS Styles-->
+    {% block css %}{% endblock %}
+
+    <!--Block Content-->
+    <body>
+        {% block body %}{% endblock %}
+
+    
+    <!--Javascript Import-->
+    {% include "includes/footer-content-pages.html" %}
+    
+
+    <!--Javascript-->
+    {% block javasript %}{% endblock %}
+    {% include "includes/cookie-banner.html" %}
+    </body>
+
+</html>

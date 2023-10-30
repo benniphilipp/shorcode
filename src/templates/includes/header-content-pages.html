@@ -1,0 +1,86 @@
+{% load static %}
+{% load i18n %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Style CSS Import-->
+    <link rel="stylesheet" type="text/css" href="{% static '/app-assets/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/pages.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/cookie.css' %}">
+
+
+    <!--Favicons-->
+    {% include "includes/favicons.html" %}
+
+
+    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--SEO TAGs-->
+    <title>{{ content_page.title }} | llinkb.com</title>
+    <meta property="og:title" content="{{ content_page.title }} | llinkb.com">
+    <meta name="description" content="{{ content_page.og_description }}">
+    <meta property="og:description" content="{{ content_page.og_description }}">
+    <meta name="robots" content="index, follow">
+
+</head>
+
+
+<section class="bg-white sticky-top border-bottom">
+  <div class="container sticky-top">
+    <header class="d-flex bg-white flex-wrap align-items-center justify-content-center justify-content-md-between py-3 sticky-top">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="40" height="40">
+      </a>
+    
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/content/links/">{% trans 'Links' %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/content/qr-codes/">{% trans 'QR-Codes' %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/products/">{% trans 'Preise' %}</a>
+        </li>
+      </ul>
+    
+      <div class="col-md-4 d-flex flex-row align-items-center justify-content-end">
+        <a class="btn btn-primary me-2" href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a>
+        <a class="btn btn-outline-primary me-2" href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a>
+    
+        <div class="dropdown mt-3" id="language-switcher">
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% get_current_language as current_language %}
+                        {{ current_language|language_name_local }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        {% get_available_languages as LANGUAGES %}
+                        {% for language_code, language_name in LANGUAGES %}
+                            <li>
+                                <button class="dropdown-item" type="submit" name="language" value="{{ language_code }}">{{ language_name }}</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </form>
+        </div>
+      </div>
+  
+    </header>
+  </div>
+</section>
+

@@ -1,29 +1,38 @@
-"""src URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
 
+from accounts.views import URLRedirectView
+
+from django.contrib.flatpages import views as flatpages_views
+from django.views.i18n import set_language as django_set_language
+
+from products.views import stripe_webhook
+from linkinbio.views import LinkInBioDeatilePage
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('user.urls')),
+    path('stripe-webhook/', stripe_webhook, name='stripe_webhook'),
+    path('m/<int:pk>/', LinkInBioDeatilePage.as_view(), name='detail_page'),
+    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]
 
+urlpatterns += i18n_patterns(
+    path("pages/", include("django.contrib.flatpages.urls")),
+    path('content/', include('contentpages.urls')),
+    path('shortcode/', include('shortcode.urls')),
+    path('analytics/', include('analytics.urls')),
+    path('webclicktracker/', include('webclicktracker.urls')),
+    path('linkinbio/', include('linkinbio.urls')),
+    path('geotargeting/', include('geotargeting.urls')),
+    path('products/', include('products.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('', include('accounts.urls')),
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,

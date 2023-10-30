@@ -1,0 +1,80 @@
+
+#count-links-container,
+#archiv-links-container,
+#total-links-container{
+    margin-top: 1rem;
+    margin-bottom: 1rem; 
+}
+
+#count-links-container p,
+#archiv-links-container p,
+#total-links-container p{
+    margin-bottom: .5rem; 
+}
+
+#count-links-container i,
+#archiv-links-container i,
+#total-links-container i{
+    font-size: 12px;
+    color: #0c3ebb; 
+}
+
+.short-chart,
+.fa-link,
+.fa-computer-mouse,
+#shorcode-url{
+    color: #0c3ebb;
+}
+
+.short-chart:hover,
+#icon-close-trigger:hover{
+    color: #0c3ebb;
+}
+
+.fa-link,
+.fa-computer-mouse{
+    font-size: 40px;
+}
+
+/* anayltics-overlay */
+.anayltics-overlay{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: none;
+    position: fixed;
+    overflow-y: scroll;
+    background-color: #f4f6fa;
+}
+
+.anayltics-overlay.active{
+    display: block;
+}
+
+#icon-close-trigger{
+    cursor: pointer;
+    display: inline-block;
+}
+
+#icon-close-trigger i{
+    font-size: 28px;
+    display: inline-block;
+}
+
+body.overlay{
+    overflow: hidden;
+}
+
+.short-chart{
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#shorcode-url{
+    font-size: 17px;
+    font-weight: bold;
+}
+

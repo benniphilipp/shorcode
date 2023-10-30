@@ -1,0 +1,114 @@
+{% extends "basic.html" %}
+{% load static %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/accounts.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/analytics.css' %}">
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+    <div class="container-fluid p-0 bg-body">
+        
+        <!--Navbar-->
+        {% include "includes/navbar.html" %}
+
+        <!--Main-->
+        <div class="main">
+
+            <div class="container-fluid mt-5 px-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex flex-row align-items-center">
+                            <h3 class="p-1" style="margin-top: 10px;">Analytics</h3>
+                            <!-- <div class="p-1 ms-auto">
+                                <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                                <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button>
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- <hr> -->
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row mt-5 px-4">
+                    <div class="card border-0">
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="card border-0">
+                                    <div class="row">
+                                      <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-computer-mouse"></i>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <p class="card-text">
+                                            Clickstream zeigt Klick-Reihenfolge & Metriken (Statuscode, Methode, Referrer, User-Agent) für Kurz-URL-Besucher.</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="card border-0">
+                                    <div class="row">
+                                      <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-link"></i>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <p class="card-text">
+                                            Steigern Sie Kampagnen-Erfolg: UTM-Tags nutzen, Parameter zu Links hinzufügen, mit Google Analytics integrieren für tiefe Einblicke.</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-3">
+                    <!-- <div class="col-lg-6 col-md-12 mb-3 mt-3">
+                        <div class="card border border-0">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center border border-0">
+                                <h5 class="card-title mb-0">Website Analytics</h5>
+                            </div>
+                            <div class="card-body pb-2">
+                                <div>
+                                    <canvas id="myChart"></canvas>
+                                </div>  
+                            </div>  
+                        </div>
+                    </div> -->
+                    <div class="col-lg-6 col-md-12 mb-5 mt-5">
+                        <div class="card border border-0">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center border border-0">
+                                <h5 class="card-title mb-0">Verwende deine Links</h5>
+                            </div>
+                            <div class="card-body pb-2">
+                                <div id="total-links-container"></div>
+                                <div id="archiv-links-container"></div>
+                                <div id="count-links-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+{% endblock body %}
+
+{% block javasript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+
+<script src="{% static '/assets/js/analytics.js' %}"></script>
+{% endblock %}
+

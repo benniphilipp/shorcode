@@ -1,0 +1,347 @@
+
+{% extends "content-pages.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+
+
+<!--CSS Styles-->
+{% block css %}
+  
+{% endblock %}
+
+<body>
+{% block body %}
+
+<section class="hero-main main-pages">
+    <div class="container p-md-5 p-3">
+        <div class="row d-flex align-items-center justify-content-md-center">
+            <div class="col-12 col-md-6 py-md-5 py-2 d-flex justify-content-end">
+                <div class="px-md-5 px-0">
+                    <small>{% trans 'Erfolg auf Knopfdruck!' %}</small>
+                    <h1 class="mt-3">{% trans 'Verwandeln Sie Verbindungen in Erfolge mit llinkb!' %}</h1>
+                    <p class="mt-3">{% trans 'Erstellen Sie im Handumdrehen Kurzlinks, QR-Codes und Link-in-Bio-Seiten, teilen Sie sie überall und verfolgen Sie Ihre Performance – alles innerhalb der llinkb-Plattform. Starten Sie noch heute, um Ihre Online-Präsenz zu steigern und mehr Erfolg zu erzielen!' %}</p>
+                    <a class="btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 py-md-5 py-2 pt-5 d-flex justify-content-center">
+                <img src="https://placehold.co/600x400" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-one">
+    <div class="container p-md-5 p-3">
+
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="pt-5 pt-md-5 w-75">
+                        <h2 class="text-center">{% trans 'Die komplette Plattform zum Verwalten und Tracken von links.' %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="pb-5 pb-md-5">
+                        <p class="text-center">{% trans 'Alle Produkte, die Sie benötigen, um Markenverbindungen aufzubauen, Links und QR-Codes zu verwalten und mit Zielgruppen überall in Kontakt zu treten, auf einer einzigen, einheitlichen Plattform.' %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row px-md-5 px-2">
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 rounded">
+                    <div class="p-xl-5 p-3">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-solid fa-link"></i>
+                            <h5>{% trans 'Link Verwaltung' %}</h5>
+                        </div>
+                        <p>{% trans 'Optimieren Sie Ihre Verbindungen zwischen Inhalten und Publikum. Erhöhen Sie die Treffig auf Ihrer Website mit einfacher Linkverwaltung.' %}</p>
+                        <hr>
+                        <ul>
+                            <li>{% trans 'URL-Kürzung im großen Maßstab' %}</li>
+                            <li>{% trans 'URL-Weiterleitungen' %}</li>
+                            <li>{% trans 'Erweiterte Analyse und Nachverfolgung' %}</li>
+                            <li>{% trans 'Einheitliche Verwaltung' %}</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">{% trans 'Starten Sie kostenlos durch' %}</button>
+                    <a class="text-center my-3" href="#">{% trans 'Erfahren Sie mehr' %}</a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 rounded">
+                    <div class="p-xl-5 p-3">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <h5>{% trans 'QR-Codes' %}</h5>
+                        </div>
+                        <p>{% trans 'Perfekte QR-Code-Lösungen für Kunden, Unternehmen und Marken. Starten Sie jetzt!' %}</p>
+                        <hr>
+                        <ul>
+                            <li>{% trans 'Anpassbare QR-Codes' %}</li>
+                            <li>{% trans 'QR-Code-Typen und Ziel Optionen'%}</li>
+                            <li>{% trans 'Kontrolle über jedes Verbungserlebniss' %}</li>
+                            <li>{% trans 'Keine Weiteren Analyse Tools' %}</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">{% trans 'Starten Sie kostenlos durch' %}</button>
+                    <a class="text-center my-3" href="#">{% trans 'Erfahren Sie mehr' %}</a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 rounded">
+                    <div class="p-xl-5 p-3">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <i class="fa-regular fa-id-badge"></i>
+                            <h5>{% trans 'Link in Bio' %}</h5>
+                        </div>
+                        <p>{% trans 'Erstellen, teilen und verfolgen Sie Ihre Verbindungen mühelos mit llinkb. Steigern Sie Ihre Online-Präsenz.' %}</p>
+                        <hr>
+                        <ul>
+                            <li>{% trans 'Benutzerdefinierte URLs für soziale Medien' %}</li>
+                            <li>{% trans 'Anpassbare Zielseite' %}</li>
+                            <li>{% trans 'Einfach zu verwaltende Links' %}</li>
+                            <li>{% trans 'Link- und Landingpage-Tracking' %}</li>
+                        </ul>
+                    </div>
+                    <button type="button" class="text-center btn btn-primary mx-5">{% trans 'Starten Sie kostenlos durch' %}</button>
+                    <a class="text-center my-3" href="#">{% trans 'Erfahren Sie mehr' %}</a>
+                </div>   
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section-tow mt-5">
+    <div class="container-fluit px-3">
+        <div class="bg-cta">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="py-5 my-5 py-md-5 w-75">
+                        <h2 class="text-center">{% trans 'Als Agenturen oder Content Creator musst du dafür sorgen, dass jede Verbindung zählt.' %}</h2>
+                        <p class="text-center">{% trans 'Wir haben alle Anforderungen in einer Software verpackt.' %}</p>
+                        <div class="d-flex justify-content-center">
+                            <a class="text-center btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-three">
+    <div class="container my-5 p-lg-5">
+        <div class="row px-md-5 px-2">
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/agenturen.webp' %}" class="card-img-top radius-card" alt="">
+                    <div class="card-body">
+                        <h5>{% trans 'Agenturen & E-Commerce' %}</h5>
+                        <p>{% trans 'Keine chaotische Verwaltung mehr von UTM Parametern, schnelle Erstellung und gut organisierte Parametern ohne komplizierte Technik. Einfache Handhabung von Rabattaktionen mit Targeting Möglichkeiten nach Datum oder Klickzahl.' %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/influencer.webp' %}" class="card-img-top radius-card" alt="...">
+                    <div class="card-body">
+                        <h5>{% trans 'Content Creators und Influencer' %}</h5>
+                        <p>{% trans 'Verwalten Sie eine hohe Anzahl von links, mit einer User Link-Management-Lösung ohne hohen Zeitaufwand. Holle noch mehr aus deiner Link in Bio-Seite raus, mit integrierter automatischer Weiterleitung.' %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                <div class="card h-100 p-5">
+                    <img src="{% static 'images/event-agenturen.webp' %}" class="card-img-top radius-card" alt="...">
+                    <div class="card-body">
+                        <h5>{% trans 'Event Agenturen' %}</h5>
+                        <p>{% trans 'QR-Codes mit eigenem Brand flexibel verwenden und bei Bedarf aktualisieren, ohne Print-Produkte neu zu erstellen. Legen Sie das Ablaufdatum des links fest und leiten Sie auf Alternative link weiter bei Zeitablauf.' %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="px-3">
+    <section class="section-four my-5 py-5">
+        <div class="container">
+            <div class="bg-cta">
+            <div class="row py-5">
+                <div class="col-12 col-lg-6 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                    <h2 class="px-5">{% trans 'Holen Sie mehr aus den Links heraus, die Sie teilen.' %}</h2>
+                    <div class="row px-5 pt-5">
+                        <div class="col-md-12">
+                            <h5>{% trans 'Linkverfallsdatum festlegen' %}</h5>
+                            <p>{% trans 'Definieren Sie das Ablaufdatum, um zeitlich begrenzte verkürzte Links zu erstellen. Geben Sie die Weiterleitungs-URL an, zu der Besucher nach Ablauf des ursprünglichen Links weitergeleitet werden sollen.' %}</p>
+                        </div>
+                        <div class="col-md-12">
+                            <h5>{% trans 'Gezieltes Geotargeting' %}</h5>
+                            <p>{% trans 'Leiten Sie Benutzer basierend auf ihrem Standort oder Land zur entsprechenden Website weiter. Nutzen Sie geografisch ausgerichtete Links, um Ihrem internationalen Publikum passende Inhalte anzubieten.' %}</p>
+                        </div>
+                        <div class="col-md-12">
+                            <h5>{% trans 'Mobile Weiterleitungen' %} </h5>
+                            <p>{% trans 'Routen Sie mobile Besucher basierend auf ihrem Betriebssystem zur passenden URL. Nutzen Sie diese optimierte Lösung für mobiles Deep-Linking.' %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-md-12 mt-3 mt-md-3 mt-lg-3">
+                    <img class="img-fluid" src="{% static 'images/geo-targeting.webp' %}" alt="">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</div>
+
+
+<section class="faq mt-5 pt-5 mb-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <h1 class="text-center">{% trans 'FAQ´s' %}</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center pt-3">
+            <div class="col-12 col-md-12">
+                <div class="accordion mx-5" id="accordionExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            {% trans 'Was verbirgt sich hinter einem URL-Kürzer?' %}
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% trans 'Ein URL-Kürzer, auch als Link-Kürzer bekannt, mag simpel erscheinen, hat jedoch erheblichen Einfluss auf Ihre Marketingbemühungen. Die Funktionsweise eines Link-Kürzers ist recht einfach: Er verwandelt lange URLs in kürzere, leichter lesbare Links. Wenn ein Nutzer auf die verkürzte Version klickt, wird er automatisch zur ursprünglichen URL weitergeleitet. Stellen Sie sich eine kurze URL als prägnanten und gut merkbaren Spitznamen für Ihre ausgedehnte Webadresse vor. Zum Beispiel könnte eine kurze URL wie llinkb.com/CelebrateLinkb eine klare Vorstellung davon vermitteln, wohin der Link führt, bevor man darauf klickt. Für alle, die Online-Inhalte teilen, ist ein URL-Kürzer von entscheidender Bedeutung. Erstellen Sie Ihre eigenen benutzerfreundlichen, kostenfreien, gekürzten Links mit unserem Service oben.' %}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            {% trans 'Welche Vorteile bietet eine kurze URL?' %}
+                        </button>
+                      </h2>
+                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% trans 'Erinnern Sie sich daran, wie schwer es sein kann, sich an eine lange Webadresse zu erinnern, vor allem wenn sie aus vielen Zeichen und Symbolen besteht? Eine kurze URL macht Ihren Link leichter merkbar. Das wiederum erleichtert es den Menschen nicht nur, sich Ihren Link zu merken und ihn mit anderen zu teilen, sondern kann auch den Verkehr auf Ihre Inhalte erheblich steigern. Praktisch betrachtet lässt sich eine kurze URL leichter in Ihre Werbematerialien integrieren, unabhängig davon, ob Sie offline oder online mit Ihren Kunden interagieren möchten. Bitly ist der optimale URL-Shortener für Influencer, kleine Marken und große Unternehmen gleichermaßen. Es bietet eine einfache Möglichkeit, Links zu erstellen, zu verfolgen und zu verwalten.' %}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            {% trans 'Was ist ein individueller URL-Kürzer?' %}
+                        </button>
+                      </h2>
+                      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% trans 'Mit einem individuellen URL-Kürzer, auch als Marken-URL-Kürzer bekannt, können Sie Ihre Links personalisieren. Anstatt bit.ly/2m75BWD könnten Sie beispielsweise eine individuelle Kurz-URL wie yourbrnd.co/2m75BWD verwenden. Das Hinzufügen Ihrer Marke zu Ihren verkürzten Links bietet zahlreiche Vorteile. Marken-URLs fördern das Vertrauen zwischen Ihrem Publikum und Ihrem Unternehmen, erhöhen die Klickrate, ermöglichen Ihrem Publikum, einen Blick auf das Ziel der Verknüpfung zu werfen, und steigern die Markenbekanntheit. Ein URL-Verkürzungsdienst, der individuelle Kurz-URLs ermöglicht, ist unverzichtbar, um die Interaktion Ihres Publikums mit Ihrer Kommunikation zu verbessern. Eine kurze URL ist gut, aber eine individuelle URL ist unschlagbar.' %}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            {% trans 'Was ist ein QR-Code?' %}
+                        </button>
+                      </h2>
+                      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% trans 'QR steht für Quick Response und ist eine Art von Barcode, der eine breite Palette von Informationen aufnehmen kann. Der auffälligste Unterschied zwischen einem QR-Code und einem herkömmlichen Barcode liegt in ihrem Erscheinungsbild. QR-Codes sind in der Regel quadratisch und bestehen aus kleinen, gleichmäßigen Blöcken, ähnlich wie Tetris-Steine. Im Gegensatz dazu bestehen herkömmliche Barcodes aus vertikalen Balken unterschiedlicher Breite und werden oft von Seriennummern begleitet.' %}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            {% trans 'Welche Funktionen hat ein QR-Code?' %}
+                        </button>
+                      </h2>
+                      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% trans 'Aufgrund seiner Vielseitigkeit kann ein QR-Code für eine breite Palette von Aufgaben programmiert werden. Er kann in zwei Varianten unterteilt werden: dynamisch und statisch. Ein dynamischer QR-Code ist besonders nützlich für Unternehmen oder gemeinnützige Organisationen in ihrer Marketingstrategie, obwohl für seine Verwendung ein Abonnement erforderlich ist, sind die Kosten im Vergleich zu den gebotenen Vorteilen gering. Dynamische QR-Code-Lösungen sind flexibel anpassbar. Sollten Sie also nach dem Drucken der QR-Codes einen Fehler bemerken, können Sie sich einfach im Dashboard anmelden und den Fehler korrigieren, ohne das Erscheinungsbild der bereits gedruckten Codes zu ändern.' %}
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSix">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            {% trans 'Was bedeutet Link-in-Bio?' %}
+                          </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            {% trans 'Der Ausdruck Link-in-Bio bezieht sich auf die anklickbare URL, die Sie in Ihrem sozialen Medien Profilbereich platzieren können. Die meisten Social-Media-Plattformen gestatten Ihnen, einen Link in Ihre Biografie einzufügen, um Ihre Follower auf Ihre Website, Produktseite, Inhalte oder eine andere relevante Seite weiterzuleiten.' %}
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="footer-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <ul class="d-flex flex-row justify-content-center">
+                    <li class="mx-3 link-footer"><a href="/content/links/">{% trans 'Links' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/qr-codes/">{% trans 'QR-Codes' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/products/">{% trans 'Preise' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center flatpages-links">
+   
+                    <a class="link-footer mx-3" href="/pages/datenschutz/">{% trans 'Datenschutz' %}</a>
+                    <a class="link-footer mx-3" href="/pages/impressum/">{% trans 'Impressum' %}</a>
+       
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block javasript %}{% endblock %}
+
+    </body>
+</html>
+
+

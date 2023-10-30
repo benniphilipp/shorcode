@@ -1,0 +1,237 @@
+{% extends "basic.html" %}
+{% load i18n %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/themes/classic.min.css">
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/customLinkinbio.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+
+{% endblock %}
+
+{% block body %}
+
+    <div id="overlay-open" class="overlay-popup"></div>
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+        <div class="container-fluid p-0 bg-body">
+
+            <!--Navbar-->
+            {% include "includes/navbar.html" %}
+
+            <!--Main-->
+            <div class="main">
+
+                <div class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex flex-row align-items-center">
+                                <h3 class="p-1" style="margin-top: 10px;">{{link_in_bio_instance.title}}</h3>
+                                <div class="p-1 ms-auto">
+                                    <!-- <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button> -->
+                                    <!-- <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div id="linkinbio-content" class="col-8">
+
+                            <!--Value-->
+                            <div class="card border-0 bg-color-gray shadow-sm">
+                                <div class="card-body">
+                                    <ul class="nav nav-pills m-2 nav-justified" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Links</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Customizations</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Performance</button>
+                                        </li> 
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <!--links.html-->
+                                    {% include "includes/links.html" %}
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <!--customizations.html-->
+                                    {% include "includes/customizations.html" %}
+                                </div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <!--performance.html-->
+                                    {% include "includes/performance.html" %}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-4 sidebar-mobile">
+                            <!-- Ansicht Desing Linkin Bio Page -->
+                            <img class="loader-image-mobile mx-auto d-block d-none" src="/static/gif/load-38_256.gif">
+                            {% include "linkinbiopage/style-one.html" %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="LinkInBioLinksListView" value="{% url 'linkinbio:linkinbio_links_list' link_in_bio_instance.id %}">
+    
+    <!--Modal delete-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <div id="idContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-close">Close</button>
+                <button type="button" class="btn btn-danger btn-trash">Löschen</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Image Modal-->
+    <div class="modal fade" id="exampleModalImage" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabelImage" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabelImage">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div id="cropper-container" class="d-none">
+                    <img id="cropper-image" src="" alt="Bild zum Zuschneiden">
+                </div>
+         
+                <div class="mb-3 mt-3">
+                    <label for="formFile" class="form-label"></label>
+                    <input class="form-control" type="file" id="image-input">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="crop-button">Speichern</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!--Modal Delte Image-->
+    <div class="modal fade" id="exampleModalImageDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabelImageDelete" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabelImageDelete">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Image löschen?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+              <button type="button" id="imageProfileDeleteBtn" class="btn btn-danger">Löschen</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!--Modal Delete Urls-->
+    <div class="modal fade" id="exampleUrls" tabindex="-1" aria-labelledby="exampleUrlsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleUrlsLabel">Social Media</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h6>Social Media Löschen, unwiederuflich löschen.</h6>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="urlsDelete">Löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--URLs-->
+    <!--Image Profile Adjustment-->
+    <input type="hidden" id="ImageProfileAdjustment" value="{% url 'linkinbio:adjustment_profile_image_json' link_in_bio_instance.id %}">
+    <!--Deatile View Profile Image-->
+    <input type="hidden" id="ProfileImageDetailView" value="{% url 'linkinbio:adjustment_dataile_profile_image_json' link_in_bio_instance.id %}">
+    <!--Create Text-->
+    <input type="hidden" id="TexteCreateAdjustmentView" value="{% url 'linkinbio:adjustment_create_text_json' link_in_bio_instance.id %}">
+    <!--Detail Text View-->
+    <input type="hidden" id="TexteDeatileAdjustmentView" value="{% url 'linkinbio:adjustment_detaile_text_json' link_in_bio_instance.id %}">
+    <!--Lust Sozial Media-->
+    <input type="hidden" id="getSocialMdiaPlatforms" value="{% url 'linkinbio:get_social_media_platforms' %}">
+    <!--UrlSocialProfilesViewList-->
+    <input type="hidden" id="UrlSocialProfilesViewList" value="{% url 'linkinbio:url_social_profiles_view_list' link_in_bio_instance.id %}">
+    <!--UrlSocialProfilesUpdateView-->
+    <input type="hidden" id="UrlSocialProfilesUpdateView" value="{% url 'linkinbio:url_social_profiles_view_update' link_in_bio_instance.id %}">
+    <!--UrlSocialProfilesDeleteView-->
+    <input type="hidden" id="UrlSocialProfilesDeleteView" value="{% url 'linkinbio:url_social_profiles_view_delete' %}">
+    <!--LinkInBioViewEditScreen-->
+    <input type="hidden" id="LinkInBioViewEditScreen" value="{% url 'linkinbio:linkinbio_edit_screen' link_in_bio_instance.id %}">
+    <!--CustomSettingsView-->
+    <input type="hidden" id="CustomSettingsView" value="{% url 'linkinbio:custom_settings_view' link_in_bio_instance.id %}">
+    <!--CustomSettingsUpdateView-->
+    <input type="hidden" id="CustomSettingsUpdateView" value="{% url 'linkinbio:custom_settings_update_view' link_in_bio_instance.id %}">
+    
+    <!--Order Save -->
+    <input type="hidden" id="SocialMediaProfilesOrderSaveView" value="{% url 'linkinbio:social_media_profiles_order_save' %}">
+
+
+    <input type="hidden" id="urlSocial" value="{% url 'linkinbio:save_url_social' %}">
+
+    <!---->
+    <input type="hidden" id="linkinbio_page_id_custome" value="{{link_in_bio_instance.id}}">
+
+    {% endblock body %}
+    
+    <!--Javascript-->
+    {% block javasript %}
+    <!--Cropping-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+    <script>
+        const translations = {
+            'Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der Link wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
+            'Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft.': '{% trans "Der neue Shortcode wurde erfolgreich erstellt und mit Ihrer Link-in-Bio-Seite verknüpft." %}',
+            'Dein link wurde gespeicher.': '{% trans "Dein link wurde gespeicher." %}',
+            'URL erfolgreich gespeichert.': '{% trans "URL erfolgreich gespeichert." %}'
+        };
+        
+    </script>
+
+    
+    <script type="module" src="{% static '/js/linkInBio.bundle.js' %}" defer></script>
+
+
+    {% endblock %}

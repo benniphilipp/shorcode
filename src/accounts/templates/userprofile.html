@@ -1,0 +1,224 @@
+{% extends "basic.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/accounts.css' %}">
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+    <div class="container-fluid p-0 bg-body">
+
+    <!--Navbar-->
+    {% include "includes/navbar.html" %}
+
+    <!--Main-->
+    <div class="main">
+        <div class="row justify-content-center">
+
+            <div class="col-6 mt-5">
+                <div class="card border-0">
+                    <div class="card-header bg-white">
+                        <h5 class="mt-2">{% trans "Deine E-Mail-Adresse:" %} {{ user.email }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{% trans "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht entschlüsselt. Dies ist aus Sicherheitsgründen wichtig, da das Speichern von Passwörtern im Klartext ein erhebliches Sicherheitsrisiko darstellen würde. Bitte melde dich ab und beantrage das Zurücksetzen des Passworts. Anschließend kannst du ein neues Passwort erstellen." %}</p>
+                        <a href="{% url 'accounts:logout' %}" type="button" class="btn btn-primary mt-2">{% trans "Abmelden" %}</a>
+                    </div>
+                </div>
+
+                <div class="card border-0 mt-5">
+                    <div class="card-header bg-white">
+                        <h5 class="mt-2">{% trans "Konto Löschen" %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{% trans "Du möchtest dein Konto bei uns auflösen? Kein Problem, sende uns bitte eine E-Mail, und wir werden umgehend alle deine Daten unwiderruflich löschen." %}</p>
+                        <a href="mailto:support@pixel-west.com">support@pixel-west.com</a>
+                    </div>
+                </div>
+
+
+                <div class="card border-0 mt-5">
+                    <div class="card-header bg-white">
+                        <h5 class="mt-2">{% trans "API Token" %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-2 mt-2">
+                            <input type="text" class="form-control" id="apiTokenInput" value="{{ api_key }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="copyTokenButton">{% trans "Kopieren" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 mt-5 mb-5">
+                    <div class="card-header bg-white">
+                        <h5 class="mt-2">{% trans "Adresse" %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="p-2" id="userProfileForm">
+                            {% crispy user_adressform %}  
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card broder-0 mt-5 mb-5">
+                    <div class="card-body">
+                        <form id="language-form" class="p-2" method="post">
+                            {% crispy form %}  
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+{% endblock body %}
+
+{% block javasript %}
+    <script defer src="{% static '/assets/js/toast-alert.js' %}"></script>
+    <script>
+
+
+
+        $(document).ready(function() {
+
+
+            function ls_toast(parmToast){
+                $('#toast-alert').html(`
+                    <div class="ls-toast" id="ls-toas">
+                        <div class="ls-toas-header d-flex justify-content-start align-items-center px-2 py-2">
+                            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+                            <span><b>Meldung</b></span>
+                            <i class="fa-solid fa-xmark ms-auto"></i>
+                        </div>
+                        <hr>
+                        <div class="ls-toas-body p-2">
+                            ${parmToast}
+                        </div>
+                    </div>
+                `);
+                clearContent();
+            };
+
+
+            function clearContent() {
+                setTimeout(function() {
+                    $('#toast-alert').html('');
+                }, 4000);
+            }
+        
+
+
+
+
+            // Doamin URL
+            var domain = window.location.protocol + '//' + window.location.host;
+            
+            // Single View Adresse Ajax 
+
+            var userId = 4; // Setze die gewünschte Benutzer-ID hier
+
+            const first_name = document.getElementById('id_first_name');
+            const last_name = document.getElementById('id_last_name');
+            const address = document.getElementById('id_address');
+            const zip_code = document.getElementById('id_zip_code');
+            const city = document.getElementById('id_city');
+            const csrf = document.getElementsByName('csrfmiddlewaretoken');
+    
+            $.ajax({
+                url: `${domain}/${userId}/customer_json_adress/`, // Passe den URL-Pfad entsprechend an
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if ('error' in response) {
+                        console.log('Fehler:', response.error);
+                    } else {
+
+                        // Data
+                        const data = response
+
+                        first_name.value = data.first_name;
+                        last_name.value = data.last_name
+                        address.value = data.address
+                        zip_code.value = data.zip_code
+                        city.value = data.city
+                        
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX-Fehler:', error);
+                }
+            });
+
+            // Create Adresse Ajax
+            $('#userProfileForm').submit(function(event) {
+                event.preventDefault();
+                
+                const first_name = document.getElementById('id_first_name');
+                const last_name = document.getElementById('id_last_name');
+                const address = document.getElementById('id_address');
+                const zip_code = document.getElementById('id_zip_code');
+                const city = document.getElementById('id_city');
+                const csrf = document.getElementsByName('csrfmiddlewaretoken');
+
+                const fd = new FormData();
+                fd.append('first_name', first_name.value);
+                fd.append('last_name', last_name.value);
+                fd.append('address', address.value);
+                fd.append('zip_code', zip_code.value);
+                fd.append('city', city.value);
+                fd.append('csrfmiddlewaretoken', csrf[0].value)
+
+                var userId = $('input[name="user_id"]').val();
+                var ajaxUrl = `${domain}/${userId}/update_json/`; 
+               
+                $.ajax({
+                    url: ajaxUrl,
+                    type: 'POST',
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    data: fd,
+                    success: function(response) {
+                        if (response.success) {
+                            //alert(response.message);
+                            ls_toast(response.message);
+                        } else {
+                            // alert('Fehler beim Aktualisieren des Profils.');
+                            console.log(response);
+                            
+                            
+                            //$('#id_url').val('');
+                        }
+                    },
+                    error: function() {
+                        console.log(error);
+                        // alert('Es ist ein Fehler aufgetreten.');
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                });
+            });
+
+            // Copie Token
+            $('#copyTokenButton').click(function() {
+                var input = $('#apiTokenInput');
+                input.select();
+                document.execCommand('copy');
+                input.blur();
+                alert('API-Token wurde kopiert!');
+            });
+            
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-08 20:55+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/forms.py:17
+msgid "E-Mail-Adresse"
+msgstr "E-Mail-Adresse"
+
+#: accounts/forms.py:22
+msgid "Passwort"
+msgstr ""
+
+#: accounts/forms.py:29
+msgid "Passwort bestätigen"
+msgstr ""
+
+#: accounts/forms.py:45
+msgid "E-Mail"
+msgstr ""
+
+#: accounts/forms.py:50
+msgid "Password"
+msgstr ""
+
+#: accounts/forms.py:106
+msgid "Select Language"
+msgstr ""
+
+#: accounts/models.py:28
+msgid "The Email must be set"
+msgstr ""
+
+#: accounts/models.py:46
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: accounts/models.py:48
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: accounts/models.py:55 accounts/views.py:409 src/settings.py:175
+msgid "English"
+msgstr ""
+
+#: accounts/models.py:56 accounts/views.py:408 src/settings.py:174
+msgid "German"
+msgstr ""
+
+#: accounts/models.py:72
+msgid "Language"
+msgstr ""
+
+#: accounts/templates/userprofile.html:26
+msgid "Deine E-Mail-Adresse:"
+msgstr ""
+
+#: accounts/templates/userprofile.html:29
+msgid ""
+"Bei uns werden Passwörter standardmäßig sicher gehasht und nicht "
+"entschlüsselt. Dies ist aus Sicherheitsgründen wichtig, da das Speichern von "
+"Passwörtern im Klartext ein erhebliches Sicherheitsrisiko darstellen würde. "
+"Bitte melde dich ab und beantrage das Zurücksetzen des Passworts. "
+"Anschließend kannst du ein neues Passwort erstellen."
+msgstr ""
+
+#: accounts/templates/userprofile.html:30
+msgid "Abmelden"
+msgstr ""
+
+#: accounts/templates/userprofile.html:36
+msgid "Konto Löschen"
+msgstr ""
+
+#: accounts/templates/userprofile.html:39
+msgid ""
+"Du möchtest dein Konto bei uns auflösen? Kein Problem, sende uns bitte eine "
+"E-Mail, und wir werden umgehend alle deine Daten unwiderruflich löschen."
+msgstr ""
+
+#: accounts/templates/userprofile.html:47
+msgid "API Token"
+msgstr ""
+
+#: accounts/templates/userprofile.html:53
+msgid "Kopieren"
+msgstr "Kopieren"
+
+#: accounts/templates/userprofile.html:61
+msgid "Adresse"
+msgstr ""
+
+#: contentpages/models.py:14
+msgid "headline"
+msgstr ""
+
+#: contentpages/models.py:15
+msgid "subline"
+msgstr ""
+
+#: contentpages/models.py:16
+msgid "text"
+msgstr ""
+
+#: contentpages/templates/content_pages.html:78
+msgid "Links"
+msgstr ""
+
+#~ msgid "Bei uns werden Passwörter standardmäßig sicher gehasht und nicht"
+#~ msgstr "By default, passwords are securely hashed and not"

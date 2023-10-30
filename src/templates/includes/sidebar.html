@@ -1,0 +1,45 @@
+{% load static %}
+
+<div class="d-flex sidebar bd-aside flex-column flex-shrink-0 p-3 bg-light" style="width: 230px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="40" height="40">
+        </a>
+        <ul class="nav nav-pills flex-column mb-auto mt-3 pt-3 border-top">
+            <li class="nav-item">
+                <a href="{% url 'analytics:analytics-view' %}" class="nav-link {% if '/analytics/' == request.get_full_path %} active {% endif %}">
+     
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'shortcode:shortcode_list_view' %}" class="link-nav link-links nav-link {% if '/shortcode/list/' == request.get_full_path %} active {% endif %}">
+                    Links
+                    <i class="fa-solid fa-chevron-down links-down"></i>
+                </a>
+
+                <div class="collapse" id="links-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{% url 'geotargeting:index_geo_targeting' %}" class="link-dark link-geo {% if '/geotargeting/' == request.get_full_path %} active {% endif %} rounded mt-2">Geo Targetin Themplate</a></li>
+                        <li><a href="{% url 'shortcode:archive-view' %}" class="link-dark link-archiv rounded mt-2 {% if '/shortcode/archive/' == request.get_full_path %} active {% endif %}">Link Archiv</a></li>
+                        <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li>
+                        <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+                    </ul>
+                </div>
+
+            <li>
+                <a href="{% url 'linkinbio:linkinbio_view_list' %}" class="nav-link {% if '/linkinbio/' == request.get_full_path %} active {% endif %}">
+                    LinkIn Bio
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'webclicktracker:click_view' %}" class="nav-link {% if '/webclicktracker/' == request.get_full_path %} active {% endif %}">
+                    Websiten Trecker
+                </a>
+            </li>
+            </li>
+                <a href="#" class="nav-link">
+                    Activity Flow
+                </a>
+            </li>
+        </ul>
+    </div>

@@ -1,0 +1,110 @@
+{% extends "content-pages.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}{% endblock %}
+
+{% block body %}
+
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+<div class="container-fluit main-pages">
+
+    
+    <section class="hero-main">
+        <div class="container p-md-5 p-3">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-12 col-lg-6 py-md-5 p-3 sm-12 py-2 d-flex justify-content-end">
+                    <div class="px-md-5 px-0">
+                        <h1 class="mt-3">{{ content_page.headline }}</h1>
+                        <p class="mt-3">{{ content_page.subline }}</p>
+                        <a class="btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 py-md-5 sm-12 py-2 pt-3 d-flex justify-content-center">
+                    <img src="https://placehold.co/600x400" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row featurette px-lg-5 px-0">
+
+                {% for marketing_field_id, translations in content_page.marketing_translations.items %}
+                <div class="col-lg-7 p-3 p-lg-5 sm-12 {% if forloop.counter|divisibleby:2 %} order-md-2{% else %} {% endif %}">
+                    <h2 class="featurette-heading fw-normal lh-1">{{ translations.headline }}</h2>
+                    <p class="lead">{{ translations.subline }}</p>
+                    <p>{{ translations.text }}</p>
+                  </div>
+                  <div class="col-lg-5 p-3 p-md-5 sm-12 {% if forloop.counter|divisibleby:2 %} order-md-1{% else %} {% endif %}">
+                      <img class="featurette-image img-fluid mx-auto" src="{{ translations.image_url }}" alt="Marketing Image">
+                  </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+    
+</div>
+
+<section class="section-page-tow">
+    <div class="container-fluit px-3 mb-5">
+        <div class="bg-cta">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-center">
+                    <div class="py-5 my-5 py-md-5 w-75">
+                        <h2 class="text-center">
+                            {% blocktrans %}Als Agenturen oder Content Creator musst du dafür sorgen, dass jede Verbindung zählt.{% endblocktrans %}
+                        </h2>
+                        <p class="text-center">{% blocktrans %}Wir haben alle Anforderungen in einer Software verpackt.{% endblocktrans %}</p>
+                        <div class="d-flex justify-content-center">
+                            <a class="text-center btn btn-primary mt-3">{% trans 'Get Started for Free' %}</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <ul class="d-flex flex-row justify-content-center">
+                    <li class="mx-3 link-footer"><a href="/content/links/">{% trans 'Links' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/qr-codes/">{% trans 'QR-Codes' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/content/link-in-bio/">{% trans 'Link in Bio' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="/products/">{% trans 'Preise' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:users-register' %}">{% trans 'Kostenlos registrieren' %}</a></li>
+                    <li class="mx-3 link-footer"><a href="{% url 'accounts:login' %}">{% trans 'Einloggen' %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center flatpages-links">
+   
+                    <a class="link-footer mx-3" href="/pages/datenschutz/">{% trans 'Datenschutz' %}</a>
+                    <a class="link-footer mx-3" href="/pages/impressum/">{% trans 'Impressum' %}</a>
+       
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+
+{% block javasript %}{% endblock %}

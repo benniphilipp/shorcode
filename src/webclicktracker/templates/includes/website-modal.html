@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+
+<div class="website-overlay" id="model-form-website">
+    <div class="website-overlay-body">
+
+        <div class="d-flex justify-content-between mb-3">
+            <h5>Webseite anlegen</h5>
+            <div class="website-header d-flex" id="website-close">
+                <i class="fa-solid fa-xmark ms-auto"></i>
+            </div>
+        </div>
+        <p id="error-message"></p>
+        <form class="website-form">
+            {% crispy form %}  
+            <input type=hidden id="id_url" name="user" value="{{ user.id }}">  
+        </form>
+
+                   
+    </div>
+</div>

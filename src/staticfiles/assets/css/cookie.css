@@ -1,0 +1,51 @@
+.fixed-bottom {
+    bottom: 20px;
+}
+@media (max-width: 768px) { 
+    .fixed-bottom {
+        bottom:0px;
+    }
+}
+.cookie p{
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+.cookie h4{
+    font-size: 1rem;
+}
+
+#cookie-settings {
+    display: none;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+#cookie-settings.angezeigt {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cookie .bd-gray-100{
+    border-radius: 13px;
+    background-color: #f8f9fa;
+}
+.cookie .rounded{
+    border-radius: 30px;
+}
+
+/* Cookie Symbol*/
+#cookie-symbol{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.symbol-box{
+    border-radius: 60px;
+    background-color: #fff;
+}

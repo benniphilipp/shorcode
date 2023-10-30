@@ -1,0 +1,131 @@
+{% extends "checkout.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+
+{% load i18n %}
+
+{% block css %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!--
+        @ToDo Später löschen
+        static '/assets/css/products.css'
+        static '/assets/js/products.js
+    -->
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12 p-3">
+            <img src="{% static '/images/logo_daten_punkt.png' %}" alt="Logo" width="50" height="50" />
+        </div>
+    </div>
+
+    <div class="row">
+        <h1 class="text-center my-5">Preis</h1>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-12 mb-4 product">
+            <div class="card card1 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <small class='text-muted'>{{ product.stage }}</small>
+                    <br><br>
+                    <span class="h2">${{ product.price }}</span> {% if product.payment_abo %}/month{% else %} /Jahr {% endif %}
+                    <br><br>
+                    {{ product.content }}
+
+                    {% if user.is_authenticated %}
+                    <div class="d-grid my-3">
+                        <button type="button" id="{{ product.button_id }}" class="btn btn-lg btn-primary btn-block" data-product="{{ product.id }}">Select</button>
+                    </div>
+                    {% else %}
+                    <div class="d-grid my-3">
+                        <a class="btn btn-outline-dark btn-block" href="{% url 'accounts:users-register' %}">Get Started</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% if user.is_authenticated %}
+<script type="text/javascript">
+var firstProduct = document.querySelector('.product');
+if (firstProduct) {
+    firstProduct.style.display = 'none';
+}
+</script>
+{% endif %}
+
+{% endblock body %}
+
+{% block javasript %}
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("{{ publishable_key }}");
+    
+    var checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', function() {
+
+        var productId = checkoutButton.getAttribute('data-product');
+        fetch("{% url 'products:create_checkout_session' %}?product_id=" + productId, {
+            method: 'POST',
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+        if (result.error) {
+        alert(result.error.message);
+        }
+        })
+        .catch(function(error) {
+        console.error('Error:', error);
+        });
+    });
+
+    var checkoutButtonSubscription = document.getElementById('checkout-button-subscription');
+    checkoutButtonSubscription.addEventListener('click', function() {
+
+        var productId = checkoutButtonSubscription.getAttribute('data-product');
+        fetch("{% url 'products:create_checkout_session_subscription' %}?product_id=" + productId, {
+            method: 'POST',
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+        if (result.error) {
+        alert(result.error.message);
+        }
+        })
+        .catch(function(error) {
+        console.error('Error:', error);
+        });
+    });
+});
+</script>
+    
+{% endblock %}

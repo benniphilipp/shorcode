@@ -1,0 +1,83 @@
+{% extends "content-pages.html" %}
+{% load static %}
+{% load i18n %}
+
+
+{% if messages %}
+  <div class="alert alert-dismissible" role="alert">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+
+{% block body %}
+
+        <div class="container">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-lg-5 col-12">
+                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                        <div class="card-header justify-content-center">
+                            <h3 class="font-weight-light my-4 text-center">Benutzerkonto erstellen</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% if form.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <div id="form_errors">
+                                            {% for key, value in form.errors.items %}
+                                                <strong>{{ value }}</strong>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                <div class="form-row">
+                                    <div class="col-md-10 offset-md-1 mt-3">
+                                        <div class="form-group">
+                                            <label class="small mb-1">E-Mail-Adresse</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-10 offset-md-1 mt-3">
+                                        <div class="form-group">
+                                            <label class="small mb-1">Passwort</label>
+                                            {{ form.password1 }}
+                                            {{ form.errors.password }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 offset-md-1 mt-3">
+
+                                        <div class="form-group">
+                                            <label class="small mb-1">Passwort bestätigen</label>
+                                            {{ form.password2 }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-4 mb-0 mt-3">
+                                        <div class="col-md-10 offset-md-1">
+                                            <button type="submit" class="col-md-12 btn btn-primary">Konto erstellen</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- <div class="card-footer text-center">
+                            <div class="small">
+                                <a href="#">Have an account? Go to Sign in</a>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock body %}

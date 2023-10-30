@@ -1,0 +1,149 @@
+{% extends "basic.html" %}
+{% load static %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static '/assets/css/dashbord.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/customLinkinbio.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div id="overlay-open" class="overlay-popup"></div>
+
+    <!--Sidebar-->
+    {% include "includes/sidebar.html" %}
+
+        <div class="container-fluid p-0 bg-body">
+
+            <!--Navbar-->
+            {% include "includes/navbar.html" %}
+
+            <!--Main-->
+            <div class="main">
+
+        
+                <div class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex flex-row align-items-center">
+                                <h3 class="p-1" style="margin-top: 10px;">Link Bio</h3>
+                                <div class="p-1 ms-auto">
+                                    <button id="openForm" class="btn btn-primary mt-1" type="button">Neu erstellen</button>
+                                    <!-- <button id="export-button" class="btn btn-secondary mt-1" type="button">Shortcodes exportieren</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="linkinbio" class="container-fluid mt-5 px-4">
+                    <div class="row">
+                        <div class="col-12">
+
+
+                            <!--Value-->
+                            {% if link_in_bio_objects %}
+                                {% for link_in_bio in link_in_bio_objects.all %}
+                                    <div class="card border-0 mb-3 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="row">
+                                                <div class="col-4 d-flex flex-column align-items-stretch">
+                                                    <div class="d-flex flex-column">
+                                                        <h5>{{ link_in_bio.title }}</h5>
+              
+                                                        <small class="mt-1"><i class="fa-solid fa-link li-icon"></i> {{ aktuelle_url }}m/{{ link_in_bio.id }}/</small>
+                                                  
+                                                    </div>
+                                                    <div class="d-flex align-self-start align-items-end mt-3">
+                                                        <div class="d-flex align-items-baseline" style="gap: 10px">
+                                                            <small><i class="fa-solid fa-eye li-icon"></i> 1 Clicks</small>
+                                                        </div>
+                                                        <div class="d-flex align-items-baseline mx-3" style="gap: 10px">
+                                                            <small><i class="fa-solid fa-chart-line" style="gap: 10px"></i>  1 Views</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="d-flex">
+                                                        <div class="d-flex flex-column align-items-stretch">
+                                                            <span class="badge rounded-pill bg-success" style="max-width: 80px;">Secondary</span>
+                                                            <small><i class="fa-regular fa-calendar-days li-icon mt-3"></i> {{ link_in_bio.crate_date|date:"d. m. y" }}</small>
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <div class="d-flex align-items-baseline">
+                                                                <a class="btn btn-primary btn-sm" href="{% url 'linkinbio:linkinbio_detail' link_in_bio.pk %}">Ansicht</a>
+                                                                <div class="dropdown">
+                                                                    <a class="btn btn-secondary dropdown-toggle mx-2 btn-sm" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="fa-solid fa-ellipsis li-icon"></i>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                      <li><a class="dropdown-item update-linkinbio-page" data-linkinbio-page-id="{{ link_in_bio.id }}" href="javascript:void(0);">Bearbeiten</a></li>
+                                                                      <li><a class="dropdown-item delete-linkinbio-page" data-linkinbio-page-delete-id="{{ link_in_bio.id }}" data-linkinbio-page-titel="{{ link_in_bio.title }}" href="javascript:void(0);">Delete</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                    
+                                {% endfor %}
+                         
+                            {% else %}
+                                <p>Es gibt keine LinkInBio-Objekte für diesen Benutzer.</p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalDelete" tabindex="-1" aria-labelledby="exampleModalDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalDeleteLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="idContent"></div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger btn-delete">Löschen</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Form -->
+    {% include "includes/form_linkinbio.html" %}
+        
+    <!--LinkinbioDetaileJsonView-->
+    <input type="hidden" id="linkinbioJson" value="{% url 'linkinbio:linkinbio_json' 0 %}">
+    <!--UpdateFormLinkInBioSingel-->
+    <input type="hidden" id="linkinbioUpdateJson" value="{% url 'linkinbio:linkinbio_update_json' 0 %}">
+    <!--LinkinbiolinkDeleteView-->
+    <input type="hidden" id="linkinbioDeleteJson" value="{% url 'linkinbio:linkinbio_delete_json' 0 %}">
+
+    {% endblock body %}
+    
+    <!--Javascript-->
+    {% block javasript %}
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr@latest/dist/pickr.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- <script src="{% static '/js/linkinbio.js' %}"></script> -->
+    <script type="module" src="{% static 'js/linkInBio.bundle.js' %}"></script>
+
+
+    {% endblock %}

@@ -1,0 +1,90 @@
+{% load static %}
+{% load i18n %}
+
+<div class="row" id="linkinbio-links">
+    <div class="col-12">
+        <button type="button" id="createOpenCloseForm" class="btn btn-primary my-3">Add a link</button> 
+
+        <div id="createlinkinbio" class="card shadow-sm border-0 d-none mb-3">
+            <div class="card-body">
+
+                <div class="d-flex flex-row align-items-center">
+                    <input class="form-check-input p-2 m-2" type="checkbox" id="createShorcode" value="option1" checked>
+                    <label class="form-check-label" for="createShorcode">Create a new Llinkb link</label>
+                
+                    <input class="form-check-input p-2 m-2" type="checkbox" id="createSearch" value="option1">
+                    <label class="form-check-label" for="createSearch">Select an existing Llinkb link</label>
+                </div>
+
+                <!-- Formular 1 (Erstellen) -->
+                <form id="form-create-shorcode" style="display: block;" action="{% url 'linkinbio:create_shortcode' %}" method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control mt-3 mb-3" id="buttonLabelSubmit" placeholder="Button label">
+                        <input type="text" class="form-control mt-3 mb-3" id="linkUrlSubmit" placeholder="Create a new Llinkb link">
+                        <input type="hidden" id="linkInBioPageID" value="{{link_in_bio_instance.id}}">
+
+                        <button type="submit" id="buttonCrateShortcode" class="btn btn-primary btn-sm disabled">Create</button>
+                    </div>
+                </form>
+
+                <!-- Formular 2 (Auswählen) -->
+                <form id="form-create-link-select" class="d-none" action="{% url 'linkinbio:create_link' %}" method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control mt-3 mb-3" id="buttonLabelSelcetSubmit" placeholder="Button label">
+                        <input type="text" class="form-control mt-3 mb-3" id="selectShortcode" placeholder="Select an existing Llinkb link">
+                        <ul id="search-results"></ul>
+                        <input type="hidden" id="linkinbio_page_id" value="{{link_in_bio_instance.id}}">
+                        <input type="hidden" id="shortcode_id" value="">
+                        <button type="submit" id="buttonCrateSelectShortcode" class="btn btn-primary btn-sm disabled">Create</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div id="card-container-form">
+            <div class="row d-none" id="linkInBioCardAddForm">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div id="createlinkinbio" class="card shadow-sm border-0 mb-3">
+                            <div class="card-body">
+    
+                            <!--Form Shortcode Update-->
+                            <form id="form-create-shorcode-update">
+                                <div class="mb-3">
+                                    <label for="buttonLabelLabel" class="form-label">Button Label</label>
+                                    <input type="text" class="form-control mb-3" id="buttonLabel" placeholder="Button label">
+                                    <label for="urlDestinationUpdateLabel" class="form-label">Url</label>
+                                    <input type="text" class="form-control mb-3 inputSearchform" id="urlDestinationUpdate">
+                                    <ul id="search-results-update"></ul>
+                                    <input type="hidden" id="shortcodeId" value="">
+                                    <input type="hidden" id="linkInBioPageIdValue" value="">
+                                    <button type="submit" class="btn btn-primary btn-sm updateformlink">Update</button>
+                                    <!-- <button type="submit" id="cancel" class="btn btn-secondary btn-sm cencleButton">Abbrechen</button> -->
+                                </div>
+                            </form>
+                
+                            </div>
+                        </div>                    
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12">
+        <img class="loader-image mx-auto d-block d-none" src="{% static '/gif/load-38_256.gif' %}">
+        <!--Value Links-->
+        <div id="card-container"></div>
+        <input type="hidden" id="updateUrl" value="{% url 'linkinbio:update_shortcode_linkinbio' 0 %}">
+        <input type="hidden" id="viewUrlLinks" value="{% url 'linkinbio:link_in_bio_link' 0 %}">
+        <input type="hidden" id="valueUrlSort" value="{% url 'linkinbio:update_links_order' %}">
+        <input type="hidden" id="valueUrlShotcodeAutocomplete" value="{% url 'linkinbio:shortcode_class_list' %}">
+        <input type="hidden" id="swichtupdate" value="{% url 'linkinbio:swicht_update' 0 %}">
+        <input type="hidden" id="deleteLinkinLink" value="{% url 'linkinbio:delete_link' 0 %}">
+    </div>
+
+    
+</div>

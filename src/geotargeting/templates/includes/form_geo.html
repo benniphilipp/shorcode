@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<aside id="aside-form" class="crate-form p-3">
+
+    <div class="card p-2 border-0">
+        <div class="card-header bg-white border-0">
+            <button id="closeForm" type="button" class="btn btn-secondary btn-sm">Schließen</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card p-2">
+                <form id="geothemplate-form" method="post" action="{% url 'geotargeting:geo_targeting_form' %}">
+                    {% crispy form %} 
+                    <input type="hidden" id="geo-id">
+                </form>
+
+                <form id="geothemplate-form-delete" class="d-none">
+                    
+                    <p>Möchten Sie wirklich "<span class="titel text-decoration-underline"><b>Titel</b></span>" löschen?</p>
+                    <input type="hidden" id="id_geonameId_delate" />
+                    <input type="submit" class="btn btn-danger mt-3" type="submit" value="Löschen"/>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</aside>

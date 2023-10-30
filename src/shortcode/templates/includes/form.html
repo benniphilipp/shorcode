@@ -1,0 +1,103 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<aside id="aside-form" class="crate-form p-3">
+
+    <div class="card p-2">
+        <div class="card-header header-elements">
+            <div id="shortcode_id"></div>
+            <div class="card-header-elements ms-auto">
+                <button id="archive-btn" type="button" data-archive="" class="btn btn-primary btn-sm">Archivieren</button>
+                <button id="closeForm" type="button" class="btn btn-secondary btn-sm">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div id="liveAlertPlaceholder"></div>
+            <!-- <h5 class="card-title pb-2">Neuen Link</h5> -->
+
+
+            <div class="card bg-color-gray mt-3 p-2">
+                <ul class="nav nav-pills m-2" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Link</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Begrenzung von URLs</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="geo-targeting-tab" data-bs-toggle="pill" data-bs-target="#geo-targeting" type="button" role="tab" aria-controls="geo-targeting" aria-selected="false">Geo-Targeting</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="mobile-tab" data-bs-toggle="pill" data-bs-target="#mobile" type="button" role="tab" aria-controls="mobile-tab" aria-selected="false">Geräte Targeting</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card p-2">
+                <div class="tab-content m-2" id="pills-tabContent">
+
+                    <!---Form-->
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        
+                        <div class="card m-3 bg-info d-none" id="text-card">
+                            <div class="p-2"><span id="destination"></span><span id="titel"></span></div>
+                        </div>
+                        <form method="post" id="your_form_id">
+                            {% crispy form %}  
+                            <input type=hidden id="url_creator" name="url_creator" value="{{ admin }}">  
+            
+                            <input type=hidden id="update-shortcode-url" name="shortcode" value=""> 
+                            <input type=hidden name="data" value="{% url 'shortcode:dashboard-create' %}">           
+                        </form>
+                    </div>
+    
+                    <!--Analytics-->
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <h6 class="mt-3">Ablaufdatum / Klicklimit</h6>
+                        <p><small>Um eine vorübergehende verkürzte Webadresse zu erstellen, wählen Sie entweder ein Ablaufdatum oder begrenzen Sie die Anzahl der Klicks.</small></p>
+                        <form method="POST" id="limitation-form" class="mt-4">
+                            {% crispy limitation_form %}  
+                            <input type=hidden id="url_creator" name="url_creator" value="{{ admin }}">  
+                        </form>
+                    </div>
+
+                    <!--Geo Targeting-->
+                    <div class="tab-pane fade" id="geo-targeting" role="tabpanel"  aria-labelledby="geo-targeting-tab">
+                        <h6 class="mt-3">Geo Targeting</h6>
+                        <small>
+                            Geo-Targeting wird verwendet, um Nutzer basierend auf ihrem geografischen Standort zu identifizieren. Dabei werden Klickdaten erfasst, um den Nutzer je nach Herkunft auf eine bestimmte Seite umzuleiten.
+                        </small>
+                        <form id="geo-targeting-form">
+                            {% crispy geo_targeting_form %}  
+                        </form>
+
+                    </div>
+
+                    <!--Android-Targeting iOS-Targeting-->
+                    <div class="tab-pane fade" id="mobile" role="tabpanel"  aria-labelledby="mobile-tab">
+                        <h6>Android & IOS Targeting</h6>
+            
+                        <!--Android From-->
+                        <form method="POST" id="android-targeting-form">
+                            {% crispy android_targetingform %} 
+                        </form>
+
+                        <!--IOS Form-->
+                        <form method="POST" id="ios-targeting-from">
+                            {% crispy ios_targetingform %} 
+                        </form>
+                    </div>
+
+                </div>                    
+            </div>
+
+
+        </div>
+    </div>
+
+
+</aside>
+

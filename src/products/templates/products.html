@@ -1,0 +1,59 @@
+<!-- checkout -->
+{% extends "checkout.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/products.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12">
+                <h1 id="product-name"></h1>
+                <p id="product-price"></p>
+                <p id="product-tax"></p>
+                <p id="product-stage"></p>
+        
+                <!-- Adresse -->
+                <form class="p-2" id="userProfileForm">
+                    {% crispy profile_form %}  
+                </form>
+            
+                <!-- Promo Code -->
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ checkout_form.as_p }}
+                    <div id="card-element"></div>
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit">Zahlung abschließen</button>
+                </form>
+            
+            
+                <!-- Zahlungen -->
+                <form method="POST" id="payment-form">
+                    {% csrf_token %}
+                    {{ payment_form.as_p }}
+                
+                    <button type="submit">Zahlung abschließen</button>
+                </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block javasript %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static '/assets/js/products.js' %}"></script>
+    <script>
+        var stripe = Stripe('{{STRIPE_PUBLISHABLE_KEY}}');
+    </script>
+    
+{% endblock %}
+
+

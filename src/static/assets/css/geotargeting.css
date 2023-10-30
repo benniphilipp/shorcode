@@ -1,0 +1,90 @@
+/*Overlay Open*/
+.overlay-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9994;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(158 195 220 / 60%);
+    opacity: 0; /* Starten Sie mit einer geringen Opazität */
+    pointer-events: none; /* Deaktivieren Sie das Overlay, damit es nicht klickbar ist */
+    transition: opacity 0.5s ease-in-out; /* Hier fügen Sie die Übergangseigenschaft hinzu */
+}
+
+.overlay-open {
+    opacity: 1; /* Erhöhen Sie die Opazität, um das Overlay anzuzeigen */
+    pointer-events: auto; /* Aktivieren Sie das Overlay, damit es klickbar ist */
+}
+
+#aside-form {
+    width: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-left: 0;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    height: 100vh;
+    z-index: 10000;
+    background-color: #fff;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#aside-form.toggle {
+    visibility: visible;
+    opacity: 1;
+    width: 690px;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#aside-form .card{
+    border: 0;
+}
+
+
+/* Suchergebnisse */    
+ul#regionList,
+ul#countryList{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    height: auto;
+    padding: 5px;
+}
+
+ul#regionList li,
+ul#countryList li{
+    list-style: none;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+ul#regionList li:hover,
+ul#countryList li:hover{
+    background-color: #edf2ff;
+    color: #0c3ebb;
+}
+
+/* Hover IOCNS list */
+.themplate-edit:hover{
+    color: #0c3ebb;
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+
+.themplate-delate:hover{
+    color: #dc3545;
+    cursor: pointer;    
+    transition: color 0.3s ease; 
+}
+
+#geothemplate-list .fa-map,
+#geothemplate-list .fa-earth-europe,
+#geothemplate-list .fa-file{
+    color: #d1d1d1;
+}
