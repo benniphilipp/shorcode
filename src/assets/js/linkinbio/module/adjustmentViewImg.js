@@ -2,11 +2,10 @@ class adjustmentViewImg{
 
     constructor(){
         this.profileImageValue = document.querySelector('#ProfileImageDetailView')?.value || '';
-        //this.event();
+        this.event();
     }
 
     event(){
-        console.log(this.profileImageValue);
         if (this.profileImageValue) {
             this.profileImageView(this.profileImageValue);
         }

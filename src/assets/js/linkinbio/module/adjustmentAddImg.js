@@ -1,4 +1,6 @@
 import { getCookie } from './getCookie';
+import profileImageView from './adjustmentViewImg';
+import { clearContent, lsToast } from './lsToast';
 
 class adjustmentAddImg{
 
@@ -9,6 +11,7 @@ class adjustmentAddImg{
 
         this.csrftoken = getCookie('csrftoken');
         this.event(); 
+        this.cropper;
     }
 
     event(){
@@ -43,14 +46,16 @@ class adjustmentAddImg{
         const imageInput = document.querySelector('#image-input');
         const img_data = imageInput.files[0];
         const url = URL.createObjectURL(img_data);
-    
+
+        const imageDiv = document.querySelector('#cropper-container');
+        imageDiv.classList.remove('d-none');
+
         // Das Bild mit der ID 'image' in das imageBox-Element einfügen
         this.cropperContainer.innerHTML = `<img src="${url}" id="image" width="700px">`;
-    
-        // Den Cropper.js initialisieren
         const image = document.querySelector('#image');
-        const cropper = new Cropper(image, {
-            aspectRatio: 1/1,
+        // Den Cropper.js initialisieren
+        this.cropper = new Cropper(image, {
+            aspectRatio: 1000/1000,
             crop: function(event) {
                 console.log(event.detail.x);
                 console.log(event.detail.y);
@@ -60,31 +65,17 @@ class adjustmentAddImg{
                 console.log(event.detail.scaleX);
                 console.log(event.detail.scaleY);
             }
-        });
-    
-        // Zugriff auf den Cropper
-
-       
+        });    
     }
 
     imageSaveCropper() {
-        const image = document.querySelector('#image');
-    
-        if (image) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-    
-            canvas.width = image.width;
-            canvas.height = image.height;
-    
-            // Zeichne das Bild auf das Canvas
-            ctx.drawImage(image, 0, 0, image.width, image.height);
-    
-            // Das Bild aus dem Canvas in ein Blob umwandeln
-            canvas.toBlob((blob) => {
+        const self = this;
+        if (this.cropper) {
+            
+            this.cropper.getCroppedCanvas().toBlob((blob) => {
                 if (blob) {
                     const urlData = document.querySelector('#ImageProfileAdjustment');
-    
+                    
                     if (urlData) {
                         const formData = new FormData();
                         const randomFileName = `image_${Math.floor(Math.random() * 1000000)}.png`;
@@ -99,7 +90,16 @@ class adjustmentAddImg{
                                 'X-CSRFToken': this.csrftoken 
                             },
                             success: function(response) {
-                                console.log('success', response);
+                                lsToast(response.message);
+                                $('#exampleModalImage').modal('hide');
+                                this.profileImageView = new profileImageView();
+
+                                const imageInput = document.querySelector('#image-input');
+                                imageInput.value = '';
+
+                                const imageDiv = document.querySelector('#cropper-container');
+                                imageDiv.classList.add('d-none');
+
                             },
                             error: function(error) {
                                 console.log('error', error);

@@ -296,10 +296,6 @@ class CreateShortcodeView(View):
             link_url = request.POST.get('link_url', '')
             linkinbio_page_id = request.POST.get('linkinbio_page')
             
-            print(button_label)
-            print(link_url)
-            print(linkinbio_page_id)
-            
             current_user = request.user
 
             # Senden Sie eine Anfrage an die Website
@@ -544,13 +540,65 @@ class LinkinbiolinkDeleteView(View):
             return JsonResponse({'message': str(e)}, status=500)
 
 
-# LinkinBio Page   
+# LinkinBio Page View
 class LinkInBioDeatilePage(View):
     def get(self, request, pk):
         try:
             linkinbio = LinkInBio.objects.get(id=pk)
         except LinkInBio.DoesNotExist:
-            raise Http404
+            return JsonResponse({'error': 'Eintrag nicht gefunden'}, status=404)
+        
+        profileimage = get_object_or_404(LinkInBio, pk=pk, user=request.user)
+
+        if profileimage.profile_image.url:
+            image = [{'profile_image': profileimage.profile_image.url}]
+        else:
+            image = [{'profile_image': None}]
+
+        social_media_profiles = UrlSocialProfiles.objects.filter(link_in_bio=linkinbio).order_by('order')
+        links = LinkInBioLink.objects.filter(link_in_bio=linkinbio).order_by('order')
+        
+        custom_settings = CustomSettings.objects.get(link_in_bio=linkinbio)
+        settings_json_data = custom_settings.settings_json
+        
+        links_data = [{
+                'id': link.id,
+                'button_label': link.shortcode.button_label,
+                'url_destination': link.shortcode.url_destination,
+                'shortcode_url': link.shortcode.shortcode,
+                'order': link.order,
+                'url_titel': link.shortcode.url_titel,
+                'link_in_bio_page': link.link_in_bio.id,
+                'shortcode_id': link.shortcode.id,
+                'is_aktiv': link.is_aktiv,
+            }
+            for link in links
+        ]
+                
+        social_media_data = []
+        
+        for profile in social_media_profiles:
+            social_media_data.append({
+                'platform': profile.social_media_platform.icon_svg,
+                'url': profile.url_social,
+                'id': profile.pk,
+                'order': profile.order
+            })
+        
+        context_json = {
+            'title': linkinbio.title,
+            'description': linkinbio.description,
+        }
+        
+        if request.is_ajax():
+            data = {
+                'image': image,
+                'context_json': context_json,
+                'social_media_data': social_media_data,
+                'links': links_data,
+                'settings_json_data': settings_json_data
+            }
+            return JsonResponse(data)
         
         context = {
             'linkinbio_page': linkinbio
@@ -572,8 +620,8 @@ class LinkinbioDetaileJsonView(View):
             return JsonResponse(data)
         except LinkInBio.DoesNotExist:
             return JsonResponse({'error': 'LinkInBioLink not found'}, status=404)
+        
 
-      
 # UpdateForm LinkInBio Singel
 class UpdateFormLinkInBioSingel(View):
     def post(self, request, pk):
@@ -599,7 +647,6 @@ class ImageSaveAdjustmentView(View):
         try:
             image_data = request.FILES['image']
             linkinbiopage = LinkInBio.objects.get(pk=pk)
-
             # Speichere das Bild in der Link-in-Bio-Seite
             linkinbiopage.profile_image = image_data
             linkinbiopage.save()
@@ -614,7 +661,6 @@ class ProfileImageDetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
         try:
             profileimage = get_object_or_404(LinkInBio, pk=pk, user=request.user)
-            print(profileimage.profile_image.url)
 
             if profileimage.profile_image.url:
                 data = [{'profile_image': profileimage.profile_image.url}]

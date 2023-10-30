@@ -19,7 +19,6 @@ import linkPageDelete from './module/linkPageDelete';
 const linkpageupdate = new linkPageUpdate();
 const linkpagedelete = new linkPageDelete();
 
-
 // Customizations
 import adjustmentAddImg from './module/adjustmentAddImg'; // Add Image
 import adjustmentRemoImg from './module/adjustmentRemoImg'; // adjustment remove Image * adjustmentRemoImg.js

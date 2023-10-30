@@ -2,7 +2,7 @@
     "body-page": {
         "default": {
             "width": "100%",
-            "max-width": "320px",
+            "max-width": "420px",
             "min-height": "460px",
             "border-radius": "2%",
             "margin": "0 auto",

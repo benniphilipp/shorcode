@@ -12,10 +12,13 @@ from django.contrib.flatpages import views as flatpages_views
 from django.views.i18n import set_language as django_set_language
 
 from products.views import stripe_webhook
+from linkinbio.views import LinkInBioDeatilePage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stripe-webhook/', stripe_webhook, name='stripe_webhook'),
+    path('m/<int:pk>/', LinkInBioDeatilePage.as_view(), name='detail_page'),
+    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 ]
 
 urlpatterns += i18n_patterns(
@@ -29,7 +32,6 @@ urlpatterns += i18n_patterns(
     path('products/', include('products.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('', include('accounts.urls')),
-    url(r'^(?P<shortcode>[\w-]+)/$', URLRedirectView.as_view(), name='scode'), 
 )
 
 if settings.DEBUG:
